@@ -21,16 +21,13 @@ const Auth = () => {
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (isSignup) {
-			dispatch(signup(formData, history))
-		} else {
-			dispatch(signin(formData, history));
-		}
+		if (isSignup) dispatch(signup(formData, history))
+		else dispatch(signin(formData, history));
 	};
 	const handleChange = (e) => { setFormData({ ...formData, [e.target.name]: e.target.value });};
 	const switchMode = () => {
 		setIsSignUp((prevIsSignUp) => !prevIsSignUp);
-		handleShowPassword(false);
+		setShowPassword(false);
 	};
 	const googleSuccess = async (res) => {
 		const result = res?.profileObj; // Undefined X cannot get property profileObj of undefined
