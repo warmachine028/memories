@@ -34,7 +34,7 @@ const PostDetails = () => {
 				<div className={classes.section}>
 					<Typography variant="h3" component="h2" className={classes.title}>{post.title}</Typography>
 					<Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.tags}>{post.tags.map((tag) => `#${tag} `)}</Typography>
-					{!post._private && <div style={{ margin: '0 0 20px 0' }} align="center"><Button variant="contained" color='secondary' size="small" onClick={()=>{ }} disableElevation>PRIVATE</Button></div>}
+					{post._private && <div style={{ margin: '0 0 20px 0' }} align="center"><Button variant="contained" color='secondary' size="small" onClick={()=>{ }} disableElevation>PRIVATE</Button></div>}
 					<Typography className={classes.paragraph} gutterBottom variant="body1" component="p">{post.message}</Typography>
 					<Typography variant="h6">Created by: {post.name}</Typography>
 					<Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
