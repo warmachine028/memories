@@ -5,14 +5,13 @@ export default makeStyles((theme) => ({
 		borderRadius: "20px",
 		objectFit: "cover",
 		width: "100%",
-		maxHeight: "600px",
 	},
 	card: {
 		display: "flex",
 		width: "100%",
+		flexDirection: "column-reverse",
 		[theme.breakpoints.down("sm")]: {
 			flexWrap: "wrap",
-			flexDirection: "column",
 		},
 	},
 	section: {
@@ -43,10 +42,29 @@ export default makeStyles((theme) => ({
 	commentsOuterContainer: {
 		display: "flex",
 		justifyContent: "space-between",
+		[theme.breakpoints.down("sm")]: {
+			flexDirection: "column",
+			alignItems: "center",
+		},
 	},
 	commentsInnerContainer: {
 		height: "200px",
 		overflowY: "auto",
 		marginRight: "30px",
+		width: "-webkit-fill-available",
+		[theme.breakpoints.down("sm")]: {
+			display: "grid",
+			alignContent: "spaceAround",
+			justifyItems: "center",
+		},
+	},
+	paragraph: {
+		textAlign: "justify",
+	},
+	tags: {
+		textAlign: "center",
+	},
+	title: {
+		textAlign: "center",
 	},
 }));

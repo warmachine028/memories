@@ -5,8 +5,8 @@ import * as api from "../api";
 export const getPosts = (page) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
-		const { data: { data, curretPage, numberOfPages } } = await api.fetchPosts(page);
-		dispatch({ type: FETCH_ALL, payload: { data, curretPage, numberOfPages } });
+		const { data: { data, curretPage: currentPage, numberOfPages } } = await api.fetchPosts(page);
+		dispatch({ type: FETCH_ALL, payload: { data, currentPage: currentPage, numberOfPages } });
 		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
@@ -37,6 +37,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 export const createPost = (post, history) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
+		console.log(post);
 		const { data } = await api.createPost(post);
 		history(`/posts/${data._id}`);
 		dispatch({ type: CREATE, payload: data });

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Paper, Typography, CircularProgress, Divider } from "@material-ui/core";
+import { Paper, Typography, CircularProgress, Divider, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
@@ -32,9 +32,10 @@ const PostDetails = () => {
 		<Paper style={{padding: "20px", borderRadius: "15px"}} elevation={6}>
 			<div className={classes.card}>
 				<div className={classes.section}>
-					<Typography variant="h3" component="h2">{post.title}</Typography>
-					<Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
-					<Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
+					<Typography variant="h3" component="h2" className={classes.title}>{post.title}</Typography>
+					<Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.tags}>{post.tags.map((tag) => `#${tag} `)}</Typography>
+					{!post._private && <div style={{ margin: '0 0 20px 0' }} align="center"><Button variant="contained" color='secondary' size="small" onClick={()=>{ }} disableElevation>PRIVATE</Button></div>}
+					<Typography className={classes.paragraph} gutterBottom variant="body1" component="p">{post.message}</Typography>
 					<Typography variant="h6">Created by: {post.name}</Typography>
 					<Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
 					<Divider style={{ margin: '20px 0' }} />
@@ -57,7 +58,7 @@ const PostDetails = () => {
 							<div style={{margin: "20px", cursor: "pointer"}} onClick={() => openPost(_id)} key={_id}>
 								<Typography gutterBottom variant="h6">{title}</Typography>
 								<Typography gutterBottom variant="subtitle2">{name}</Typography>
-								<Typography gutterBottom variant="subtitle2">{message}</Typography>
+								<Typography gutterBottom variant="subtitle2">{`${message.slice(0, 200)} ${message.length > 200 ? '...': ''}`}</Typography>
 								<Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
 								<img src={selectedFile} alt={'selected File'} width="200px" />
 							</div>

@@ -25,7 +25,6 @@ const Post = ({ post, setCurrentId }) => {
 			setLikes(likes.filter((id) =>  id !== userId))
 		else 
 			setLikes([...likes, userId]);
-		
 	}
 	const Likes = () => {
 		if (likes.length > 0) {
@@ -39,7 +38,7 @@ const Post = ({ post, setCurrentId }) => {
 		return <><ThumbUpAltOutlined fontSize="small" />&nbsp; Like</>;
 	};
 
-	const openPost = (e) => history(`/posts/${post._id}`);
+	const openPost = () => history(`/posts/${post._id}`);
 	
 
 	return (
@@ -55,8 +54,11 @@ const Post = ({ post, setCurrentId }) => {
 					<Typography variant="body2" color="textSecondary">{post.tags.map((tag) => `#${tag} `)}</Typography>
 				</div>
 				<Typography className={classes.title} variant="h5" align="center" gutterBottom>{post.title}</Typography>
+				{post._private && <div align="center"><Button variant="contained" color='secondary' size="small" onClick={()=>{ }} disableElevation>PRIVATE</Button></div>}
 				<CardContent>
-					<Typography variant="body2" color="textSecondary" component="p" align="center">{post.message}</Typography>
+					<Typography variant="body2" color="textSecondary" component="p" align="center">
+						{`${post.message.slice(0, 200)} ${post.message.length > 200 ? '...': ''}`}
+					</Typography>
 				</CardContent>
 			</ButtonBase>
 			{(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&

@@ -9,13 +9,9 @@ import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import Pagination from "../Pagination";
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-    
-}
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const Home = () => {
-    
     const [currentId, setCurrentId] = useState(0);
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -52,7 +48,7 @@ const Home = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <AppBar className={classes.appBarSearch} position="static" color="inherit" >
                             <TextField name="search" variant="outlined" label="Search Memories" onKeyPress={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)}/>
-                            <ChipInput value={tags} onAdd={handleAdd} onDelete={handleDelete} label="Search Tags" variant="outlined"/>
+                            <ChipInput value={tags} newChipKeyCodes={[188, 13, 32]} onAdd={handleAdd} onDelete={handleDelete} label="Search Tags" variant="outlined"/>
                             <Button className={classes.buttonSearch} onClick={searchPost} color="primary" variant="contained">SEARCH</Button>
                         </AppBar>
                         <Form currentId={currentId} setCurrentId={setCurrentId} />

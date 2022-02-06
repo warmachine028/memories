@@ -46,12 +46,19 @@ export default makeStyles((theme) => ({
 		},
 	},
 	logout: {
-		marginLeft: "20px",
+
 	},
 	userName: {
 		display: "flex",
+		textAlign: 'center',
 		alignItems: "center",
-		textAlign: "center",
+		[theme.breakpoints.down("sm")]: {
+			display: "flex",
+			width: "max-content",
+			maxWidth: "123px",
+			alignItems: "center",
+			padding: "0 20px 0 20px",
+		},
 	},
 	brandContainer: {
 		display: "flex",
