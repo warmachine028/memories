@@ -7,7 +7,6 @@ import useStyles from "./styles";
 const Posts = ({ setCurrentId }) => {
 	const {posts, isLoading} = useSelector((state) => state.posts); // [] -> { isLoading, posts: [] }
 	const classes = useStyles();
-	const user = JSON.parse(localStorage.getItem("profile"));
 
 	if (!posts.length && !isLoading) return 'No Posts';
 
