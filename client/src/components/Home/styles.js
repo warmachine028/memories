@@ -1,52 +1,30 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles"
 
-export default makeStyles((theme) => ({
-	appBarSearch: {
-		borderRadius: 4,
-		marginBottom: "1rem",
-		display: "flex",
-		padding: theme.spacing(2),
-		"& .MuiTextField-root": {
-			marginBottom: theme.spacing(1),
-		},
-	},
-	pagination: {
-		borderRadius: 4,
-		marginTop: "1rem",
-		padding: "16px",
-	},
-	gridContainer: {
-		[theme.breakpoints.down("xs")]: {
-			flexDirection: "column",
-		},
-	},
-	buttonSearch: {
-		marginTop: 10,
-	},
-}));
+const PREFIX = "Home"
+export const classes = {
+    appBarSearch: `${PREFIX}-appBarSearch`,
+    pagination: `${PREFIX}-pagination`,
+    gridContainer: `${PREFIX}-gridContainer`,
+    buttonSearch: `${PREFIX}-buttonSearch`,
+    container: `${PREFIX}-container`,
+}
+export const Root = styled("div")(({ theme }) => ({
+    [`& .${classes.gridContainer}`]: {
+        justifyContent:"space-between",
+        alignItems:"stretch",
+        [theme.breakpoints.down("xs")]: {
+            flexDirection: "column",
+            padding: "0 0 0 10px",
+        },
+    },
+    [`& .${classes.container}`]: {
+        margin: "40px 0",
+        maxWidth: "-webkit-fill-available",
+        [theme.breakpoints.down(600)]: {
+            margin: "40px 0",
+            padding: "0 7px",
+        },
+    },
+}))
 
-// import { makeStyles } from "@material-ui/core/styles";
-
-// export default makeStyles((theme) => ({
-// 	appBar: {
-// 		borderRadius: 15,
-// 		margin: "30px 0",
-// 		display: "flex",
-// 		flexDirection: "row",
-// 		justifyContent: "center",
-// 		backgroundColor: "rgba(69, 114, 200)",
-// 	},
-// 	heading: {
-// 		color: "rgba(0, 183, 255, 1)",
-// 	},
-// 	image: {
-// 		marginLeft: "15px",
-// 		paddingRight: "15px",
-// 		alignSelf: "left",
-// 	},
-// 	[theme.breakpoints.down("sm")]: {
-// 		mainContainer: {
-// 			flexDirection: "column-reverse",
-// 		},
-// 	},
-// }));
+export default Root

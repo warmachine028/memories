@@ -1,49 +1,40 @@
 import React, { useState, useRef } from "react";
-import { Typography, TextField, Button } from "@material-ui/core/";
+import { Typography, TextField, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-
 import { commentPost } from "../../actions/posts";
-import useStyles from "./styles";
+import { Root, classes } from "./styles"
 
-const CommentSection = ({ post }) => {
-	const user = JSON.parse(localStorage.getItem("profile"));
-	const [comment, setComment] = useState("");
+const CommentSection = ({ post, user }) => {
 	const dispatch = useDispatch();
+	const [comment, setComment] = useState("");
 	const [comments, setComments] = useState(post?.comments);
-	const classes = useStyles();
 	const commentsRef = useRef();
 
 	const handleComment = async () => {
-		const newComments = await dispatch(
-			commentPost(`${user?.result?.name}: ${comment}`, post._id)
-		);
-
+		const newComments = await dispatch(commentPost(`${user?.result?.name}: ${comment}`, post._id));
 		setComment("");
 		setComments(newComments);
-
 		commentsRef.current.scrollIntoView({ behavior: "smooth" });
 	};
 
 	return (
-		<div>
+        <Root className={classes.root}>
 			<div className={classes.commentsOuterContainer}>
 				<div className={classes.commentsInnerContainer}>
 					<Typography gutterBottom variant="h6"> Comment </Typography>
-					{comments?.map((c, i) => (
-						<Typography key={i} gutterBottom variant="subtitle1"><strong>{c.split(": ")[0]}</strong> {c.split(":")[1]}</Typography>
-                    ))}
+					{comments?.map((c, i) => (<Typography key={i} gutterBottom variant="subtitle1" style={{color: "white"}}><strong>{c.split(": ")[0]}</strong>: {c.split(":")[1]}</Typography>))}
 					<div ref={commentsRef} />
-                </div>
-                {user?.result?.name && (
-                    <div style={{ width: "100%" }}>
-                        <Typography gutterBottom variant="h6"> Write a comment </Typography>
-                        <TextField fullWidth rows={4} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)}/>
-                        <br />
-                        <Button style={{ marginTop: "10px" }} fullWidth disabled={!comment.length} color="primary" variant="contained" onClick={handleComment} > Comment </Button>
-                    </div>
-                )}
+				</div>
+				{user?.result?.name && (
+					<div style={{ width: "100%" }}>
+						<Typography gutterBottom variant="h6"> Write a comment </Typography>
+						<TextField InputProps={{style: {color: 'white'}} } fullWidth rows={4} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)}/>
+						<br />
+						<Button style={{ marginTop: "10px" }} fullWidth disabled={!comment.length} color="primary" variant="contained" onClick={handleComment} > Comment </Button>
+					</div>
+				)}
 			</div>
-		</div>
+        </Root>
 	);
 };
 

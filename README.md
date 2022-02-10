@@ -1,5 +1,18 @@
 
+# [Memories](memories-pritam.netlify.app)
 
-![Screenshot 2022-01-16 124621](https://user-images.githubusercontent.com/75939390/149650986-07b3d3d5-42b0-4058-a059-92d88a41a4ec.png)
-<!-- ![memories](https://user-images.githubusercontent.com/75939390/148676485-51eda88b-9711-4c16-8b83-84a9264bc5f4.png) -->
+![Preview](assets/preview.png)
 
+## Validation?
+
+- ### 🎏 Everyday we are so busy with our daily hustles that at the end we forget our best moments 🎊 which happend in the day. 🎏
+- ### 🎎 Store your valuable memory in this WebApp today to cherish your past tomorrow. 🎎
+- ### 🎇 It could be a memory, a good one, a bad one, a sad one, maybe a dream. 🎇
+- ### 💕 A moment spent 🎉 with your favourite person. 💕
+- ### 💔 A moment not spent with your favourite person. 💔
+- ### 🎖️ An achievement 🎗️ from success you earned. 🎖️
+- ### 🎢 A lesson which failure has lent you. 🎢
+- ### 🎁 A story 🎂 which you want to share with the world. 🎁
+- ### 🎀 A story which you do not want to share with anybody. 🎀
+- ### 🌃 A romantic movie which made you cry 😿 in the middle of the night. 🌃
+- ### 🍾 A comedy series which made you laugh in a class full of people. 🍾

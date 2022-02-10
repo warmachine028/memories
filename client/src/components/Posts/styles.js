@@ -1,14 +1,30 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles"
 
-export default makeStyles((theme) => ({
-	mainContainer: {
-		display: "flex",
-		alignItems: "center",
-	},
-	smMargin: {
-		margin: theme.spacing(1),
-	},
-	actionDiv: {
-		textAlign: "center",
-	},
-}));
+const PREFIX = "Posts"
+export const classes = {
+    root: `${PREFIX}-root`,
+    mainContainer: `${PREFIX}-mainContainer`,
+    smMargin: `${PREFIX}-smMargin`,
+    actionDiv: `${PREFIX}-actionDiv`,
+}
+
+export const Root = styled("div")(({ theme }) => ({
+    [`&.${classes.root}`]: {
+        display: "flex",
+        justifyContent: "center",
+        minHeight: 150,
+        alignItems: "center"
+    },
+    [`& .${classes.mainContainer}`]: {
+        display: "flex",
+        alignItems: "center",
+    },
+    [`& .${classes.smMargin}`]: {
+        margin: theme.spacing(1),
+    },
+    [`& .${classes.actionDiv}`]: {
+        textAlign: "center",
+    },
+}))
+
+export default Root
