@@ -3,7 +3,7 @@ import Post from "./Post/Post"
 import { Grid, CircularProgress } from "@mui/material"
 import { useSelector } from "react-redux"
 import { Root, classes } from "./styles"
-// import { posts, isLoading } from "../temp"
+// import { posts, isLoading } from "../../temp"
 
 const Posts = ({ setCurrentId, user }) => {
     const { posts, isLoading } = useSelector(state => state.posts) // [] -> { isLoading, posts: [] }

@@ -14,6 +14,7 @@
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
 		"axios": "^0.24.0",
+		"browser-image-compression": "^1.0.17",
 		"classnames": "^2.3.1",
 		"jwt-decode": "^3.1.2",
 		"moment": "^2.29.1",
