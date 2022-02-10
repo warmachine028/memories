@@ -1,5 +1,5 @@
 
-# [Memories](memories-pritam.netlify.app)
+# [Memories](https://memories-pritam.netlify.app/posts)
 
 ![Preview](assets/preview.png)
 
