@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const apiURL = ["https://memories-pritam.herokuapp.com", "http://localhost:5000"]
-const API = axios.create({ baseURL: apiURL[0] })
+const API = axios.create({ baseURL: apiURL[1] })
 API.interceptors.request.use(req => {
     if (localStorage.getItem("profile")) req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`
     return req

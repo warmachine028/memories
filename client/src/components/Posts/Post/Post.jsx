@@ -41,7 +41,7 @@ const Post = ({ post, setCurrentId, user }) => {
             </Typography>
         )
     }
-
+    const longMessage = post.message.length > 100
     const openPost = () => history(`/posts/${post._id}`)
     return (
         <Root className={classes.root}>
@@ -49,12 +49,18 @@ const Post = ({ post, setCurrentId, user }) => {
                 <ButtonBase className={classes.cardAction} onClick={openPost} component="span">
                     <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
                     <div className={classes.overlay}>
-                        <Typography variant="h6" sx={{ color: "white" }}>{post.name}</Typography>
-                        <Typography variant="body2" sx={{ color: "white" }}>{moment(post.createdAt).fromNow()}</Typography>
+                        <Typography variant="h6" sx={{ color: "white" }}>
+                            {post.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: "white" }}>
+                            {moment(post.createdAt).fromNow()}
+                        </Typography>
                     </div>
                     <div className={classes.details}>
                         <div className={classes.tags}>
-                            <Typography variant="body2" color="textSecondary">{post.tags.map(tag => `#${tag} `)}</Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                {post.tags.map(tag => `#${tag} `)}
+                            </Typography>
                         </div>
 
                         <Typography className={classes.title} variant="h5" align="center" gutterBottom>
@@ -68,8 +74,8 @@ const Post = ({ post, setCurrentId, user }) => {
                             </div>
                         )}
                         <CardContent>
-                            <Typography variant="body2" sx={{ color: "white" }} component="p" textAlign="justify">
-                                {`${post.message.slice(0, 100)} ${post.message.length > 100 ? "..." : ""}`}
+                            <Typography variant="body2" sx={{ color: "white" }} component="p" textAlign={longMessage? "justify": "center"}>
+                                {`${post.message.slice(0, 100)} ${longMessage ? "..." : ""}`}
                             </Typography>
                         </CardContent>
                     </div>
