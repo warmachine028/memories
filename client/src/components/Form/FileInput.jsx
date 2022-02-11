@@ -4,7 +4,7 @@ import { Button } from "@mui/material"
 export const compress = async (postData, setPostData, setText, setMedia, e) => {
     const imageFile = e.target.files[0]
     try {
-        const compressedFile = await imageCompression(imageFile, { maxSizeMB: 1, maxWidthOrHeight: 1920 })
+        const compressedFile = await imageCompression(imageFile, { maxSizeMB: 0.8, maxWidthOrHeight: 1920 })
         const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
         await setPostData({ ...postData, selectedFile: base64 })
         setMedia(base64)
