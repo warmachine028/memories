@@ -9,7 +9,6 @@ export const classes = {
     paper: `${PREFIX}-paper`,
     form: `${PREFIX}-form`,
     buttonSubmit: `${PREFIX}-buttonSubmit`,
-    privateSwitch: `${PREFIX}-privateSwitch`,
     chip: `${PREFIX}-chip`,
 }
 
@@ -55,11 +54,6 @@ export const Root = styled("div")(({ theme }) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "center",
-    },
-    [`& .${classes.privateSwitch}`]: {
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
     },
     [`& .${classes.buttonSubmit}`]: {
         marginTop: 10,

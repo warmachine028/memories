@@ -13,6 +13,7 @@ export const classes = {
 export const Root = styled("div")({
     [`&.${classes.root}`]: {
         width: "-webkit-fill-available",
+        margin: "4px 0"
     },
     [`& .${classes.fileName}`]: {
         position: "relative",
@@ -37,7 +38,7 @@ export const Root = styled("div")({
     [`& .${classes.inputButton}`]: {
         background: "#ffffff63",
         color: "white",
-        margin: "0 10px 5px 0",
+        margin: "0 10px 0px 0",
         paddingBottom: "1px",
         align: "center",
         width: "max-content",

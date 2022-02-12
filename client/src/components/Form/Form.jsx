@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { TextField, Typography, Paper, Switch, Button } from "@mui/material"
+import { TextField, Typography, Paper, Button } from "@mui/material"
 import ChipInput from "../ChipInput/ChipInput"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { Root, classes } from "./styles"
 import { createPost, updatePost } from "../../actions/posts"
 import { compress, FileInput } from "./FileInput/FileInput"
+import PrivateSwitch from "./PrivateSwitch/PrivateSwitch"
 
 const initial = { title: "", message: "", tags: [], selectedFile: null, _private: false }
 const Form = ({ currentId, setCurrentId, user }) => {
@@ -98,13 +99,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
                     <Typography style={{ color: "white", textAlign: "center" }} variant="h6">
                         {currentId ? `Editing ${post.title}` : "Create a Memory"}
                     </Typography>
-                    <div className={classes.privateSwitch}>
-                        <Switch checked={private_} color="primary" value={postData._private} onClick={() => setPrivate(!private_)} onChange={() => setPostData({ ...postData, _private: !private_ })} />
-                        <Typography fontSize={15} style={{ color: "white" }}>
-                            {" "}
-                            Private{" "}
-                        </Typography>
-                    </div>
+                    <PrivateSwitch private_={private_} postData={postData} setPrivate={setPrivate} setPostData={setPostData} />
                     <FileInput postData={postData} setPostData={setPostData} classes={classes} fileName={fileName} setFileName={setFileName} media={media} setMedia={setMedia} />
                     <TextField
                         sx={{ input: { color: "white" } }}

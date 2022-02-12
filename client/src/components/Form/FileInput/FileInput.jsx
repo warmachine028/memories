@@ -1,10 +1,11 @@
 import React from "react"
 import imageCompression from "browser-image-compression"
-import { Button, Grow } from "@mui/material"
+import { Button, Collapse } from "@mui/material"
 import { Root, classes } from "./styles"
 
 export const compress = async (postData, setPostData, setFileName, setMedia, e) => {
     const imageFile = e.dataTransfer?.files[0] || e.target?.files[0]
+    setMedia(null)
     try {
         const compressedFile = await imageCompression(imageFile, { maxSizeMB: 0.8, maxWidthOrHeight: 1920 })
         const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
@@ -13,6 +14,7 @@ export const compress = async (postData, setPostData, setFileName, setMedia, e) 
         setFileName(imageFile.name)
     } catch (error) {
         alert(error.message)
+        setFileName("No post selected")
     }
 }
 
@@ -33,11 +35,10 @@ export const FileInput = ({ postData, setPostData, fileName, setFileName, media,
                 </div>
             </div>
 
-            <Grow in={media !== null} timeout={300} unmountOnExit>
+            <Collapse in={media !== null} timeout={300} unmountOnExit>
                 <img className={classes.media} src={media || defaultMedia} alt={fileName} />
-            </Grow>
+            </Collapse>
         </Root>
     )
 }
 
-export default FileInput
