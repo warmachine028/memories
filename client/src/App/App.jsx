@@ -9,6 +9,7 @@ import { classes, Root } from "./styles"
 
 const App = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
+    // const [user, setUser] = useState(user_)
     return (
         <BrowserRouter>
             <Root className={classes.root}>

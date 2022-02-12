@@ -24,8 +24,8 @@ const PostDetails = ({ user }) => {
 
     const openPost = _id => history(`/posts/${_id}`)
 
-    const recommendedPosts = posts.filter(({ _id }) => _id !== post._id)
     if (!post && !isLoading) return " No Posts"
+    const recommendedPosts = posts.filter(({ _id }) => _id !== post?._id)
 
     return isLoading ? (
         <Root className={classes.root}>
@@ -62,7 +62,7 @@ const PostDetails = ({ user }) => {
                             {post.message}
                         </Typography>
                         <Typography variant="h6">Created by: {post.name}</Typography>
-                        <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
+                        <Typography variant="body1">{moment(post.createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
                         <Divider style={{ margin: "20px 0" }} />
                         <CommentSection post={post} user={user} />
                         <Divider style={{ margin: "20px 0" }} />

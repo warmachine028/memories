@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react"
 import { TextField, Typography, Paper, Switch, Button } from "@mui/material"
 import ChipInput from "../ChipInput/ChipInput"
-// import FileBase from "react-file-base64"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { Root, classes } from "./styles"
 import { createPost, updatePost } from "../../actions/posts"
-import FileInput from "./FileInput"
+import { compress, FileInput } from "./FileInput/FileInput"
 
+const initial = { title: "", message: "", tags: [], selectedFile: null, _private: false }
 const Form = ({ currentId, setCurrentId, user }) => {
-    const initial = { title: "", message: "", tags: [], selectedFile: null, _private: false }
     const [postData, setPostData] = useState(initial)
     const [private_, setPrivate] = useState(postData._private)
     const [tags, setTags] = useState(postData.tags)
-    const [title, setTitle] = useState("No post selected")
+    const [fileName, setFileName] = useState("No post selected")
+    const [oldLabel, setOldLabel] = useState(fileName)
+    const [dragging, setDragging] = useState(false)
     const [media, setMedia] = useState(postData.selectedFile)
     const post = useSelector(state => (currentId ? state.posts.posts.find(p => p._id === currentId) : null))
     const dispatch = useDispatch()
@@ -24,10 +25,32 @@ const Form = ({ currentId, setCurrentId, user }) => {
             setPostData(post)
             setPrivate(post._private)
             setTags(post.tags)
-            setTitle("Previous Image")
+            setFileName("Previous Image")
+            setOldLabel("Previous Image")
             setMedia(post.selectedFile)
         }
     }, [post])
+    
+    const dragEnter = e => {
+        e.preventDefault()
+        setFileName("Uploading File")
+    }
+    
+    const fileDrop = e => {
+        e.preventDefault()
+        compress(postData, setPostData, setFileName, setMedia, e)
+    }
+
+    const dragLeave = e => {
+        e.preventDefault()
+        setFileName(oldLabel)
+    }
+
+    useEffect(() => {
+        if (dragEnter) setDragging(true)
+        setDragging(false)
+    }, [setDragging])
+
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -41,7 +64,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
         setTags([])
         setPostData(initial)
         setPrivate(initial._private)
-        setTitle("No Posts Selected")
+        setFileName("No post selected")
         setMedia(null)
     }
 
@@ -56,7 +79,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
             </Root>
         )
     }
-    
+
     const handleAdd = tag => {
         const array = [...tags, tag]
         setTags(array)
@@ -69,21 +92,51 @@ const Form = ({ currentId, setCurrentId, user }) => {
     }
 
     return (
-        <Root className={classes.root}>
+        <Root className={dragging ? classes.drag : classes.root} onDragEnter={dragEnter} onDragOver={dragEnter} onDragLeave={dragLeave} onDrop={fileDrop}>
             <Paper className={classes.paper} elevation={6}>
                 <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                    <Typography style={{color: "white", textAlign: "center"}} variant="h6">{currentId ? `Editing ${post.title}` : "Create a Memory"}</Typography>
+                    <Typography style={{ color: "white", textAlign: "center" }} variant="h6">
+                        {currentId ? `Editing ${post.title}` : "Create a Memory"}
+                    </Typography>
                     <div className={classes.privateSwitch}>
-                        <Switch checked={private_} color="primary" onClick={() => setPrivate(!private_)} onChange={() => setPostData({ ...postData, _private: !private_ })} />
-                        <Typography fontSize={15} style={{color: "white"}}> Private </Typography>
+                        <Switch checked={private_} color="primary" value={postData._private} onClick={() => setPrivate(!private_)} onChange={() => setPostData({ ...postData, _private: !private_ })} />
+                        <Typography fontSize={15} style={{ color: "white" }}>
+                            {" "}
+                            Private{" "}
+                        </Typography>
                     </div>
-                    <FileInput postData={postData} setPostData={setPostData} classes={classes} title={title} setTitle={setTitle} media={media} setMedia={setMedia}/>
-                    <TextField sx={{input: { color: 'white' }}} name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={e => setPostData({ ...postData, title: e.target.value })} />
-                    <TextField InputProps={{style: {color: 'white'}} }
-                        name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={e => setPostData({ ...postData, message: e.target.value })} />
-                    <ChipInput fullWidth InputProps={{ style: { color: "white" } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} onChange={e => e.preventDefault()} />
-                    
-                    {/* <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })}></FileBase></div> */}
+                    <FileInput postData={postData} setPostData={setPostData} classes={classes} fileName={fileName} setFileName={setFileName} media={media} setMedia={setMedia} />
+                    <TextField
+                        sx={{ input: { color: "white" } }}
+                        name="title"
+                        variant="outlined"
+                        label="Title"
+                        fullWidth
+                        value={postData.title}
+                        onChange={e => setPostData({ ...postData, title: e.target.value })}
+                    />
+                    <TextField
+                        InputProps={{ style: { color: "white" } }}
+                        name="message"
+                        variant="outlined"
+                        label="Message"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        value={postData.message}
+                        onChange={e => setPostData({ ...postData, message: e.target.value })}
+                    />
+                    <ChipInput
+                        fullWidth
+                        InputProps={{ style: { color: "white" } }}
+                        value={postData.tags}
+                        newChipKeyCodes={[188, 13]}
+                        onAdd={handleAdd}
+                        onDelete={handleDelete}
+                        label="Tags"
+                        variant="outlined"
+                        className={classes.chip}
+                    />
                     <Button className={classes.buttonSubmit} variant="contained" color="primary" type="submit" fullWidth>
                         {currentId ? "Update" : "Submit"}
                     </Button>

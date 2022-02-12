@@ -13,6 +13,7 @@ const Navbar = ({user, setUser}) => {
     const dispatch = useDispatch()
     const history = useNavigate()
     const location = useLocation()
+    const userIsinAuth = location.pathname === "/auth"
 
     const logout = useCallback(() => {
         dispatch({ type: "LOGOUT" })
@@ -28,7 +29,6 @@ const Navbar = ({user, setUser}) => {
         setUser(JSON.parse(localStorage.getItem("profile")))
     }, [logout, token, setUser])
 
-    const userIsinAuth = location.pathname === "/auth"
     return (
         <Root className={classes.root}>
             <AppBar className={classes.appBar} position="static">
