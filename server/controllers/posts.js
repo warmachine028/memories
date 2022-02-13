@@ -6,7 +6,7 @@ const router = express.Router()
 
 export const getPosts = async (req, res) => {
     const { page } = req.query
-    
+
     try {
         const query = { $or: [{ creator: req.userId }, { _private: false }] }
         const LIMIT = 8
