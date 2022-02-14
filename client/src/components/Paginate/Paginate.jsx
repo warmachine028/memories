@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { Root, classes } from "./styles"
 import { Pagination, PaginationItem, Paper } from "@mui/material"
 import { Link } from "react-router-dom"
