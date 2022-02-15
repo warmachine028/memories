@@ -6,6 +6,7 @@ import { useEffect, useCallback } from 'react'
 import memories from '../../images/memories.png'
 import icon from '../../images/icon.png'
 import decode from 'jwt-decode'
+import Avaatar from 'avataaars'
 
 const Navbar = ({ user, setUser }) => {
 	const token = user?.token
@@ -13,7 +14,7 @@ const Navbar = ({ user, setUser }) => {
 	const history = useNavigate()
 	const location = useLocation()
 	const userIsinAuth = location.pathname === '/auth'
-
+	
 	const logout = useCallback(() => {
 		dispatch({ type: 'LOGOUT' })
 		history('/')
@@ -38,9 +39,13 @@ const Navbar = ({ user, setUser }) => {
 				<Toolbar className={classes.toolbar}>
 					{user ? (
 						<div className={classes.profile}>
-							<Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>
-								{user.result.name.charAt(0)}
-							</Avatar>
+							{user.result.avatar ? (
+								<Avaatar className={classes.avaatar} avatarStyle="Circle" {...user.result.avatar} />
+							) : (
+								<Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>
+									{user.result.name.charAt(0)}
+								</Avatar>
+							)}
 							<Typography className={classes.userName} variant="h6">
 								{user.result.name}
 							</Typography>

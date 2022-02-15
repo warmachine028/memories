@@ -1,14 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@mui/material'
 import { GoogleLogin } from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Root, classes } from './styles'
+import { signin, signup } from '../../actions/auth'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Input from './Input'
 import Icon from './Icon'
-// import UserIcon from './UserIcon/UserIcon'
-import { signin, signup } from '../../actions/auth'
+import UserIcon from './UserIcon/UserIcon'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 const CLIENT_ID = '851540640975-8gkbav5m3n6mto5hrmpvppf1v7un7jrl.apps.googleusercontent.com'
@@ -17,9 +17,12 @@ const Auth = () => {
 	const [showPassword, setShowPassword] = useState(false)
 	const [isSignup, setIsSignUp] = useState(false)
 	const [formData, setFormData] = useState(initialState)
+	const [margin, setMargin] = useState('200px')
+
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		dispatch(isSignup ? signup(formData, history) : signin(formData, history))
@@ -44,17 +47,15 @@ const Auth = () => {
 		console.log(error)
 		alert('Google Sign In was unsuccessful. Try Again Later')
 	}
+	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])
 
 	return (
 		<Root className={classes.root}>
 			<Container component="main" maxWidth="xs">
-				<Paper className={classes.paper} elevation={6}>
+				<Paper className={classes.paper} elevation={6} style={{ marginTop: margin }}>
 					{isSignup ? (
-						<Avatar className={classes.avatar}>
-							<LockOutlinedIcon />
-						</Avatar>
+						<UserIcon formData={formData} setFormData={setFormData} />
 					) : (
-						// TODO: <UserIcon />
 						<Avatar className={classes.avatar}>
 							<LockOutlinedIcon />
 						</Avatar>
@@ -69,8 +70,8 @@ const Auth = () => {
 								</>
 							)}
 							<Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-							<Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-							{isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
+							<Input name="password" label="Password" handleChange={handleChange} onFocus={handleShowPassword} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+							{isSignup && <Input name="confirmPassword" label="Repeat Password" onFocus={handleShowPassword} handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />}
 						</Grid>
 
 						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
@@ -81,8 +82,7 @@ const Auth = () => {
 							clientId={CLIENT_ID}
 							render={(renderProps) => (
 								<Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} color="primary" variant="contained" fullWidth>
-									{' '}
-									GOOGLE SIGN IN{' '}
+									GOOGLE SIGN IN
 								</Button>
 							)}
 							onSuccess={googleSuccess}

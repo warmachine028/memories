@@ -13,6 +13,7 @@
 		"@testing-library/jest-dom": "^5.16.2",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
+		"avataaars": "^2.0.0",
 		"axios": "^0.26.0",
 		"browser-image-compression": "^1.0.17",
 		"classnames": "^2.3.1",

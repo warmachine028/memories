@@ -17,7 +17,6 @@ export const Root = styled('div')(({ theme }) => ({
 		},
 	},
 	[`& .${classes.paper}`]: {
-		marginTop: theme.spacing(25),
 		marginBottom: theme.spacing(3),
 		display: 'flex',
 		flexDirection: 'column',

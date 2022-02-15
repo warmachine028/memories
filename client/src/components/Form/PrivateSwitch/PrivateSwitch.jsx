@@ -8,10 +8,10 @@ const PrivateSwitch = ({ private_, postData, setPrivate, setPostData }) => {
 			<label className={classes.formSwitch}>
 				<input className={classes.input} type="checkbox" checked={private_} onClick={() => setPrivate(!private_)} onChange={onChange} />
 				<i className={classes.i}></i>
-				<Typography fontSize={15} style={{ color: 'white' }}>
-					Private
-				</Typography>
 			</label>
+			<Typography fontSize={15} style={{ color: 'white' }}>
+				Private
+			</Typography>
 		</Root>
 	)
 }
