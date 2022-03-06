@@ -24,3 +24,8 @@ mongoose // https://www.mongodb.com/cloud/atlas
     .connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch(error => console.log(`${error} did not connect`))
+
+
+// CONFIGURE Connection URL: https://stackoverflow.com/questions/25090524/hide-mongodb-password-using-heroku-so-i-can-also-push-to-public-repo-on-github
+// CONFIGURE AUTODEPLOY From Github:
+// https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
