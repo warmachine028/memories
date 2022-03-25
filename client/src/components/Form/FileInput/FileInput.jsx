@@ -1,5 +1,6 @@
 import imageCompression from 'browser-image-compression'
 import { Button, Collapse } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Root, classes } from './styles'
 
 export const compress = async (postData, setPostData, setFileName, setMedia, e) => {
@@ -17,9 +18,8 @@ export const compress = async (postData, setPostData, setFileName, setMedia, e) 
 	}
 }
 
-export const FileInput = ({ postData, setPostData, fileName, setFileName, media, setMedia }) => {
-	const defaultMedia = 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
-
+const defaultMedia = 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
+export const FileInput = ({ postData, setPostData, fileName, setFileName, media, setMedia, setEmpty }) => {
 	return (
 		<Root className={classes.root}>
 			<div className={classes.fileInput}>
@@ -33,9 +33,12 @@ export const FileInput = ({ postData, setPostData, fileName, setFileName, media,
 					<p>{fileName}</p>
 				</div>
 			</div>
-
-			<Collapse in={media !== null} timeout={300} unmountOnExit>
+			<Collapse in={media !== null} timeout={300} unmountOnExit sx={{ position: 'relative' }}>
 				<img className={classes.media} src={media || defaultMedia} alt={fileName} />
+
+				<Button id="delete-button" onClick={() => setEmpty()} style={{ bottom: '16px', right: '0px', position: 'absolute' }}>
+					<DeleteIcon htmlFor="delete-button" sx={{ color: 'white' }} />
+				</Button>
 			</Collapse>
 		</Root>
 	)

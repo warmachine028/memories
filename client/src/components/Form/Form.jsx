@@ -9,6 +9,7 @@ import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 
 const initial = { title: '', message: '', tags: [], selectedFile: null, _private: false }
+
 const Form = ({ currentId, setCurrentId, user }) => {
 	const [postData, setPostData] = useState(initial)
 	const [private_, setPrivate] = useState(postData._private)
@@ -18,6 +19,8 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const [dragging, setDragging] = useState(false)
 	const [media, setMedia] = useState(postData.selectedFile)
 	const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null))
+	const validate = !(postData.title && postData.message && media && postData.tags.length)
+
 	const dispatch = useDispatch()
 	const history = useNavigate()
 
@@ -64,8 +67,23 @@ const Form = ({ currentId, setCurrentId, user }) => {
 		setTags([])
 		setPostData(initial)
 		setPrivate(initial._private)
-		setFileName('No post selected')
+		setMediaEmpty()
+	}
+
+	const setMediaEmpty = () => {
 		setMedia(null)
+		setFileName('No post selected')
+	}
+
+	const handleAdd = (tag) => {
+		const array = [...tags, tag]
+		setTags(array)
+		setPostData({ ...postData, tags: array })
+	}
+	const handleDelete = (tagToDelete) => {
+		const array = tags.filter((tag) => tag !== tagToDelete)
+		setTags(array)
+		setPostData({ ...postData, tags: array })
 	}
 
 	if (!user?.result?.name) {
@@ -80,17 +98,6 @@ const Form = ({ currentId, setCurrentId, user }) => {
 		)
 	}
 
-	const handleAdd = (tag) => {
-		const array = [...tags, tag]
-		setTags(array)
-		setPostData({ ...postData, tags: array })
-	}
-	const handleDelete = (tagToDelete) => {
-		const array = tags.filter((tag) => tag !== tagToDelete)
-		setTags(array)
-		setPostData({ ...postData, tags: array })
-	}
-
 	return (
 		<Root className={dragging ? classes.drag : classes.root} onDragEnter={dragEnter} onDragOver={dragEnter} onDragLeave={dragLeave} onDrop={fileDrop}>
 			<Paper className={classes.paper} elevation={6}>
@@ -99,11 +106,11 @@ const Form = ({ currentId, setCurrentId, user }) => {
 						{currentId ? `Editing ${post.title}` : 'Create a Memory'}
 					</Typography>
 					<PrivateSwitch private_={private_} postData={postData} setPrivate={setPrivate} setPostData={setPostData} />
-					<FileInput postData={postData} setPostData={setPostData} classes={classes} fileName={fileName} setFileName={setFileName} media={media} setMedia={setMedia} />
+					<FileInput postData={postData} setPostData={setPostData} classes={classes} fileName={fileName} setFileName={setFileName} media={media} setMedia={setMedia} setEmpty={setMediaEmpty} />
 					<TextField sx={{ input: { color: 'white' } }} name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 					<TextField InputProps={{ style: { color: 'white' } }} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					<ChipInput fullWidth InputProps={{ style: { color: 'white' } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} />
-					<Button className={classes.buttonSubmit} variant="contained" color="primary" type="submit" fullWidth>
+					<Button className={classes.buttonSubmit} disabled={validate} variant="contained" color="primary" type="submit" fullWidth>
 						{currentId ? 'Update' : 'Submit'}
 					</Button>
 					<Button className={classes.buttonSubmit} variant="contained" color="secondary" onClick={clear} fullWidth>

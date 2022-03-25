@@ -50,5 +50,6 @@ export const Root = styled('div')({
 		width: '100%',
 		maxHeight: '239px',
 		aspectRatio: '1.77',
+		position: 'block'
 	},
 })
