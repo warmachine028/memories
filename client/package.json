@@ -18,7 +18,7 @@
 		"browser-image-compression": "^1.0.17",
 		"classnames": "^2.3.1",
 		"jwt-decode": "^3.1.2",
-		"moment": "^2.29.1",
+		"moment": "^2.29.2",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-google-login": "^5.2.2",
