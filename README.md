@@ -76,5 +76,6 @@
 
 -   see [LICENSE]
 
-**Pritam, 2022**
-[LICENSE] : https://github.com/warmachine028/memories/blob/main/LICENSE
+**Pritam, 2022**  
+
+[license]: https://github.com/warmachine028/memories/blob/main/LICENSE
