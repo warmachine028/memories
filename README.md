@@ -1,4 +1,4 @@
-    updated: Friday, 25th March 2021
+    updated: Wednesday, 15th June 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -23,6 +23,7 @@
 
 -   [Introduction](#introduction)
 -   [Acknowledgement](#acknowledgement)
+-   [Featues](#features)
 -   [Tech Stack Used](#tech-stack-used)
 -   [Previews](#previews)
 -   [Demo](#demo)
@@ -32,26 +33,38 @@
 
 ## Introduction
 
--   This is a memo sharing social media application
--   This WebApp is fully responsive on any Device
--   Uses exclusive blur effects on components to make it look nice
--   Translucent background wallpaaper gives a minimalistic look
--   Image Upload Preview
--   Private Post Functionality
+-   In earlier days people used to store their valuable memories in Diaries.
+-   Days have changed, but needs of people still remain the same.
+-   This is a WebApp helps suffice the need for a Digital Diary and help improve the user Experience.
+-   The Anime [Kimi no Na wa](https://en.wikipedia.org/wiki/Your_Name) gave me inspiration to improve this project every bit.
+
 
 ---
 
 ## Demo
 
--   Will upload a gif soon after deployment ![Customizations](assets/demo.gif)
+![Customizations](assets/demo.gif)
 
 ---
 
 ## Acknowledgement
 
--   Thanks to JS Mastery for this wonderul tutorial.
+-   Thanks to JS Mastery for this wonderful tutorial.
+-   I have added more refined features on top of this project.
 
 ---
+
+## Features
+
+- Minimalist Look, TransLucent Card Type Posts
+- CRUD based Operations, Post Search Functionality with Tags
+- Details Page of each Post Card, Recommended Posts 
+- Image Compression (compresses every image under 1MB)
+- Like - Comment - Tag functionality and 2 Way Authentication (JWT Token & Google OAuth)
+- Random Custom User Avatar
+- Image Drag and Drop functionality in Preview while creation
+- Private Post Functionality
+- Attention to detail features like comment loading screen, custom Private button gives it the wow factor
 
 ## Tech Stack Used
 
@@ -66,6 +79,9 @@
 ---
 
 ## Previews
+
+- Desktop Preview
+    ![Desktop-Preview](assets/desktop-preview.png)
 
 -   Mobile Preview  
     ![Mobile-Preview](assets/mobile-preview.png)
