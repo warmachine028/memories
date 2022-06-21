@@ -41,12 +41,6 @@
 
 ---
 
-## Demo
-
-![Customizations](assets/demo.gif)
-
----
-
 ## Acknowledgement
 
 -   Thanks to JS Mastery for this wonderful tutorial.
@@ -88,6 +82,11 @@
 
 ---
 
+## Demo
+
+![Customizations](assets/demo.gif)
+
+---
 ## License
 
 -   see [LICENSE]
