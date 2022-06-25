@@ -1,4 +1,4 @@
-    updated: Wednesday, 15th June 2022
+    updated: Saturday, 25th June 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -14,10 +14,8 @@
 
 ## What's new?
 
--   Login Avatars
--   Private Posts
--   Media Delete button in Form
--   Comment Loading Screen
+-   Comment Delete Buttons
+-   Now Post Owners can regulate comments on their posts
 
 ## Table of Contents
 
@@ -38,7 +36,6 @@
 -   This is a WebApp helps suffice the need for a Digital Diary and help improve the user Experience.
 -   The Anime [Kimi no Na wa](https://en.wikipedia.org/wiki/Your_Name) gave me inspiration to improve this project every bit.
 
-
 ---
 
 ## Acknowledgement
@@ -50,19 +47,22 @@
 
 ## Features
 
-- Minimalist Look, TransLucent Card Type Posts
-- CRUD based Operations, Post Search Functionality with Tags
-- Details Page of each Post Card, Recommended Posts 
-- Image Compression (compresses every image under 1MB)
-- Like - Comment - Tag functionality and 2 Way Authentication (JWT Token & Google OAuth)
-- Random Custom User Avatar
-- Image Drag and Drop functionality in Preview while creation
-- Private Post Functionality
-- Attention to detail features like comment loading screen, custom Private button gives it the wow factor
+-   Minimalist Look, TransLucent Card Type Posts
+-   CRUD based Operations, Post Search Functionality with Tags
+-   Details Page of each Post Card, Recommended Posts
+-   Image Compression (compresses every image under 1MB)
+-   Like - Comment - Tag functionality and 2 Way Authentication (JWT Token & Google OAuth)
+-   Random Custom User Avatar
+-   Image Drag and Drop functionality in Preview while creation
+-   Private Post and Comment Deletion Functionality
+-   Attention to detail features like comment circular progress, custom Private button gives it the wow factor
+-   Post Owners can regulate comments in their posts
+-   While deleting comment TrashCan icon turns CircularProgress
+-   Comments section only visible if at least 1 comment exist in a post.
 
 ## Tech Stack Used
 
--   Material UI : Styling & Icons
+-   Material UI: Styling & Icons
 -   MongoDB: For DataBase Management
 -   ExpressJs: For BaackEnd Routing
 -   React: FrontEnd Developement
@@ -74,8 +74,7 @@
 
 ## Previews
 
-- Desktop Preview
-    ![Desktop-Preview](assets/desktop-preview.png)
+-   Desktop Preview ![Desktop-Preview](assets/desktop-preview.png)
 
 -   Mobile Preview  
     ![Mobile-Preview](assets/mobile-preview.png)
@@ -87,10 +86,18 @@
 ![Customizations](assets/demo.gif)
 
 ---
+
+## Upcomming
+
+-   Comment Deletion feature for comment Authors. Currently making changes in Database postMessages Schema in the Comments array to add new fields for better comment regulation in future.
+-   Known Bugs: Same comments from same user posted multiple times gets deleted all at once while deleting single one of them
+
+---
+
 ## License
 
 -   see [LICENSE]
 
-**Pritam, 2022**  
+**Pritam, 2022**
 
 [license]: https://github.com/warmachine028/memories/blob/main/LICENSE
