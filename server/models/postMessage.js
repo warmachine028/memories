@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose'
 
 const postSchema = mongoose.Schema({
 	title: String,
@@ -16,7 +16,7 @@ const postSchema = mongoose.Schema({
 		default: [],
 	},
 	comments: {
-		type: [String],
+		type: [Object],
 		default: [],
 	},
 	createdAt: {
@@ -25,7 +25,7 @@ const postSchema = mongoose.Schema({
 	},
 })
 
-export default mongoose.model("PostMessage", postSchema)
+export default mongoose.model('PostMessage', postSchema)
 
 // comments: {
 //         comment: {
@@ -34,3 +34,8 @@ export default mongoose.model("PostMessage", postSchema)
 //             createdAt: {type: Date, default: new Date()}
 //         },
 //     },
+
+// comments: {
+// 		type: [String],
+// 		default: [],
+// 	},

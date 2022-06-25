@@ -2,10 +2,8 @@ import { useState, useRef } from 'react'
 import { CircularProgress, Typography, TextField, Button, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
-import { commentPost, deleteComment} from '../../actions/posts'
+import { commentPost, deleteComment } from '../../actions/posts'
 import { Root, classes } from './styles'
-
-const initial = {creator: '', }
 
 const CommentSection = ({ post, user }) => {
 	const dispatch = useDispatch()
@@ -14,21 +12,25 @@ const CommentSection = ({ post, user }) => {
 	const commentsRef = useRef()
 	const [posting, setPosting] = useState(false)
 	const [deleting, setDeleting] = useState(false)
+	const [deletingCommentId, setDeletingCommentId] = useState(null)
 	const userId = user?.result.googleId || user?.result?._id
 
 	const handleComment = async () => {
 		const temp = comment
 		setComment('')
 		setPosting(true)
-		const newComments = await dispatch(commentPost(`${user?.result?.name}: ${temp}`, post._id))
+		// const newComments = await dispatch(commentPost(`${user?.result?.name}: ${temp}`, post._id))
+		const newComments = await dispatch(commentPost({ name: user?.result?.name, comment: temp }, post._id))
 		setPosting(false)
 		setComments(newComments)
 		commentsRef.current.scrollIntoView({ behavior: 'smooth' })
 	}
-	
-	const removeComment = async (text) => {	
+
+	const removeComment = async (commentId) => {
 		setDeleting(true)
-		const newComments = await dispatch(deleteComment(post._id, text))
+		setDeletingCommentId(commentId)
+		const newComments = await dispatch(deleteComment(post._id, commentId))
+		setDeletingCommentId(null)
 		setDeleting(false)
 		setComments(newComments)
 	}
@@ -36,21 +38,21 @@ const CommentSection = ({ post, user }) => {
 	return (
 		<Root className={classes.root}>
 			<div className={classes.commentsOuterContainer}>
-				{comments.length !== 0 && (
+				{Object.keys(comments).length !== 0 && (
 					<div style={{ width: '100%' }}>
 						<Typography gutterBottom variant="h6" style={{ width: '100%' }}>
 							Comments
 						</Typography>
 						<div className={classes.commentsInnerContainer}>
-							{comments?.map((c, i) => (
-								<div key={i}  className={classes.comment}>
+							{Object.entries(comments)?.map(([i, { newComment: comment }]) => (
+								<div key={i} className={classes.comment}>
 									<Typography gutterBottom variant="subtitle1" className={classes.commentText}>
-										<strong style={{ color: 'black' }}>{c.split(': ')[0]}: </strong>   
-										<Typography style={{ textAlign: 'justify', paddingLeft: "3px" }}>{c.split(':').slice(1,).join(':')} </Typography>
+										<strong style={{ color: 'black' }}>{comment?.name ? comment.name : comments[i].split(': ')[0]}: </strong>
+										<Typography style={{ textAlign: 'justify', paddingLeft: '3px' }}>{comment?.comment ? comment?.comment : comments[i].split(': ')[1]} </Typography>
 									</Typography>
-									{userId === post?.creator && (
-										<IconButton aria-label="delete" size="small" style={{ color: '#ae0050' }} onClick={() => removeComment(c)}>
-											{deleting ? <CircularProgress fontSize="small" /> : <DeleteIcon fontSize="1rem" />}
+									{(userId === post.creator || userId === comment?.creator) && (
+										<IconButton aria-label="delete" size="small" style={{ color: '#ae0050' }} onClick={() => removeComment(comment?.commentId)}>
+											{deleting && comment?.commentId === deletingCommentId ? <CircularProgress fontSize="small" /> : <DeleteIcon fontSize="1rem" />}
 										</IconButton>
 									)}
 								</div>

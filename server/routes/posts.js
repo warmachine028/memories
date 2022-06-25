@@ -12,7 +12,7 @@ router.post("/", auth, createPost)
 router.patch("/:id", auth, updatePost)
 router.delete("/:id", auth, deletePost)
 router.patch("/:id/likePost", auth, likePost)
-router.post("/:id/commentPost", commentPost)
+router.post("/:id/commentPost", auth, commentPost)
 router.patch("/:id/deleteComment", deleteComment)
 
 export default router

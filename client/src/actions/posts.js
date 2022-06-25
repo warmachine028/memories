@@ -68,9 +68,9 @@ export const deletePost = id => async dispatch => {
     }
 }
 
-export const deleteComment = (id, comment) => async dispatch => {
+export const deleteComment = (id, commentId) => async dispatch => {
     try {
-		const { data } = await api.deleteComment(id, comment)
+		const { data } = await api.deleteComment(id, commentId)
         dispatch({ type: DELETE_COMMENT, payload: data })
         return data.comments
 	} catch (error) {
@@ -87,9 +87,9 @@ export const likePost = id => async dispatch => {
     }
 }
 
-export const commentPost = (value, id) => async dispatch => {
+export const commentPost = (comment, id) => async dispatch => {
     try {
-        const { data } = await api.comment(value, id)
+        const { data } = await api.comment(comment, id)
         dispatch({ type: COMMENT, payload: data })
         return data.comments
     } catch (error) {
