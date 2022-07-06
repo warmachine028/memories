@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import PostDetails from '../components/PostDetails/PostDetails'
 import Navbar from '../components/Navbar/Navbar'
-import Home from '../components/Home/Home'
+import Home from '../components/Home'
 import Auth from '../components/Auth/Auth'
+import UserDetails from '../components/UserDetails'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { classes, Root } from './styles'
 // import user_ from "../temp"
@@ -20,7 +21,8 @@ const App = () => {
 						<Route path="/posts" element={<Home user={user} />} />
 						<Route path="/posts/search" element={<Home user={user} />} />
 						<Route path="/posts/:id" element={<PostDetails user={user} />} />
-						<Route path="/auth" element={!user ? <Auth /> : <Navigate to="/posts" />} />
+						<Route path="/auth" element={user ? <Navigate to="/posts" /> : <Auth />} />
+						<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
 					</Routes>
 				</div>
 			</Root>

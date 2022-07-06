@@ -19,6 +19,61 @@ export const getPosts = async (req, res) => {
 	}
 }
 
+export const getUserDetails = async (req, res) => {
+	const { id } = req.params
+	try {
+		const result = {
+			postsCreated: await PostMessage.countDocuments({ creator: id }),
+			postsLiked: await PostMessage.countDocuments({ likes: { $all: [id] } }),
+			privatePosts: await PostMessage.countDocuments({
+				$and: [{ creator: id }, { _private: true }],
+			}),
+			totalLikesRecieved: (
+				await PostMessage.aggregate([
+					{ $match: { creator: id } },
+					{
+						$group: {
+							_id: '_id',
+							totalValue: {
+								$sum: {
+									$size: '$likes',
+								},
+							},
+						},
+					},
+				])
+			)[0].totalValue,
+			longestPostWords: (
+				await PostMessage.aggregate([
+					{ $match: { creator: id } },
+					{
+						$project: {
+							message: 1,
+							messageLength: { $strLenCP: '$message' },
+						},
+					},
+					{ $sort: { messageLength: -1 } },
+				])
+			)[0].message.split(' ').length,
+		}
+		res.status(200).json(result)
+	} catch (error) {
+		res.status(404).json({ message: error.message })
+	}
+}
+
+export const getPostsByUser = async (req, res) => {
+	const { id } = req.params
+	const { type } = req.query
+	try {
+		const query = type === 'Created' ? { creator: id } : { likes: { $all: [id] } }
+		const posts = await PostMessage.find(query).limit(4).sort({ likes: 1 })
+		res.status(200).json({ data: posts })
+	} catch (error) {
+		res.status(404).json({ message: error.message })
+	}
+}
+
 export const getPost = async (req, res) => {
 	const { id } = req.params
 
@@ -90,7 +145,7 @@ export const deleteComment = async (req, res) => {
 	const { commentId } = req.body
 
 	const post = await PostMessage.findById(_id)
-    post.comments = post.comments.filter(({newComment: comment}) => String(comment?.commentId) !== commentId)
+	post.comments = post.comments.filter(({ newComment: comment }) => String(comment?.commentId) !== commentId)
 	const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true })
 	res.status(200).json(updatedPost)
 }
@@ -117,15 +172,15 @@ export const commentPost = async (req, res) => {
 	const comment = req.body
 
 	const newComment = {
-        ...comment,
-        commentId: new mongoose.Types.ObjectId(),
+		...comment,
+		commentId: new mongoose.Types.ObjectId(),
 		creator: req.userId,
 		createdAt: new Date().toISOString(),
 	}
-    const post = await PostMessage.findById(id)
-    post.comments.push({ newComment })
+	const post = await PostMessage.findById(id)
+	post.comments.push({ newComment })
 	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
-    res.status(200).json(updatedPost)
+	res.status(200).json(updatedPost)
 }
 
 export default router

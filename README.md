@@ -1,4 +1,4 @@
-    updated: Saturday, 25th June 2022
+    updated: Thursday, 7th July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -14,8 +14,9 @@
 
 ## What's new?
 
--   Comment Delete Buttons
--   Now Post Owners can regulate comments on their posts
+-   Added User Details Page
+-   Enhancements: Grow Animation in Posts in HomePage
+-   FIxes: Google Login Navigation Bar Image fixed
 
 ## Table of Contents
 
@@ -45,9 +46,9 @@
 
 ---
 
-## Features
+## Additional Improvements
 
--   Minimalist Look, TransLucent Card Type Posts
+-   Minimalist Look, Translucent Card Type Posts
 -   CRUD based Operations, Post Search Functionality with Tags
 -   Details Page of each Post Card, Recommended Posts
 -   Image Compression (compresses every image under 1MB)
@@ -56,15 +57,16 @@
 -   Image Drag and Drop functionality in Preview while creation
 -   Private Post and Comment Deletion Functionality
 -   Attention to detail features like comment circular progress, custom Private button gives it the wow factor
--   Post Owners can regulate comments in their posts
+-   Post Owners and commenters can regulate comments in their posts
 -   While deleting comment TrashCan icon turns CircularProgress
 -   Comments section only visible if at least 1 comment exist in a post.
+-   Custom user detail page including newly written dataBase query and Backend Logic
 
 ## Tech Stack Used
 
 -   Material UI: Styling & Icons
 -   MongoDB: For DataBase Management
--   ExpressJs: For BaackEnd Routing
+-   ExpressJs: For BackEnd Routing
 -   React: FrontEnd Developement
 -   NodeJS: For BackEnd developement
 -   Netlify: For hosting the frontEnd
@@ -74,10 +76,17 @@
 
 ## Previews
 
--   Desktop Preview ![Desktop-Preview](assets/desktop-preview.png)
+-   Desktop Preview
 
--   Mobile Preview  
-    ![Mobile-Preview](assets/mobile-preview.png)
+![Desktop-Preview](assets/desktop-preview.png)
+
+-   Mobile Preview
+
+![Mobile-Preview](assets/mobile-preview.png)
+
+-   User Details:
+
+![UserDetails](assets/userDetails.png)
 
 ---
 
@@ -89,8 +98,8 @@
 
 ## Upcomming
 
--   Comment Deletion feature for comment Authors. Currently making changes in Database postMessages Schema in the Comments array to add new fields for better comment regulation in future.
--   Known Bugs: Same comments from same user posted multiple times gets deleted all at once while deleting single one of them
+-   Posts By User and Posts Liked By User in UserDetails Page
+-   User details Updation feature
 
 ---
 

@@ -26,12 +26,12 @@ const Post = ({ post, setCurrentId, user }) => {
 			return hasLikedPost ? (
 				<Typography variant="body2" sx={{ align: 'center', display: 'flex' }}>
 					<ThumbUpAltIcon fontSize="small" />
-					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}`}
+					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			) : (
 				<Typography variant="body2" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
 					<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
-					&nbsp; {likes.length} {likes.length === 1 ? 'Like' : 'Likes'}
+					&nbsp; {`${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			)
 		return (
@@ -41,7 +41,7 @@ const Post = ({ post, setCurrentId, user }) => {
 			</Typography>
 		)
 	}
-	const longMessage = post.message.length > 100
+	const isLongMessage = post.message.length > 100
 	const openPost = () => history(`/posts/${post._id}`)
 	return (
 		<Root className={classes.root}>
@@ -74,8 +74,8 @@ const Post = ({ post, setCurrentId, user }) => {
 							</div>
 						)}
 						<CardContent>
-							<Typography variant="body2" sx={{ color: 'white' }} component="p" textAlign={longMessage ? 'justify' : 'center'}>
-								{`${post.message.slice(0, 100)} ${longMessage ? '...' : ''}`}
+							<Typography variant="body2" sx={{ color: 'white' }} component="p" textAlign={isLongMessage ? 'justify' : 'center'}>
+								{`${post.message.slice(0, 100)} ${isLongMessage ? '...' : ''}`}
 							</Typography>
 						</CardContent>
 					</div>

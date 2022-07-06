@@ -25,7 +25,7 @@ const Auth = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		dispatch(isSignup ? signup(formData, history) : signin(formData, history))
+		dispatch((isSignup ? signup : signin)(formData, history))
 	}
 	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 	const switchMode = () => {
@@ -47,6 +47,7 @@ const Auth = () => {
 		console.log(error)
 		alert('Google Sign In was unsuccessful. Try Again Later')
 	}
+
 	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])
 
 	return (

@@ -32,7 +32,7 @@ export const Root = styled("div")({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        borderRadius: "5px",
+        borderRadius: 5,
         height: "100%",
         position: "relative",
         backgroundColor: "rgba(255, 255, 255, .09)",
@@ -40,13 +40,13 @@ export const Root = styled("div")({
     },
     [`& .${classes.overlay}`]: {
         position: "absolute",
-        top: "20px",
-        left: "20px",
+        top: 20,
+        left: 20,
     },
     [`& .${classes.overlay2}`]: {
         position: "absolute",
-        top: "20px",
-        right: "20px",
+        top: 20,
+        right: 20,
     },
     [`& .${classes.grid}`]: {
         display: "flex",
@@ -54,8 +54,7 @@ export const Root = styled("div")({
     [`& .${classes.tags}`]: {
         display: "flex",
         justifyContent: "space-between",
-        margin: "20px",
-        // color: white
+        margin: 20,
     },
     [`& .${classes.details}`]: {
         display: "flex",
