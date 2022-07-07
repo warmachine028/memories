@@ -5,6 +5,7 @@ import { LoadingCard, PostCard } from '../Cards'
 import { getPostsByUser } from '../../../actions/posts'
 import { useSelector, useDispatch } from 'react-redux'
 import { posts } from '../testPosts'
+
 const PostsLikedByUser = ({ user }) => {
 	const data = user // Fetch UserData
 	const isLoading = false
