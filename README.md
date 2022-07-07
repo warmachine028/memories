@@ -14,9 +14,9 @@
 
 ## What's new?
 
--   Added User Details Page
--   Enhancements: Grow Animation in Posts in HomePage
--   FIxes: Google Login Navigation Bar Image fixed
+-   Brand wew react Component to display posts liked by user🎉🎊🎖️, Refined UI/UX with Card components.
+-   Enhancements: Added Skeletal views from MaterialUI for Loading Animation.
+-   Fixes: console Logs in Server side and client side CSS
 
 ## Table of Contents
 
@@ -32,9 +32,9 @@
 
 ## Introduction
 
--   In earlier days people used to store their valuable memories in Diaries.
--   Days have changed, but needs of people still remain the same.
--   This is a WebApp helps suffice the need for a Digital Diary and help improve the user Experience.
+-   In earlier days people used to maintain diaries.
+-   But those days have changed, but our needs still remain the same.
+-   This is a WebApp helps suffice the need for a digital diary and help improve the user Experience.
 -   The Anime [Kimi no Na wa](https://en.wikipedia.org/wiki/Your_Name) gave me inspiration to improve this project every bit.
 
 ---
@@ -57,10 +57,11 @@
 -   Image Drag and Drop functionality in Preview while creation
 -   Private Post and Comment Deletion Functionality
 -   Attention to detail features like comment circular progress, custom Private button gives it the wow factor
--   Post Owners and commenters can regulate comments in their posts
--   While deleting comment TrashCan icon turns CircularProgress
+-   Post Owners and commenters can regulate comments in their posts.
+-   While deleting comment TrashCan icon turns CircularProgress.
 -   Comments section only visible if at least 1 comment exist in a post.
--   Custom user detail page including newly written dataBase query and Backend Logic
+-   Custom user detail page including newly written dataBase query and Backend Logic.
+-   Custom Posts Liked by user Component.
 
 ## Tech Stack Used
 

@@ -21,12 +21,20 @@ export const classes = {
 	userContainer: `${PREFIX}-userContainer`,
 	userIcon: `${PREFIX}-userIcon`,
 	userDetails: `${PREFIX}-userDetails`,
+	container: `${PREFIX}-container`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
 		margin: '10px 5px',
 	},
+	[`& .${classes.container}`]: {
+		justifyContent: 'space-around',
+		marginTop: 10,
+		marginLeft: 0,
+		flexDirection: 'row',
+	},
+
 	[`& .${classes.media}`]: {
 		borderRadius: '5px',
 		objectFit: 'scale-down',
@@ -129,6 +137,10 @@ export const Root = styled('div')(({ theme }) => ({
 		backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 		flexDirection: 'column',
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+			alignItems: 'center',
+		},
 	},
 	[`& .${classes.commentsOuterContainer}`]: {
 		display: 'flex',

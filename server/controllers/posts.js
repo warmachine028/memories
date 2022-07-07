@@ -6,7 +6,6 @@ const router = express.Router()
 
 const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
 const getTop5Tags = ({ allTags: tags }) => {
-	console.log(tags)
 	let frequency = {}
 	tags.map((tag) => (frequency[tag] = countOccurrences(tags, tag)))
 	tags.sort((self, other) => {
@@ -31,6 +30,23 @@ export const getPosts = async (req, res) => {
 		res.status(404).json({ message: error.message })
 	}
 }
+export const getPostsByUser = async (req, res) => {
+	const { id } = req.params
+	const { page } = req.query
+	// : { likes: { $all: [id] } }
+	try {
+		const query = { creator: id }
+		const LIMIT = 8
+		const total = await PostMessage.countDocuments(query)
+		const startIndex = (Number(page) - 1) * LIMIT
+		const posts = await PostMessage.find(query).limit(4).sort({ likes: 1 }).skip(startIndex)
+		res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
+		res.status(200).json({ data: posts })
+	} catch (error) {
+		res.status(404).json({ message: error.message })
+	}
+}
+
 
 export const getUserDetails = async (req, res) => {
 	const { id } = req.params
@@ -98,18 +114,6 @@ export const getUserDetails = async (req, res) => {
 			top5Tags: allTags.length ? getTop5Tags(allTags[0]) : allTags,
 		}
 		res.status(200).json(result)
-	} catch (error) {
-		res.status(404).json({ message: error.message })
-	}
-}
-
-export const getPostsByUser = async (req, res) => {
-	const { id } = req.params
-	const { type } = req.query
-	try {
-		const query = type === 'Created' ? { creator: id } : { likes: { $all: [id] } }
-		const posts = await PostMessage.find(query).limit(4).sort({ likes: 1 })
-		res.status(200).json({ data: posts })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
 	}

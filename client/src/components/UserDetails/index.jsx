@@ -4,6 +4,7 @@ import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip } from '@
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
 import { getUserDetails } from '../../actions/posts'
+import PostsLikedByUser from './PostsLikedByUser'
 
 const LinearProgressWithLabel = (props) => {
 	return (
@@ -22,6 +23,15 @@ const UserDetails = ({ user }) => {
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const [progress, setProgress] = useState(0)
 	const { postsCreated, postsLiked, privatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
+	const labels = {
+		Email: user.result.email,
+		'Posts Created': postsCreated,
+		'Posts Liked': postsLiked,
+		'Private Posts': privatePosts,
+		'Liked Recived': totalLikesRecieved,
+		'Longest Post Written': `${longestPostWords} Words`,
+	}
+
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(getUserDetails(user.result._id || user.result.googleId))
@@ -35,14 +45,6 @@ const UserDetails = ({ user }) => {
 			clearInterval(timer)
 		}
 	}, [isLoading])
-	const labels = {
-		Email: user.result.email,
-		'Posts Created': postsCreated,
-		'Posts Liked': postsLiked,
-		'Private Posts': privatePosts,
-		'Liked Recived': totalLikesRecieved,
-		'Longest Post Written': `${longestPostWords} Words`,
-	}
 
 	return (
 		<Root className={classes.root}>
@@ -90,6 +92,7 @@ const UserDetails = ({ user }) => {
 					)}
 				</Paper>
 			</div>
+			<PostsLikedByUser />
 		</Root>
 	)
 }
