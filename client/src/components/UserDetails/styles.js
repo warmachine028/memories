@@ -5,7 +5,8 @@ export const classes = {
 	root: `${PREFIX}-root`, //
 	userContainer: `${PREFIX}-userContainer`, //
 	avatar: `${PREFIX}-avatar`, //
-	userDetails: `${PREFIX}-userDetails`,
+	userDetails: `${PREFIX}-userDetails`, //
+	loadingLine: `${PREFIX}-loadingLine`, //
 	media: `${PREFIX}-media`,
 	card: `${PREFIX}-card`,
 	section: `${PREFIX}-section`,
@@ -32,6 +33,15 @@ export const Root = styled('div')(({ theme }) => ({
 		objectFit: 'scale-down',
 		width: '100%',
 		maxHeight: '500px',
+	},
+	[`& .${classes.loadingLine}`]: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		width: '50%',
+		[theme.breakpoints.down('md')]: {
+			width: '100%',
+		},
 	},
 	[`& .${classes.card}`]: {
 		display: 'flex',
@@ -104,18 +114,21 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.userDetails}`]: {
 		display: 'flex',
 		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
 		padding: '20px',
 		borderRadius: '5px',
 		minheight: '39vh',
 		backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
-		flexDirection: 'column',
+		flexDirection: 'row',
 		[theme.breakpoints.down('sm')]: {
-			flexDirection: 'column',
+			flexDirection: 'column-reverse',
 			// width:"max-content"
 			marginTop: 10,
+		},
+		[theme.breakpoints.down('md')]: {
+			justifyContent: 'space-between',
 		},
 	},
 	[`& .${classes.loadingPaper}`]: {

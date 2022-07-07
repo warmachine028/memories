@@ -4,6 +4,19 @@ import PostMessage from '../models/postMessage.js'
 
 const router = express.Router()
 
+const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
+const getTop5Tags = ({ allTags: tags }) => {
+	console.log(tags)
+	let frequency = {}
+	tags.map((tag) => (frequency[tag] = countOccurrences(tags, tag)))
+	tags.sort((self, other) => {
+		let diff = frequency[other] - frequency[self]
+		if (diff == 0) diff = frequency[other] - frequency[self]
+		return diff
+	})
+	return [...new Set(tags)].splice(0, 5)
+}
+
 export const getPosts = async (req, res) => {
 	const { page } = req.query
 
@@ -21,40 +34,68 @@ export const getPosts = async (req, res) => {
 
 export const getUserDetails = async (req, res) => {
 	const { id } = req.params
+
 	try {
+		const allTags = await PostMessage.aggregate([
+			{ $match: { creator: id } },
+			{
+				$group: {
+					_id: null,
+					tags: { $push: '$tags' },
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					allTags: {
+						$reduce: {
+							input: '$tags',
+							initialValue: [],
+							in: {
+								$concatArrays: ['$$this', '$$value'],
+							},
+						},
+					},
+				},
+			},
+		])
+
 		const result = {
 			postsCreated: await PostMessage.countDocuments({ creator: id }),
 			postsLiked: await PostMessage.countDocuments({ likes: { $all: [id] } }),
 			privatePosts: await PostMessage.countDocuments({
 				$and: [{ creator: id }, { _private: true }],
 			}),
-			totalLikesRecieved: (
-				await PostMessage.aggregate([
-					{ $match: { creator: id } },
-					{
-						$group: {
-							_id: '_id',
-							totalValue: {
-								$sum: {
-									$size: '$likes',
+			totalLikesRecieved:
+				(
+					await PostMessage.aggregate([
+						{ $match: { creator: id } },
+						{
+							$group: {
+								_id: '_id',
+								totalValue: {
+									$sum: {
+										$size: '$likes',
+									},
 								},
 							},
 						},
-					},
-				])
-			)[0].totalValue,
-			longestPostWords: (
-				await PostMessage.aggregate([
-					{ $match: { creator: id } },
-					{
-						$project: {
-							message: 1,
-							messageLength: { $strLenCP: '$message' },
+					])
+				)[0]?.totalValue || 0,
+			longestPostWords:
+				(
+					await PostMessage.aggregate([
+						{ $match: { creator: id } },
+						{
+							$project: {
+								message: 1,
+								messageLength: { $strLenCP: '$message' },
+							},
 						},
-					},
-					{ $sort: { messageLength: -1 } },
-				])
-			)[0].message.split(' ').length,
+						{ $sort: { messageLength: -1 } },
+					])
+				)[0]?.message.split(' ').length || 0,
+			top5Tags: allTags.length ? getTop5Tags(allTags[0]) : allTags,
 		}
 		res.status(200).json(result)
 	} catch (error) {
