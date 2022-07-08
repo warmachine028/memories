@@ -14,9 +14,8 @@
 
 ## What's new?
 
--   Posts Liked by user component fully functional.
--   Enhancements: Top 5 tags Chips are now Clickable ⭐⭐.
--   Fixes: reduced unnecessary lines of codes.
+-   New Comment Containers. 🆕🌚
+-   Posts Liked by Users Component.
 
 ## Table of Contents
 
@@ -53,7 +52,7 @@
 -   Details Page of each Post Card, Recommended Posts
 -   Image Compression (compresses every image under 1MB)
 -   Like - Comment - Tag functionality and 2 Way Authentication (JWT Token & Google OAuth)
--   Random Custom User Avatar
+-   Randomised Custom User Avatar
 -   Image Drag and Drop functionality in Preview while creation
 -   Private Post and Comment Deletion Functionality
 -   Attention to detail features like comment circular progress, custom Private button gives it the wow factor
@@ -62,7 +61,8 @@
 -   Comments section only visible if at least 1 comment exist in a post.
 -   Custom user detail page including newly written dataBase query and Backend Logic.
 -   Custom Posts Liked by user Component.
--   Chips clickable in UserDetails.
+-   Chips clickable in UserDetails
+-   Customised comment containers with User avatar and post times.
 
 ## Tech Stack Used
 
@@ -93,6 +93,10 @@
 -   User Details:
 
 ![UserDetails](assets/userDetails.png)
+
+-   Comment: 
+
+![Comments](assets/comment.png)
 
 ---
 

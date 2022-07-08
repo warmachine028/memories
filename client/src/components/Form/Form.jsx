@@ -19,7 +19,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const [dragging, setDragging] = useState(false)
 	const [media, setMedia] = useState(postData.selectedFile)
 	const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null))
-	const validate = !(postData.title && postData.message && media && postData.tags.length)
+	const validate = !(postData.title.trim() && postData.message.trim() && media && postData.tags.length)
 
 	const dispatch = useDispatch()
 	const history = useNavigate()
