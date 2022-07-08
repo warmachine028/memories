@@ -3,8 +3,9 @@ import { Root, classes } from './styles'
 import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
-import { getUserDetails } from '../../actions/posts'
+import { getUserDetails, getPostsBySearch } from '../../actions/posts'
 import PostsLikedByUser from './PostsLikedByUser'
+import { useNavigate } from 'react-router-dom'
 
 const LinearProgressWithLabel = (props) => {
 	return (
@@ -22,16 +23,7 @@ const LinearProgressWithLabel = (props) => {
 const UserDetails = ({ user }) => {
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const [progress, setProgress] = useState(0)
-	const { postsCreated, postsLiked, privatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
-	const labels = {
-		Email: user.result.email,
-		'Posts Created': postsCreated,
-		'Posts Liked': postsLiked,
-		'Private Posts': privatePosts,
-		'Liked Recived': totalLikesRecieved,
-		'Longest Post Written': `${longestPostWords} Words`,
-	}
-
+	const history = useNavigate()
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(getUserDetails(user.result._id || user.result.googleId))
@@ -46,6 +38,19 @@ const UserDetails = ({ user }) => {
 		}
 	}, [isLoading])
 
+	const { postsCreated, postsLiked, privatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
+	const labels = {
+		Email: user.result.email,
+		'Posts Created': postsCreated,
+		'Posts Liked': postsLiked,
+		'Private Posts': privatePosts,
+		'Liked Recived': totalLikesRecieved,
+		'Longest Post Written': `${longestPostWords} Words`,
+	}
+	const openPostsWithTag = (tag) => {
+		dispatch(getPostsBySearch({ tags: tag }))
+		history(`/posts/search?searchQuery=none&tags=${tag}`)
+	}
 	return (
 		<Root className={classes.root}>
 			<div className={classes.userContainer}>
@@ -77,22 +82,20 @@ const UserDetails = ({ user }) => {
 									<Divider />
 								</Box>
 							))}
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: 3 }}>
+							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
 									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
 								</Typography>
-								<Box sx={{ alignItems: 'center', marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag, key) => <Chip key={key} label={tag} style={{ background: '#ffffff70', margin: 2 }} />) : <Chip label="no tags found" style={{ background: '#ffffff70', margin: 2 }} />}</Box>
+								<Box sx={{ marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag, key) => <Chip key={key} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
 						</div>
 					)}
-					{!postsCreated && !(progress < 100 || isLoading) && (
-						<Typography variant="h5" color="white" style={{ margin: 'auto' }}>
-							🎉New User🎉
-						</Typography>
-					)}
+					<Typography variant="h5" className={classes.newUser} sx={{ display: !postsCreated && !(progress < 100 || isLoading) ? 'initial' : 'none' }}>
+						🎉New User🎉
+					</Typography>
 				</Paper>
 			</div>
-			<PostsLikedByUser />
+			<PostsLikedByUser user={user} />
 		</Root>
 	)
 }

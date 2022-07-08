@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCH_BY_SEARCH, USER_DETAILS, FETCH_BY_USER, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
+import { FETCH_ALL, FETCHING_LIKED_POSTS, FETCHED_LIKED_POSTS, FETCH_BY_SEARCH, USER_DETAILS, FETCH_LIKED, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
 import * as api from '../api'
 
 // Action Creators
@@ -26,12 +26,14 @@ export const getUserDetails = (userId) => async (dispatch) => {
 	}
 }
 
-export const getPostsByUser = (userId, type) => async (dispatch) => {
+export const getPostsLiked = (userId, page) => async (dispatch) => {
 	try {
-		dispatch({ type: START_LOADING })
-		const { data } = await api.fetchPostsByUserId(userId, type)
-		dispatch({ type: FETCH_BY_USER, payload: { data } })
-		dispatch({ type: END_LOADING })
+		dispatch({ type: FETCHING_LIKED_POSTS })
+		const {
+			data: { data, numberOfPages },
+		} = await api.fetchPostsLiked(userId, page)
+		dispatch({ type: FETCH_LIKED, payload: { data, numberOfPages } })
+		dispatch({ type: FETCHED_LIKED_POSTS })
 	} catch (error) {
 		console.log(error)
 	}

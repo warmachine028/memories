@@ -14,9 +14,9 @@
 
 ## What's new?
 
--   Brand wew react Component to display posts liked by user🎉🎊🎖️, Refined UI/UX with Card components.
--   Enhancements: Added Skeletal views from MaterialUI for Loading Animation.
--   Fixes: console Logs in Server side and client side CSS
+-   Posts Liked by user component fully functional.
+-   Enhancements: Top 5 tags Chips are now Clickable ⭐⭐.
+-   Fixes: reduced unnecessary lines of codes.
 
 ## Table of Contents
 
@@ -62,6 +62,7 @@
 -   Comments section only visible if at least 1 comment exist in a post.
 -   Custom user detail page including newly written dataBase query and Backend Logic.
 -   Custom Posts Liked by user Component.
+-   Chips clickable in UserDetails.
 
 ## Tech Stack Used
 
