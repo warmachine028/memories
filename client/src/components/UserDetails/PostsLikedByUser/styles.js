@@ -1,28 +1,23 @@
 import { styled } from '@mui/material/styles'
 
-const PREFIX = 'PostDetails'
+const PREFIX = 'PostsLikedByUser'
 export const classes = {
 	root: `${PREFIX}-root`,
 	loadingPaper: `${PREFIX}-loadingPaper`,
 	container: `${PREFIX}-container`,
 	noPostsLiked: `${PREFIX}-noPostsLiked`,
+	tab: `${PREFIX}-tab`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
-	[`&.${classes.root}`]: {
-		
-	},
-	[`& .${classes.loadingPaper}`]: {
+	[`&.${classes.root}`]: {},
+	[`& .${classes.tab}`]: {
 		display: 'flex',
 		justifyContent: 'center',
-		padding: 20,
-		borderRadius: 5,
 		minheight: '39vh',
-		marginBottom: 10,
-		backgroundColor: 'rgba(255, 255, 255, .09)',
-		backdropFilter: 'blur(10px)',
 		flexDirection: 'column',
 		alignItems: 'center',
+		width: "100%",
 		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column',
 			alignItems: 'center',

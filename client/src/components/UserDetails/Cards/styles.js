@@ -31,7 +31,8 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.postCard}`]: {
 		maxWidth: 300,
 		margin: 16,
-		backgroundColor: 'rgba(255, 255, 255, .09)',
+		backgroundColor: 'transparent',
+		// backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 	},
 	[`& .${classes.buttonBase}`]: {
