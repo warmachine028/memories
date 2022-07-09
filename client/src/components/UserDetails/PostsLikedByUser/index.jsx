@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
-import { Paper, Typography, Grid, Pagination, Skeleton } from '@mui/material'
+import { Typography, Grid, Pagination, Skeleton } from '@mui/material'
 import { LoadingCard, PostCard } from '../Cards'
 import { getPostsLiked } from '../../../actions/posts'
 import { useSelector, useDispatch } from 'react-redux'
@@ -10,9 +10,9 @@ import { useSelector, useDispatch } from 'react-redux'
 // const numberOfPages = 10
 
 const PostsLikedByUser = ({ user }) => {
-	const { likedPosts: posts, numberOfPages, isFetchingLikedPosts: isLoading } = useSelector((state) => state.posts) // Fetch UserData
+	const { likedPosts: posts, likedNumberOfPages: numberOfPages, isFetchingLikedPosts: isLoading } = useSelector((state) => state.posts) // Fetch UserData
 	const [page, setPage] = useState(1)
-	
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -21,11 +21,8 @@ const PostsLikedByUser = ({ user }) => {
 
 	return (
 		<Root className={classes.root}>
-			<Paper className={classes.loadingPaper} elevation={6}>
+			<div className={classes.tab}>
 				<div style={{ width: '100%' }}>
-					<Typography gutterBottom variant="h5">
-						Posts Liked By User:
-					</Typography>
 					{!isLoading && !posts.length ? (
 						<Typography gutterBottom variant="h6" className={classes.noPostsLiked}>
 							No Posts Liked
@@ -37,7 +34,7 @@ const PostsLikedByUser = ({ user }) => {
 					)}
 				</div>
 				{isLoading ? <Skeleton height={30} width={310} animation="pulse" variant="rectangular" /> : <Pagination count={numberOfPages || 0} color="primary" page={page} onChange={(_, page) => setPage(page)} />}
-			</Paper>
+			</div>
 		</Root>
 	)
 }

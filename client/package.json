@@ -24,6 +24,7 @@
 		"react-google-login": "^5.2.2",
 		"react-redux": "^7.2.6",
 		"react-router-dom": "^6.2.1",
+		"react-swipeable-views": "^0.14.0",
 		"redux": "^4.1.2",
 		"redux-thunk": "^2.4.1",
 		"web-vitals": "^2.1.4"

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
-import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip } from '@mui/material'
+import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
 import { getUserDetails, getPostsBySearch } from '../../actions/posts'
+import PostsByUser from './PostsByUser'
 import PostsLikedByUser from './PostsLikedByUser'
 import { useNavigate } from 'react-router-dom'
+
+import SwipeableViews from 'react-swipeable-views'
+import { useTheme } from '@mui/material/styles'
 
 const LinearProgressWithLabel = (props) => {
 	return (
@@ -23,6 +27,18 @@ const LinearProgressWithLabel = (props) => {
 const UserDetails = ({ user }) => {
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const [progress, setProgress] = useState(0)
+
+	const theme = useTheme()
+	const [value, setValue] = useState(0)
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue)
+	}
+
+	const handleChangeIndex = (index) => {
+		setValue(index)
+	}
+
 	const history = useNavigate()
 	const dispatch = useDispatch()
 	useEffect(() => {
@@ -95,8 +111,33 @@ const UserDetails = ({ user }) => {
 					</Typography>
 				</Paper>
 			</div>
-			<PostsLikedByUser user={user} />
+			<Paper className={classes.loadingPaper} elevation={6}>
+				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+					<Tabs value={value} onChange={handleChange} aria-label="basic tabs">
+						<Tab label="Created Posts" />
+						<Tab label="Liked Posts" />
+					</Tabs>
+					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+						<TabPanel value={value} index={0} dir={theme.direction}>
+							<PostsByUser user={user} />
+						</TabPanel>
+						<TabPanel value={value} index={1} dir={theme.direction}>
+							<PostsLikedByUser user={user} />
+						</TabPanel>
+					</SwipeableViews>
+				</Box>
+			</Paper>
 		</Root>
+	)
+}
+
+const TabPanel = (props) => {
+	const { children, value, index, ...other } = props
+
+	return (
+		<div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+			{value === index && <Box>{children}</Box>}
+		</div>
 	)
 }
 

@@ -9,6 +9,7 @@ export const classes = {
 	userDetails: `${PREFIX}-userDetails`,
 	loadingLine: `${PREFIX}-loadingLine`,
 	tagsContainer: `${PREFIX}-tagsContainer`,
+	loadingPaper: `${PREFIX}-loadingPaper`,
 	chips: `${PREFIX}-chips`,
 	newUser: `${PREFIX}-newUser`,
 }
@@ -54,7 +55,6 @@ export const Root = styled('div')(({ theme }) => ({
 		height: '200px',
 		width: '200px',
 	},
-
 	[`& .${classes.userDetails}`]: {
 		display: 'flex',
 		width: '100%',
@@ -88,6 +88,22 @@ export const Root = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
 		marginTop: 3,
+	},
+	[`& .${classes.loadingPaper}`]: {
+		display: 'flex',
+		justifyContent: 'center',
+		padding: 20,
+		borderRadius: 5,
+		minheight: '39vh',
+		marginBottom: 10,
+		backgroundColor: 'rgba(255, 255, 255, .09)',
+		backdropFilter: 'blur(10px)',
+		flexDirection: 'column',
+		alignItems: 'center',
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+			alignItems: 'center',
+		},
 	},
 	[`& .${classes.chips}`]: {
 		background: '#ffffff70',

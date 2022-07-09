@@ -1,4 +1,16 @@
-import { FETCH_ALL, FETCHING_LIKED_POSTS, FETCHED_LIKED_POSTS, FETCH_BY_SEARCH, USER_DETAILS, FETCH_LIKED, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
+import {
+	FETCH_ALL,
+
+	FETCHING_LIKED_POSTS,
+	FETCHED_LIKED_POSTS,
+	FETCH_LIKED,
+
+	FETCHING_CREATED_POSTS,
+	FETCHED_CREATED_POSTS,
+	FETCH_CREATED,
+
+	FETCH_BY_SEARCH, USER_DETAILS, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT
+} from '../constants/actionTypes'
 import * as api from '../api'
 
 // Action Creators
@@ -34,6 +46,19 @@ export const getPostsLiked = (userId, page) => async (dispatch) => {
 		} = await api.fetchPostsLiked(userId, page)
 		dispatch({ type: FETCH_LIKED, payload: { data, numberOfPages } })
 		dispatch({ type: FETCHED_LIKED_POSTS })
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const getPostsCreated = (userId, page) => async (dispatch) => {
+	try {
+		dispatch({ type: FETCHING_CREATED_POSTS })
+		const {
+			data: { data, numberOfPages },
+		} = await api.fetchPostsCreated(userId, page)
+		dispatch({ type: FETCH_CREATED, payload: { data, numberOfPages } })
+		dispatch({ type: FETCHED_CREATED_POSTS })
 	} catch (error) {
 		console.log(error)
 	}

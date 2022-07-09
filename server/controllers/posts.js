@@ -41,7 +41,23 @@ export const getPostsLiked = async (req, res) => {
 
 		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
 		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
+	} catch (error) {
+		res.status(404).json({ message: error.message })
+	}
+}
 
+export const getPostsCreated = async (req, res) => {
+	const { id } = req.params
+	const { page } = req.query
+
+	try {
+		const query = { creator: id }
+		const LIMIT = 10
+		const total = await PostMessage.countDocuments(query)
+		const startIndex = (Number(page) - 1) * LIMIT
+
+		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
 	}
@@ -217,7 +233,7 @@ export const commentPost = async (req, res) => {
 
 	const newComment = {
 		...comment,
-		commentId: new mongoose.Types.ObjectId()
+		commentId: new mongoose.Types.ObjectId(),
 	}
 	const post = await PostMessage.findById(id)
 	post.comments.push({ newComment })
