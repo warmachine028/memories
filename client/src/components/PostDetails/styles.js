@@ -17,6 +17,7 @@ export const classes = {
 	tags: `${PREFIX}-tags`,
 	title: `${PREFIX}-title`,
 	privateLabel: `${PREFIX}-privateLabel`,
+	collapse: `${PREFIX}-collapse`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -78,10 +79,11 @@ export const Root = styled('div')(({ theme }) => ({
 		},
 	},
 	[`& .${classes.commentsInnerContainer}`]: {
-		height: '200px',
+		height: 300,
 		overflowY: 'auto',
 		marginRight: '0px',
-		width: '-webkit-fill-available',
+		width: '100%',
+		display: 'block',
 		[theme.breakpoints.down('sm')]: {
 			display: 'grid',
 			justifyItems: 'center',
