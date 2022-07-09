@@ -14,8 +14,10 @@
 
 ## What's new?
 
+-   Optimised Post comments actions with 0 Loading time.
 -   New Comment Containers. 🆕🌚
 -   Posts Liked by Users Component.
+-   Memories is now a Progressive Web App 🎉🎉🎊🎊
 
 ## Table of Contents
 

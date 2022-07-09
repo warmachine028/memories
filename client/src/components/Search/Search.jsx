@@ -30,7 +30,7 @@ const Search = ({ tags, setTags }) => {
 		<Root className={classes.root}>
 			<AppBar className={classes.searchBar} position="static" color="inherit">
 				<TextField sx={{ input: { color: 'white' } }} name="search" variant="outlined" label="Search Memories" onKeyPress={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)} />
-				<ChipInput InputProps={{ style: { color: 'white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Search Tags" variant="outlined" className={classes.chip} />
+				<ChipInput label="Search Tags" InputProps={{ style: { color: 'white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} variant="outlined" className={classes.chip} />
 				<Button className={classes.buttonSearch} onClick={searchPost} color="primary" variant="contained">
 					SEARCH
 				</Button>

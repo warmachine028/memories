@@ -217,9 +217,7 @@ export const commentPost = async (req, res) => {
 
 	const newComment = {
 		...comment,
-		commentId: new mongoose.Types.ObjectId(),
-		creator: req.userId,
-		createdAt: new Date().toISOString(),
+		commentId: new mongoose.Types.ObjectId()
 	}
 	const post = await PostMessage.findById(id)
 	post.comments.push({ newComment })
