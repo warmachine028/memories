@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TextField, Typography, Paper, Button } from '@mui/material'
+import { TextField, Typography, Paper, Button, Autocomplete, Chip } from '@mui/material'
 import ChipInput from '../ChipInput/ChipInput'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -97,7 +97,6 @@ const Form = ({ currentId, setCurrentId, user }) => {
 			</Root>
 		)
 	}
-
 	return (
 		<Root className={dragging ? classes.drag : classes.root} onDragEnter={dragEnter} onDragOver={dragEnter} onDragLeave={dragLeave} onDrop={fileDrop}>
 			<Paper className={classes.paper} elevation={6}>

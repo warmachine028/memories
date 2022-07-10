@@ -4,68 +4,104 @@ import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Ta
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
 import { getUserDetails, getPostsBySearch } from '../../actions/posts'
-import PostsByUser from './PostsByUser'
-import PostsLikedByUser from './PostsLikedByUser'
+import { getPostsCreated, getPostsLiked, getPostsPrivate } from '../../actions/posts'
+import TabPage from './TabPage'
 import { useNavigate } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
 
-const LinearProgressWithLabel = (props) => {
-	return (
-		<Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-			<Box sx={{ width: '100%', mr: 1 }}>
-				<LinearProgress variant="determinate" {...props} color="success" />
-			</Box>
-			<Box sx={{ minWidth: 35 }}>
-				<Typography variant="body2" color="white">{`${Math.round(props.value)}%`}</Typography>
-			</Box>
+const LinearProgressWithLabel = (props) => (
+	<Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+		<Box sx={{ width: '100%', mr: 1 }}>
+			<LinearProgress variant="determinate" {...props} color="success" />
 		</Box>
-	)
-}
+		<Box sx={{ minWidth: 35 }}>
+			<Typography variant="body2" color="white">{`${Math.round(props.value)}%`}</Typography>
+		</Box>
+	</Box>
+)
+const TabPanel = ({ children, value, index, ...other }) => (
+	<div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+		{value === index && <Box>{children}</Box>}
+	</div>
+)
 
 const UserDetails = ({ user }) => {
-	const { data, isLoading } = useSelector((state) => state.posts)
-	const [progress, setProgress] = useState(0)
-
 	const theme = useTheme()
-	const [value, setValue] = useState(0)
-
-	const handleChange = (event, newValue) => {
-		setValue(newValue)
-	}
-
-	const handleChangeIndex = (index) => {
-		setValue(index)
-	}
-
 	const history = useNavigate()
 	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(getUserDetails(user.result._id || user.result.googleId))
-	}, [user])
 
+	const [value, setValue] = useState(0)
+	const [progress, setProgress] = useState(0)
+	const [likedPage, setLikedPage] = useState(1)
+	const [createdPage, setCreatedPage] = useState(1)
+	const [privatePage, setPrivatePage] = useState(1)
+
+	const { data, isLoading } = useSelector((state) => state.posts)
+	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
+	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
+	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector(state => state.posts)
+	const userId = user.result._id || user.result.googleId
+
+	useEffect(() => {
+		dispatch(getUserDetails(userId))
+	}, [user])
+	useEffect(() => {
+		dispatch(getPostsCreated(userId, createdPage))
+	}, [createdPage])
+	useEffect(() => {
+		dispatch(getPostsLiked(userId, 	likedPage))
+	}, [likedPage])
+	useEffect(() => {
+		dispatch(getPostsPrivate(userId, privatePage))
+	}, [privatePage])
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
 		}, 300)
-		return () => {
-			clearInterval(timer)
-		}
+		return () => clearInterval(timer)
 	}, [isLoading])
+	const openPostsWithTag = (tag) => {
+		dispatch(getPostsBySearch({ tags: tag }))
+		history(`/posts/search?searchQuery=none&tags=${tag}`)
+	}
 
-	const { postsCreated, postsLiked, privatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
+	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts ,totalLikesRecieved, longestPostWords, top5Tags } = data
 	const labels = {
 		Email: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
-		'Private Posts': privatePosts,
+		'Private Posts': numberOfPrivatePosts,
 		'Liked Recived': totalLikesRecieved,
 		'Longest Post Written': `${longestPostWords} Words`,
 	}
-	const openPostsWithTag = (tag) => {
-		dispatch(getPostsBySearch({ tags: tag }))
-		history(`/posts/search?searchQuery=none&tags=${tag}`)
+	const createdProps = {
+		page: createdPage,
+		setPage: setCreatedPage,
+		posts: createdPosts,
+		numberOfPages: createdNumberOfPages,
+		isLoading: isFetchingCreatedPosts,
+		userId: userId,
+		notDoneText: 'No Posts Created',
+	}
+	const likedProps = {
+		page: likedPage,
+		setPage: setLikedPage,
+		posts: likedPosts,
+		numberOfPages: likedNumberOfPages,
+		isLoading: isFetchingLikedPosts,
+		userId: userId,
+		notDoneText: 'No Posts Liked',
+	}
+	const privateProps = {
+		page: privatePage,
+		setPage: setPrivatePage,
+		posts: privatePosts,
+		numberOfPages: privateNumberOfPages,
+		isLoading: isFetchingPrivatePosts,
+		user: user,
+		notDoneText: 'No Posts Private'
 	}
 	return (
 		<Root className={classes.root}>
@@ -112,32 +148,26 @@ const UserDetails = ({ user }) => {
 				</Paper>
 			</div>
 			<Paper className={classes.loadingPaper} elevation={6}>
-				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-					<Tabs value={value} onChange={handleChange} aria-label="basic tabs">
-						<Tab label="Created Posts" />
-						<Tab label="Liked Posts" />
+				<Box sx={{ borderColor: 'divider' }}>
+					<Tabs value={value} onChange={(_, newValue) => setValue(newValue)} aria-label="basic tabs">
+						<Tab label="CREATED" />
+						<Tab label="LIKED" />
+						<Tab label="PRIVATE" />
 					</Tabs>
-					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={(index) => setValue(index)}>
 						<TabPanel value={value} index={0} dir={theme.direction}>
-							<PostsByUser user={user} />
+							<TabPage {...createdProps} />
 						</TabPanel>
 						<TabPanel value={value} index={1} dir={theme.direction}>
-							<PostsLikedByUser user={user} />
+							<TabPage {...likedProps} />
+						</TabPanel>
+						<TabPanel value={value} index={2} dir={theme.direction}>
+							<TabPage {...privateProps} />
 						</TabPanel>
 					</SwipeableViews>
 				</Box>
 			</Paper>
 		</Root>
-	)
-}
-
-const TabPanel = (props) => {
-	const { children, value, index, ...other } = props
-
-	return (
-		<div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-			{value === index && <Box>{children}</Box>}
-		</div>
 	)
 }
 

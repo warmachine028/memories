@@ -14,7 +14,9 @@
 
 ## What's new?
 
-- Added Tabs in UserDetails Page. 
+- Added Private Posts Tab in UserDetails.
+- Reduced code by combining all Tabs in single reusable single TabPage Component.
+- Added Tabs in UserDetails Page.
 - Optimised Post comments actions with 0 Loading time.
 - New Comment Containers. 🆕🌚
 - Posts Liked by Users Component.

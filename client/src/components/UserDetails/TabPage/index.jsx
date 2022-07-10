@@ -2,34 +2,25 @@ import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
 import { Typography, Grid, Pagination, Skeleton } from '@mui/material'
 import { LoadingCard, PostCard } from '../Cards'
-import { getPostsLiked } from '../../../actions/posts'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-// import { posts } from '../testPosts'
+// import { posts } from '../../../temp'
 // const isLoading = false
 // const numberOfPages = 10
 
-const PostsLikedByUser = ({ user }) => {
-	const { likedPosts: posts, likedNumberOfPages: numberOfPages, isFetchingLikedPosts: isLoading } = useSelector((state) => state.posts) // Fetch UserData
-	const [page, setPage] = useState(1)
-
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(getPostsLiked(user.result._id || user.result.googleId, page))
-	}, [page])
-
+const TabPage = (props) => {
+	const { posts, numberOfPages, isLoading, notDoneText, page, setPage, userId } = props
 	return (
 		<Root className={classes.root}>
 			<div className={classes.tab}>
 				<div style={{ width: '100%' }}>
 					{!isLoading && !posts.length ? (
 						<Typography gutterBottom variant="h6" className={classes.noPostsLiked}>
-							No Posts Liked
+							{notDoneText}
 						</Typography>
 					) : (
 						<Grid className={classes.container} container spacing={3}>
-							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post, key) => <PostCard key={key} post={post} />)}
+							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post, key) => <PostCard key={key} post={post} userId={userId} />)}
 						</Grid>
 					)}
 				</div>
@@ -39,4 +30,4 @@ const PostsLikedByUser = ({ user }) => {
 	)
 }
 
-export default PostsLikedByUser
+export default TabPage

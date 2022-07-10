@@ -16,6 +16,7 @@ export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?search
 export const fetchUserDetails = (userId) => API.get(`/posts/user/details/${userId}`)
 export const fetchPostsLiked = (userId, page) => API.get(`/posts/user/liked/${userId}?page=${page}`)
 export const fetchPostsCreated = (userId, page) => API.get(`/posts/user/created/${userId}?page=${page}`)
+export const fetchPostsPrivate = (userId, page) => API.get(`/posts/user/private/${userId}?page=${page}`)
 
 export const createPost = (newPost) => API.post('/posts', newPost)
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost)
