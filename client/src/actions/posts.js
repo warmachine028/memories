@@ -1,13 +1,17 @@
 import {
 	FETCH_ALL,
 
+	FETCHING_CREATED_POSTS,
+	FETCHED_CREATED_POSTS,
+	FETCH_CREATED,
+
 	FETCHING_LIKED_POSTS,
 	FETCHED_LIKED_POSTS,
 	FETCH_LIKED,
 
-	FETCHING_CREATED_POSTS,
-	FETCHED_CREATED_POSTS,
-	FETCH_CREATED,
+	FETCHING_PRIVATE_POSTS,
+	FETCHED_PRIVATE_POSTS,
+	FETCH_PRIVATE,
 
 	FETCH_BY_SEARCH, USER_DETAILS, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT
 } from '../constants/actionTypes'
@@ -62,6 +66,15 @@ export const getPostsCreated = (userId, page) => async (dispatch) => {
 	} catch (error) {
 		console.log(error)
 	}
+}
+
+export const getPostsPrivate = (userId, page) => async (dispatch) => {
+	dispatch({ type: FETCHING_PRIVATE_POSTS })
+	const {
+		data: { data, numberOfPages },
+	} = await api.fetchPostsPrivate(userId, page)
+	dispatch({ type: FETCH_PRIVATE, payload: { data, numberOfPages } })
+	dispatch({ type: FETCHED_PRIVATE_POSTS })
 }
 
 export const getPost = (id) => async (dispatch) => {

@@ -1,6 +1,6 @@
 import { Typography, Button, Skeleton, ButtonBase } from '@mui/material'
 import { CardActions, CardHeader, Card, CardContent, CardMedia } from '@mui/material'
-import { ThumbUpAlt, Lock } from '@mui/icons-material'
+import { ThumbUpAlt, Lock, ThumbUpAltOutlined } from '@mui/icons-material'
 import { Root, classes } from './styles'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
@@ -20,9 +20,30 @@ export const LoadingCard = () => {
 	)
 }
 
-export const PostCard = ({ post }) => {
+export const PostCard = ({ post, userId }) => {
 	const history = useNavigate()
 	const { title, message, name, tags, _private, selectedFile, likes, createdAt, _id } = post
+	const hasLikedPost = likes.find((like) => like === userId)
+	const Likes = () => {
+		if (likes.length > 0)
+			return hasLikedPost ? (
+				<Typography variant="body2" sx={{ align: 'center', display: 'flex' }}>
+					<ThumbUpAlt fontSize="small" />
+					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
+				</Typography>
+			) : (
+				<Typography variant="body2" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
+					<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+					&nbsp; {`${likes.length} Like${likes.length > 1 ? 's' : ''}`}
+				</Typography>
+			)
+		return (
+			<Typography variant="body2" color="primary" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
+				<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+				&nbsp; Like
+			</Typography>
+		)
+	}
 	return (
 		<Root className={classes.root}>
 			<Card raised className={classes.postCard}>
@@ -56,10 +77,7 @@ export const PostCard = ({ post }) => {
 						</div>
 						<CardActions className={classes.cardActions}>
 							<Button size="small" color="success">
-								<Typography variant="body2" sx={{ align: 'center', display: 'flex' }}>
-									<ThumbUpAlt fontSize="small" sx={{ marginRight: 1 }} />
-									{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
-								</Typography>
+								<Likes />
 							</Button>
 						</CardActions>
 					</div>

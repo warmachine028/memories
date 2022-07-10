@@ -63,6 +63,23 @@ export const getPostsCreated = async (req, res) => {
 	}
 }
 
+export const getPostsPrivate = async (req, res) => {
+	const { id } = req.params
+	const { page } = req.query
+
+	try {
+		const query = { $and: [{ creator: id }, { _private: true }] }
+		const LIMIT = 10
+		const total = await PostMessage.countDocuments(query)
+		const startIndex = (Number(page) - 1) * LIMIT
+
+		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
+	} catch (error) {
+		res.status(404).json({ message: error.message })
+	}
+}
+
 export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 

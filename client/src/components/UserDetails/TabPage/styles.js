@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles'
 
-const PREFIX = 'PostByUser'
+const PREFIX = 'TabPage'
 export const classes = {
 	root: `${PREFIX}-root`,
 	loadingPaper: `${PREFIX}-loadingPaper`,
