@@ -6,6 +6,7 @@ const API = axios.create({
 	timeout: 50000,
 	headers: {
 		'Access-Control-Allow-Origin': 'https://memories-pritam.netlify.app'
+		
 	}
 })
 
