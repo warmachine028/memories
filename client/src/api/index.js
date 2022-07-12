@@ -5,9 +5,9 @@ const API = axios.create({
 	baseURL: apiURL[0],
 	timeout: 50000,
 
-	// headers: {
-	// 	'Access-Control-Allow-Origin': 'https://memories-pritam.netlify.app'
-	// }
+	headers: {
+		'Access-Control-Allow-Origin': 'https://memories-pritam.netlify.app'
+	}
 })
 
 API.interceptors.request.use((req) => {
