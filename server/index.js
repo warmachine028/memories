@@ -6,12 +6,12 @@ import dotenv from "dotenv"
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/user.js"
 
-dotenv.config()
 const app = express()
+app.use(cors())
 
+dotenv.config()
 app.use(bodyParser.json({ limit: "30mb", extended: true }))
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
-app.use(cors())
 
 app.use("/posts", postRoutes)
 app.use("/user", userRoutes)
@@ -25,7 +25,6 @@ mongoose // https://www.mongodb.com/cloud/atlas
     .then(console.log("Connected to MongoDB Database 🌐"))
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT} 🚀`)))
     .catch(error => console.log(`${error} did not connect`))
-
 
 // CONFIGURE Connection URL: https://stackoverflow.com/questions/25090524/hide-mongodb-password-using-heroku-so-i-can-also-push-to-public-repo-on-github
 // CONFIGURE AUTODEPLOY From Github:
