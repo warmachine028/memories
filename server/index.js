@@ -22,7 +22,7 @@ app.get('/', (_, res) => res.send('Hello to Memories API'))
 const PORT = process.env.PORT || 5000
 
 mongoose // https://www.mongodb.com/cloud/atlas
-	.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(process.env.CONNECTION_URL)
 	.then(console.log('Connected to MongoDB Database 🌐'))
 	.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT} 🚀`)))
 	.catch((error) => console.log(`${error} did not connect`))

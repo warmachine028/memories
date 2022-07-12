@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiURL = ['https://memories-pritam.herokuapp.com', 'http://localhost:5000']
-const API = axios.create({ baseURL: apiURL[0] })
+const API = axios.create({ baseURL: apiURL[1] })
 
 API.interceptors.request.use((req) => {
 	if (localStorage.getItem('profile')) {
@@ -13,10 +13,6 @@ API.interceptors.request.use((req) => {
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
 export const fetchPost = (id) => API.get(`/posts/${id}`)
 export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags || 'none'}`)
-export const fetchUserDetails = (userId) => API.get(`/posts/user/details/${userId}`)
-export const fetchPostsLiked = (userId, page) => API.get(`/posts/user/liked/${userId}?page=${page}`)
-export const fetchPostsCreated = (userId, page) => API.get(`/posts/user/created/${userId}?page=${page}`)
-export const fetchPostsPrivate = (userId, page) => API.get(`/posts/user/private/${userId}?page=${page}`)
 
 export const createPost = (newPost) => API.post('/posts', newPost)
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost)
@@ -28,3 +24,5 @@ export const comment = (comment, id) => API.post(`/posts/${id}/commentPost`, com
 
 export const signIn = (formData) => API.post('/user/signin', formData)
 export const signUp = (formData) => API.post('/user/signup', formData)
+export const userDetails = (userId) => API.get(`/user/details/${userId}`)
+export const fetchUserPostsByType = (userId, page, type) => API.get(`/user/posts/${userId}?page=${page}&type=${type}`)

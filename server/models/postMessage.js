@@ -25,7 +25,7 @@ const postSchema = mongoose.Schema({
 	},
 })
 
-export default mongoose.model('PostMessage', postSchema)
+export default mongoose.model('postmessages', postSchema, 'postMessages')
 
 // comments: {
 //         comment: {

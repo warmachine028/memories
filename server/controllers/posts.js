@@ -4,18 +4,6 @@ import PostMessage from '../models/postMessage.js'
 
 const router = express.Router()
 
-const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
-const getTop5Tags = ({ allTags: tags }) => {
-	let frequency = {}
-	tags.map((tag) => (frequency[tag] = countOccurrences(tags, tag)))
-	tags.sort((self, other) => {
-		let diff = frequency[other] - frequency[self]
-		if (diff == 0) diff = frequency[other] - frequency[self]
-		return diff
-	})
-	return [...new Set(tags)].splice(0, 5)
-}
-
 export const getPosts = async (req, res) => {
 	const { page } = req.query
 
@@ -24,262 +12,12 @@ export const getPosts = async (req, res) => {
 		const LIMIT = 8
 		const total = await PostMessage.countDocuments(query)
 		const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
-		const posts = await PostMessage.find(query).sort({ createdAt: -1 }).limit(LIMIT).skip(startIndex)
-		const _posts = [
-			{
-				title: 'Test Post',
-				message: 'Very Small text',
-				name: 'Creator 1',
-				creator: 'String2',
-				tags: ['String'],
-				_private: false,
-				selectedFile: 'https://cdn.kimkim.com/files/a/content_articles/featured_photos/0e3794a0b646d638627afb626bf9ee46f472feb1/big-0bb2a2bea537c680f141d40cb484d888.jpg',
-				likes: ['61dbfb880fa65a2cef044ef7'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 1,
-			},
-			{
-				title: 'Test Post 2',
-				message:
-					"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-				name: 'John Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: true,
-				selectedFile: 'https://www.anirbansaha.com/wp-content/uploads/2018/07/kolkata_gate_001.jpg',
-				likes: ['12222', '2123', 'Pritam'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: '2019-01-15T19:54:11.737+00:00',
-				_id: 2,
-			},
-			{
-				title: 'Eyes Blue',
-				message: 'Just a sentence',
-				name: 'Jane Doe Big Name',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: true,
-				selectedFile: 'https://i.ytimg.com/vi/xDFwqJ4F50U/maxresdefault.jpg',
-				likes: ['12222', '2123', '61dbfb880fa65a2cef044ef7', '61dc0adf479a28eefc306603'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: '2022-01-15T19:54:11.737+00:00',
-				_id: 3,
-			},
-			{
-				title: 'Test Post 2',
-				message:
-					"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-				name: 'Jane Doe',
-				creator: '1123123xcxsew23',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: true,
-				selectedFile: 'https://www.croatiaweek.com/wp-content/uploads/2021/10/croatia-best-destination.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: '2022-06-15T19:54:11.737+00:00',
-				_id: 4,
-			},
-			{
-				title: 'Test Post 2',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: false,
-				selectedFile: 'https://assets.vogue.in/photos/6239a88deb60bae3c5bc6821/2:3/w_2560%2Cc_limit/Dubai.jpg',
-				likes: ['12222', '2123', '61dc0adf479a28eefc306603'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 5,
-			},
-			{
-				title: 'Test Post 2',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: true,
-				selectedFile: 'https://assets.vogue.in/photos/6239a88deb60bae3c5bc6821/2:3/w_2560%2Cc_limit/Dubai.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 6,
-			},
-			{
-				title: 'Test Post 2',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: true,
-				selectedFile: 'https://www.remax.eu/uploads/agent-1/9%20Switzerland-(Optimized)1.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 7,
-			},
-			{
-				title: 'Test Post 2',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: false,
-				selectedFile: 'https://i.pinimg.com/236x/bd/7d/37/bd7d37afd91aa9f7b103907c6d1527f0.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 8,
-			},
-			{
-				title: 'Lovers',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada'],
-				_private: false,
-				selectedFile: 'https://i.pinimg.com/236x/bd/7d/37/bd7d37afd91aa9f7b103907c6d1527f0.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 7,
-			},
-			{
-				title: 'Test Post 4',
-				message: 'This sis a test message // const { posts, isLoading } = useSelector(state => state.posts) /xcxzcxcvxcvxsfa  qwerq3we23 wer34 35/ [] -> { isLoading, posts: [] }',
-				name: 'Jane Doe',
-				creator: 'String',
-				tags: ['String', 'sdasd', 'sdasd', 'asdasdasd', 'asdasdsad', 'ssada', 'String', 'asdasdsad', 'ssada', 'String'],
-				_private: false,
-				selectedFile: 'https://assets.vogue.in/photos/6239a88deb60bae3c5bc6821/2:3/w_2560%2Cc_limit/Dubai.jpg',
-				likes: ['12222', '2123'],
-				comments: ['as: asdasd', 'sd: asdasd'],
-				createdAt: new Date(),
-				_id: 8,
-			},
-		]
+		console.log('Fetching posts')
+		const start = Date.now()
+		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		const end = Date.now()
+		console.log(`Fetching took ${(end - start) / 1000} seconds`)
 		res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
-	} catch (error) {
-		res.status(404).json({ message: error.message })
-	}
-}
-export const getPostsLiked = async (req, res) => {
-	const { id } = req.params
-	const { page } = req.query
-	try {
-		const query = { likes: { $all: [id] } }
-		const LIMIT = 10
-		const total = await PostMessage.countDocuments(query)
-		const startIndex = (Number(page) - 1) * LIMIT
-
-		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
-		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
-	} catch (error) {
-		res.status(404).json({ message: error.message })
-	}
-}
-
-export const getPostsCreated = async (req, res) => {
-	const { id } = req.params
-	const { page } = req.query
-
-	try {
-		const query = { creator: id }
-		const LIMIT = 10
-		const total = await PostMessage.countDocuments(query)
-		const startIndex = (Number(page) - 1) * LIMIT
-
-		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
-		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
-	} catch (error) {
-		res.status(404).json({ message: error.message })
-	}
-}
-
-export const getPostsPrivate = async (req, res) => {
-	const { id } = req.params
-	const { page } = req.query
-
-	try {
-		const query = { $and: [{ creator: id }, { _private: true }] }
-		const LIMIT = 10
-		const total = await PostMessage.countDocuments(query)
-		const startIndex = (Number(page) - 1) * LIMIT
-
-		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
-		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
-	} catch (error) {
-		res.status(404).json({ message: error.message })
-	}
-}
-
-export const getUserDetails = async (req, res) => {
-	const { id } = req.params
-
-	try {
-		const allTags = await PostMessage.aggregate([
-			{ $match: { creator: id } },
-			{
-				$group: {
-					_id: null,
-					tags: { $push: '$tags' },
-				},
-			},
-			{
-				$project: {
-					_id: 0,
-					allTags: {
-						$reduce: {
-							input: '$tags',
-							initialValue: [],
-							in: {
-								$concatArrays: ['$$this', '$$value'],
-							},
-						},
-					},
-				},
-			},
-		])
-
-		const result = {
-			postsCreated: await PostMessage.countDocuments({ creator: id }),
-			postsLiked: await PostMessage.countDocuments({ likes: { $all: [id] } }),
-			privatePosts: await PostMessage.countDocuments({
-				$and: [{ creator: id }, { _private: true }],
-			}),
-			totalLikesRecieved:
-				(
-					await PostMessage.aggregate([
-						{ $match: { creator: id } },
-						{
-							$group: {
-								_id: '_id',
-								totalValue: {
-									$sum: {
-										$size: '$likes',
-									},
-								},
-							},
-						},
-					])
-				)[0]?.totalValue || 0,
-			longestPostWords:
-				(
-					await PostMessage.aggregate([
-						{ $match: { creator: id } },
-						{
-							$project: {
-								message: 1,
-								messageLength: { $strLenCP: '$message' },
-							},
-						},
-						{ $sort: { messageLength: -1 } },
-					])
-				)[0]?.message.split(' ').length || 0,
-			top5Tags: allTags.length ? getTop5Tags(allTags[0]) : allTags,
-		}
-		res.status(200).json(result)
 	} catch (error) {
 		res.status(404).json({ message: error.message })
 	}
@@ -343,30 +81,31 @@ export const updatePost = async (req, res) => {
 }
 
 export const deletePost = async (req, res) => {
-	const { id: _id } = req.params
-
-	if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id')
-
-	await PostMessage.findByIdAndRemove(_id)
+	const { id } = req.params
+	
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).send('No post with that id')
+	}
+	await PostMessage.findByIdAndRemove(id)
 	res.json({ message: 'Post deleted Successfully' })
 }
 
 export const deleteComment = async (req, res) => {
-	const { id: _id } = req.params
+	const { id } = req.params
 	const { commentId } = req.body
 
-	const post = await PostMessage.findById(_id)
+	const post = await PostMessage.findById(id)
 	post.comments = post.comments.filter(({ newComment: comment }) => String(comment?.commentId) !== commentId)
-	const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true })
+	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
 export const likePost = async (req, res) => {
-	const { id: _id } = req.params
+	const { id } = req.params
 
 	if (!req.userId) return res.json({ message: 'Unauthenticated' })
 
-	const post = await PostMessage.findById(_id)
+	const post = await PostMessage.findById(id)
 	const index = post.likes.findIndex((id) => id === String(req.userId))
 
 	// like the post
@@ -374,7 +113,7 @@ export const likePost = async (req, res) => {
 	// dislike the post
 	else post.likes = post.likes.filter((id) => id !== String(req.userId))
 
-	const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true })
+	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
@@ -382,10 +121,7 @@ export const commentPost = async (req, res) => {
 	const { id } = req.params
 	const comment = req.body
 
-	const newComment = {
-		...comment,
-		commentId: new mongoose.Types.ObjectId(),
-	}
+	const newComment = { ...comment, commentId: new mongoose.Types.ObjectId() }
 	const post = await PostMessage.findById(id)
 	post.comments.push({ newComment })
 	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })

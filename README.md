@@ -1,4 +1,4 @@
-    updated: Monday, 11th July 2022
+    updated: Wednesday, 13th July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -14,13 +14,10 @@
 
 ## What's new?
 
-- Added Private Posts Tab in UserDetails.
+- ⚠️WebApp has encountered a Major Bug. Infinite loading while post fetching from dataBase.⚠️
+- ⚠️Each API call is taking 40-50 seconds on average to fetch posts, which is really concerning.⚠️
 - Reduced code by combining all Tabs in single reusable single TabPage Component.
-- Added Tabs in UserDetails Page.
-- Optimised Post comments actions with 0 Loading time.
-- New Comment Containers. 🆕🌚
-- Posts Liked by Users Component.
-- Memories is now a Progressive Web App 🎉🎉🎊🎊
+
 
 ## Table of Contents
 
@@ -68,6 +65,8 @@
 - Custom Posts Liked by user Component.
 - Customised comment containers with User avatar and post times.
 - Clickable Chips and Custom Tabs in UserDetails page.
+- Memories is now a Progressive Web App 🎉🎉🎊🎊
+
 
 ## Tech Stack Used
 

@@ -4,7 +4,7 @@ import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Ta
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
 import { getUserDetails, getPostsBySearch } from '../../actions/posts'
-import { getPostsCreated, getPostsLiked, getPostsPrivate } from '../../actions/posts'
+import { getUserPostsByType } from '../../actions/posts'
 import TabPage from './TabPage'
 import { useNavigate } from 'react-router-dom'
 
@@ -27,6 +27,10 @@ const TabPanel = ({ children, value, index, ...other }) => (
 	</div>
 )
 
+const CREATED = 'CREATED'
+const LIKED = 'LIKED'
+const PRIVATE = 'PRIVATE'
+
 const UserDetails = ({ user }) => {
 	const theme = useTheme()
 	const history = useNavigate()
@@ -41,21 +45,14 @@ const UserDetails = ({ user }) => {
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
 	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
-	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector(state => state.posts)
+	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector((state) => state.posts)
 	const userId = user.result._id || user.result.googleId
 
-	useEffect(() => {
-		dispatch(getUserDetails(userId))
-	}, [user])
-	useEffect(() => {
-		dispatch(getPostsCreated(userId, createdPage))
-	}, [createdPage])
-	useEffect(() => {
-		dispatch(getPostsLiked(userId, 	likedPage))
-	}, [likedPage])
-	useEffect(() => {
-		dispatch(getPostsPrivate(userId, privatePage))
-	}, [privatePage])
+	useEffect(() => dispatch(getUserDetails(userId)), [user])
+	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
+	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
+	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
+	
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
@@ -67,7 +64,7 @@ const UserDetails = ({ user }) => {
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
 	}
 
-	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts ,totalLikesRecieved, longestPostWords, top5Tags } = data
+	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
 	const labels = {
 		Email: user.result.email,
 		'Posts Created': postsCreated,
@@ -101,7 +98,7 @@ const UserDetails = ({ user }) => {
 		numberOfPages: privateNumberOfPages,
 		isLoading: isFetchingPrivatePosts,
 		user: user,
-		notDoneText: 'No Posts Private'
+		notDoneText: 'No Posts Private',
 	}
 	return (
 		<Root className={classes.root}>
