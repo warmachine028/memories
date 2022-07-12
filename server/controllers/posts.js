@@ -24,7 +24,11 @@ export const getPosts = async (req, res) => {
 		const LIMIT = 8
 		const total = await PostMessage.countDocuments(query)
 		const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
+		console.log("fetching posts")
+		const start = Date.now()
 		const posts = await PostMessage.find(query).sort({ createdAt: -1 }).limit(LIMIT).skip(startIndex)
+		const end = Date.now()
+		console.log(`fetched posts in ${(end-start)/1000} seconds`)
 		res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
