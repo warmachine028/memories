@@ -27,9 +27,9 @@ const TabPanel = ({ children, value, index, ...other }) => (
 	</div>
 )
 
-const CREATED = 'CREATED'
-const LIKED = 'LIKED'
-const PRIVATE = 'PRIVATE'
+const CREATED = 'created'
+const LIKED = 'liked'
+const PRIVATE = 'private'
 
 const UserDetails = ({ user }) => {
 	const theme = useTheme()

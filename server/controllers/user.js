@@ -51,7 +51,7 @@ export const signup = async (req, res) => {
 		} else if (password.length < 6) {
 			return res.status(409).json({ message: 'Password must be greater than 6 characters.' })
 		}
-		
+
 		const hashedPassword = await bcrypt.hash(password, 12)
 		const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`, avatar: avatar })
 		const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: '1h' })
@@ -136,7 +136,7 @@ export const getUserDetails = async (req, res) => {
 export const getUserPostsByType = async (req, res) => {
 	const { id } = req.params
 	const { page, type } = req.query
-
+	console.log("I'm here")
 	try {
 		const query = {
 			created: { creator: id },

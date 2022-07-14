@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCHING_CREATED_POSTS, FETCHED_CREATED_POSTS, FETCH_CREATED, FETCHING_LIKED_POSTS, FETCHED_LIKED_POSTS, FETCH_LIKED, FETCHING_PRIVATE_POSTS, FETCHED_PRIVATE_POSTS, FETCH_PRIVATE, FETCH_BY_SEARCH, USER_DETAILS, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
+import { FETCH_ALL, FETCH_BY_SEARCH, USER_DETAILS, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
 import * as api from '../api'
 
 // Action Creators
@@ -27,41 +27,18 @@ export const getUserDetails = (userId) => async (dispatch) => {
 }
 
 export const getUserPostsByType = (userId, page, type) => async (dispatch) => {
-	try {
-		dispatch({ type: FETCHING_LIKED_POSTS })
-		const {
-			data: { data, numberOfPages },
-		} = await api.fetchUserPostsByType(userId, page, type)
-		dispatch({ type: FETCH_LIKED, payload: { data, numberOfPages } })
-		dispatch({ type: FETCHED_LIKED_POSTS })
-	} catch (error) {
-		console.log(error)
-	}
-}
+	const upperType = type.toUpperCase()
+	const fetchingType = `FETCHING_${upperType}_POSTS`
+	const fetchType = `FETCH_${upperType}`
+	const fetchedType = `FETCHED_${upperType}_POSTS`
 
-export const getPostsCreated = (userId, page) => async (dispatch) => {
-	const type = 'created'
 	try {
-		dispatch({ type: FETCHING_CREATED_POSTS })
+		dispatch({ type: fetchingType })
 		const {
 			data: { data, numberOfPages },
 		} = await api.fetchUserPostsByType(userId, page, type)
-		dispatch({ type: FETCH_CREATED, payload: { data, numberOfPages } })
-		dispatch({ type: FETCHED_CREATED_POSTS })
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-export const getPostsPrivate = (userId, page) => async (dispatch) => {
-	const type = 'private'
-	try {
-		dispatch({ type: FETCHING_PRIVATE_POSTS })
-		const {
-			data: { data, numberOfPages },
-		} = await api.fetchUserPostsByType(userId, page, type)
-		dispatch({ type: FETCH_PRIVATE, payload: { data, numberOfPages } })
-		dispatch({ type: FETCHED_PRIVATE_POSTS })
+		dispatch({ type: fetchType, payload: { data, numberOfPages } })
+		dispatch({ type: fetchedType })
 	} catch (error) {
 		console.log(error)
 	}
