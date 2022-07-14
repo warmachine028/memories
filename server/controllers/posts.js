@@ -25,7 +25,6 @@ export const getPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
 	const { id } = req.params
-
 	try {
 		const post = await PostMessage.findById(id)
 		if (!post || (post._private && post.creator !== req.userId)) return res.status(404).send('No post with that id')
@@ -36,7 +35,9 @@ export const getPost = async (req, res) => {
 	}
 }
 
+
 export const getPostsBySearch = async (req, res) => {
+
 	const { searchQuery, tags } = req.query
 	try {
 		const title = new RegExp(searchQuery, 'i')
@@ -50,8 +51,7 @@ export const getPostsBySearch = async (req, res) => {
 				},
 			],
 		}
-		const posts = await PostMessage.find(query)
-
+		const posts = await PostMessage.find(query).sort({ createdAt: -1 })
 		res.status(200).json({ data: posts })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
@@ -82,7 +82,7 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
 	const { id } = req.params
-	
+
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(404).send('No post with that id')
 	}

@@ -30,3 +30,4 @@ mongoose // https://www.mongodb.com/cloud/atlas
 // CONFIGURE Connection URL: https://stackoverflow.com/questions/25090524/hide-mongodb-password-using-heroku-so-i-can-also-push-to-public-repo-on-github
 // CONFIGURE AUTODEPLOY From Github:
 // https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
+// https://github.com/timanovsky/subdir-heroku-buildpack

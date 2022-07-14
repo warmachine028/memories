@@ -66,7 +66,7 @@ const UserDetails = ({ user }) => {
 
 	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
 	const labels = {
-		Email: user.result.email,
+		Emails: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,

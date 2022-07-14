@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/signin', signin)
 router.post('/signup', signup)
+
 router.get('/details/:id', getUserDetails)
 router.get('/posts/:id', getUserPostsByType)
 

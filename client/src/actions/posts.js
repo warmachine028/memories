@@ -92,6 +92,7 @@ export const deletePost = (id) => async (dispatch) => {
 	try {
 		await api.deletePost(id)
 		dispatch({ type: DELETE, payload: id })
+		alert("Post deleted successfully")
 	} catch (error) {
 		console.log(error)
 	}
