@@ -145,7 +145,7 @@ const UserDetails = ({ user }) => {
 				</Paper>
 			</div>
 			<Paper className={classes.loadingPaper} elevation={6}>
-				<Box sx={{ borderColor: 'divider' }}>
+				<Box sx={{ width: '100%' }}>
 					<Tabs value={value} onChange={(_, newValue) => setValue(newValue)} aria-label="basic tabs">
 						<Tab label="CREATED" />
 						<Tab label="LIKED" />

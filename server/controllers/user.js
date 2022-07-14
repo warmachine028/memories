@@ -136,7 +136,7 @@ export const getUserDetails = async (req, res) => {
 export const getUserPostsByType = async (req, res) => {
 	const { id } = req.params
 	const { page, type } = req.query
-	console.log("I'm here")
+
 	try {
 		const query = {
 			created: { creator: id },
@@ -147,7 +147,8 @@ export const getUserPostsByType = async (req, res) => {
 		const LIMIT = 10
 		const total = await PostMessage.countDocuments(query[type])
 		const startIndex = (Number(page) - 1) * LIMIT
-		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		const posts = await PostMessage.find(query[type]).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		
 		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
