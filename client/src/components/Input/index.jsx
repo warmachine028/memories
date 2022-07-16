@@ -1,19 +1,16 @@
 import { TextField, Grid, InputAdornment, IconButton } from '@mui/material'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
-const Input = ({ name, handleChange, label, half, autoFocus, type, handleShowPassword }) => {
+const Input = ({ name, half, type, handleShowPassword, ...props }) => {
 	return (
 		<Grid item xs={12} sm={half ? 6 : 12}>
 			<TextField
 				name={name}
-				onChange={handleChange}
 				variant="outlined"
 				required
 				fullWidth
-				label={label}
-				autoFocus={autoFocus}
 				type={type}
+				{...props}
 				autoComplete={name === 'password' ? 'current-password' : 'off'}
 				InputProps={
 					(name === 'password'

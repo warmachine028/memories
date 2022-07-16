@@ -32,7 +32,6 @@ export const Root = styled('div')(({ theme }) => ({
 		maxWidth: 300,
 		margin: 16,
 		backgroundColor: 'transparent',
-		// backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 	},
 	[`& .${classes.buttonBase}`]: {

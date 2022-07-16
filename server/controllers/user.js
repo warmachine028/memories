@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-
+import lodash from 'lodash'
 import User from '../models/user.js'
 import PostMessage from '../models/postMessage.js'
 
@@ -44,12 +44,14 @@ export const signup = async (req, res) => {
 		const existingUser = await User.findOne({ email })
 		if (existingUser) return res.status(409).json({ message: 'User already exists.' })
 
-		if (!email.match('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$')) {
-			return res.status(501).json({ message: 'Invalid Email ID.' })
-		} else if (password !== confirmPassword) {
-			return res.status(409).json({ message: "Validation Passwords don't match." })
-		} else if (password.length < 6) {
-			return res.status(409).json({ message: 'Password must be greater than 6 characters.' })
+		if (!email.match('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/')) {
+			return res.status(501).json({ message: 'Invalid Email ID' })
+		}
+		if (password !== confirmPassword) {
+			return res.status(409).json({ message: "Passwords don't match" })
+		}
+		if (password.length < 6) {
+			return res.status(409).json({ message: 'Password length must be greater than 6 characters.' })
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 12)
@@ -62,6 +64,44 @@ export const signup = async (req, res) => {
 	}
 }
 
+export const updateDetails = async (req, res) => {
+	const { firstName, lastName, avatar, email, id, prevPassword, newPassword } = req.body
+	try {
+		const { name, email: oldEmail, avatar: oldAvatar, password } = await User.findById(id)
+		// Check for same existing data posted
+		const newPasswordsSame = await bcrypt.compare(newPassword, password)
+		const oldPasswordsDifferent = !(await bcrypt.compare(prevPassword, password))
+		const sameData =
+			name.split(' ')[0] === firstName && //
+			name.split(' ')[1] === lastName && //
+			oldEmail === email && //
+			newPasswordsSame && //
+			lodash.isEqual(oldAvatar, avatar) //
+
+		if (sameData) {
+			return res.status(409).json({ message: `No new updates were applied` })
+		}
+		if (!email.match('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/')) {
+			return res.status(501).json({ message: 'Invalid Email ID.' })
+		}
+		if (oldPasswordsDifferent) {
+			return res.status(409).json({ message: 'Incorrect Previous Password.' })
+		}
+		if (newPassword.length < 6) {
+			return res.status(409).json({ message: 'Password length must be greater than 6 characters.' })
+		}
+		const user = {
+			name: `${firstName} ${lastName}`,
+			email: email,
+			password: await bcrypt.hash(newPassword, 12),
+			avatar: avatar,
+		}
+		await User.findByIdAndUpdate(id, { ...user, id }, { new: true })
+		res.status(204).json({ message: 'User Updated Successfully' })
+	} catch (error) {
+		res.status(500).json({ message: 'Something went wrong.' })
+	}
+}
 export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 
@@ -148,7 +188,7 @@ export const getUserPostsByType = async (req, res) => {
 		const total = await PostMessage.countDocuments(query[type])
 		const startIndex = (Number(page) - 1) * LIMIT
 		const posts = await PostMessage.find(query[type]).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
-		
+
 		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(404).json({ message: error.message })

@@ -24,5 +24,6 @@ export const comment = (comment, id) => API.post(`/posts/${id}/commentPost`, com
 
 export const signIn = (formData) => API.post('/user/signin', formData)
 export const signUp = (formData) => API.post('/user/signup', formData)
+export const updateUser = (formData) => API.patch('/user/update', formData)
 export const userDetails = (userId) => API.get(`/user/details/${userId}`)
 export const fetchUserPostsByType = (userId, page, type) => API.get(`/user/posts/${userId}?page=${page}&type=${type}`)

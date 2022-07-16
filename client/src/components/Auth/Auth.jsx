@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { signin, signup } from '../../actions/auth'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Input from './Input'
+import Input from '../Input'
 import Icon from './Icon'
-import UserIcon from './UserIcon/UserIcon'
+import UserIcon from '../UserIcon/UserIcon'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 const CLIENT_ID = '851540640975-8gkbav5m3n6mto5hrmpvppf1v7un7jrl.apps.googleusercontent.com'
@@ -66,13 +66,13 @@ const Auth = () => {
 						<Grid container spacing={1}>
 							{isSignup && (
 								<>
-									<Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
-									<Input name="lastName" label="Last Name" handleChange={handleChange} half />
+									<Input name="firstName" label="First Name" onChange={handleChange} autoFocus half />
+									<Input name="lastName" label="Last Name" onChange={handleChange} half />
 								</>
 							)}
-							<Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-							<Input name="password" label="Password" handleChange={handleChange} onFocus={handleShowPassword} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-							{isSignup && <Input name="confirmPassword" label="Repeat Password" onFocus={handleShowPassword} handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />}
+							<Input name="email" label="Email Address" onChange={handleChange} type="email" />
+							<Input name="password" label="Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+							{isSignup && <Input name="confirmPassword" label="Repeat Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />}
 						</Grid>
 
 						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

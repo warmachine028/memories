@@ -18,6 +18,7 @@
 		"browser-image-compression": "^1.0.17",
 		"classnames": "^2.3.1",
 		"jwt-decode": "^3.1.2",
+		"lodash": "^4.17.21",
 		"moment": "^2.29.2",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
@@ -59,5 +60,6 @@
 		"eslint": "^8.9.0",
 		"eslint-plugin-require": "^0.0.1",
 		"react-scripts": "^5.0.0"
-	}
+	},
+	"author": "Pritam Kundu"
 }

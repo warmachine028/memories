@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
-import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab } from '@mui/material'
+import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button } from '@mui/material'
+import { PublishedWithChanges } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
-import { getUserDetails, getPostsBySearch } from '../../actions/posts'
-import { getUserPostsByType } from '../../actions/posts'
-import TabPage from './TabPage'
+import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
+import { getUserPostsByType } from '../../../actions/posts'
+import TabPage from '../TabPage'
 import { useNavigate } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
@@ -113,6 +114,9 @@ const UserDetails = ({ user }) => {
 							</Typography>
 						</Avatar>
 					)}
+					<Button variant="contained" disabled={user.result.googleId} onClick={() => history(`/user/update`)} startIcon={<PublishedWithChanges />}>
+						UPDATE DETAILS
+					</Button>
 				</Paper>
 				<Paper className={classes.userDetails} elevation={6}>
 					{progress < 100 || isLoading ? (

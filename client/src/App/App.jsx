@@ -3,7 +3,8 @@ import PostDetails from '../components/PostDetails/PostDetails'
 import Navbar from '../components/Navbar/Navbar'
 import Home from '../components/Home'
 import Auth from '../components/Auth/Auth'
-import UserDetails from '../components/UserDetails'
+import UserDetails from '../components/User/Details'
+import UserUpdate from '../components/User/Update'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { classes, Root } from './styles'
 // import user_ from "../temp"
@@ -23,6 +24,7 @@ const App = () => {
 						<Route path="/posts/:id" element={<PostDetails user={user} />} />
 						<Route path="/auth" element={user ? <Navigate to="/posts" /> : <Auth />} />
 						<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
+						<Route path="/user/update" element={user ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
 					</Routes>
 				</div>
 			</Root>
