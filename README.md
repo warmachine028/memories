@@ -16,7 +16,6 @@
 
 - Added User Update Feature 🌟⭐🌠
 
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -65,7 +64,6 @@
 - Clickable Chips and Custom Tabs in UserDetails page.
 - Memories is now a Progressive Web App 🎉🎉🎊🎊.
 - Added Credential Update Feature for users.
-
 
 ## Tech Stack Used
 
