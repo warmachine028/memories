@@ -1,8 +1,8 @@
-    updated: Wednesday, 13th July 2022
+    updated: Saturday, 16th July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
-        <img width=200 src="assets/icon.png" alt="Euphoria">
+        <img width=200 src="assets/icon.png" alt="Memories">
     </a>
     <p style="font-family: roboto, calibri; font-size:12pt; font-style:italic"> Cherishing the past with love </p>
     <a href="https://app.netlify.com/sites/memories-pritam/deploys">
@@ -14,9 +14,7 @@
 
 ## What's new?
 
-- ⚠️WebApp has encountered a Major Bug. Infinite loading while post fetching from dataBase.⚠️
-- ⚠️Each API call is taking 40-50 seconds on average to fetch posts, which is really concerning.⚠️
-- Reduced code by combining all Tabs in single reusable single TabPage Component.
+- Added User Update Feature 🌟⭐🌠
 
 
 ## Table of Contents
@@ -65,7 +63,8 @@
 - Custom Posts Liked by user Component.
 - Customised comment containers with User avatar and post times.
 - Clickable Chips and Custom Tabs in UserDetails page.
-- Memories is now a Progressive Web App 🎉🎉🎊🎊
+- Memories is now a Progressive Web App 🎉🎉🎊🎊.
+- Added Credential Update Feature for users.
 
 
 ## Tech Stack Used
@@ -101,6 +100,10 @@
 - Comment:
 
 ![Comments](assets/comment.png)
+
+- Credential Update:
+
+![Credential Update](assets/userUpdate.webp)
 
 ---
 

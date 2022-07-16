@@ -56,7 +56,7 @@ const Update = ({ user, setUser }) => {
 							<Input value={formData.lastName} name="lastName" label="Last Name" onChange={handleChange} half />
 							<Input value={formData.email} name="email" label="Email Address" onChange={handleChange} type="email" />
 							<Input name="prevPassword" label="Previous Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-							<Input name="newPassword" label="New Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+							<Input name="newPassword" label="New Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} required={false}/>
 						</Grid>
 						<Button fullWidth variant="contained" color="primary" className={classes.submit} disabled={lodash.isEqual(formData, initialState) || !formData.prevPassword} type="submit">
 							UPDATE
