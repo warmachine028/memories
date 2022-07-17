@@ -11,7 +11,7 @@ import Icon from './Icon'
 import UserIcon from '../UserIcon/UserIcon'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
-const CLIENT_ID = '851540640975-8gkbav5m3n6mto5hrmpvppf1v7un7jrl.apps.googleusercontent.com'
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 const Auth = () => {
 	const [showPassword, setShowPassword] = useState(false)
