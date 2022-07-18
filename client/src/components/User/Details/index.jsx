@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
-import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab } from '@mui/material'
+import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button } from '@mui/material'
+import { PublishedWithChanges } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
-import { getUserDetails, getPostsBySearch } from '../../actions/posts'
-import { getPostsCreated, getPostsLiked, getPostsPrivate } from '../../actions/posts'
-import TabPage from './TabPage'
+import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
+import { getUserPostsByType } from '../../../actions/posts'
+import TabPage from '../TabPage'
 import { useNavigate } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
@@ -27,6 +28,10 @@ const TabPanel = ({ children, value, index, ...other }) => (
 	</div>
 )
 
+const CREATED = 'created'
+const LIKED = 'liked'
+const PRIVATE = 'private'
+
 const UserDetails = ({ user }) => {
 	const theme = useTheme()
 	const history = useNavigate()
@@ -41,21 +46,14 @@ const UserDetails = ({ user }) => {
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
 	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
-	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector(state => state.posts)
+	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector((state) => state.posts)
 	const userId = user.result._id || user.result.googleId
 
-	useEffect(() => {
-		dispatch(getUserDetails(userId))
-	}, [user])
-	useEffect(() => {
-		dispatch(getPostsCreated(userId, createdPage))
-	}, [createdPage])
-	useEffect(() => {
-		dispatch(getPostsLiked(userId, 	likedPage))
-	}, [likedPage])
-	useEffect(() => {
-		dispatch(getPostsPrivate(userId, privatePage))
-	}, [privatePage])
+	useEffect(() => dispatch(getUserDetails(userId)), [user])
+	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
+	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
+	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
+	
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
@@ -67,9 +65,9 @@ const UserDetails = ({ user }) => {
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
 	}
 
-	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts ,totalLikesRecieved, longestPostWords, top5Tags } = data
+	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
 	const labels = {
-		Email: user.result.email,
+		Emails: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,
@@ -101,7 +99,7 @@ const UserDetails = ({ user }) => {
 		numberOfPages: privateNumberOfPages,
 		isLoading: isFetchingPrivatePosts,
 		user: user,
-		notDoneText: 'No Posts Private'
+		notDoneText: 'No Posts Private',
 	}
 	return (
 		<Root className={classes.root}>
@@ -116,6 +114,9 @@ const UserDetails = ({ user }) => {
 							</Typography>
 						</Avatar>
 					)}
+					<Button variant="contained" disabled={user.result.googleId} onClick={() => history(`/user/update`)} startIcon={<PublishedWithChanges />}>
+						UPDATE DETAILS
+					</Button>
 				</Paper>
 				<Paper className={classes.userDetails} elevation={6}>
 					{progress < 100 || isLoading ? (
@@ -148,7 +149,7 @@ const UserDetails = ({ user }) => {
 				</Paper>
 			</div>
 			<Paper className={classes.loadingPaper} elevation={6}>
-				<Box sx={{ borderColor: 'divider' }}>
+				<Box sx={{ width: '100%' }}>
 					<Tabs value={value} onChange={(_, newValue) => setValue(newValue)} aria-label="basic tabs">
 						<Tab label="CREATED" />
 						<Tab label="LIKED" />

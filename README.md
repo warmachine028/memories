@@ -1,8 +1,8 @@
-    updated: Monday, 11th July 2022
+    updated: Saturday, 16th July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
-        <img width=200 src="assets/icon.png" alt="Euphoria">
+        <img width=200 src="assets/icon.png" alt="Memories">
     </a>
     <p style="font-family: roboto, calibri; font-size:12pt; font-style:italic"> Cherishing the past with love </p>
     <a href="https://app.netlify.com/sites/memories-pritam/deploys">
@@ -14,13 +14,9 @@
 
 ## What's new?
 
-- Added Private Posts Tab in UserDetails.
-- Reduced code by combining all Tabs in single reusable single TabPage Component.
-- Added Tabs in UserDetails Page.
-- Optimised Post comments actions with 0 Loading time.
-- New Comment Containers. 🆕🌚
-- Posts Liked by Users Component.
-- Memories is now a Progressive Web App 🎉🎉🎊🎊
+- Individual Posts load instantly now.
+- Improved recommended Posts.
+- Added User Update Feature 🌟⭐🌠
 
 ## Table of Contents
 
@@ -68,6 +64,8 @@
 - Custom Posts Liked by user Component.
 - Customised comment containers with User avatar and post times.
 - Clickable Chips and Custom Tabs in UserDetails page.
+- Memories is now a Progressive Web App 🎉🎉🎊🎊.
+- Added Credential Update Feature for users.
 
 ## Tech Stack Used
 
@@ -103,6 +101,10 @@
 
 ![Comments](assets/comment.png)
 
+- Credential Update:
+
+![Credential Update](assets/userUpdate.webp)
+
 ---
 
 ## Demo
@@ -112,9 +114,6 @@
 ---
 
 ## Upcomming
-
-- Optimise Both Tabs in UserDetails.
-- User details Updation feature
 
 ---
 

@@ -1,10 +1,36 @@
-import { FETCH_ALL, FETCH_CREATED, FETCHING_CREATED_POSTS, FETCHED_CREATED_POSTS, FETCHING_LIKED_POSTS, FETCHED_LIKED_POSTS, FETCH_LIKED, CREATE, UPDATE, FETCH_POST, DELETE, DELETE_COMMENT, FETCH_BY_SEARCH, START_LOADING, END_LOADING, COMMENT, USER_DETAILS, FETCHING_PRIVATE_POSTS, FETCHED_PRIVATE_POSTS, FETCH_PRIVATE } from '../constants/actionTypes'
+import {
+	//
+	FETCH_RECOMMENDED,
+	FETCHING_RECOMMENDED_POSTS,
+	FETCHED_RECOMMENDED_POSTS,
+	FETCH_ALL,
+	FETCH_CREATED,
+	FETCHING_CREATED_POSTS,
+	FETCHED_CREATED_POSTS,
+	FETCHING_LIKED_POSTS,
+	FETCHED_LIKED_POSTS,
+	FETCH_LIKED,
+	CREATE,
+	UPDATE,
+	FETCH_POST,
+	DELETE,
+	DELETE_COMMENT,
+	FETCH_BY_SEARCH,
+	START_LOADING,
+	END_LOADING,
+	COMMENT,
+	USER_DETAILS,
+	FETCHING_PRIVATE_POSTS,
+	FETCHED_PRIVATE_POSTS,
+	FETCH_PRIVATE,
+} from '../constants/actionTypes'
 
 export default (
 	state = {
 		isFetchingCreatedPosts: true,
 		isFetchingLikedPosts: true,
 		isFetchingPrivatePosts: true,
+		isFetchingRecommendedPosts: true,
 		isLoading: true,
 		posts: [],
 		data: {},
@@ -21,6 +47,12 @@ export default (
 			return { ...state, isFetchingLikedPosts: true }
 		case FETCHING_PRIVATE_POSTS:
 			return { ...state, isFetchingPrivatePosts: true }
+		case FETCHING_RECOMMENDED_POSTS:
+			return {
+				...state,
+				recommendedPosts: [],
+				isFetchingRecommendedPosts: true
+			}
 		case START_LOADING:
 			return { ...state, isLoading: true }
 		case FETCH_ALL:
@@ -35,6 +67,8 @@ export default (
 			return { ...state, createdPosts: action.payload.data, createdNumberOfPages: action.payload.numberOfPages }
 		case FETCH_PRIVATE:
 			return { ...state, privatePosts: action.payload.data, privateNumberOfPages: action.payload.numberOfPages }
+		case FETCH_RECOMMENDED:
+			return { ...state, recommendedPosts: action.payload.data }
 		case CREATE:
 			return { ...state, posts: [...state.posts, action.payload] }
 		case FETCH_POST:
@@ -49,6 +83,8 @@ export default (
 			return { ...state, posts: state.posts.map((post) => (post._id === +action.payload._id ? action.payload : post)) }
 		case END_LOADING:
 			return { ...state, isLoading: false }
+		case FETCHED_RECOMMENDED_POSTS:
+			return { ...state, isFetchingRecommendedPosts: false }
 		case FETCHED_PRIVATE_POSTS:
 			return { ...state, isFetchingPrivatePosts: false }
 		case FETCHED_LIKED_POSTS:

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
 import { Typography, Grid, Pagination, Skeleton } from '@mui/material'
 import { LoadingCard, PostCard } from '../Cards'
-import { useDispatch } from 'react-redux'
 
 // import { posts } from '../../../temp'
 // const isLoading = false

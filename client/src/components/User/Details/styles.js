@@ -36,7 +36,7 @@ export const Root = styled('div')(({ theme }) => ({
 		display: 'flex',
 		marginRight: 10,
 		justifyContent: 'center',
-		alignItems: 'flex-start',
+		alignItems: 'center',
 		padding: 20,
 		borderRadius: '5px',
 		minheight: '39vh',
