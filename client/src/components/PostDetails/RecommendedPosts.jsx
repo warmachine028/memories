@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { getRecommendedPosts } from '../../actions/posts'
 // import dispatch
 
-import { posts, isLoading } from '../../temp'
+// import { posts, isLoading } from '../../temp'
 // const post = posts[0]
 
 const RecommendedPosts = ({ user, tags, post_id }) => {
