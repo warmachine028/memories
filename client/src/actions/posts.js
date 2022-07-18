@@ -1,4 +1,20 @@
-import { FETCH_ALL, FETCH_BY_SEARCH, USER_DETAILS, CREATE, UPDATE, DELETE, DELETE_COMMENT, START_LOADING, END_LOADING, FETCH_POST, COMMENT } from '../constants/actionTypes'
+import {
+	//
+	FETCHING_RECOMMENDED_POSTS,
+	FETCH_RECOMMENDED,
+	FETCHED_RECOMMENDED_POSTS,
+	FETCH_ALL,
+	FETCH_BY_SEARCH,
+	USER_DETAILS,
+	CREATE,
+	UPDATE,
+	DELETE,
+	DELETE_COMMENT,
+	START_LOADING,
+	END_LOADING,
+	FETCH_POST,
+	COMMENT,
+} from '../constants/actionTypes'
 import * as api from '../api'
 
 // Action Creators
@@ -67,6 +83,20 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 		console.log(error)
 	}
 }
+
+export const getRecommendedPosts = (tags) => async (dispatch) => {
+	try {
+		dispatch({ type: FETCHING_RECOMMENDED_POSTS })
+		const {
+			data: { data },
+		} = await api.fetchPostsBySearch({ tags: tags })
+		dispatch({ type: FETCH_RECOMMENDED, payload: { data } })
+		dispatch({ type: FETCHED_RECOMMENDED_POSTS })
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 export const createPost = (post, history) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
@@ -92,7 +122,7 @@ export const deletePost = (id) => async (dispatch) => {
 	try {
 		await api.deletePost(id)
 		dispatch({ type: DELETE, payload: id })
-		alert("Post deleted successfully")
+		alert('Post deleted successfully')
 	} catch (error) {
 		console.log(error)
 	}

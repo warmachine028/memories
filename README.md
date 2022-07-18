@@ -14,6 +14,8 @@
 
 ## What's new?
 
+- Individual Posts load instantly now.
+- Improved recommended Posts.
 - Added User Update Feature 🌟⭐🌠
 
 ## Table of Contents
@@ -112,9 +114,6 @@
 ---
 
 ## Upcomming
-
-- Optimise Both Tabs in UserDetails.
-- User details Updation feature
 
 ---
 

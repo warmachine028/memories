@@ -53,10 +53,14 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.recommendedPosts}`]: {
 		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
+		justifyContent: 'center',
+		minheight: '39vh',
+		flexDirection: 'column',
+		alignItems: 'center',
+		width: '100%',
 		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column',
+			alignItems: 'center',
 		},
 	},
 	[`& .${classes.loadingPaper}`]: {

@@ -132,7 +132,7 @@ const CommentSection = ({ post, user }) => {
 					<Typography gutterBottom variant="h6">
 						Write a comment
 					</Typography>
-					<TextField InputProps={{ style: { color: 'white', height: 250 } }} fullWidth rows={4} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
+					<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
 					<Button style={{ marginTop: '10px' }} fullWidth disabled={!comment.trim().length} color="primary" variant="contained" onClick={handleComment}>
 						Comment
 					</Button>
