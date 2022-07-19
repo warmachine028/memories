@@ -2,11 +2,10 @@
 	"short_name": "memories",
 	"name": "Memories",
 	"description": "A memo website to store your memories. Inspired by Your Name",
-	"version": 1.2,
 	"icons": [
 		{
 			"src": "logo.png",
-			"sizes": "995x995",
+			"sizes": "1024x1024",
 			"type": "image/png",
 			"purpose": "any maskable"
 		}
