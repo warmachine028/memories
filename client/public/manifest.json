@@ -4,7 +4,7 @@
 	"description": "Cherishing the past with love",
 	"icons": [
 		{
-			"src": "maskable.png",
+			"src": "logo.png",
 			"sizes": "995x995",
 			"type": "image/png",
 			"purpose": "any maskable"
