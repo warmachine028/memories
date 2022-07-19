@@ -115,6 +115,7 @@
 
 ## Upcomming
 
+- Fix CSS of PostCard and Post Details
 -  Custom Alerts using MaterialUI SnackBar💗💗💗💗, because basic browser alerts are too normal.
 ---
 
