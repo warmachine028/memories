@@ -1,10 +1,11 @@
 {
 	"short_name": "memories",
 	"name": "Memories",
-	"description": "Cherishing the past with loves",
+	"description": "A memo website to store your memories. Inspired by Your Name",
+	"version": 1.2,
 	"icons": [
 		{
-			"src": "maskable.png",
+			"src": "logo.png",
 			"sizes": "995x995",
 			"type": "image/png",
 			"purpose": "any maskable"
