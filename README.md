@@ -115,6 +115,7 @@
 
 ## Upcomming
 
+-  Custom Alerts using MaterialUI SnackBar💗💗💗💗, because basic browser alerts are too normal.
 ---
 
 ## License
