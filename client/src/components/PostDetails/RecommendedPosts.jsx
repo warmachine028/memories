@@ -1,4 +1,4 @@
-import { Paper, Typography, Pagination, Grid, Skeleton } from '@mui/material'
+import { Typography, Grid } from '@mui/material'
 import { Root, classes } from './styles'
 import { PostCard, LoadingCard } from '../User/Cards'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,32 +24,11 @@ const RecommendedPosts = ({ user, tags, post_id }) => {
 			<div className={classes.recommendedPosts}>
 				<div style={{ width: '100%' }}>
 					{!isLoading && !posts.length ? (
-						<Typography
-							gutterBottom
-							variant="h6"
-							style={{
-								justifyContent: 'space-around',
-								flexDirection: 'row',
-								display: 'flex',
-								alignItems: 'center',
-								color: 'white',
-								width: '100%',
-							}}
-						>
+						<Typography className={classes.notFound} gutterBottom variant="h6">
 							No posts found with these tags
 						</Typography>
 					) : (
-						<Grid
-							sx={{
-								justifyContent: 'space-around',
-								marginTop: 5,
-								marginLeft: 0,
-								flexDirection: 'row',
-								width: '100%',
-							}}
-							container
-							spacing={3}
-						>
+						<Grid className={classes.recommendedPostGrid} container spacing={3}>
 							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post, key) => <PostCard key={key} post={post} userId={userId} />)}
 						</Grid>
 					)}

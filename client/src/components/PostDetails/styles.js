@@ -17,7 +17,8 @@ export const classes = {
 	tags: `${PREFIX}-tags`,
 	title: `${PREFIX}-title`,
 	privateLabel: `${PREFIX}-privateLabel`,
-	collapse: `${PREFIX}-collapse`,
+	notFound: `${PREFIX}-notFound`,
+	recommendedPostGrid: `${PREFIX}-recommendedPostGrid`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -125,6 +126,21 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',
 		align: 'center',
+	},
+	[`& .${classes.notFound}`]: {
+		justifyContent: 'space-around',
+		flexDirection: 'row',
+		display: 'flex',
+		alignItems: 'center',
+		color: 'white',
+		width: '100%',
+	},
+	[`& .${classes.recommendedPostGrid}`]: {
+		justifyContent: 'space-around',
+		marginTop: 5,
+		marginLeft: 0,
+		flexDirection: 'row',
+		width: '100%',
 	},
 }))
 
