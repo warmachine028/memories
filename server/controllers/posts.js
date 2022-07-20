@@ -35,7 +35,6 @@ export const getPost = async (req, res) => {
 	}
 }
 
-
 export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query
 	try {
@@ -101,8 +100,6 @@ export const deleteComment = async (req, res) => {
 
 export const likePost = async (req, res) => {
 	const { id } = req.params
-
-	if (!req.userId) return res.json({ message: 'Unauthenticated' })
 
 	const post = await PostMessage.findById(id)
 	const index = post.likes.findIndex((id) => id === String(req.userId))

@@ -15,8 +15,9 @@
 ## What's new?
 
 - Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
-- Fixed CSS for Post, Post Details and Cards for overflowing Text
-- Fixed glitches in DeleteComment functionality.
+- Instant Post Update: Now Post Updations take 0 time.
+- Fixed CSS for Post, Post Details, CommentText and Cards for overflowing Text.
+- Fixed DeleteComment functionality.
 - Fixed noNewUpdates error in userUpdate.
 
 ## Table of Contents

@@ -78,7 +78,7 @@ const Comment = ({ comment: _comment, post, userId, setComments, comments }) => 
 						}}
 					>
 						<Typography style={{ fontWeight: 600, color: 'black' }}>{name}</Typography>
-						<Typography style={{ textAlign: 'justify', marginLeft: 10 }} color="white">
+						<Typography style={{ textAlign: 'justify', marginLeft: 10, wordBreak: 'break-word' }} color="white">
 							{comment}
 						</Typography>
 						<Typography style={{ textAlign: 'end', marginLeft: 10, fontSize: 'small' }} color="rgba(255, 255, 255, .30)">

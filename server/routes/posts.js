@@ -13,8 +13,8 @@ router.post('/', auth, createPost)
 router.post('/:id/commentPost', auth, commentPost)
 
 router.delete('/:id', auth, deletePost)
-router.delete('/:id/deleteComment', deleteComment)
 
+router.patch('/:id/deleteComment', deleteComment)
 router.patch('/:id', auth, updatePost)
 router.patch('/:id/likePost', auth, likePost)
 
