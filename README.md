@@ -1,4 +1,4 @@
-    updated: Saturday, 16th July 2022
+    updated: Wednesday, 20th July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
