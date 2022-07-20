@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Root, classes } from './styles'
 // import { posts, isLoading } from "../../temp"
 
-const Posts = ({ setCurrentId, user }) => {
+const Posts = ({ setCurrentId, user, snackBar }) => {
 	const { posts, isLoading } = useSelector((state) => state.posts) // [] -> { isLoading, posts: [] }
 	if (!posts.length && !isLoading) return 'No Posts'
 	return (
@@ -16,7 +16,7 @@ const Posts = ({ setCurrentId, user }) => {
 					{posts.map((post) => (
 						<Grow in key={post._id}>
 							<Grid item xs={12} sm={12} md={6} lg={3}>
-								<Post post={post} setCurrentId={setCurrentId} user={user} />
+								<Post post={post} setCurrentId={setCurrentId} user={user} snackBar={snackBar}/>
 							</Grid>
 						</Grow>
 					))}

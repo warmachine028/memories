@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TextField, Typography, Paper, Button, Autocomplete, Chip } from '@mui/material'
+import { TextField, Typography, Paper, Button } from '@mui/material'
 import ChipInput from '../ChipInput/ChipInput'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +10,7 @@ import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 
 const initial = { title: '', message: '', tags: [], selectedFile: null, _private: false }
 
-const Form = ({ currentId, setCurrentId, user }) => {
+const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 	const [postData, setPostData] = useState(initial)
 	const [private_, setPrivate] = useState(postData._private)
 	const [tags, setTags] = useState(postData.tags)
@@ -57,8 +57,8 @@ const Form = ({ currentId, setCurrentId, user }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		if (currentId === 0) dispatch(createPost({ ...postData, name: user?.result?.name }, history))
-		else dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }))
+		if (currentId === 0) dispatch(createPost({ ...postData, name: user.result.name }, history, snackBar))
+		else dispatch(updatePost(currentId, { ...postData, name: user.result.name }, snackBar))
 		clear()
 	}
 

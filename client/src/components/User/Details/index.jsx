@@ -114,7 +114,7 @@ const UserDetails = ({ user }) => {
 							</Typography>
 						</Avatar>
 					)}
-					<Button variant="contained" disabled={user.result.googleId} onClick={() => history(`/user/update`)} startIcon={<PublishedWithChanges />}>
+					<Button variant="contained" disabled={Boolean(user.result.googleId)} onClick={() => history(`/user/update`)} startIcon={<PublishedWithChanges />}>
 						UPDATE DETAILS
 					</Button>
 				</Paper>

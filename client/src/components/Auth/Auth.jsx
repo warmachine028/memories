@@ -13,7 +13,7 @@ import UserIcon from '../UserIcon/UserIcon'
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
-const Auth = () => {
+const Auth = ({ snackBar }) => {
 	const [showPassword, setShowPassword] = useState(false)
 	const [isSignup, setIsSignUp] = useState(false)
 	const [formData, setFormData] = useState(initialState)
@@ -25,7 +25,7 @@ const Auth = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		dispatch((isSignup ? signup : signin)(formData, history))
+		dispatch((isSignup ? signup : signin)(formData, history, snackBar))
 	}
 	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 	const switchMode = () => {
@@ -39,13 +39,16 @@ const Auth = () => {
 		try {
 			dispatch({ type: 'AUTH', data: { result, token } })
 			history('/')
+			snackBar('success', 'Logged in Successfully')
 		} catch (error) {
 			console.log(error)
 		}
 	}
-	const googleFailure = (error) => {
-		console.log(error)
-		alert('Google Sign In was unsuccessful. Try Again Later')
+	const googleFailure = ({ error }) => {
+		if (error === 'popup_closed_by_user')
+			return snackBar('warning', 'PopUp Closed By User')
+
+		snackBar('error', 'Google Sign In was unsuccessful. Try Again Later')
 	}
 
 	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])

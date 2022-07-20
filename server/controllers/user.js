@@ -66,7 +66,7 @@ export const signup = async (req, res) => {
 
 export const updateDetails = async (req, res) => {
 	const { firstName, lastName, avatar, email, id, prevPassword, newPassword } = req.body
-	
+
 	try {
 		const { name, email: oldEmail, avatar: oldAvatar, password } = await User.findById(id)
 		// Check for same existing data posted
@@ -74,10 +74,10 @@ export const updateDetails = async (req, res) => {
 		const oldPasswordsDifferent = !(await bcrypt.compare(prevPassword, password))
 		const sameData =
 			name.split(' ')[0] === firstName && //
-			name.split(' ')[1] === lastName && //
-			oldEmail === email && //
-			newPasswordsSame && //
-			lodash.isEqual(oldAvatar, avatar) //
+			name.split(' ')[1] === lastName &&
+			oldEmail === email &&
+			(!newPassword || newPasswordsSame) &&
+			lodash.isEqual(oldAvatar, avatar)
 		if (sameData) {
 			return res.status(409).json({ message: `No new updates were applied` })
 		}

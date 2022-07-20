@@ -10,7 +10,7 @@ import { RandomAvatar } from '../../UserIcon/avatar'
 import lodash from 'lodash'
 import Avatar from 'avataaars'
 
-const Update = ({ user, setUser }) => {
+const Update = ({ user, setUser, snackBar }) => {
 	const history = useNavigate()
 	const dispatch = useDispatch()
 	const [showPassword, setShowPassword] = useState(false)
@@ -34,12 +34,12 @@ const Update = ({ user, setUser }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		dispatch(updateUser(formData, history, setUser))
+		dispatch(updateUser(formData, history, setUser, snackBar))
 	}
 
 	const prefillData = () => {
-		setFormData(initialState)
 		setAvatar(initialState.avatar)
+		setFormData(initialState)
 	}
 	return (
 		<Root className={classes.root}>

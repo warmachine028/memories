@@ -8,7 +8,7 @@ import icon from '../../images/icon.png'
 import decode from 'jwt-decode'
 import Avaatar from 'avataaars'
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = ({ user, setUser, snackBar }) => {
 	const token = user?.token
 	const dispatch = useDispatch()
 	const history = useNavigate()
@@ -18,6 +18,7 @@ const Navbar = ({ user, setUser }) => {
 	const logout = useCallback(() => {
 		dispatch({ type: 'LOGOUT' })
 		history('/')
+		snackBar('info', 'Logged out')
 		setUser(null)
 	}, [history, dispatch, setUser])
 
@@ -27,7 +28,8 @@ const Navbar = ({ user, setUser }) => {
 			if (decodedToken.exp * 1000 < new Date().getTime()) logout()
 		}
 		setUser(JSON.parse(localStorage.getItem('profile')))
-	}, [logout, token, setUser])
+	}, [logout, token])
+
 	return (
 		<Root className={classes.root}>
 			<AppBar className={classes.appBar} position="static">

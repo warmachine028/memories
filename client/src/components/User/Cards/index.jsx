@@ -70,7 +70,7 @@ export const PostCard = ({ post, userId }) => {
 								<Lock />
 							</Button>
 							<CardContent>
-								<Typography variant="body2" color="text.secondary" component="p">
+								<Typography variant="body2" color="text.secondary" component="p" sx={{ wordWrap: 'break-word' }}>
 									{`${message.slice(0, 100)} ${message.length > 100 ? '...' : ''}`}
 								</Typography>
 							</CardContent>

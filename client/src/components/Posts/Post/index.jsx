@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { deletePost, likePost } from '../../../actions/posts'
 import { useNavigate } from 'react-router-dom'
 
-const Post = ({ post, setCurrentId, user }) => {
+const Post = ({ post, setCurrentId, user, snackBar }) => {
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const [likes, setLikes] = useState(post?.likes)
@@ -74,7 +74,7 @@ const Post = ({ post, setCurrentId, user }) => {
 							</div>
 						)}
 						<CardContent>
-							<Typography variant="body2" sx={{ color: 'white' }} component="p" textAlign={isLongMessage ? 'justify' : 'center'}>
+							<Typography variant="body2" sx={{ color: 'white', wordWrap: 'break-word' }} component="p" textAlign={isLongMessage ? 'justify' : 'center'}>
 								{`${post.message.slice(0, 100)} ${isLongMessage ? '...' : ''}`}
 							</Typography>
 						</CardContent>
@@ -92,7 +92,7 @@ const Post = ({ post, setCurrentId, user }) => {
 						<Likes />
 					</Button>
 					{userId === post?.creator && (
-						<Button size="small" style={{ color: '#ae0050' }} onClick={() => dispatch(deletePost(post._id))}>
+						<Button size="small" style={{ color: '#ae0050' }} onClick={() => dispatch(deletePost(post._id, snackBar))}>
 							<DeleteIcon fontSize="small" /> &nbsp; Delete{' '}
 						</Button>
 					)}

@@ -1,14 +1,14 @@
 import { LOGOUT } from '../constants/actionTypes'
 import * as api from '../api'
 
-export const updateUser = (formData, history, setUser) => async (dispatch) => {
+export const updateUser = (formData, history, setUser, openSnackBar) => async (dispatch) => {
 	try {
 		await api.updateUser(formData)
-		alert('Update Successful !')
 		dispatch({ type: LOGOUT })
 		setUser(null)
+		openSnackBar('success', 'Update Successful ! Now Log in')
 		history('/')
 	} catch (error) {
-		alert(error.response.data.message)
+		openSnackBar('error', error.response.data.message)
 	}
 }

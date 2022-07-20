@@ -14,9 +14,10 @@
 
 ## What's new?
 
-- Individual Posts load instantly now.
-- Improved recommended Posts.
-- Added User Update Feature 🌟⭐🌠
+- Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
+- Fixed CSS for Post, Post Details and Cards for overflowing Text
+- Fixed glitches in DeleteComment functionality.
+- Fixed noNewUpdates error in userUpdate.
 
 ## Table of Contents
 
@@ -105,6 +106,10 @@
 
 ![Credential Update](assets/userUpdate.webp)
 
+- SnackBar Alerts
+
+![SnackBar Alerts](assets/snackBar.png)
+
 ---
 
 ## Demo
@@ -115,8 +120,8 @@
 
 ## Upcomming
 
-- Fix CSS of PostCard and Post Details
--  Custom Alerts using MaterialUI SnackBar💗💗💗💗, because basic browser alerts are too normal.
+- Migrating from OAuth 1.0 to OAuth 2.0 to avoid deprication
+
 ---
 
 ## License

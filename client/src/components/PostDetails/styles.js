@@ -114,6 +114,7 @@ export const Root = styled('div')(({ theme }) => ({
 		},
 	},
 	[`& .${classes.paragraph}`]: {
+		wordBreak: 'break-word',
 		textAlign: 'justify',
 		color: 'white',
 	},

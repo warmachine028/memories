@@ -29,6 +29,7 @@ export const Root = styled('div')(({ theme }) => ({
 		width: '80%',
 	},
 	[`& .${classes.postCard}`]: {
+		width: 300,
 		maxWidth: 300,
 		margin: 16,
 		backgroundColor: 'transparent',

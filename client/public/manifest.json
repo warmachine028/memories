@@ -13,9 +13,5 @@
 	"start_url": ".",
 	"display": "standalone",
 	"theme_color": "#ffffff",
-	"background_color": "#000000",
-	"orientation": "any",
-	"screenshots": [{}],
-	"shortcuts": [{}],
-	"related_applications": [{}]
+	"background_color": "#000000"
 }

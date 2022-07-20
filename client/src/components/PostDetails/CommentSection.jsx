@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { CircularProgress, Typography, TextField, Button, IconButton, Avatar, Box, Collapse, Grow } from '@mui/material'
+import {  Typography, TextField, Button, IconButton, Avatar, Box, Grow } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useDispatch } from 'react-redux'
 import { commentPost, deleteComment } from '../../actions/posts'
@@ -45,15 +45,15 @@ const LegacyComment = ({ comment }) => {
 const Comment = ({ comment: _comment, post, userId, setComments, comments }) => {
 	const dispatch = useDispatch()
 	const { name, comment, creator, commentId, createdAt } = _comment
-	const { _id: postId, postCreator } = post
+	const { _id: postId, creator: postCreator } = post
 
 	const removeComment = async (commentId) => {
 		setComments(comments.filter(({ newComment }) => newComment?.commentId !== commentId))
 		const newComments = await dispatch(deleteComment(postId, commentId))
 		setComments(newComments)
 	}
-
-	const canDelete = [creator, postCreator].includes(userId)
+	const canDelete = userId && [creator, postCreator].includes(userId)
+	
 	return (
 		<Grow in={true} mountOnEnter unmountOnExit>
 			<div className={classes.comment}>
@@ -101,7 +101,6 @@ const CommentSection = ({ post, user }) => {
 	const [comments, setComments] = useState(post?.comments)
 	const commentsRef = useRef()
 	const userId = user?.result.googleId || user?.result._id
-
 	const handleComment = async () => {
 		const newComment = {
 			commentId: null,
