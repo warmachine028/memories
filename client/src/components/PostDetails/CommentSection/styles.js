@@ -7,6 +7,10 @@ export const classes = {
 	innerContainer: `${PREFIX}-innerContainer`,
 	commentContainer: `${PREFIX}-commentContainer`,
 	commentBox: `${PREFIX}-commentBox`,
+	commentItem: `${PREFIX}-commentItem`,
+	userName: `${PREFIX}-userName`,
+	comment: `${PREFIX}-comment`,
+	time: `${PREFIX}-time`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -45,5 +49,27 @@ export const Root = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
 		paddingLeft: 5,
+	},
+	[`& .${classes.commentItem}`]: {
+		flexDirection: 'column',
+		width: '100%',
+		padding: 10,
+	},
+	[`& .${classes.userName}`]: {
+		fontWeight: 600,
+		color: 'black',
+	},
+	[`& .${classes.comment}`]: {
+		textAlign: 'justify',
+		fontSize: 'small',
+		marginLeft: 10,
+		wordBreak: 'break-word',
+		color: 'white',
+	},
+	[`& .${classes.time}`]: {
+		textAlign: 'end',
+		marginLeft: 10,
+		fontSize: 'small',
+		color: 'rgba(255, 255, 255, .30)',
 	},
 }))

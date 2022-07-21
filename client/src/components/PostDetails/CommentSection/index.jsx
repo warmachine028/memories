@@ -6,27 +6,20 @@ import { commentPost, deleteComment } from '../../../actions/posts'
 import { Root, classes } from './styles'
 import moment from 'moment'
 
-const LegacyComment = ({ comment }) => {
-	const name = comment.split(': ')[0]
+const LegacyComment = ({ comment: _comment }) => {
+	const name = _comment.split(': ')[0]
+	const comment = _comment.split(': ')[1]
 	return (
 		<Grow in={true} mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
 				<Avatar style={{ margin: 5 }}>{name[0]}</Avatar>
 				<Box className={classes.commentBox}>
-					<div
-						style={{
-							flexDirection: 'column',
-							width: '100%',
-							padding: 10,
-						}}
-					>
-						<Typography style={{ fontWeight: 600, color: 'black' }}>{comment.split(': ')[0]}</Typography>
-						<Typography style={{ textAlign: 'justify', fontSize: 'small', marginLeft: 10, wordBreak: 'break-word', color: 'white' }} color="white" component="p">
-							{comment.split(': ')[1]}
+					<div className={classes.commentItem}>
+						<Typography className={classes.userName}>{name}</Typography>
+						<Typography className={classes.comment} component="p">
+							{comment}
 						</Typography>
-						<Typography style={{ textAlign: 'end', marginLeft: 10, fontSize: 'small' }} color="rgba(255, 255, 255, .30)">
-							A long time ago
-						</Typography>
+						<Typography className={classes.time}>A long time ago</Typography>
 					</div>
 				</Box>
 			</div>
@@ -51,20 +44,12 @@ const Comment = ({ comment: _comment, post, userId, setComments, comments }) => 
 			<div className={classes.commentContainer}>
 				<Avatar style={{ margin: 5 }}>{name[0]}</Avatar>
 				<Box className={classes.commentBox}>
-					<div
-						style={{
-							flexDirection: 'column',
-							width: '100%',
-							padding: 10,
-						}}
-					>
-						<Typography style={{ fontWeight: 600, color: 'black' }}>{name}</Typography>
-						<Typography style={{ textAlign: 'justify', fontSize: 'small', marginLeft: 10, wordBreak: 'break-word', color: 'white' }} component="p">
+					<div className={classes.commentItem}>
+						<Typography className={classes.userName}>{name}</Typography>
+						<Typography className={classes.comment} component="p">
 							{comment}
 						</Typography>
-						<Typography style={{ textAlign: 'end', marginLeft: 10, fontSize: 'small' }} color="rgba(255, 255, 255, .30)">
-							{moment(createdAt).format('Do MMMM YYYY, dddd, h:mm A')}
-						</Typography>
+						<Typography className={classes.time}>{moment(createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
 					</div>
 
 					<IconButton aria-label="delete" size="small" style={{ color: '#ae0050', display: canDelete ? 'inline-flex' : 'none' }} onClick={() => removeComment(commentId)}>
@@ -109,9 +94,7 @@ const CommentSection = ({ post, user }) => {
 					</div>
 				</div>
 				<div style={{ width: '100%', display: userId ? 'block' : 'none' }}>
-					<Typography gutterBottom variant="h6">
-						Write a comment
-					</Typography>
+					<Typography gutterBottom variant="h6">Write a comment</Typography>
 					<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
 					<Button style={{ marginTop: '10px' }} fullWidth disabled={!comment.trim().length} color="primary" variant="contained" onClick={handleComment}>
 						Comment

@@ -11,6 +11,7 @@ export const classes = {
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
 		backgroundImage: `url(${Image})`,
+		// backgroundImage: `url(https://source.unsplash.com/1920x1080/?dark,night,technology)`,
 		bacgroundSize: 'contain',
 		backgroundPosition: 'center',
 		backgroundAttachment: 'fixed',
