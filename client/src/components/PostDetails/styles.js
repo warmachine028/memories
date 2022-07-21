@@ -9,9 +9,6 @@ export const classes = {
 	imageSection: `${PREFIX}-imageSection`,
 	recommendedPosts: `${PREFIX}-recommendedPosts`,
 	loadingPaper: `${PREFIX}-loadingPaper`,
-	commentsOuterContainer: `${PREFIX}-commentsOuterContainer`,
-	commentsInnerContainer: `${PREFIX}-commentsInnerContainer`,
-	comment: `${PREFIX}-comment`,
 	commentText: `${PREFIX}-commentText`,
 	paragraph: `${PREFIX}-paragraph`,
 	tags: `${PREFIX}-tags`,
@@ -75,29 +72,6 @@ export const Root = styled('div')(({ theme }) => ({
 		backdropFilter: 'blur(10px)',
 		flexDirection: 'column',
 	},
-	[`& .${classes.commentsOuterContainer}`]: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		[theme.breakpoints.down('sm')]: {
-			flexDirection: 'column',
-			alignItems: 'center',
-		},
-	},
-	[`& .${classes.commentsInnerContainer}`]: {
-		height: 300,
-		overflowY: 'auto',
-		marginRight: '0px',
-		width: '100%',
-		display: 'block',
-		[theme.breakpoints.down('sm')]: {
-			display: 'grid',
-			justifyItems: 'center',
-		},
-	},
-	[`& .${classes.comment}`]: {
-		width: '100%',
-		display: 'flex',
-	},
 	[`& .${classes.commentText}`]: {
 		width: '94%',
 		display: 'flex',
@@ -123,6 +97,7 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.title}`]: {
 		textAlign: 'center',
+		wordBreak: 'break-word'
 	},
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',

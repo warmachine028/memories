@@ -1,4 +1,4 @@
-    updated: Wednesday, 20th July 2022
+    updated: Thursday, 21st July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -16,9 +16,10 @@
 
 - Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
 - Instant Post Update: Now Post Updations take 0 time.
-- Fixed CSS for Post, Post Details, CommentText and Cards for overflowing Text.
+- Fixed CSS for Post, Post Details and Cards for overflowing Text.
 - Fixed DeleteComment functionality.
 - Fixed noNewUpdates error in userUpdate.
+- Seperated CommentSection into new seperate component
 
 ## Table of Contents
 
