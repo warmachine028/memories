@@ -21,7 +21,6 @@ export const Root = styled('div')(({ theme }) => ({
 		paddingRight: '10px',
 	},
 	[`& .${classes.avaatar}`]: {
-        
 		margin: theme.spacing(1),
 		height: '50px',
 		width: '50px',
@@ -39,6 +38,9 @@ export const Root = styled('div')(({ theme }) => ({
 		[theme.breakpoints.down('md')]: {
 			flexDirection: 'column',
 		},
+		[theme.breakpoints.down(360)]: {
+			padding: '10px 30px',
+		},
 	},
 	[`& .${classes.heading}`]: {
 		[theme.breakpoints.down(400)]: {
@@ -50,28 +52,35 @@ export const Root = styled('div')(({ theme }) => ({
 		marginTop: '5px',
 
 		[theme.breakpoints.down(400)]: {
-			width: '-webkit-fill-available',
 			display: 'none',
 		},
 	},
 	[`& .${classes.toolbar}`]: {
 		display: 'flex',
 		justifyContent: 'flex-end',
-		width: '400px',
+		width: 400,
 		[theme.breakpoints.down('md')]: {
 			width: '-webkit-fill-available',
 			justifyContent: 'center',
+		},
+		[theme.breakpoints.down(360)]: {
+			display: 'block',
+			justifyContent: 'space-between',
 		},
 	},
 	[`& .${classes.profile}`]: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		width: '400px',
+		width: 400,
 		alignItems: 'center',
 		[theme.breakpoints.down('sm')]: {
 			width: 'auto',
 			marginTop: 20,
 			justifyContent: 'center',
+		},
+		[theme.breakpoints.down(360)]: {
+			// display: 'none',
+			justifyContent: 'space-between',
 		},
 	},
 	[`& .${classes.logout}`]: {
@@ -87,6 +96,9 @@ export const Root = styled('div')(({ theme }) => ({
 			maxWidth: '123px',
 			alignItems: 'center',
 			padding: '0 20px 0 20px',
+		},
+		[theme.breakpoints.down(360)]: {
+			display: 'none',
 		},
 	},
 	[`& .${classes.brandContainer}`]: {

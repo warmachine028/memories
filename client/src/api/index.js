@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiURL = ['https://memories-pritam.herokuapp.com', 'http://localhost:5000']
-const API = axios.create({ baseURL: apiURL[0] })
+const API = axios.create({ baseURL: apiURL[1] })
 
 API.interceptors.request.use((req) => {
 	if (localStorage.getItem('profile')) {
@@ -16,7 +16,7 @@ export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?search
 
 export const createPost = (newPost) => API.post('/posts', newPost)
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost)
-export const deletePost = (id) => API.patch(`/posts/${id}`)
+export const deletePost = (id) => API.delete(`/posts/${id}`)
 
 export const deleteComment = (id, commentId) => API.patch(`/posts/${id}/deleteComment`, { commentId })
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`)

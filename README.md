@@ -14,6 +14,7 @@
 
 ## What's new?
 
+- Improved UI By adding Hover animations on post cards and Media 🖼️🌟
 - Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
 - Instant Post Update: Now Post Updations take 0 time.
 - Fixed CSS for Post, Post Details and Cards for overflowing Text.
