@@ -97,37 +97,37 @@ export const getRecommendedPosts = (tags) => async (dispatch) => {
 	}
 }
 
-export const createPost = (post, history, openSnackBar) => async (dispatch) => {
+export const createPost = (post, history, snackBar) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const { data } = await api.createPost(post)
 		dispatch({ type: CREATE, payload: data })
 		history(`/posts/${data._id}`)
-		openSnackBar('success', 'Post created successfully')
+		snackBar('success', 'Post created successfully')
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		openSnackBar('error', error)
+		snackBar('error', error)
 	}
 }
 
-export const updatePost = (id, post, openSnackBar) => async (dispatch) => {
+export const updatePost = (id, post, snackBar) => async (dispatch) => {
 	try {
 		api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
-		openSnackBar('info', 'Post updated successfully')
+		snackBar('info', 'Post updated successfully')
 	} catch (error) {
-		openSnackBar('error', error)
+		snackBar('error', error)
 	}
 }
 
-export const deletePost = (id, openSnackBar) => async (dispatch) => {
+export const deletePost = (id, snackBar) => async (dispatch) => {
 	try {
 		await api.deletePost(id)
 		dispatch({ type: DELETE, payload: id })
 		location.reload()
-		openSnackBar('info', 'Post deleted successfully')
+		snackBar('info', 'Post deleted successfully')
 	} catch (error) {
-		openSnackBar('error', error)
+		snackBar('error', error)
 	}
 }
 
