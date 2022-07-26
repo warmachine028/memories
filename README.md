@@ -14,6 +14,7 @@
 
 ## What's new?
 
+- Added Remember Me and Forgot Password in UI 
 - Improved UI By adding Hover animations on post cards and Media 🖼️🌟
 - Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
 - Instant Post Update: Now Post Updations take 0 time.
@@ -114,6 +115,10 @@
 
 ![SnackBar Alerts](assets/snackBar.png)
 
+- Remember Me and Forgot Password
+
+![Remember Me](assets/remember%20me.png)
+
 ---
 
 ## Demo
@@ -125,6 +130,7 @@
 ## Upcomming
 
 - Migrating from OAuth 1.0 to OAuth 2.0 to avoid deprication
+- Implement Remember Me Feature in Authentication
 
 ---
 
