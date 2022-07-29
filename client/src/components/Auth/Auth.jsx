@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox, FormControlLabel } from '@mui/material'
+import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material'
 import { GoogleLogin } from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
@@ -24,7 +24,8 @@ const Auth = ({ snackBar }) => {
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
-
+	const handleRememberPassword = useCallback(() => snackBar('info', 'This feature is awaited'))
+	const handleRememberMe = () => setFormData({ ...formData, remember: !formData.remember })
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		dispatch((isSignup ? signup : signin)(formData, history, snackBar))
@@ -100,11 +101,11 @@ const Auth = ({ snackBar }) => {
 							</Grid>
 						</Grid>
 						<Grid container justifyContent="space-between" display={isSignup ? 'none' : 'flex'}>
-							<Button style={{ paddingLeft: 0 }} onClick={() => setFormData({ ...formData, remember: !formData.remember })} disableElevation disableRipple>
+							<Button style={{ paddingLeft: 0 }} onClick={handleRememberMe} disableElevation disableRipple>
 								<BpCheckbox checked={formData.remember} />
 								Remember Me
 							</Button>
-							<Button onClick={() => snackBar('info', 'This feature is awaited')}>Forgot Password</Button>
+							<Button onClick={handleRememberPassword}>Forgot Password</Button>
 						</Grid>
 					</form>
 				</Paper>

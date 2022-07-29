@@ -27,9 +27,9 @@ export const Root = styled('div')({
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 		backgroundBlendMode: 'darken',
 		transition: 'transform .2s',
-		'&:hover': {
-			transform: 'scale(4.0)',
-		},
+		// '&:hover': {
+		// 	transform: 'scale(4.0)',
+		// },
 	},
 	[`& .${classes.card}`]: {
 		display: 'flex',

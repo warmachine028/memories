@@ -1,10 +1,10 @@
-import { forwardRef } from 'react'
+import { forwardRef, useCallback } from 'react'
 import { Snackbar, Alert } from '@mui/material'
 
 const MuiAlert = forwardRef((props, ref) => <Alert elevation={6} ref={ref} variant="filled" {...props} />)
 
 const SnackBar = ({ open, setOpen, alertSeverity, snackBarMessage }) => {
-	const handleClose = () => setOpen(false)
+	const handleClose = useCallback(() => setOpen(false))
 
 	return (
 		<Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
