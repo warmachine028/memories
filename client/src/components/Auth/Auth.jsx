@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material'
 import { GoogleLogin } from 'react-google-login'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { signin, signup } from '../../actions/auth'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -24,7 +24,6 @@ const Auth = ({ snackBar }) => {
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
-	const handleRememberPassword = useCallback(() => snackBar('info', 'This feature is awaited'))
 	const handleRememberMe = () => setFormData({ ...formData, remember: !formData.remember })
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -48,8 +47,9 @@ const Auth = ({ snackBar }) => {
 		}
 	}
 	const googleFailure = ({ error }) => {
-		if (error === 'popup_closed_by_user') return snackBar('warning', 'PopUp Closed By User')
-
+		if (error === 'popup_closed_by_user') {
+			return snackBar('warning', 'PopUp Closed By User')
+		}
 		snackBar('error', 'Google Sign In was unsuccessful. Try Again Later')
 	}
 
@@ -105,7 +105,9 @@ const Auth = ({ snackBar }) => {
 								<BpCheckbox checked={formData.remember} />
 								Remember Me
 							</Button>
-							<Button onClick={handleRememberPassword}>Forgot Password</Button>
+							<Button component={Link} to="forgotPassword">
+								Forgot Password
+							</Button>
 						</Grid>
 					</form>
 				</Paper>

@@ -18,7 +18,27 @@ export const signup = (formData, history, snackBar) => async (dispatch) => {
 		// sign up the user ...
 		const { data } = await api.signUp(formData)
 		dispatch({ type: AUTH, data })
-		snackBar('success', 'Registration Successful ! Now Log in')
+		snackBar('success', 'Registration Successful ! Welcome to memories')
+		history('/')
+	} catch (error) {
+		snackBar('error', error.response.data.message)
+	}
+}
+
+export const forgotPassword = (formData, history, snackBar) => async () => {
+	try {
+		await api.sendResetLink(formData)
+		snackBar('success', 'Reset Link sent to your Email. Now Reset Password')
+		history('/')
+	} catch (error) {
+		snackBar('error', error.response.data.message)
+	}
+}
+
+export const setNewPassword = (formData, history, snackBar) => async () => {
+	try {
+		await api.setNewPassword(formData)
+		snackBar('success', 'Password was successfully reset. Now Log in')
 		history('/')
 	} catch (error) {
 		snackBar('error', error.response.data.message)

@@ -1,10 +1,12 @@
 import express from 'express'
-import { signin, signup, updateDetails, getUserDetails, getUserPostsByType } from '../controllers/user.js'
+import { signin, signup, updateDetails, getUserDetails, getUserPostsByType, forgotPassword, resetPassword } from '../controllers/user.js'
 
 const router = express.Router()
 
 router.post('/signin', signin)
 router.post('/signup', signup)
+router.post('/forgotPassword', forgotPassword)
+router.post('/resetPassword', resetPassword)
 router.patch('/update', updateDetails)
 router.get('/details/:id', getUserDetails)
 router.get('/posts/:id', getUserPostsByType)
