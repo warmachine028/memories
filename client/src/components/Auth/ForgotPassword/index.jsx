@@ -20,7 +20,6 @@ const ForgotPassword = ({ snackBar }) => {
 	const history = useNavigate()
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(formData)
 		dispatch((resetPassword ? setNewPassword : forgotPassword)(formData, history, snackBar))
 	}
 	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })

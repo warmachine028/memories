@@ -210,7 +210,7 @@ export const forgotPassword = async (req, res) => {
 			return res.status(404).json({ message: "User doesn't exist in dataBase" })
 		}
 		if (existingUser.resetToken) {
-			return res.status(409).json({ message: ""})
+			return res.status(409).json({ message: 'Reset Link already sent. Please check your email' })
 		}
 
 		const { id } = existingUser

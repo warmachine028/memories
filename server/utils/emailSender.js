@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 
 export const sendEmail = async (email, URL, res) => {
 	const mailOptions = {
-		from: process.env.USER,
+		from: `Memories Server 👻 <${process.env.USER}>`,
 		to: email,
 		subject: 'Reset password link for memories',
 		text: `Click this link to reset yout password

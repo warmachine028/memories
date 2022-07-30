@@ -1,4 +1,4 @@
-    updated: Thursday, 21st July 2022
+    updated: Sunday, 31st July 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -14,7 +14,8 @@
 
 ## What's new?
 
-- Added Remember Me and Forgot Password in UI 
+- Implemented Remember Me and Forgot Password in Authentication using NodeMailer 💕💕
+- Added Remember Me and Forgot Password in UI
 - Improved UI By adding Hover animations on post cards and Media 🖼️🌟
 - Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
 - Instant Post Update: Now Post Updations take 0 time.
@@ -130,7 +131,6 @@
 ## Upcomming
 
 - Migrating from OAuth 1.0 to OAuth 2.0 to avoid deprication
-- Implement Remember Me Feature in Authentication
 
 ---
 
