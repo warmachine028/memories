@@ -236,6 +236,11 @@ export const resetPassword = async (req, res) => {
 		if (newPassword.length < 6) {
 			return res.status(409).json({ message: 'Password length must be greater than 6 characters' })
 		}
+		const passwordsSame = await bcrypt.compare(newPassword, existingUser.password)
+		if (passwordsSame) {
+			return res.status(406).json({ message: "New password can't be same as old password" })
+		}
+
 		const hashedPassword = await bcrypt.hash(newPassword, 12)
 
 		existingUser.password = hashedPassword

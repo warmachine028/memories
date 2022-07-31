@@ -6,6 +6,7 @@ import Auth from '../components/Auth/Auth'
 import UserDetails from '../components/User/Details'
 import UserUpdate from '../components/User/Update'
 import SnackBar from '../components/SnackBar'
+import ScrollToTop from '../components/ScrollToTop'
 import ForgotPassword from '../components/Auth/ForgotPassword'
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
@@ -41,6 +42,7 @@ const App = () => {
 						<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword snackBar={openSnackBar} />} />
 						<Route path="/auth/forgotPassword/:id/:token" element={user ? <Navigate to="/" /> : <ForgotPassword snackBar={openSnackBar} />} />
 					</Routes>
+					<ScrollToTop />
 					<SnackBar {...snackBarprops} />
 				</div>
 			</Root>
