@@ -14,6 +14,7 @@
 
 ## What's new?
 
+- Added scroll to top Button
 - Implemented Remember Me and Forgot Password in Authentication using NodeMailer 💕💕
 - Added Remember Me and Forgot Password in UI
 - Improved UI By adding Hover animations on post cards and Media 🖼️🌟
@@ -119,6 +120,10 @@
 - Remember Me and Forgot Password
 
 ![Remember Me](assets/remember%20me.png)
+
+- Scroll To Top Button
+
+![Scroll To Top](assets/fab.png)
 
 ---
 
