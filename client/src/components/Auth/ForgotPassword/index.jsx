@@ -34,7 +34,7 @@ const ForgotPassword = ({ snackBar }) => {
 	return (
 		<Root className={classes.root}>
 			<Container component="main" maxWidth="xs">
-				<Paper className={classes.paper} elevation={6} style={{ marginTop: '200px' }}>
+				<Paper className={classes.paper} elevation={6} style={{ marginTop: '260px' }}>
 					<Avatar className={classes.avatar}>
 						<LockReset />
 					</Avatar>

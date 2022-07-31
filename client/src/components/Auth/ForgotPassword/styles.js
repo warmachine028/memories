@@ -1,13 +1,12 @@
 import { styled } from '@mui/material/styles'
 
-const PREFIX = 'Auth'
+const PREFIX = 'ForgotPassword'
 export const classes = {
 	root: `${PREFIX}-root`,
 	paper: `${PREFIX}-paper`,
 	avatar: `${PREFIX}-avtar`,
 	form: `${PREFIX}-form`,
 	submit: `${PREFIX}-submit`,
-	googleButton: `${PREFIX}-googleButton`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -37,9 +36,6 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.submit}`]: {
 		margin: theme.spacing(1, 0, 1, 0),
-	},
-	[`& .${classes.googleButton}`]: {
-		marginBottom: theme.spacing(2),
 	},
 }))
 

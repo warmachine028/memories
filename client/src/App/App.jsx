@@ -35,11 +35,11 @@ const App = () => {
 						<Route path="/posts" element={<Home user={user} snackBar={openSnackBar} />} />
 						<Route path="/posts/search" element={<Home user={user} snackBar={openSnackBar} />} />
 						<Route path="/posts/:id" element={<PostDetails user={user} snackBar={openSnackBar} />} />
-						<Route path="/auth" element={user ? <Navigate to="/posts" /> : <Auth snackBar={openSnackBar} />} />
 						<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
 						<Route path="/user/update" element={user ? <UserUpdate user={user} setUser={setUser} snackBar={openSnackBar} /> : <Navigate to="/" />} />
-						<Route path="/auth/forgotPassword" element={<ForgotPassword snackBar={openSnackBar} />} />
-						<Route path="/auth/forgotPassword/:id/:token" element={<ForgotPassword snackBar={openSnackBar} />} />
+						<Route path="/auth" element={user ? <Navigate to="/" /> : <Auth snackBar={openSnackBar} />} />
+						<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword snackBar={openSnackBar} />} />
+						<Route path="/auth/forgotPassword/:id/:token" element={user ? <Navigate to="/" /> : <ForgotPassword snackBar={openSnackBar} />} />
 					</Routes>
 					<SnackBar {...snackBarprops} />
 				</div>
