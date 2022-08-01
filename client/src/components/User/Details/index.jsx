@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Root, classes } from './styles'
-import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button } from '@mui/material'
+import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button, Tooltip } from '@mui/material'
 import { PublishedWithChanges } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
@@ -137,8 +137,9 @@ const UserDetails = ({ user }) => {
 							<Box>
 								<Typography color="white">
 									<strong style={{ color: 'black' }}>Longest Post Written: </strong>
-									{`${longestPostWords} Words`}
-									<Link to={`/posts/${longestPostId}`} style={{ color: 'white', display: 'none' }}>{`${longestPostWords} Words`}</Link>
+									<Tooltip title="Post with longest message">
+										<Link to={`/posts/${longestPostId}`} style={{ color: 'white', textDecoration: 'none' }}>{`${longestPostWords} Words`}</Link>
+									</Tooltip>
 								</Typography>
 								<Divider />
 							</Box>

@@ -9,7 +9,7 @@ export const classes = {
 	submit: `${PREFIX}-submit`,
 }
 
-export const Root = styled('div')(({ theme }) => ({
+export const Root = styled('div')(({ theme, reset }) => ({
 	[`&.${classes.root}`]: {
 		'& .MuiFormLabel-root': {
 			color: 'white',
@@ -28,7 +28,7 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.avatar}`]: {
 		margin: theme.spacing(1),
-		backgroundColor: '#4caf50',
+		backgroundColor: reset ? '#42a5f5' : '#4caf50',
 	},
 	[`& .${classes.form}`]: {
 		width: '100%', // Fix IE 11 issue.
@@ -36,6 +36,7 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.submit}`]: {
 		margin: theme.spacing(1, 0, 1, 0),
+		backgroundColor: reset ? '#42a5f5' : '#4caf50',
 	},
 }))
 

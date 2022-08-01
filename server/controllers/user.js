@@ -136,6 +136,18 @@ export const getUserDetails = async (req, res) => {
 				},
 			},
 		])
+		const longestPost = (
+			await PostMessage.aggregate([
+				{ $match: { creator: id } },
+				{
+					$project: {
+						message: 1,
+						messageLength: { $strLenCP: '$message' },
+					},
+				},
+				{ $sort: { messageLength: -1 } },
+			])
+		)[0]
 
 		const result = {
 			postsCreated: await PostMessage.countDocuments({ creator: id }),
@@ -159,20 +171,9 @@ export const getUserDetails = async (req, res) => {
 						},
 					])
 				)[0]?.totalValue || 0,
-			longestPostWords:
-				(
-					await PostMessage.aggregate([
-						{ $match: { creator: id } },
-						{
-							$project: {
-								message: 1,
-								messageLength: { $strLenCP: '$message' },
-							},
-						},
-						{ $sort: { messageLength: -1 } },
-					])
-				)[0]?.message.split(' ').length || 0,
+			longestPostWords: longestPost?.message.split(' ').length || 0,
 			top5Tags: allTags.length ? getTop5Tags(allTags[0]) : allTags,
+			longestPostId: longestPost?._id,
 		}
 		res.status(200).json(result)
 	} catch (error) {

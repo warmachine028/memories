@@ -40,7 +40,7 @@ const Navbar = ({ user, setUser, snackBar, floating }) => {
 				<Toolbar className={classes.toolbar}>
 					{user ? (
 						<div className={classes.profile}>
-							<Link to="/user">
+							<Link to="/user" style={{ textDecoration: 'none'}}>
 								{user.result.avatar ? (
 									<Avaatar className={classes.avaatar} avatarStyle="Circle" {...user.result.avatar} />
 								) : (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@mui/material'
-import { LockReset } from '@mui/icons-material'
+import { LockReset, Pattern } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { forgotPassword, setNewPassword } from '../../../actions/auth'
@@ -32,13 +32,11 @@ const ForgotPassword = ({ snackBar }) => {
 	}, [params])
 
 	return (
-		<Root className={classes.root}>
+		<Root className={classes.root} reset={resetPassword?.toString()}>
 			<Container component="main" maxWidth="xs">
 				<Paper className={classes.paper} elevation={6} style={{ marginTop: '260px' }}>
-					<Avatar className={classes.avatar}>
-						<LockReset />
-					</Avatar>
-					<Typography variant="h5">{`${resetPassword ? 'Reset' : 'Forgot'} Password`}</Typography>
+					<Avatar className={classes.avatar}>{resetPassword ? <Pattern /> : <LockReset />}</Avatar>
+					<Typography variant="h5">{resetPassword ? 'Reset Password' : 'Account Recovery'}</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
 							{resetPassword ? ( //
@@ -48,7 +46,7 @@ const ForgotPassword = ({ snackBar }) => {
 							)}
 						</Grid>
 						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-							{resetPassword ? 'SUBMIT' : 'SEND PASSWORD RESET LINK'}
+							{resetPassword ? 'CONFIRM' : 'SEND PASSWORD RESET LINK'}
 						</Button>
 					</form>
 				</Paper>
