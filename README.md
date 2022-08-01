@@ -130,7 +130,6 @@
 ## Upcomming
 
 - Migrating from OAuth 1.0 to OAuth 2.0 to avoid deprication
-- Post with longest word Link
 
 ---
 
