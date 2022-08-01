@@ -4,6 +4,7 @@ import Image from '../images/background.jpg'
 const PREFIX = 'App'
 export const classes = {
 	root: `${PREFIX}-root`,
+	floatingNavbar: `${PREFIX}-floatingNavbar`,
 	container: `${PREFIX}-container`,
 	blur: `${PREFIX}-blur`,
 }
@@ -29,6 +30,23 @@ export const Root = styled('div')(({ theme }) => ({
 		[theme.breakpoints.down(948)]: {
 			backgroundPositionY: 'center',
 			minHeight: '100%',
+		},
+	},
+	[`& .${classes.floatingNavbar}`]: {
+		borderRadius: '5px',
+		margin: '0 16px 0 6px',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		// padding: '10px 50px',
+		backgroundColor: 'rgba(255, 255, 255, .09)', //"transparent" //"rgba(69, 114, 200)"
+		backdropFilter: 'blur(10px)',
+		[theme.breakpoints.down('md')]: {
+			flexDirection: 'column',
+		},
+		[theme.breakpoints.down(360)]: {
+			padding: '10px 30px',
 		},
 	},
 }))

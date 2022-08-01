@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PostDetails from '../components/PostDetails/PostDetails'
 import Navbar from '../components/Navbar/Navbar'
+import FloatingNavbar from '../components/Navbar/FloatingNavbar'
 import Home from '../components/Home'
 import Auth from '../components/Auth/Auth'
 import UserDetails from '../components/User/Details'
@@ -31,6 +32,7 @@ const App = () => {
 			<Root className={classes.root}>
 				<div className={classes.blur}>
 					<Navbar user={user} setUser={setUser} snackBar={openSnackBar} />
+					<FloatingNavbar user={user} setUser={setUser} snackBar={openSnackBar} />
 					<Routes>
 						<Route path="/" element={<Navigate to="/posts" snackBar={openSnackBar} />} />
 						<Route path="/posts" element={<Home user={user} snackBar={openSnackBar} />} />

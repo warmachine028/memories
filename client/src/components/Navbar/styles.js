@@ -1,22 +1,22 @@
-import { styled } from "@mui/material/styles"
-import { deepPurple } from "@mui/material/colors"
+import { styled } from '@mui/material/styles'
+import { deepPurple } from '@mui/material/colors'
 
-const PREFIX = "NavBar"
+const PREFIX = 'NavBar'
 export const classes = {
-    root: `${PREFIX}-root`,
-    appBar: `${PREFIX}-appBar`,
-    heading: `${PREFIX}-heading`,
-    logo: `${PREFIX}-logo`,
-    toolbar: `${PREFIX}-toolbar`,
-    profile: `${PREFIX}-profile`,
-    logout: `${PREFIX}-logout`,
-    userName: `${PREFIX}-userName`,
-    brandContainer: `${PREFIX}-brandContainer`,
-    avatar: `${PREFIX}-avatar`,
-    avaatar: `${PREFIX}-avaatar`,
+	root: `${PREFIX}-root`,
+	appBar: `${PREFIX}-appBar`,
+	heading: `${PREFIX}-heading`,
+	logo: `${PREFIX}-logo`,
+	toolbar: `${PREFIX}-toolbar`,
+	profile: `${PREFIX}-profile`,
+	logout: `${PREFIX}-logout`,
+	userName: `${PREFIX}-userName`,
+	brandContainer: `${PREFIX}-brandContainer`,
+	avatar: `${PREFIX}-avatar`,
+	avaatar: `${PREFIX}-avaatar`,
 }
 
-export const Root = styled('div')(({ theme }) => ({
+export const Root = styled('div')(({ theme, floating }) => ({
 	[`&.${classes.root}`]: {
 		paddingRight: '10px',
 	},
@@ -26,6 +26,7 @@ export const Root = styled('div')(({ theme }) => ({
 		width: '50px',
 	},
 	[`& .${classes.appBar}`]: {
+		position: 'static',
 		borderRadius: '5px',
 		margin: '0 16px 0 6px',
 		display: 'flex',
@@ -43,6 +44,7 @@ export const Root = styled('div')(({ theme }) => ({
 		},
 	},
 	[`& .${classes.heading}`]: {
+		height: floating ? 50 : 100,
 		[theme.breakpoints.down(400)]: {
 			width: '-webkit-fill-available',
 		},
@@ -50,7 +52,7 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.logo}`]: {
 		marginLeft: '10px',
 		marginTop: '5px',
-
+		height: floating ? 30 : 60,
 		[theme.breakpoints.down(400)]: {
 			display: 'none',
 		},
@@ -62,6 +64,7 @@ export const Root = styled('div')(({ theme }) => ({
 		[theme.breakpoints.down('md')]: {
 			width: '-webkit-fill-available',
 			justifyContent: 'center',
+			display: floating ? 'none' : 'flex',
 		},
 		[theme.breakpoints.down(360)]: {
 			display: 'block',

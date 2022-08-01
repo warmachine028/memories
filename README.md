@@ -1,4 +1,4 @@
-    updated: Sunday, 31st July 2022
+    updated: Monday, 1st August 2022
 
 <div align=center>
     <a href="https://memories-pritam.netlify.app/">
@@ -14,16 +14,7 @@
 
 ## What's new?
 
-- Added scroll to top Button
-- Implemented Remember Me and Forgot Password in Authentication using NodeMailer 💕💕
-- Added Remember Me and Forgot Password in UI
-- Improved UI By adding Hover animations on post cards and Media 🖼️🌟
-- Added Custom Snakbar Alerts from Material UI replacing Basic browser Alerts 💕💕
-- Instant Post Update: Now Post Updations take 0 time.
-- Fixed CSS for Post, Post Details and Cards for overflowing Text.
-- Fixed DeleteComment functionality.
-- Fixed noNewUpdates error in userUpdate.
-- Seperated CommentSection into new seperate component
+- Added Scroll To Top Floating Action Button and Floating NavBar
 
 ## Table of Contents
 
@@ -55,24 +46,27 @@
 
 ## Additional Improvements
 
-- Minimalist Look, Translucent Card Type Posts
+- Glass finish Card Post Components.
 - CRUD based Operations, Post Search Functionality with Tags
-- Details Page of each Post Card, Recommended Posts
+- Details Page of each Post Card, Recommended Posts.
 - Image Compression (compresses every image under 1MB)
 - Like - Comment - Tag functionality and 2 Way Authentication (JWT Token & Google OAuth)
-- Randomised Custom User Avatar
+- Randomised Custom User Avatar Images.
 - Image Drag and Drop functionality in Preview while creation
 - Private Post and Comment Deletion Functionality
-- Attention to detail features like comment circular progress, custom Private button gives it the wow factor
+- Attention to detail features like custom Private button and LinearProgress.
 - Post Owners and commenters can regulate comments in their posts.
-- While deleting comment TrashCan icon turns CircularProgress.
 - Comments section only visible if at least 1 comment exist in a post.
-- Custom user detail page including newly written dataBase query and Backend Logic.
-- Custom Posts Liked by user Component.
+- New User-Detail page including newly written dataBase query and Backend Logic.
+- Addition of Posts Liked by user Component.
 - Customised comment containers with User avatar and post times.
 - Clickable Chips and Custom Tabs in UserDetails page.
 - Memories is now a Progressive Web App 🎉🎉🎊🎊.
 - Added Credential Update Feature for users.
+- Remember Me and Forgot Password in Authentication using NodeMailer 💕💕
+- Improved UI By adding Hover animations on post cards and Media 🖼️🌟
+- New Snackbar Alerts from Material UI replacing Basic browser Alerts.
+- Instant comment Actions and Post Updation.
 
 ## Tech Stack Used
 
@@ -136,6 +130,7 @@
 ## Upcomming
 
 - Migrating from OAuth 1.0 to OAuth 2.0 to avoid deprication
+- Post with longest word Link
 
 ---
 

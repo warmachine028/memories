@@ -7,7 +7,7 @@ import Avaatar from 'avataaars'
 import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
 import { getUserPostsByType } from '../../../actions/posts'
 import TabPage from '../TabPage'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
@@ -53,7 +53,7 @@ const UserDetails = ({ user }) => {
 	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
-	
+
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
@@ -65,14 +65,13 @@ const UserDetails = ({ user }) => {
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
 	}
 
-	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags } = data
+	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
 	const labels = {
 		Emails: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,
 		'Liked Recived': totalLikesRecieved,
-		'Longest Post Written': `${longestPostWords} Words`,
 	}
 	const createdProps = {
 		page: createdPage,
@@ -114,7 +113,7 @@ const UserDetails = ({ user }) => {
 							</Typography>
 						</Avatar>
 					)}
-					<Button variant="contained" disabled={Boolean(user.result.googleId)} onClick={() => history(`/user/update`)} startIcon={<PublishedWithChanges />}>
+					<Button variant="contained" disabled={Boolean(user.result.googleId)} component={Link} to="/user/update" startIcon={<PublishedWithChanges />}>
 						UPDATE DETAILS
 					</Button>
 				</Paper>
@@ -135,6 +134,14 @@ const UserDetails = ({ user }) => {
 									<Divider />
 								</Box>
 							))}
+							<Box>
+								<Typography color="white">
+									<strong style={{ color: 'black' }}>Longest Post Written: </strong>
+									{`${longestPostWords} Words`}
+									<Link to={`/posts/${longestPostId}`} style={{ color: 'white', display: 'none' }}>{`${longestPostWords} Words`}</Link>
+								</Typography>
+								<Divider />
+							</Box>
 							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
 									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
