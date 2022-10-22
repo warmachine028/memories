@@ -25,6 +25,7 @@
 - [Previews](#previews)
 - [Demo](#demo)
 - [License](#license)
+- [Best Contributors](#best-contributors)
 
 ---
 
@@ -140,3 +141,7 @@
 **Pritam, 2022**
 
 [license]: https://github.com/warmachine028/memories/blob/main/LICENSE
+
+## Best Contributors
+
+---
