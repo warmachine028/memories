@@ -142,6 +142,8 @@
 
 [license]: https://github.com/warmachine028/memories/blob/main/LICENSE
 
+---
+
 ## Best Contributors
 
 ---
