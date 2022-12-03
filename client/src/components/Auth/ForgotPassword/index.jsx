@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@mui/material'
+import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from '@mui/material'
 import { LockReset, Pattern } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
@@ -12,7 +12,7 @@ const initialState = { email: '' }
 const ForgotPassword = ({ snackBar }) => {
 	const [showPassword, setShowPassword] = useState(false)
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
-
+	const [loading, setLoading] = useState(false)
 	const [formData, setFormData] = useState(initialState)
 	const params = useParams()
 	const [resetPassword, setResetPassword] = useState(params.id && params.token)
@@ -20,7 +20,9 @@ const ForgotPassword = ({ snackBar }) => {
 	const history = useNavigate()
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		dispatch((resetPassword ? setNewPassword : forgotPassword)(formData, history, snackBar))
+		setLoading(true)
+		const _function = resetPassword ? setNewPassword : forgotPassword
+		dispatch(_function(formData, history, snackBar, setLoading))
 	}
 	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 	useEffect(() => {
@@ -45,7 +47,8 @@ const ForgotPassword = ({ snackBar }) => {
 								<Input name="email" label="Email Address" onChange={handleChange} type="email" />
 							)}
 						</Grid>
-						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={loading}>
+							{loading && <CircularProgress size="1.5em" />}
 							{resetPassword ? 'CONFIRM' : 'SEND PASSWORD RESET LINK'}
 						</Button>
 					</form>

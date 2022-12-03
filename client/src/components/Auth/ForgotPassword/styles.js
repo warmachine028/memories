@@ -37,6 +37,11 @@ export const Root = styled('div')(({ theme, reset }) => ({
 	[`& .${classes.submit}`]: {
 		margin: theme.spacing(1, 0, 1, 0),
 		backgroundColor: reset ? '#42a5f5' : '#4caf50',
+		display: 'flex',
+		gap: 10,
+		'&:hover': {
+			backgroundColor: reset ? '#256597' : '#2d6d30',
+		},
 	},
 }))
 
