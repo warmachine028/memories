@@ -32,7 +32,7 @@ export const forgotPassword = (formData, history, snackBar) => async () => {
 		history('/')
 	} catch (error) {
 		snackBar('error', error.response.data.message)
-		console.log(`error: ${error.response.data.error}`)
+		console.log(`error: ${error.response.data.errors}`)
 	}
 }
 
