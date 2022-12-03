@@ -21,10 +21,8 @@ export const sendEmail = async (email, URL, res) => {
 	}
 
 	transport.sendMail(mailOptions, (error, info) => {
-		console.log(process.env.USER, process.env.PASS)
 		if (error) {
-			console.log(error)
-			return res.status(500).json({ message: 'Email was not sent', errors: error })
+			return res.status(500).json({ message: 'Email was not sent', error: error.message })
 		}
 		res.status(200).json(info)
 	})
