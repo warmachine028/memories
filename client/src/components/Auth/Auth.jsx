@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material'
-import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin as GoogleLogins } from '@react-oauth/google'
+import jwtDecode from 'jwt-decode'
 import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { signin, signup } from '../../actions/auth'
@@ -34,11 +35,10 @@ const Auth = ({ snackBar }) => {
 		setIsSignUp((prevIsSignUp) => !prevIsSignUp)
 		setShowPassword(false)
 	}
-	const googleSuccess = async (res) => {
-		const result = res?.profileObj
-		const token = res?.tokenId
-
+	const googleSuccess = async ({ credential: token }) => {
 		try {
+			const { email, family_name: familyName, given_name: givenName, sub: googleId, picture: imageUrl, name } = jwtDecode(token)
+			const result = { email, familyName, givenName, googleId, imageUrl, name }
 			dispatch({ type: 'AUTH', data: { result, token } })
 			history('/')
 			snackBar('success', 'Logged in Successfully')
@@ -47,6 +47,7 @@ const Auth = ({ snackBar }) => {
 		}
 	}
 	const googleFailure = ({ error }) => {
+		console.log(error)
 		if (error === 'popup_closed_by_user') {
 			return snackBar('warning', 'PopUp Closed By User')
 		}
@@ -83,18 +84,9 @@ const Auth = ({ snackBar }) => {
 						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
 							{isSignup ? 'SIGN UP' : 'SIGN IN'}
 						</Button>
-						<GoogleLogin
-							clientId={CLIENT_ID}
-							render={(renderProps) => (
-								<Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} color="primary" variant="contained" fullWidth>
-									GOOGLE SIGN IN
-								</Button>
-							)}
-							onSuccess={googleSuccess}
-							onFailure={googleFailure}
-							cookiePolicy="single_host_origin"
-						/>
-
+						<div style={{ display: 'flex', justifyContent: 'center' }}>
+							<GoogleLogins onSuccess={googleSuccess} onFailure={googleFailure} width="300px" theme="filled_blue" />
+						</div>
 						<Grid container justifyContent="center">
 							<Grid item>
 								<Button onClick={switchMode}>{isSignup ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}</Button>
