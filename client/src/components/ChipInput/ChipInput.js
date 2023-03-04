@@ -56,7 +56,7 @@ function _extends() {
 }
 
 function _objectWithoutProperties(source, excluded) {
-	if (source == null) return {}
+	if (source === null) return {}
 	var target = _objectWithoutPropertiesLoose(source, excluded)
 	var key, i
 	if (Object.getOwnPropertySymbols) {
@@ -72,7 +72,7 @@ function _objectWithoutProperties(source, excluded) {
 }
 
 function _objectWithoutPropertiesLoose(source, excluded) {
-	if (source == null) return {}
+	if (source === null) return {}
 	var target = {}
 	var sourceKeys = Object.keys(source)
 	var key, i
@@ -383,7 +383,7 @@ var ChipInput =
 			_defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), 'focus', function () {
 				_this.actualInput.focus()
 
-				if (_this.state.focusedChip != null) {
+				if (_this.state.focusedChip !== null) {
 					_this.setState({
 						focusedChip: null,
 					})
@@ -399,7 +399,7 @@ var ChipInput =
 					isFocused: false,
 				})
 
-				if (_this.state.focusedChip != null) {
+				if (_this.state.focusedChip !== null) {
 					_this.setState({
 						focusedChip: null,
 					})
@@ -478,7 +478,7 @@ var ChipInput =
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:
 						if (event.target.value === '') {
-							if (focusedChip != null) {
+							if (focusedChip !== null) {
 								_this.handleDeleteChip(chips[focusedChip], focusedChip)
 
 								if (focusedChip > 0) {
@@ -496,7 +496,7 @@ var ChipInput =
 						break
 
 					case keyCodes.DELETE:
-						if (event.target.value === '' && focusedChip != null) {
+						if (event.target.value === '' && focusedChip !== null) {
 							_this.handleDeleteChip(chips[focusedChip], focusedChip)
 
 							if (focusedChip <= chips.length - 1) {
@@ -513,7 +513,7 @@ var ChipInput =
 							_this.setState({
 								focusedChip: chips.length - 1,
 							})
-						} else if (focusedChip != null && focusedChip > 0) {
+						} else if (focusedChip !== null && focusedChip > 0) {
 							_this.setState({
 								focusedChip: focusedChip - 1,
 							})
@@ -522,7 +522,7 @@ var ChipInput =
 						break
 
 					case keyCodes.RIGHT_ARROW:
-						if (focusedChip != null && focusedChip < chips.length - 1) {
+						if (focusedChip !== null && focusedChip < chips.length - 1) {
 							_this.setState({
 								focusedChip: focusedChip + 1,
 							})
@@ -829,9 +829,10 @@ var ChipInput =
 							])
 
 						var chips = value || this.state.chips
+						// ignore: '!=' to '!=='
 						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue
 						var hasInput = (this.props.value || actualInputValue).length > 0 || actualInputValue.length > 0
-						var shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label != null && (hasInput || this.state.isFocused || chips.length > 0)
+						var shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0)
 						var chipComponents = chips.map(function (chip, i) {
 							var value = dataSourceConfig ? chip[dataSourceConfig.value] : chip
 							return chipRenderer(
