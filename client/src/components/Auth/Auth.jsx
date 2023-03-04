@@ -72,7 +72,7 @@ const Auth = ({ snackBar }) => {
 						<Grid container spacing={1}>
 							{isSignup && (
 								<>
-									<Input name="firstName" label="First Name" onChange={handleChange} autoFocus half />
+									<Input name="firstName" label="First Name" onChange={handleChange}  half />
 									<Input name="lastName" label="Last Name" onChange={handleChange} half />
 								</>
 							)}

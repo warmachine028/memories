@@ -52,7 +52,7 @@ const Update = ({ user, setUser, snackBar }) => {
 					<Typography variant="h5">Update Details</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
-							<Input value={formData.firstName} name="firstName" label="First Name" onChange={handleChange} autoFocus half />
+							<Input value={formData.firstName} name="firstName" label="First Name" onChange={handleChange}  half />
 							<Input value={formData.lastName} name="lastName" label="Last Name" onChange={handleChange} half />
 							<Input value={formData.email} name="email" label="Email Address" onChange={handleChange} type="email" />
 							<Input name="prevPassword" label="Previous Password" onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
