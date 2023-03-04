@@ -831,7 +831,7 @@ const ChipInput =
 
 						var chips = value || this.state.chips
 						// ignore: '!=' to '!=='
-						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue // skipcq: JS-0050
+						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue // skipcq: JS-0059
 						var hasInput = (this.props.value || actualInputValue).length > 0 || actualInputValue.length > 0
 						const shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0) // skipcq: JS-0050
 						var chipComponents = chips.map(function (chip, i) {
@@ -908,7 +908,7 @@ const ChipInput =
 							_react.default.createElement(
 								'div',
 								{
-									className: (0, _classnames.default)(classes[variant], classes.chipContainer, ((_cx2 = {}), _defineProperty(_cx2, classes.focused, this.state.isFocused), _defineProperty(_cx2, classes.underline, !disableUnderline && variant === 'standard'), _defineProperty(_cx2, classes.disabled, disabled), _defineProperty(_cx2, classes.labeled, label != null), _defineProperty(_cx2, classes.error, error), _cx2)),
+									className: (0, _classnames.default)(classes[variant], classes.chipContainer, ((_cx2 = {}), _defineProperty(_cx2, classes.focused, this.state.isFocused), _defineProperty(_cx2, classes.underline, !disableUnderline && variant === 'standard'), _defineProperty(_cx2, classes.disabled, disabled), _defineProperty(_cx2, classes.labeled, label !== null), _defineProperty(_cx2, classes.error, error), _cx2)),
 								},
 								variant === 'standard' && chipComponents,
 								_react.default.createElement(
