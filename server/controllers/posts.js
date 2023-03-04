@@ -98,9 +98,9 @@ export const deleteComment = async (req, res) => {
 }
 
 export const likePost = async (req, res) => {
-	const { id } = req.params
+	const { id: postId } = req.params
 
-	const post = await PostMessage.findById(id)
+	const post = await PostMessage.findById(postId)
 	const index = post.likes.findIndex((id) => id === String(req.userId))
 
 	// like the post
@@ -108,7 +108,7 @@ export const likePost = async (req, res) => {
 	// dislike the post
 	else post.likes = post.likes.filter((id) => id !== String(req.userId))
 
-	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+	const updatedPost = await PostMessage.findByIdAndUpdate(postId, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 

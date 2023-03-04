@@ -32,9 +32,9 @@ const Comment = ({ comment: _comment, post, userId, setComments, comments }) => 
 	const { name, comment, creator, commentId, createdAt } = _comment
 	const { _id: postId, creator: postCreator } = post
 
-	const removeComment = async (commentId) => {
-		setComments(comments.filter(({ newComment }) => newComment?.commentId !== commentId))
-		const newComments = await dispatch(deleteComment(postId, commentId))
+	const removeComment = (id) => {
+		setComments(comments.filter(({ newComment }) => newComment?.commentId !== id))
+		const newComments = dispatch(deleteComment(postId, id))
 		setComments(newComments)
 	}
 	const canDelete = userId && [creator, postCreator].includes(userId)
@@ -89,12 +89,14 @@ const CommentSection = ({ post, user }) => {
 						Comments
 					</Typography>
 					<div className={classes.innerContainer}>
-						{Object.entries(comments)?.map(([i, { newComment: comment }]) => (comment?.name ? <Comment key={i} comment={comment} userId={userId} post={post} setComments={setComments} comments={comments} /> : <LegacyComment key={i} comment={comments[i]} />))}
+						{Object.entries(comments)?.map(([i, { newComment: message }]) => (message?.name ? <Comment key={i} comment={message} userId={userId} post={post} setComments={setComments} comments={comments} /> : <LegacyComment key={i} comment={message[i]} />))}
 						<div ref={commentsRef} />
 					</div>
 				</div>
 				<div style={{ width: '100%', display: userId ? 'block' : 'none' }}>
-					<Typography gutterBottom variant="h6">Write a comment</Typography>
+					<Typography gutterBottom variant="h6">
+						Write a comment
+					</Typography>
 					<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
 					<Button style={{ marginTop: '10px' }} fullWidth disabled={!comment.trim().length} color="primary" variant="contained" onClick={handleComment}>
 						Comment
