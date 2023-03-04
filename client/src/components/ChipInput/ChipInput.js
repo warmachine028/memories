@@ -357,7 +357,7 @@ var keyCodes = {
 	RIGHT_ARROW: 39,
 }
 
-var ChipInput =
+const ChipInput =
 	/*#__PURE__*/
 	(function (_React$Component) {
 		_inherits(ChipInput, _React$Component)
@@ -832,7 +832,7 @@ var ChipInput =
 						// ignore: '!=' to '!=='
 						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue
 						var hasInput = (this.props.value || actualInputValue).length > 0 || actualInputValue.length > 0
-						var shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0)
+						const shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0)
 						var chipComponents = chips.map(function (chip, i) {
 							var value = dataSourceConfig ? chip[dataSourceConfig.value] : chip
 							return chipRenderer(
