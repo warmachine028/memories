@@ -56,7 +56,7 @@ function _extends() {
 }
 
 function _objectWithoutProperties(source, excluded) {
-	if (source == null) return {}
+	if (source === null) return {}
 	var target = _objectWithoutPropertiesLoose(source, excluded)
 	var key, i
 	if (Object.getOwnPropertySymbols) {
@@ -72,7 +72,7 @@ function _objectWithoutProperties(source, excluded) {
 }
 
 function _objectWithoutPropertiesLoose(source, excluded) {
-	if (source == null) return {}
+	if (source === null) return {}
 	var target = {}
 	var sourceKeys = Object.keys(source)
 	var key, i
@@ -86,7 +86,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 function _objectSpread(target) {
 	for (var i = 1; i < arguments.length; i++) {
-		var source = arguments[i] != null ? arguments[i] : {}
+		var source = arguments[i] !== null ? arguments[i] : {}
 		var ownKeys = Object.keys(source)
 		if (typeof Object.getOwnPropertySymbols === 'function') {
 			ownKeys = ownKeys.concat(
@@ -383,7 +383,7 @@ var ChipInput =
 			_defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), 'focus', function () {
 				_this.actualInput.focus()
 
-				if (_this.state.focusedChip != null) {
+				if (_this.state.focusedChip !== null) {
 					_this.setState({
 						focusedChip: null,
 					})
@@ -399,7 +399,7 @@ var ChipInput =
 					isFocused: false,
 				})
 
-				if (_this.state.focusedChip != null) {
+				if (_this.state.focusedChip !== null) {
 					_this.setState({
 						focusedChip: null,
 					})
@@ -478,7 +478,7 @@ var ChipInput =
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:
 						if (event.target.value === '') {
-							if (focusedChip != null) {
+							if (focusedChip !== null) {
 								_this.handleDeleteChip(chips[focusedChip], focusedChip)
 
 								if (focusedChip > 0) {
@@ -496,7 +496,7 @@ var ChipInput =
 						break
 
 					case keyCodes.DELETE:
-						if (event.target.value === '' && focusedChip != null) {
+						if (event.target.value === '' && focusedChip !== null) {
 							_this.handleDeleteChip(chips[focusedChip], focusedChip)
 
 							if (focusedChip <= chips.length - 1) {
@@ -509,11 +509,11 @@ var ChipInput =
 						break
 
 					case keyCodes.LEFT_ARROW:
-						if (focusedChip == null && event.target.value === '' && chips.length) {
+						if (focusedChip === null && event.target.value === '' && chips.length) {
 							_this.setState({
 								focusedChip: chips.length - 1,
 							})
-						} else if (focusedChip != null && focusedChip > 0) {
+						} else if (focusedChip !== null && focusedChip > 0) {
 							_this.setState({
 								focusedChip: focusedChip - 1,
 							})
@@ -522,7 +522,7 @@ var ChipInput =
 						break
 
 					case keyCodes.RIGHT_ARROW:
-						if (focusedChip != null && focusedChip < chips.length - 1) {
+						if (focusedChip !== null && focusedChip < chips.length - 1) {
 							_this.setState({
 								focusedChip: focusedChip + 1,
 							})
@@ -564,7 +564,7 @@ var ChipInput =
 			})
 
 			_defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), 'handleUpdateInput', function (e) {
-				if (_this.props.inputValue == null) {
+				if (_this.props.inputValue === null) {
 					_this.updateInput(e.target.value)
 				}
 
@@ -828,9 +828,9 @@ var ChipInput =
 							])
 
 						var chips = value || this.state.chips
-						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue
+						var actualInputValue = inputValue !== null ? inputValue : this.state.inputValue
 						var hasInput = (this.props.value || actualInputValue).length > 0 || actualInputValue.length > 0
-						var shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label != null && (hasInput || this.state.isFocused || chips.length > 0)
+						var shrinkFloatingLabel = InputLabelProps.shrink !== null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0)
 						var chipComponents = chips.map(function (chip, i) {
 							var value = dataSourceConfig ? chip[dataSourceConfig.value] : chip
 							return chipRenderer(
@@ -905,7 +905,7 @@ var ChipInput =
 							_react.default.createElement(
 								'div',
 								{
-									className: (0, _classnames.default)(classes[variant], classes.chipContainer, ((_cx2 = {}), _defineProperty(_cx2, classes.focused, this.state.isFocused), _defineProperty(_cx2, classes.underline, !disableUnderline && variant === 'standard'), _defineProperty(_cx2, classes.disabled, disabled), _defineProperty(_cx2, classes.labeled, label != null), _defineProperty(_cx2, classes.error, error), _cx2)),
+									className: (0, _classnames.default)(classes[variant], classes.chipContainer, ((_cx2 = {}), _defineProperty(_cx2, classes.focused, this.state.isFocused), _defineProperty(_cx2, classes.underline, !disableUnderline && variant === 'standard'), _defineProperty(_cx2, classes.disabled, disabled), _defineProperty(_cx2, classes.labeled, label !== null), _defineProperty(_cx2, classes.error, error), _cx2)),
 								},
 								variant === 'standard' && chipComponents,
 								_react.default.createElement(
@@ -928,7 +928,7 @@ var ChipInput =
 											inputRef: this.setActualInputRef,
 											disabled: disabled,
 											fullWidth: fullWidthInput,
-											placeholder: (!hasInput && (shrinkFloatingLabel || label == null)) || alwaysShowPlaceholder ? placeholder : null,
+											placeholder: (!hasInput && (shrinkFloatingLabel || label === null)) || alwaysShowPlaceholder ? placeholder : null,
 											readOnly: readOnly,
 										},
 										InputProps,
