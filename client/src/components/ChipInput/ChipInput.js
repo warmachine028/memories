@@ -833,7 +833,7 @@ const ChipInput =
 						// ignore: '!=' to '!=='
 						var actualInputValue = inputValue != null ? inputValue : this.state.inputValue // skipcq: JS-0059, JS-0050
 						var hasInput = (this.props.value || actualInputValue).length > 0 || actualInputValue.length > 0
-						const shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0) // skipcq: JS-0050
+						const shrinkFloatingLabel = InputLabelProps.shrink != null ? InputLabelProps.shrink : label !== null && (hasInput || this.state.isFocused || chips.length > 0) // skipcq: JS-0059, JS-0050
 						var chipComponents = chips.map(function (chip, i) {
 							var value = dataSourceConfig ? chip[dataSourceConfig.value] : chip
 							return chipRenderer(

@@ -29,7 +29,7 @@ const RecommendedPosts = ({ user, tags, post_id }) => {
 						</Typography>
 					) : (
 						<Grid className={classes.recommendedPostGrid} container spacing={3}>
-							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post, key) => <PostCard key={key} post={post} userId={userId} />)}
+							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post) => <PostCard key={post._id} post={post} userId={userId} />)}
 						</Grid>
 					)}
 				</div>

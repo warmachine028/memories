@@ -125,8 +125,8 @@ const UserDetails = ({ user }) => {
 						</Box>
 					) : (
 						<div>
-							{Object.entries(labels).map(([label, data], key) => (
-								<Box key={key}>
+							{Object.entries(labels).map(([label, data]) => (
+								<Box key={label}>
 									<Typography color="white">
 										<strong style={{ color: 'black' }}>{label}: </strong>
 										{data}
@@ -147,7 +147,7 @@ const UserDetails = ({ user }) => {
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
 									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
 								</Typography>
-								<Box sx={{ marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag, key) => <Chip key={key} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
+								<Box sx={{ marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
 						</div>
 					)}
