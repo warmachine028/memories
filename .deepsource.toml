@@ -1,5 +1,12 @@
 version = 1
 
+test_patterns = ["*/test/**"]
+
+exclude_patterns = [
+    "public/**,",
+    "dist/**"
+]
+
 [[analyzers]]
 name = "shell"
 enabled = true
@@ -10,3 +17,9 @@ enabled = true
 
   [analyzers.meta]
   plugins = ["react"]
+  environment = ["mongo", "nodejs", "browser"]
+  module_system = "es-modules"
+  dependency_file_paths = [
+    "./client",
+    "./server",
+  ]
