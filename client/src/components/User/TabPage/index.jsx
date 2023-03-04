@@ -18,7 +18,7 @@ const TabPage = (props) => {
 						</Typography>
 					) : (
 						<Grid className={classes.container} container spacing={3}>
-							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map((post, key) => <PostCard key={key} post={post} userId={userId} />)}
+							{isLoading ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : posts.map(post => <PostCard key={post._id} post={post} userId={userId} />)}
 						</Grid>
 					)}
 				</div>

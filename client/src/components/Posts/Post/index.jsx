@@ -17,7 +17,7 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 	const userId = user?.result.googleId || user?.result?._id
 	const hasLikedPost = likes.find((like) => like === userId)
 
-	const handleLike = async () => {
+	const handleLike = () => {
 		dispatch(likePost(post._id))
 		setLikes(hasLikedPost ? likes.filter((id) => id !== userId) : [...likes, userId])
 	}

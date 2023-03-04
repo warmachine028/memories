@@ -112,7 +112,7 @@ export const createPost = (post, history, snackBar) => async (dispatch) => {
 
 export const updatePost = (id, post, snackBar) => async (dispatch) => {
 	try {
-		api.updatePost(id, post)
+		await api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
 		snackBar('info', 'Post updated successfully')
 	} catch (error) {
