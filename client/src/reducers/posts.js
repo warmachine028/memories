@@ -78,9 +78,9 @@ export default (
 		case DELETE:
 			return { ...state, posts: state.posts.filter((post) => (post._id !== action.payload._id ? action.payload : post)) }
 		case DELETE_COMMENT:
-			return { ...state, posts: state.posts.map((post) => (post._id === +action.payload._id ? action.payload : post)) }
+			return { ...state, posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)) }
 		case COMMENT:
-			return { ...state, posts: state.posts.map((post) => (post._id === +action.payload._id ? action.payload : post)) }
+			return { ...state, posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)) }
 		case END_LOADING:
 			return { ...state, isLoading: false }
 		case FETCHED_RECOMMENDED_POSTS:

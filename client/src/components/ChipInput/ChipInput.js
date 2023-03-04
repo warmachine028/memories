@@ -841,7 +841,7 @@ const ChipInput =
 									value: value,
 									text: dataSourceConfig ? chip[dataSourceConfig.text] : chip,
 									chip: chip,
-									isDisabled: !!disabled,
+									isDisabled: Boolean(disabled),
 									isReadOnly: readOnly,
 									isFocused: _this3.state.focusedChip === i,
 									handleClick: function handleClick() {
