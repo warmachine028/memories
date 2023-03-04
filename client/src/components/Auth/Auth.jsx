@@ -1,20 +1,18 @@
+import jwtDecode from 'jwt-decode'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material'
 import { GoogleLogin as GoogleLogins } from '@react-oauth/google'
-import jwtDecode from 'jwt-decode'
 import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { signin, signup } from '../../actions/auth'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Input from '../Input'
-import Icon from './Icon'
 import UserIcon from '../UserIcon/UserIcon'
 
 import { styled } from '@mui/material/styles'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', remember: false }
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 const Auth = ({ snackBar }) => {
 	const [showPassword, setShowPassword] = useState(false)

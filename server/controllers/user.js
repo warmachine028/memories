@@ -11,7 +11,7 @@ const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[
 const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
 const getTop5Tags = ({ allTags: tags }) => {
 	let frequency = {}
-	tags.map((tag) => (frequency[tag] = countOccurrences(tags, tag)))
+	tags.forEach((tag) => (frequency[tag] = countOccurrences(tags, tag)))
 	tags.sort((self, other) => {
 		let diff = frequency[other] - frequency[self]
 		if (diff == 0) diff = frequency[other] - frequency[self]

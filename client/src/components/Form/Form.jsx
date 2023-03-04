@@ -91,7 +91,7 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 			<Root className={classes.root}>
 				<Paper className={classes.paper} elevation={6}>
 					<Typography variant="h6" align="center">
-						Please Sign In to create your memories with us and like other's memories.
+						Please Sign In to create your memories with us and like other&apos;s memories.
 					</Typography>
 				</Paper>
 			</Root>

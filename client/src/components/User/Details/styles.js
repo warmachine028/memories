@@ -22,7 +22,6 @@ export const Root = styled('div')(({ theme }) => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		marginBottom: 10,
 		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column',
