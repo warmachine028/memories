@@ -2,9 +2,10 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import lodash from 'lodash'
 import User from '../models/user.js'
-import PostMessage from '../models/postMessage.js'
+import Post from '../models/post.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
+import mongoose from 'mongoose'
 
 const secret = 'test'
 const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -43,11 +44,26 @@ export const signin = async (req, res) => {
 	}
 }
 
+export const googleSignin = async (req, res) => {
+	const { name, email, image, googleId } = req.body
+
+	try {
+		const id = mongoose.Types.ObjectId(googleId.padStart(24, '0'))
+		const user = await User.findByIdAndUpdate(id, { name, email, image }, { upsert: true })
+		res.status(200).json({ result: user })
+	} catch (error) {
+		res.status(500).json({ message: error.message })
+	}
+}
+
 export const signup = async (req, res) => {
 	const { email, password, confirmPassword, firstName, lastName, avatar } = req.body
 
 	try {
-		const existingUser = await User.findOne({ email })
+		const users = await User.find({ email })
+		let existingUser = false
+		users.forEach((user) => { if (user.avatar) existingUser = true })
+		
 		if (existingUser) {
 			return res.status(409).json({ message: 'User already exists' })
 		}
@@ -113,7 +129,7 @@ export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 
 	try {
-		const allTags = await PostMessage.aggregate([
+		const allTags = await Post.aggregate([
 			{ $match: { creator: id } },
 			{
 				$group: {
@@ -137,7 +153,7 @@ export const getUserDetails = async (req, res) => {
 			},
 		])
 		const longestPost = (
-			await PostMessage.aggregate([
+			await Post.aggregate([
 				{ $match: { creator: id } },
 				{
 					$project: {
@@ -150,14 +166,14 @@ export const getUserDetails = async (req, res) => {
 		)[0]
 
 		const result = {
-			postsCreated: await PostMessage.countDocuments({ creator: id }),
-			postsLiked: await PostMessage.countDocuments({ likes: { $all: [id] } }),
-			privatePosts: await PostMessage.countDocuments({
+			postsCreated: await Post.countDocuments({ creator: id }),
+			postsLiked: await Post.countDocuments({ likes: { $all: [id] } }),
+			privatePosts: await Post.countDocuments({
 				$and: [{ creator: id }, { _private: true }],
 			}),
 			totalLikesRecieved:
 				(
-					await PostMessage.aggregate([
+					await Post.aggregate([
 						{ $match: { creator: id } },
 						{
 							$group: {
@@ -193,9 +209,9 @@ export const getUserPostsByType = async (req, res) => {
 		}
 
 		const LIMIT = 10
-		const total = await PostMessage.countDocuments(query[type])
+		const total = await Post.countDocuments(query[type])
 		const startIndex = (Number(page) - 1) * LIMIT
-		const posts = await PostMessage.find(query[type]).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		const posts = await Post.find(query[type]).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
 
 		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {

@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import PostMessage from '../models/postMessage.js'
+import Post from '../models/post.js'
 
 const router = express.Router()
 
@@ -10,11 +10,11 @@ export const getPosts = async (req, res) => {
 	try {
 		const query = { $or: [{ creator: req.userId }, { _private: false }] }
 		const LIMIT = 8
-		const total = await PostMessage.countDocuments(query)
+		const total = await Post.countDocuments(query)
 		const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
 		console.log('Fetching posts')
 		const start = Date.now()
-		const posts = await PostMessage.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		const posts = await Post.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
 		const end = Date.now()
 		console.log(`Fetching took ${(end - start) / 1000} seconds`)
 		res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
@@ -26,7 +26,7 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
 	const { id } = req.params
 	try {
-		const post = await PostMessage.findById(id)
+		const post = await Post.findById(id)
 		if (!post || (post._private && post.creator !== req.userId)) return res.status(404).send('No post with that id')
 
 		res.status(200).json(post)
@@ -49,7 +49,7 @@ export const getPostsBySearch = async (req, res) => {
 				},
 			],
 		}
-		const posts = await PostMessage.find(query).sort({ createdAt: -1 })
+		const posts = await Post.find(query).sort({ createdAt: -1 })
 		res.status(200).json({ data: posts })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
@@ -59,7 +59,7 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req, res) => {
 	const post = req.body
 
-	const newPost = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() })
+	const newPost = new Post({ ...post, creator: req.userId, createdAt: new Date().toISOString() })
 	try {
 		await newPost.save()
 		res.status(201).json(newPost)
@@ -73,7 +73,7 @@ export const updatePost = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id')
 
 	const post = req.body
-	const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
+	const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
 
 	res.json(updatedPost)
 }
@@ -83,7 +83,7 @@ export const deletePost = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(404).send('No post with that id')
 	}
-	await PostMessage.findByIdAndRemove(id)
+	await Post.findByIdAndRemove(id)
 	res.json({ message: 'Post deleted Successfully' })
 }
 
@@ -91,16 +91,16 @@ export const deleteComment = async (req, res) => {
 	const { id } = req.params
 	const { commentId } = req.body
 
-	const post = await PostMessage.findById(id)
+	const post = await Post.findById(id)
 	post.comments = post.comments.filter(({ newComment: comment }) => String(comment?.commentId) !== commentId)
-	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+	const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
 export const likePost = async (req, res) => {
 	const { id: postId } = req.params
 
-	const post = await PostMessage.findById(postId)
+	const post = await Post.findById(postId)
 	const index = post.likes.findIndex((id) => id === String(req.userId))
 
 	// like the post
@@ -108,7 +108,7 @@ export const likePost = async (req, res) => {
 	// dislike the post
 	else post.likes = post.likes.filter((id) => id !== String(req.userId))
 
-	const updatedPost = await PostMessage.findByIdAndUpdate(postId, post, { new: true })
+	const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
@@ -117,9 +117,9 @@ export const commentPost = async (req, res) => {
 	const comment = req.body
 
 	const newComment = { ...comment, commentId: new mongoose.Types.ObjectId() }
-	const post = await PostMessage.findById(id)
+	const post = await Post.findById(id)
 	post.comments.push({ newComment })
-	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+	const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
