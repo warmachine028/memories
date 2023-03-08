@@ -1,14 +1,14 @@
 import mongoose, { Schema } from 'mongoose'
 
 const postSchema = Schema({
-	creator: String,
+	creator: mongoose.Types.ObjectId,
 	title: String,
 	message: String,
 	image: String,
 	tags: [String],
 	likes: [String],
 	createdAt: { type: Date, default: new Date() },
-	_private: { type: Boolean, default: false },
+	private: Boolean,
 })
 
 export default mongoose.model('posts', postSchema)
