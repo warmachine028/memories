@@ -122,7 +122,7 @@ export const updateDetails = async (req, res) => {
 			avatar: avatar,
 		}
 		await User.findByIdAndUpdate(id, { ...user, id }, { new: true })
-		res.status(204).json({ message: 'User Updated Successfully' })
+		res.status(204).json({ message: 'Details Updated Successfully' })
 	} catch (error) {
 		res.status(500).json({ message: 'Something went wrong.' })
 	}
@@ -131,8 +131,9 @@ export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 
 	try {
+		const userId = mongoose.Types.ObjectId(id.padStart(24, '0'))
 		const allTags = await Post.aggregate([
-			{ $match: { creator: id } },
+			{ $match: { creator: userId } },
 			{
 				$group: {
 					_id: null,
@@ -156,7 +157,7 @@ export const getUserDetails = async (req, res) => {
 		])
 		const longestPost = (
 			await Post.aggregate([
-				{ $match: { creator: id } },
+				{ $match: { creator: userId } },
 				{
 					$project: {
 						message: 1,
@@ -168,15 +169,15 @@ export const getUserDetails = async (req, res) => {
 		)[0]
 
 		const result = {
-			postsCreated: await Post.countDocuments({ creator: id }),
-			postsLiked: await Post.countDocuments({ likes: { $all: [id] } }),
+			postsCreated: await Post.countDocuments({ creator: userId }),
+			postsLiked: await Post.countDocuments({ likes: { $all: [userId] } }),
 			privatePosts: await Post.countDocuments({
-				$and: [{ creator: id }, { _private: true }],
+				$and: [{ creator: userId }, { private: true }],
 			}),
 			totalLikesRecieved:
 				(
 					await Post.aggregate([
-						{ $match: { creator: id } },
+						{ $match: { creator: userId } },
 						{
 							$group: {
 								_id: '_id',
@@ -204,10 +205,11 @@ export const getUserPostsByType = async (req, res) => {
 	const { page, type } = req.query
 
 	try {
+		const userId = mongoose.Types.ObjectId(id.padStart(24, '0'))
 		const query = {
-			created: { creator: id },
-			liked: { likes: { $all: [id] } },
-			private: { $and: [{ creator: id }, { _private: true }] },
+			created: { creator: userId },
+			liked: { likes: { $all: [userId] } },
+			private: { $and: [{ creator: userId }, { private: true }] },
 		}
 
 		const LIMIT = 10
