@@ -62,8 +62,10 @@ export const signup = async (req, res) => {
 	try {
 		const users = await User.find({ email })
 		let existingUser = false
-		users.forEach((user) => { if (user.avatar) existingUser = true })
-		
+		users.forEach((user) => {
+			if (user.password) existingUser = true
+		})
+
 		if (existingUser) {
 			return res.status(409).json({ message: 'User already exists' })
 		}

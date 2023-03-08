@@ -8,13 +8,28 @@ export const getPosts = async (req, res) => {
 	const { page } = req.query
 
 	try {
-		const query = { $or: [{ creator: req.userId }, { _private: false }] }
+		const userId = mongoose.Types.ObjectId(req.userId)
+		const query = { $or: [{ creator: userId }, { private: false }] }
 		const LIMIT = 8
 		const total = await Post.countDocuments(query)
 		const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
 		console.log('Fetching posts')
 		const start = Date.now()
-		const posts = await Post.find(query).limit(LIMIT).sort({ createdAt: -1 }).skip(startIndex)
+		let posts = await Post.aggregate([
+			{ $match: query },
+			{ $limit: LIMIT },
+			{ $sort: { createdAt: -1 } },
+			{ $skip: startIndex },
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'creator',
+					foreignField: '_id',
+					as: 'creator',
+				},
+			},
+		])
+		posts = posts.map((post) => ({ ...post, creator: post.creator[0] }))
 		const end = Date.now()
 		console.log(`Fetching took ${(end - start) / 1000} seconds`)
 		res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
@@ -59,8 +74,12 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req, res) => {
 	const post = req.body
 
-	const newPost = new Post({ ...post, creator: req.userId, createdAt: new Date().toISOString() })
 	try {
+		const newPost = new Post({
+			...post,
+			creator: mongoose.Types.ObjectId(req.userId),
+			createdAt: new Date().toISOString(),
+		})
 		await newPost.save()
 		res.status(201).json(newPost)
 	} catch (error) {
@@ -75,7 +94,22 @@ export const updatePost = async (req, res) => {
 	const post = req.body
 	const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
 
-	res.json(updatedPost)
+	res.status(200).json(updatedPost)
+}
+
+export const likePost = async (req, res) => {
+	const { id: postId } = req.params
+
+	const post = await Post.findById(postId)
+	const index = post.likes.findIndex((id) => id === String(req.userId))
+
+	// like the post
+	if (index === -1) post.likes.push(req.userId)
+	// dislike the post
+	else post.likes = post.likes.filter((id) => id !== String(req.userId))
+
+	const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true })
+	res.status(200).json(updatedPost)
 }
 
 export const deletePost = async (req, res) => {
@@ -94,21 +128,6 @@ export const deleteComment = async (req, res) => {
 	const post = await Post.findById(id)
 	post.comments = post.comments.filter(({ newComment: comment }) => String(comment?.commentId) !== commentId)
 	const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
-	res.status(200).json(updatedPost)
-}
-
-export const likePost = async (req, res) => {
-	const { id: postId } = req.params
-
-	const post = await Post.findById(postId)
-	const index = post.likes.findIndex((id) => id === String(req.userId))
-
-	// like the post
-	if (index === -1) post.likes.push(req.userId)
-	// dislike the post
-	else post.likes = post.likes.filter((id) => id !== String(req.userId))
-
-	const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true })
 	res.status(200).json(updatedPost)
 }
 
