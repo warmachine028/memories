@@ -67,7 +67,7 @@ const UserDetails = ({ user }) => {
 
 	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
 	const labels = {
-		Emails: user.result.email,
+		Email: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,
@@ -107,7 +107,7 @@ const UserDetails = ({ user }) => {
 					{user.result.avatar ? (
 						<Avaatar className={classes.avatar} {...user.result.avatar} />
 					) : (
-						<Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>
+						<Avatar className={classes.avatar} alt={user.result.name} src={user.result.image}>
 							<Typography variant="h1" color="white">
 								{user.result.name.charAt(0)}
 							</Typography>
