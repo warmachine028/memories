@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiURL = ['https://memories-pritam-server.vercel.app', 'http://localhost:5000']
-const API = axios.create({ baseURL: apiURL[0] })
+const API = axios.create({ baseURL: apiURL[1] })
 
 API.interceptors.request.use((req) => {
 	if (localStorage.getItem('profile')) {
@@ -23,6 +23,7 @@ export const likePost = (id) => API.patch(`/posts/${id}/likePost`)
 export const comment = (message, id) => API.post(`/posts/${id}/commentPost`, message)
 
 export const signIn = (formData) => API.post('/user/signin', formData)
+export const googleSignIn = (formData) => API.post('/user/googleSignIn', formData)
 export const signUp = (formData) => API.post('/user/signup', formData)
 export const sendResetLink = (formData) => API.post('/user/forgotPassword', formData)
 export const setNewPassword = (formData) => API.post('/user/resetPassword', formData)

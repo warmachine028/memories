@@ -5,7 +5,7 @@ import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@m
 import { GoogleLogin as GoogleLogins } from '@react-oauth/google'
 import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes } from './styles'
-import { signin, signup } from '../../actions/auth'
+import { googleSignIn, signin, signup } from '../../actions/auth'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Input from '../Input'
 import UserIcon from '../UserIcon/UserIcon'
@@ -35,11 +35,9 @@ const Auth = ({ snackBar }) => {
 	}
 	const googleSuccess = async ({ credential: token }) => {
 		try {
-			const { email, family_name: familyName, given_name: givenName, sub: googleId, picture: imageUrl, name } = jwtDecode(token)
-			const result = { email, familyName, givenName, googleId, imageUrl, name }
-			dispatch({ type: 'AUTH', data: { result, token } })
-			history('/')
-			snackBar('success', 'Logged in Successfully')
+			const { email, family_name: familyName, given_name: givenName, sub: googleId, picture: image, name } = jwtDecode(token)
+			const result = { email, familyName, givenName, googleId, image, name }
+			dispatch(googleSignIn({ result, token }, history, snackBar))
 		} catch (error) {
 			snackBar('error', error)
 		}
@@ -70,7 +68,7 @@ const Auth = ({ snackBar }) => {
 						<Grid container spacing={1}>
 							{isSignup && (
 								<>
-									<Input name="firstName" label="First Name" onChange={handleChange}  half />
+									<Input name="firstName" label="First Name" onChange={handleChange} half />
 									<Input name="lastName" label="Last Name" onChange={handleChange} half />
 								</>
 							)}
