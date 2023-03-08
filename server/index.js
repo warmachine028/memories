@@ -21,7 +21,7 @@ app.use('/user', userRoutes)
 app.get('/', (_, res) => res.send('Hello to Memories API'))
 
 const PORT = process.env.PORT || 5000
-
+mongoose.set('strictQuery', true)
 mongoose // https://www.mongodb.com/cloud/atlas
 	.connect(process.env.CONNECTION_URL)
 	.then(console.log('Connected to MongoDB Database 🌐'))
