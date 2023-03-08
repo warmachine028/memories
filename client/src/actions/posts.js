@@ -114,7 +114,8 @@ export const updatePost = (id, post, snackBar) => async (dispatch) => {
 	try {
 		await api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
-		snackBar('info', 'Post updated successfully')
+		if (snackBar)
+			snackBar('info', 'Post updated successfully')
 	} catch (error) {
 		snackBar('error', error)
 	}

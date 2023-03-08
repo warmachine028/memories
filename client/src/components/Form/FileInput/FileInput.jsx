@@ -9,7 +9,7 @@ export const compress = async (postData, setPostData, setFileName, setMedia, e) 
 	try {
 		const compressedFile = await imageCompression(imageFile, { maxSizeMB: 0.8, maxWidthOrHeight: 1920 })
 		const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
-		setPostData({ ...postData, selectedFile: base64 })
+		setPostData({ ...postData, image: base64 })
 		setMedia(base64)
 		setFileName(imageFile.name)
 	} catch (error) {
