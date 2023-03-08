@@ -44,7 +44,7 @@ const Navbar = ({ user, setUser, snackBar, floating }) => {
 								{user.result.avatar ? (
 									<Avaatar className={classes.avaatar} avatarStyle="Circle" {...user.result.avatar} />
 								) : (
-									<Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>
+									<Avatar className={classes.avatar} alt={user.result.name} src={user.result.image}>
 										{user.result.name.charAt(0)}
 									</Avatar>
 								)}
