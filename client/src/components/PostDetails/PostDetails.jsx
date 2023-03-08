@@ -29,7 +29,7 @@ const PostDetails = ({ user }) => {
 				<div className={classes.card}>
 					<div className={classes.section}>
 						<div className={classes.imageSection}>
-							<img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+							<img className={classes.media} src={post.image || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
 						</div>
 						<Typography variant="h3" className={classes.title}>
 							{post.title}
@@ -37,7 +37,7 @@ const PostDetails = ({ user }) => {
 						<Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.tags}>
 							{post.tags.map((tag) => `#${tag} `)}
 						</Typography>
-						<div style={{ margin: '0 0 20px 0', display: post._private ? 'block' : 'none' }} align="center">
+						<div style={{ margin: '0 0 20px 0', display: post.private ? 'block' : 'none' }} align="center">
 							<Button className={classes.privateLabel} variant="contained" size="small" disableElevation>
 								PRIVATE
 							</Button>
@@ -45,10 +45,10 @@ const PostDetails = ({ user }) => {
 						<Typography className={classes.paragraph} gutterBottom variant="body1" component="p">
 							{post.message}
 						</Typography>
-						<Typography variant="h6">Created by: {post.name}</Typography>
+						<Typography variant="h6">Created by: {post.creator.name}</Typography>
 						<Typography variant="body1">{moment(post.createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
 						<Divider style={{ margin: '20px 0' }} />
-						<CommentSection post={post} user={user} />
+						{/* <CommentSection post={post} user={user} /> */}
 					</div>
 				</div>
 			</Paper>
