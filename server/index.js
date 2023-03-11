@@ -3,9 +3,9 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-
+import commentRoutes from './routes/comments.js'
 import postRoutes from './routes/posts.js'
-import userRoutes from './routes/user.js'
+import userRoutes from './routes/users.js'
 
 dotenv.config()
 
@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
 app.use('/posts', postRoutes)
 app.use('/user', userRoutes)
+app.use('/comments', commentRoutes)
 
 app.get('/', (_, res) => res.send('Hello to Memories API'))
 
