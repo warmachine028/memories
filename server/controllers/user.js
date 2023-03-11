@@ -23,7 +23,6 @@ const getTop5Tags = ({ allTags: tags }) => {
 
 export const signin = async (req, res) => {
 	const { email, password, remember } = req.body
-
 	try {
 		const existingUser = await User.findOne({ email })
 
@@ -37,7 +36,6 @@ export const signin = async (req, res) => {
 		}
 
 		const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, secret, remember ? null : { expiresIn: '1h' })
-
 		res.status(200).json({ result: existingUser, token })
 	} catch (error) {
 		res.status(500).json({ message: 'Something went wrong' })
@@ -271,5 +269,16 @@ export const resetPassword = async (req, res) => {
 		res.status(200).json()
 	} catch (error) {
 		res.status(500).json({ message: error.message })
+	}
+}
+
+export const getUser = async (id) => {
+	try {
+		const userId = id.padStart(24, '0')
+		const user = await User.findById(userId)
+		delete user.password
+		return user
+	} catch (error) {
+		console.log(error)
 	}
 }

@@ -4,7 +4,11 @@ import Post from '../models/post.js'
 
 const router = express.Router()
 
-const setCreator = (posts) => posts.map((post) => ({ ...post, creator: post.creator[0] }))
+export const setCreator = (posts) =>
+	posts.map((post) => {
+		delete post.creator[0].password
+		return { ...post, creator: post.creator[0] }
+	})
 
 export const getPosts = async (req, res) => {
 	const { page } = req.query
@@ -44,6 +48,9 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
 	const { id } = req.params
 	try {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
+			return res.status(404).send('Invalid Id. Post Not Found')
+		}
 		let posts = await Post.aggregate([
 			{ $match: { _id: mongoose.Types.ObjectId(id) } },
 			{
@@ -57,14 +64,15 @@ export const getPost = async (req, res) => {
 		])
 		posts = setCreator(posts)
 		if (!posts.length) {
-			return res.status(404).send('No post with that id')
+			return res.status(404).send('Post not found with that id')
 		}
 		const post = posts[0]
-		if (post.private && `${post.creator._id}` !== req.userId) {
+		if (post.private && `${post.creator._id}` !== req.userId?.padStart(24, 0)) {
 			return res.status(404).send("Can't access post with that Id")
 		}
 		res.status(200).json(post)
 	} catch (error) {
+		console.log(error)
 		res.status(404).json({ message: error.message })
 	}
 }
@@ -110,12 +118,11 @@ export const createPost = async (req, res) => {
 		const newPost = new Post({
 			...post,
 			creator: mongoose.Types.ObjectId(req.userId.padStart(24, '0')),
-			createdAt: new Date().toISOString(),
 		})
 		await newPost.save()
 		res.status(201).json(newPost)
 	} catch (error) {
-		res.status(409).json({ message: error.message })
+		res.status(409).send(error.message)
 	}
 }
 
@@ -129,21 +136,6 @@ export const updatePost = async (req, res) => {
 	res.status(200).json(updatedPost)
 }
 
-export const likePost = async (req, res) => {
-	const { id: postId } = req.params
-
-	const post = await Post.findById(postId)
-	const index = post.likes.findIndex((id) => id === String(req.userId))
-
-	// like the post
-	if (index === -1) post.likes.push(req.userId)
-	// dislike the post
-	else post.likes = post.likes.filter((id) => id !== String(req.userId))
-
-	const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true })
-	res.status(200).json(updatedPost)
-}
-
 export const deletePost = async (req, res) => {
 	const { id } = req.params
 	if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -151,27 +143,6 @@ export const deletePost = async (req, res) => {
 	}
 	await Post.findByIdAndRemove(id)
 	res.json({ message: 'Post deleted Successfully' })
-}
-
-export const deleteComment = async (req, res) => {
-	const { id } = req.params
-	const { commentId } = req.body
-
-	const post = await Post.findById(id)
-	post.comments = post.comments.filter(({ newComment: comment }) => String(comment?.commentId) !== commentId)
-	const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
-	res.status(200).json(updatedPost)
-}
-
-export const commentPost = async (req, res) => {
-	const { id } = req.params
-	const comment = req.body
-
-	const newComment = { ...comment, commentId: new mongoose.Types.ObjectId() }
-	const post = await Post.findById(id)
-	post.comments.push({ newComment })
-	const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
-	res.status(200).json(updatedPost)
 }
 
 export default router
