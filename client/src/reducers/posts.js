@@ -23,6 +23,10 @@ import {
 	FETCHING_PRIVATE_POSTS,
 	FETCHED_PRIVATE_POSTS,
 	FETCH_PRIVATE,
+	FETCHING_COMMENTS,
+	FETCH_COMMENTS,
+	FETCHED_COMMENTS,
+	CREATE_COMMENT
 } from '../constants/actionTypes'
 
 export default (
@@ -31,12 +35,15 @@ export default (
 		isFetchingLikedPosts: true,
 		isFetchingPrivatePosts: true,
 		isFetchingRecommendedPosts: true,
+		isFetchingComments: true,
 		isLoading: true,
 		posts: [],
 		data: {},
 		likedPosts: [],
 		createdPosts: [],
+		recommendedPosts: [],
 		privatePosts: [],
+		comments: [],
 	},
 	action
 ) => {
@@ -50,11 +57,14 @@ export default (
 		case FETCHING_RECOMMENDED_POSTS:
 			return {
 				...state,
-				recommendedPosts: [],
-				isFetchingRecommendedPosts: true
+				isFetchingRecommendedPosts: true,
 			}
+		case FETCHING_COMMENTS:
+			return { ...state, isFetchingComments: true }
 		case START_LOADING:
 			return { ...state, isLoading: true }
+		case FETCH_COMMENTS:
+			return { ...state, comments: action.payload }
 		case FETCH_ALL:
 			return { ...state, posts: action.payload.data, currentPage: action.payload.currentPage, numberOfPages: action.payload.numberOfPages }
 		case FETCH_BY_SEARCH:
@@ -69,6 +79,8 @@ export default (
 			return { ...state, privatePosts: action.payload.data, privateNumberOfPages: action.payload.numberOfPages }
 		case FETCH_RECOMMENDED:
 			return { ...state, recommendedPosts: action.payload.data }
+		case CREATE_COMMENT:
+			return {...state, comments: [...state.comments, action.payload]}
 		case CREATE:
 			return { ...state, posts: [...state.posts, action.payload] }
 		case FETCH_POST:
@@ -78,7 +90,7 @@ export default (
 		case DELETE:
 			return { ...state, posts: state.posts.filter((post) => (post._id !== action.payload._id ? action.payload : post)) }
 		case DELETE_COMMENT:
-			return { ...state, posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)) }
+			return { ...state, comments: state.comments.filter(comment => (comment._id !== action.payload)) }
 		case COMMENT:
 			return { ...state, posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)) }
 		case END_LOADING:
@@ -91,6 +103,8 @@ export default (
 			return { ...state, isFetchingLikedPosts: false }
 		case FETCHED_CREATED_POSTS:
 			return { ...state, isFetchingCreatedPosts: false }
+		case FETCHED_COMMENTS:
+			return { ...state, isFetchingComments: false }
 		default:
 			return state
 	}

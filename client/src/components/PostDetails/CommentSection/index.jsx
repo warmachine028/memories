@@ -1,95 +1,88 @@
-import { useState, useRef } from 'react'
-import { Typography, TextField, Button, IconButton, Avatar, Box, Grow } from '@mui/material'
-import { Delete } from '@mui/icons-material'
-import { useDispatch } from 'react-redux'
-import { commentPost, deleteComment } from '../../../actions/posts'
+import { useState, useRef, useEffect } from 'react'
+import { Typography, TextField, Button, IconButton, Avatar, Box, Grow, CircularProgress, Grid } from '@mui/material'
+import { Delete, Edit } from '@mui/icons-material'
+import { useDispatch, useSelector } from 'react-redux'
 import { Root, classes } from './styles'
 import moment from 'moment'
+import { createComment, getComments } from '../../../actions/comments'
+import Avaatar from 'avataaars'
+import { deleteComment } from '../../../actions/comments'
 
-const LegacyComment = ({ comment: _comment }) => {
-	const name = _comment.split(': ')[0]
-	const comment = _comment.split(': ')[1]
+const Comment = ({ data, user, post, handleDelete }) => {
+	let userId = user?.result.googleId || user?.result?._id
+	userId = userId ? userId.padStart(24, '0') : userId
+	const { creator, message, createdAt, _id } = data
+	const canDelete = [creator._id, post.creator._id].includes(userId)
+	const canEdit = userId === creator._id
+
 	return (
 		<Grow in={true} mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
-				<Avatar style={{ margin: 5 }}>{name[0]}</Avatar>
-				<Box className={classes.commentBox}>
+				<Grid item xl={2} style={{ maxWidth: 50, marginRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+					{creator.avatar ? (
+						<Avaatar className={classes.avaatar} avatarStyle="Circle" {...creator.avatar} />
+					) : (
+						<Avatar className={classes.avatar} alt={creator.name} src={creator.image}>
+							{creator.name.charAt(0)}
+						</Avatar>
+					)}
+				</Grid>
+				<Grid item className={classes.commentBox}>
 					<div className={classes.commentItem}>
-						<Typography className={classes.userName}>{name}</Typography>
+						<Typography className={classes.userName}>{creator.name}</Typography>
+						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
 						<Typography className={classes.comment} component="p">
-							{comment}
+							{message}
 						</Typography>
-						<Typography className={classes.time}>A long time ago</Typography>
 					</div>
-				</Box>
+					{userId && (
+						<div style={{ display: 'flex' }}>
+							<IconButton aria-label="delete" size="small" style={{ color: '#ae0050', display: canDelete ? 'inline-flex' : 'none' }} onClick={() => handleDelete(_id)}>
+								<Delete fontSize="1rem" />
+							</IconButton>
+							<IconButton aria-label="edit" color="primary" size="small" style={{ display: canEdit ? 'inline-flex' : 'none' }} onClick={() => {}}>
+								<Edit fontSize="1rem" />
+							</IconButton>
+						</div>
+					)}
+				</Grid>
 			</div>
 		</Grow>
 	)
 }
 
-const Comment = ({ comment: _comment, post, userId, setComments, comments }) => {
+const CommentSection = ({ post, user, snackBar }) => {
 	const dispatch = useDispatch()
-	const { name, comment, creator, commentId, createdAt } = _comment
-	const { _id: postId, creator: postCreator } = post
-
-	const removeComment = (id) => {
-		setComments(comments.filter(({ newComment }) => newComment?.commentId !== id))
-		const newComments = dispatch(deleteComment(postId, id))
-		setComments(newComments)
-	}
-	const canDelete = userId && [creator, postCreator].includes(userId)
-
-	return (
-		<Grow in={true} mountOnEnter unmountOnExit>
-			<div className={classes.commentContainer}>
-				<Avatar style={{ margin: 5 }}>{name[0]}</Avatar>
-				<Box className={classes.commentBox}>
-					<div className={classes.commentItem}>
-						<Typography className={classes.userName}>{name}</Typography>
-						<Typography className={classes.comment} component="p">
-							{comment}
-						</Typography>
-						<Typography className={classes.time}>{moment(createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
-					</div>
-
-					<IconButton aria-label="delete" size="small" style={{ color: '#ae0050', display: canDelete ? 'inline-flex' : 'none' }} onClick={() => removeComment(commentId)}>
-						<Delete fontSize="1rem" />
-					</IconButton>
-				</Box>
-			</div>
-		</Grow>
-	)
-}
-
-const CommentSection = ({ post, user }) => {
-	const dispatch = useDispatch()
-	const [comment, setComment] = useState('')
-	const [comments, setComments] = useState(post?.comments)
+	const [message, setMessage] = useState('')
 	const commentsRef = useRef()
 	const userId = user?.result.googleId || user?.result._id
-	const handleComment = async () => {
-		const newComment = {
-			commentId: null,
-			name: user.result.name,
-			comment: comment,
-			creator: userId,
-			createdAt: new Date().toISOString(),
-		}
-		setComments([...comments, { newComment }])
-		setComment('')
-		const newComments = await dispatch(commentPost(newComment, post._id))
-		setComments(newComments)
+	const { isFetchingComments: loading, comments } = useSelector((state) => state.posts)
+	useEffect(() => dispatch(getComments(post._id)), [post._id])
+
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		const comment = { message: message, post: post._id, creator: userId }
+		await dispatch(createComment(comment, snackBar))
+		setMessage('')
 	}
 
-	return (
+	const handleDelete = async (id) => await dispatch(deleteComment(id, snackBar))
+
+	return loading ? (
+		<CircularProgress size="7em" />
+	) : (
 		<Root className={classes.root}>
 			<div className={classes.outerContainer}>
-				<div style={{ width: '100%', display: Object.keys(comments).length ? 'block' : 'none' }}>
+				<div style={{ width: '100%', display: comments.length ? 'block' : 'none' }}>
 					<Typography gutterBottom variant="h6">
 						Comments
 					</Typography>
 					<div className={classes.innerContainer}>
-						{Object.entries(comments)?.map(([i, { newComment: message }]) => (message?.name ? <Comment key={i} comment={message} userId={userId} post={post} setComments={setComments} comments={comments} /> : <LegacyComment key={i} comment={message[i]} />))}
+						<Grid container>
+							{comments.map((comment) => (
+								<Comment key={comment._id} data={comment} user={user} post={post} handleDelete={handleDelete} />
+							))}
+						</Grid>
 						<div ref={commentsRef} />
 					</div>
 				</div>
@@ -97,10 +90,12 @@ const CommentSection = ({ post, user }) => {
 					<Typography gutterBottom variant="h6">
 						Write a comment
 					</Typography>
-					<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
-					<Button style={{ marginTop: '10px' }} fullWidth disabled={!comment.trim().length} color="primary" variant="contained" onClick={handleComment}>
-						Comment
-					</Button>
+					<form onSubmit={handleSubmit}>
+						<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
+						<Button type="submit" style={{ marginTop: '10px' }} fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained">
+							{loading && <CircularProgress size="2em" />} Comment
+						</Button>
+					</form>
 				</div>
 			</div>
 		</Root>

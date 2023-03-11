@@ -4,16 +4,17 @@ import RecommendedPosts from './RecommendedPosts'
 import { useEffect } from 'react'
 import { Paper, Typography, CircularProgress, Divider, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { getPost } from '../../actions/posts'
 // import { posts, isLoading } from '../../temp'
 // const post = posts[0]
 
-const PostDetails = ({ user }) => {
+const PostDetails = ({ user, snackBar }) => {
 	const { id } = useParams()
 	const dispatch = useDispatch()
-	useEffect(() => dispatch(getPost(id)), [id])
+	const history = useNavigate()
+	useEffect(() => dispatch(getPost(id, history, snackBar)), [id])
 
 	const { post, isLoading } = useSelector((state) => state.posts)
 
@@ -29,7 +30,7 @@ const PostDetails = ({ user }) => {
 				<div className={classes.card}>
 					<div className={classes.section}>
 						<div className={classes.imageSection}>
-							<img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+							<img className={classes.media} src={post.image || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
 						</div>
 						<Typography variant="h3" className={classes.title}>
 							{post.title}
@@ -37,7 +38,7 @@ const PostDetails = ({ user }) => {
 						<Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.tags}>
 							{post.tags.map((tag) => `#${tag} `)}
 						</Typography>
-						<div style={{ margin: '0 0 20px 0', display: post._private ? 'block' : 'none' }} align="center">
+						<div style={{ margin: '0 0 20px 0', display: post.private ? 'block' : 'none' }} align="center">
 							<Button className={classes.privateLabel} variant="contained" size="small" disableElevation>
 								PRIVATE
 							</Button>
@@ -45,10 +46,10 @@ const PostDetails = ({ user }) => {
 						<Typography className={classes.paragraph} gutterBottom variant="body1" component="p">
 							{post.message}
 						</Typography>
-						<Typography variant="h6">Created by: {post.name}</Typography>
+						<Typography variant="h6">Created by: {post.creator.name}</Typography>
 						<Typography variant="body1">{moment(post.createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
 						<Divider style={{ margin: '20px 0' }} />
-						<CommentSection post={post} user={user} />
+						<CommentSection post={post} user={user} snackBar={snackBar} />
 					</div>
 				</div>
 			</Paper>

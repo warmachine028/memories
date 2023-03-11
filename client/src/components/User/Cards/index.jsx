@@ -22,7 +22,7 @@ export const LoadingCard = () => {
 
 export const PostCard = ({ post, userId }) => {
 	const history = useNavigate()
-	const { title, message, name, tags, _private, selectedFile, likes, createdAt, _id } = post
+	const { title, message, name, tags, image, likes, createdAt, _id } = post
 	const hasLikedPost = likes.find((like) => like === userId)
 	const Likes = () => {
 		if (likes.length > 0)
@@ -48,7 +48,7 @@ export const PostCard = ({ post, userId }) => {
 		<Root className={classes.root}>
 			<Card raised className={classes.postCard}>
 				<ButtonBase className={classes.buttonBase} onClick={() => history(`/posts/${_id}`)} component="span">
-					<CardMedia className={classes.cardMedia} component="img" image={selectedFile} />
+					<CardMedia className={classes.cardMedia} component="img" image={image} />
 					<div className={classes.cardContent}>
 						<div className={classes.overlay}>
 							<Typography variant="h6">{name}</Typography>
@@ -66,7 +66,7 @@ export const PostCard = ({ post, userId }) => {
 							<Typography variant="h5" gutterBottom>
 								{title.slice(0, 25)}
 							</Typography>
-							<Button sx={{ display: _private ? 'initial' : 'none', paddingBottom: 0 }} variant="contained" size="small" disableElevation>
+							<Button sx={{ display: post.private ? 'initial' : 'none', paddingBottom: 0 }} variant="contained" size="small" disableElevation>
 								<Lock />
 							</Button>
 							<CardContent>

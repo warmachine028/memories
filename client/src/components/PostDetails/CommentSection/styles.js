@@ -11,11 +11,22 @@ export const classes = {
 	userName: `${PREFIX}-userName`,
 	comment: `${PREFIX}-comment`,
 	time: `${PREFIX}-time`,
+	avatar: `${PREFIX}-avatar`,
+	avaatar: `${PREFIX}-avaatar`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
 		margin: '10px 5px',
+	},
+	[`& .${classes.avaatar}`]: {
+		height: 55,
+		width: 55,
+	},
+	[`& .${classes.avatar}`]: {
+		margin: theme.spacing(1),
+		height: 46,
+		width: 46,
 	},
 	[`& .${classes.outerContainer}`]: {
 		display: 'flex',
@@ -67,9 +78,15 @@ export const Root = styled('div')(({ theme }) => ({
 		color: 'white',
 	},
 	[`& .${classes.time}`]: {
-		textAlign: 'end',
-		marginLeft: 10,
+		textAlign: 'start',
 		fontSize: 'small',
 		color: 'rgba(255, 255, 255, .30)',
+	},
+	[theme.breakpoints.down('sm')]: {
+		// [`& .${classes.avatar}`]: {
+		// 	margin: theme.spacing(1),
+		// 	height: 38.5,
+		// 	width: 38.5,
+		// },
 	},
 }))

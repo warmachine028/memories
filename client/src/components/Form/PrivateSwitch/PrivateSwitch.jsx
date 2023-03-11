@@ -2,7 +2,7 @@ import { Root, classes } from './styles'
 import { Typography } from '@mui/material'
 
 const PrivateSwitch = ({ private_, postData, setPrivate, setPostData }) => {
-	const onChange = () => setPostData({ ...postData, _private: !private_ })
+	const onChange = () => setPostData({ ...postData, private: !private_ })
 	return (
 		<Root className={classes.root}>
 			<label className={classes.formSwitch}>

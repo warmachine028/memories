@@ -8,16 +8,16 @@ import { createPost, updatePost } from '../../actions/posts'
 import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 
-const initial = { title: '', message: '', tags: [], selectedFile: null, _private: false }
+const initial = { title: '', message: '', image: null, tags: [], private: false }
 
 const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 	const [postData, setPostData] = useState(initial)
-	const [private_, setPrivate] = useState(postData._private)
+	const [private_, setPrivate] = useState(postData.private)
 	const [tags, setTags] = useState(postData.tags)
 	const [fileName, setFileName] = useState('No post selected')
 	const [oldLabel, setOldLabel] = useState(fileName)
 	const [dragging, setDragging] = useState(false)
-	const [media, setMedia] = useState(postData.selectedFile)
+	const [media, setMedia] = useState(postData.image)
 	const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null))
 	const validate = !(postData.title.trim() && postData.message.trim() && media && postData.tags.length)
 
@@ -27,11 +27,11 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 	useEffect(() => {
 		if (post) {
 			setPostData(post)
-			setPrivate(post._private)
+			setPrivate(post.private)
 			setTags(post.tags)
 			setFileName('Previous Image')
 			setOldLabel('Previous Image')
-			setMedia(post.selectedFile)
+			setMedia(post.image)
 		}
 	}, [post])
 
@@ -57,8 +57,9 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		if (currentId === 0) dispatch(createPost({ ...postData, name: user.result.name }, history, snackBar))
-		else dispatch(updatePost(currentId, { ...postData, name: user.result.name }, snackBar))
+		const userId = user.result._id || user.result.googleId.padStart(24, '0')
+		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
+		else dispatch(updatePost(currentId, postData, snackBar))
 		clear()
 	}
 
@@ -66,7 +67,7 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 		setCurrentId(0)
 		setTags([])
 		setPostData(initial)
-		setPrivate(initial._private)
+		setPrivate(initial.private)
 		setMediaEmpty()
 	}
 

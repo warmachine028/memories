@@ -9,11 +9,9 @@ import {
 	CREATE,
 	UPDATE,
 	DELETE,
-	DELETE_COMMENT,
 	START_LOADING,
 	END_LOADING,
 	FETCH_POST,
-	COMMENT,
 } from '../constants/actionTypes'
 import * as api from '../api'
 
@@ -60,14 +58,15 @@ export const getUserPostsByType = (userId, page, type) => async (dispatch) => {
 	}
 }
 
-export const getPost = (id) => async (dispatch) => {
+export const getPost = (id, history, snackBar) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const { data } = await api.fetchPost(id)
 		dispatch({ type: FETCH_POST, payload: { post: data } })
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		console.log(error)
+		history('/')
+		snackBar('error', error.response.data)
 	}
 }
 
@@ -106,7 +105,7 @@ export const createPost = (post, history, snackBar) => async (dispatch) => {
 		snackBar('success', 'Post created successfully')
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		snackBar('error', error)
+		snackBar('error', error.response.data)
 	}
 }
 
@@ -114,7 +113,7 @@ export const updatePost = (id, post, snackBar) => async (dispatch) => {
 	try {
 		await api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
-		snackBar('info', 'Post updated successfully')
+		if (snackBar) snackBar('info', 'Post updated successfully')
 	} catch (error) {
 		snackBar('error', error)
 	}
@@ -128,34 +127,5 @@ export const deletePost = (id, snackBar) => async (dispatch) => {
 		snackBar('info', 'Post deleted successfully')
 	} catch (error) {
 		snackBar('error', error)
-	}
-}
-
-export const deleteComment = (id, commentId) => async (dispatch) => {
-	try {
-		const { data } = await api.deleteComment(id, commentId)
-		dispatch({ type: DELETE_COMMENT, payload: data })
-		return data.comments
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-export const likePost = (id) => async (dispatch) => {
-	try {
-		const { data } = await api.likePost(id)
-		dispatch({ type: UPDATE, payload: data })
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-export const commentPost = (comment, id) => async (dispatch) => {
-	try {
-		const { data } = await api.comment(comment, id)
-		dispatch({ type: COMMENT, payload: data })
-		return data.comments
-	} catch (error) {
-		console.log(error)
 	}
 }

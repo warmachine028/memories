@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Card } from '@mui/material'
 import { Root, classes } from './styles'
 import { useDispatch } from 'react-redux'
-import { deletePost, likePost } from '../../../actions/posts'
+import { deletePost, updatePost } from '../../../actions/posts'
 import { useNavigate } from 'react-router-dom'
 
 const Post = ({ post, setCurrentId, user, snackBar }) => {
@@ -18,8 +18,9 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 	const hasLikedPost = likes.find((like) => like === userId)
 
 	const handleLike = () => {
-		dispatch(likePost(post._id))
-		setLikes(hasLikedPost ? likes.filter((id) => id !== userId) : [...likes, userId])
+		const usersLiked = hasLikedPost ? likes.filter((id) => id !== userId) : [...likes, userId]
+		setLikes(usersLiked)
+		dispatch(updatePost(post._id, { ...post, likes: usersLiked }))
 	}
 	const Likes = () => {
 		if (likes.length > 0)
@@ -47,10 +48,10 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 		<Root className={classes.root}>
 			<Card className={classes.card} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={openPost} component="span">
-					<CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
+					<CardMedia className={classes.media} image={post.image} title={post.title} />
 					<div className={classes.overlay}>
 						<Typography variant="h6" sx={{ color: 'white' }}>
-							{post.name}
+							{post.creator.name}
 						</Typography>
 						<Typography variant="body2" sx={{ color: 'white' }}>
 							{moment(post.createdAt).fromNow()}
@@ -66,7 +67,7 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 						<Typography className={classes.title} variant="h5" align="center" gutterBottom>
 							{post.title}
 						</Typography>
-						{post._private && (
+						{post.private && (
 							<div align="center">
 								<Button variant="contained" className={classes.privateLabel} size="small" disableElevation>
 									PRIVATE
@@ -80,7 +81,7 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 						</CardContent>
 					</div>
 				</ButtonBase>
-				{userId === post?.creator && (
+				{userId === post.creator._id && (
 					<div className={classes.overlay2}>
 						<Button style={{ color: 'whitesmoke' }} size="small" onClick={() => setCurrentId(post._id)}>
 							<MoreHorizIcon fontSize="medium" />
@@ -91,7 +92,7 @@ const Post = ({ post, setCurrentId, user, snackBar }) => {
 					<Button size="small" color="primary" disabled={!user?.result} onClick={handleLike} style={{ align: 'center' }}>
 						<Likes />
 					</Button>
-					{userId === post?.creator && (
+					{userId === post.creator._id && (
 						<Button size="small" style={{ color: '#ae0050' }} onClick={() => dispatch(deletePost(post._id, snackBar))}>
 							<DeleteIcon fontSize="small" /> &nbsp; Delete{' '}
 						</Button>
