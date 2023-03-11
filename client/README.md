@@ -22,3 +22,4 @@
 -   New Snackbar Alerts from Material UI replacing Basic browser Alerts.
 -   Instant comment Actions and Post Updation.
 -   Added Scroll To Top Floating Action Button and Floating NavBar
+-   Added redirects on post not found
