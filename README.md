@@ -1,4 +1,4 @@
-    updated: Saturday, 11th March 2023
+    updated: Sunday, 12th March 2023
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
@@ -31,6 +31,7 @@
 -   [Tech Stack Used](#tech-stack-used)
 -   [Preview](#preview)
 -   [Demo](#demo)
+-   [Designs](#designs)
 -   [License](#license)
 -   [Best Contributors](#best-contributors)
 
@@ -92,6 +93,12 @@
 
 ![line]
 
+## Designs
+
+-    [Entity Relationship Diagram](https://drive.google.com/file/d/1_U648R_8eAd_Q5kThbBbBhMlY6gk5g00/view?usp=sharing)
+
+![line]
+
 ## Best Contributors 🎭
 
 <div align="center">
@@ -114,5 +121,8 @@
 
 
 ### Thank you, everyone! 💚
+
+- [Memories Old](https://memories-old.vercel.app)
+- [Memories Old - Repository](https://github.com/warmachine028/memories/tree/memories-old)
 
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
