@@ -99,6 +99,12 @@
 
 ![line]
 
+## Upcomming
+
+- Shifting of User Login input validation in Client side from Client side to reduce time in validation.
+
+![line]
+
 ## Best Contributors 🎭
 
 <div align="center">
