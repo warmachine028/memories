@@ -10,7 +10,7 @@ DaySuffix() {
 }
 
 oldDate=`head -n 1 README.md`               
-newDate=`date "+    updated on: %d\`DaySuffix\` %B %Y"`
+newDate=`date "+    updated: %A, %d\`DaySuffix\` %B %Y"`
 lastLine='<!-- '`date "+%d/%m/%y"`' -->'
 
 sed -i "1s/.*/$newDate/" README.md 
