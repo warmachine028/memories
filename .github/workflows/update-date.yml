@@ -1,0 +1,30 @@
+name: Update Date
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.pat }} # You need to create your own token with commit rights
+          ref: ${{ github.ref }} # The branch you want to commit to
+          
+      - name: Update Files
+        run: ./.github/workflows/updateDate.sh
+        shell: bash
+      
+      - name: Push changes
+        uses: EndBug/add-and-commit@v9
+        if: ${{ '<!-- `date "+%d/%m/%y"` -->' != '`tail -n 1 README.md`' }}
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          add: .
+          message: 'Updating Date'
