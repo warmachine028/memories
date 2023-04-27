@@ -1,0 +1,40 @@
+name: 💡 General Feature Request
+description: Have a new idea/feature for Uemcrp? Please suggest!
+labels: ["⭐ goal: addition", "good first issue", "🤩 Up for the grab", "help wanted", "enhancement"]
+title: "[FEATURE] <description>"
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A brief description of the enhancement you propose, also include what you tried and what worked.
+      placeholder: Enter your description
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Screenshots to support proposal of feature or idea
+      placeholder: Please attach screenshots if applicable
+    validations:
+      required: false
+  - type: textarea
+    id: extrainfo
+    attributes:
+      label: Additional information
+      description: Is there anything else we should know about this idea?
+      value: |
+        - Always use styled components instead of plain CSS and MUI components.
+        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
+        ## Happy contributing. 💐
+        Star my other Repositories [here](https://github.com/warmachine028)
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
+        ## Happy contributing. 💐
+        Star my other Repositories [here](https://github.com/warmachine028)
+
