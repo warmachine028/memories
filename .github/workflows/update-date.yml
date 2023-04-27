@@ -27,4 +27,4 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
           add: .
-          message: 'Updating Date'
+          message: 'docs: Updating Date'
