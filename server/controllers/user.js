@@ -6,8 +6,11 @@ import Post from '../models/post.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-const secret = 'test'
+dotenv.config();
+
+const secret = process.env.TOKEN_SECRET;
 const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
 const getTop5Tags = ({ allTags: tags }) => {
