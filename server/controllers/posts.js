@@ -15,7 +15,7 @@ export const getPosts = async (req, res) => {
 
 	try {
 		const userId = mongoose.Types.ObjectId(req.userId?.padStart(24, '0'))
-		const query = { $or: [{ creator: userId }, { private: false }] }
+		const query = { $or: [{ private: false }, { creator: userId }] }
 		const LIMIT = 8
 		const total = await Post.countDocuments(query)
 		const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
@@ -23,9 +23,9 @@ export const getPosts = async (req, res) => {
 		const start = Date.now()
 		let posts = await Post.aggregate([
 			{ $match: query },
-			{ $limit: LIMIT },
 			{ $sort: { createdAt: -1 } },
 			{ $skip: startIndex },
+			{ $limit: LIMIT },
 			{
 				$lookup: {
 					from: 'users',

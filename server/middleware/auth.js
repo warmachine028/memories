@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 
-const secret = 'test'
+const secret = process.env.TOKEN_SECRET
+
 const auth = (req, _, next) => {
 	try {
 		const token = req.headers.authorization?.split(' ')[1]
