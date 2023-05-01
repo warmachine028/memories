@@ -1,4 +1,4 @@
-    updated: Monday, 01th May 2023
+    updated: Monday, 01st May 2023
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
