@@ -108,7 +108,7 @@
 ## Best Contributors 🎭
 
 <div align="center">
-    <a  href="https://github.com/warmachine028/uemcrp/graphs/contributors">
+    <a  href="https://github.com/warmachine028/memories/graphs/contributors">
         <img src="https://contrib.rocks/image?repo=warmachine028/memories" />
     </a>
 </div>
