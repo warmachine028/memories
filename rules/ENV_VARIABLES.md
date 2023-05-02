@@ -34,7 +34,7 @@ All the references to the environment variables of Server is stored in _[server/
 
 -   ### USER
 
-    -   This email account will be used to send reset password links.
+    -   This Goolge email account will be used to send reset password links.
     -   You can use your own email or create a new Email ID for this specific puropse.
 
 -   ### PASS
