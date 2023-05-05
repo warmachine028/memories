@@ -23,7 +23,7 @@ app.use('/comments', commentRoutes);
 
 app.get('/', (_, res) => res.send('Hello to Memories API'));
 
-const PORT = process.env.PORT || 3000 ;
+const PORT = process.env.PORT || 5000 ;
 mongoose.set('strictQuery', true)
 mongoose // https://www.mongodb.com/cloud/atlas
 	.connect(process.env.CONNECTION_URL)
