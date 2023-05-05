@@ -14,10 +14,7 @@
 - Open the project in VSCode or any Code Editor of your choice.
 - Go inside `client` folder by using `cd client`.
 - Next to setup the react app `npm i` in the terminal inside your project directory.
-- SET Up Environment Variables
-  - Take Help of `env.example` file to create `env.local` file.
-  - This new file will not be tracked by git and is only stored localy.
-  - Create all the credentials accordingly like: `GOOGLE_OAUTH_CLIENT_ID`, `MONGO_DB_URL` etc
+- Set Up Environment Variables, take reference from **[ENV_VARIABLES](./ENV_VARIABLES.md)** file.
 - Once the node modules and other stuffs are installed , `npm start` to start the app in `http://localhost:3000/`
 - You can acess the `server` folder to get the backend and start it with `npm start` in `http://localhost:5000/`
   - Currently since the server is already deployed, hence it uses the deployed server by default.
@@ -43,6 +40,7 @@
 <br/>
 
 ## For moderators
+
 - Before merging a PR with big changes.
 - `git branch -b <newBranch-name>`
 - `git fetch origin refs/pull/#PR_number/head:<newBranch-name>`
