@@ -29,7 +29,7 @@ mongoose // https://www.mongodb.com/cloud/atlas
 	.connect(process.env.CONNECTION_URL)
 	.then(console.log('Connected to MongoDB Database 🌐'))
 	.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT} 🚀`)))
-	.catch((error) => console.log(`❎ Server did not connect ⚠️\n${error}`));
+	.catch((error) => console.log(`❎ Server did not connect ⚠️\n${error}`))
 
 // CONFIGURE Connection URL: https://stackoverflow.com/questions/25090524/hide-mongodb-password-using-heroku-so-i-can-also-push-to-public-repo-on-github
 // CONFIGURE AUTODEPLOY From Github:
