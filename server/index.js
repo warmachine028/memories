@@ -3,23 +3,26 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import limiter from './middleware/rate-limit.js'
-import commentRoutes from './routes/comments.js'
-import postRoutes from './routes/posts.js'
-import userRoutes from './routes/users.js'
+import rateLimit from 'express-rate-limit'
+import { CommentRoutes, PostRoutes, UserRoutes } from './routes'
 
 dotenv.config()
 
 const app = express()
 
-app.use(limiter)
+app.use(
+	rateLimit({
+		windowMs: 1 * 60 * 1000, // 1 minuite
+		max: 10,
+	})
+)
 app.use(cors())
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
-app.use('/posts', postRoutes)
-app.use('/user', userRoutes)
-app.use('/comments', commentRoutes)
+app.use('/posts', PostRoutes)
+app.use('/user', UserRoutes)
+app.use('/comments', CommentRoutes)
 
 app.get('/', (_, res) => res.send('Hello to Memories API'))
 
