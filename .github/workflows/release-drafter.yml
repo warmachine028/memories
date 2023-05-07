@@ -1,6 +1,6 @@
 name: Release Drafter 
   
- on: 
+on:
    push: 
      # branches to consider in the event; optional, defaults to all 
      branches: 
@@ -13,7 +13,7 @@ name: Release Drafter
    # pull_request_target: 
    #   types: [opened, reopened, synchronize] 
   
- permissions: 
+permissions: 
    contents: read 
   
  jobs: 
