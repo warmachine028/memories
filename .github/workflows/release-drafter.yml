@@ -16,7 +16,7 @@ on:
 permissions: 
    contents: read 
   
- jobs: 
+jobs: 
    update_release_draft: 
      permissions: 
        # write permission is required to create a github release 
