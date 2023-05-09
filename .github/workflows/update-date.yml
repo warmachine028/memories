@@ -3,6 +3,8 @@ name: Update Date
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - '.github/**'
 
 jobs:
   publish:
@@ -10,10 +12,10 @@ jobs:
     steps:
     
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.pat }} # You need to create your own token with commit rights
+          token: ${{ secrets.PAT }} # You need to create your own token with commit rights
           ref: ${{ github.ref }} # The branch you want to commit to
           
       - name: Update Files
