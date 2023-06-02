@@ -1,10 +1,10 @@
+import { CommentRoutes, PostRoutes, UserRoutes } from './routes/index.js'
 import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import rateLimit from 'express-rate-limit'
-import { CommentRoutes, PostRoutes, UserRoutes } from './routes'
 
 dotenv.config()
 

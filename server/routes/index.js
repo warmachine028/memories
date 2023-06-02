@@ -1,3 +1,5 @@
-export { default as CommentRoutes } from './comments'
-export { default as PostRoutes } from './posts'
-export { default as UserRoutes } from './users'
+import CommentRoutes from './comments.js'
+import PostRoutes from './posts.js'
+import UserRoutes from './users.js'
+
+export { CommentRoutes, PostRoutes, UserRoutes }
