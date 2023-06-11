@@ -3,14 +3,16 @@ import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import moment from 'moment'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Card } from '@mui/material'
 import { Root, classes } from './styles'
 import { useDispatch } from 'react-redux'
 import { deletePost, updatePost } from '../../../actions/posts'
 import { useNavigate } from 'react-router-dom'
+import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
-const Post = ({ post, setCurrentId, user, snackBar }) => {
+const Post = ({ post, setCurrentId, user }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const [likes, setLikes] = useState(post?.likes)

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { Typography, TextField, Button, IconButton, Avatar, Box, Grow, CircularProgress, Grid } from '@mui/material'
 import { Delete, Edit } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import moment from 'moment'
 import { createComment, getComments } from '../../../actions/comments'
 import Avaatar from 'avataaars'
 import { deleteComment } from '../../../actions/comments'
+import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
 const Comment = ({ data, user, post, handleDelete }) => {
 	let userId = user?.result.googleId || user?.result?._id
@@ -51,14 +52,14 @@ const Comment = ({ data, user, post, handleDelete }) => {
 	)
 }
 
-const CommentSection = ({ post, user, snackBar }) => {
+const CommentSection = ({ post, user }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const dispatch = useDispatch()
 	const [message, setMessage] = useState('')
 	const commentsRef = useRef()
 	const userId = user?.result.googleId || user?.result._id
 	const { isFetchingComments: loading, comments } = useSelector((state) => state.posts)
 	useEffect(() => dispatch(getComments(post._id, snackBar)), [post._id])
-	console.log(comments)
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		const comment = { message: message, post: post._id, creator: userId }

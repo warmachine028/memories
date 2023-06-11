@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from '@mui/material'
 import { LockReset, Pattern } from '@mui/icons-material'
@@ -6,10 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { forgotPassword, setNewPassword } from '../../../actions/auth'
 import Input from '../../Input'
+import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
 const initialState = { email: '' }
 
-const ForgotPassword = ({ snackBar }) => {
+const ForgotPassword = () => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const [showPassword, setShowPassword] = useState(false)
 	const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 	const [loading, setLoading] = useState(false)

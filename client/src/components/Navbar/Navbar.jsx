@@ -1,4 +1,4 @@
-import { useEffect, useCallback} from 'react'
+import { useEffect, useCallback, useContext} from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { AppBar, Typography, Toolbar, Button, Avatar } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -7,8 +7,10 @@ import memories from '../../images/memories.png'
 import icon from '../../images/icon.png'
 import decode from 'jwt-decode'
 import Avaatar from 'avataaars'
+import { SnackbarContext } from '../../contexts/SnackbarContext'
 
-const Navbar = ({ user, setUser, snackBar, floating }) => {
+const Navbar = ({ user, setUser, floating }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const token = user?.token
 	const dispatch = useDispatch()
 	const history = useNavigate()

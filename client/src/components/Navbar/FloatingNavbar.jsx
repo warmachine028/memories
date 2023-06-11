@@ -2,7 +2,7 @@ import { AppBar } from '@mui/material'
 import { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 
-const FloatingNavbar = ({ user, setUser, snackBar }) => {
+const FloatingNavbar = ({ user, setUser }) => {
 	const [isVisible, setIsVisible] = useState(false)
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const FloatingNavbar = ({ user, setUser, snackBar }) => {
 				padding: 5,
 			}}
 		>
-			<Navbar user={user} setUser={setUser} snackBar={snackBar} floating />
+			<Navbar user={user} setUser={setUser} floating />
 		</AppBar>
 	)
 }

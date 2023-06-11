@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material'
 import { GoogleLogin as GoogleLogins } from '@react-oauth/google'
@@ -9,12 +9,14 @@ import { googleSignIn, signin, signup } from '../../actions/auth'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Input from '../Input'
 import UserIcon from '../UserIcon/UserIcon'
-
 import { styled } from '@mui/material/styles'
+import { SnackbarContext } from '../../contexts/SnackbarContext'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', remember: false }
 
-const Auth = ({ snackBar }) => {
+const Auth = () => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
+
 	const [showPassword, setShowPassword] = useState(false)
 	const [isSignup, setIsSignUp] = useState(false)
 	const [formData, setFormData] = useState(initialState)

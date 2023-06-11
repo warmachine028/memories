@@ -36,7 +36,7 @@ export const getPosts = (page, snackBar) => async (dispatch) => {
 	}
 }
 
-export const getUserDetails = (userId) => async (dispatch) => {
+export const getUserDetails = (userId, snackBar) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const { data } = await api.userDetails(userId)
@@ -77,8 +77,13 @@ export const getPost = (id, history, snackBar) => async (dispatch) => {
 		dispatch({ type: FETCH_POST, payload: { post: data } })
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		history('/')
-		snackBar('error', error.response.data)
+		if (typeof error === 'object') {
+			snackBar('warning', `${error.message}: Please Try again`)
+			dispatch({ type: END_LOADING })
+		} else {
+			snackBar('error', error.response.data)
+			history('/')
+		}
 	}
 }
 
@@ -117,7 +122,13 @@ export const createPost = (post, history, snackBar) => async (dispatch) => {
 		snackBar('success', 'Post created successfully')
 		dispatch({ type: CREATED_POST })
 	} catch (error) {
-		snackBar('error', error.response.data)
+		if (typeof error === 'object') {
+			snackBar('warning', `${error.message}: Please Try again`)
+			dispatch({ type: END_LOADING })
+		} else {
+			snackBar('error', error.response.data)
+			history('/')
+		}
 	}
 }
 

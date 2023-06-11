@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
 import ChipInput from '../ChipInput/ChipInput'
 import { useNavigate } from 'react-router-dom'
@@ -7,10 +7,12 @@ import { Root, classes } from './styles'
 import { createPost, updatePost } from '../../actions/posts'
 import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
+import { SnackbarContext } from '../../contexts/SnackbarContext'
 
 const initial = { title: '', message: '', image: null, tags: [], private: false }
 
-const Form = ({ currentId, setCurrentId, user, snackBar }) => {
+const Form = ({ currentId, setCurrentId, user }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const [postData, setPostData] = useState(initial)
 	const [private_, setPrivate] = useState(postData.private)
 	const [tags, setTags] = useState(postData.tags)

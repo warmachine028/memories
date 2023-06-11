@@ -1,11 +1,14 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { Root, classes } from "./styles"
 import { Pagination, PaginationItem, Paper } from "@mui/material"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { getPosts } from "../../actions/posts"
+import { SnackbarContext } from "../../contexts/SnackbarContext"
 
-const Paginate = ({ page, snackBar }) => {
+const Paginate = ({ page }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
+
     const dispatch = useDispatch()
     const { numberOfPages } = useSelector(state => state.posts)
 

@@ -6,11 +6,14 @@ import reducers from './reducers'
 import './index.css'
 import App from './App/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
+import { SnackbarProvider } from './contexts/SnackbarContext'
 
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)))
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<SnackbarProvider>
+			<App />
+		</SnackbarProvider>
 	</Provider>,
 	document.getElementById('root')
 )

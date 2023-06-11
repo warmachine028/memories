@@ -1,16 +1,18 @@
 import moment from 'moment'
 import CommentSection from './CommentSection'
 import RecommendedPosts from './RecommendedPosts'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Paper, Typography, CircularProgress, Divider, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { getPost } from '../../actions/posts'
+import { SnackbarContext } from '../../contexts/SnackbarContext'
 // import { posts, isLoading } from '../../temp'
 // const post = posts[0]
 
-const PostDetails = ({ user, snackBar }) => {
+const PostDetails = ({ user }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const { id } = useParams()
 	const dispatch = useDispatch()
 	const history = useNavigate()
@@ -49,7 +51,7 @@ const PostDetails = ({ user, snackBar }) => {
 						<Typography variant="h6">Created by: {post.creator.name}</Typography>
 						<Typography variant="body1">{moment(post.createdAt).format('Do MMMM YYYY, dddd, h:mm A')}</Typography>
 						<Divider style={{ margin: '20px 0' }} />
-						<CommentSection post={post} user={user} snackBar={snackBar} />
+						<CommentSection post={post} user={user} />
 					</div>
 				</div>
 			</Paper>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Button, Paper, Grid, Typography, Container } from '@mui/material'
 import { Shuffle } from '@mui/icons-material'
 import { useDispatch } from 'react-redux'
@@ -9,8 +9,10 @@ import Input from '../../Input'
 import { RandomAvatar } from '../../UserIcon/avatar'
 import lodash from 'lodash'
 import Avatar from 'avataaars'
+import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
-const Update = ({ user, setUser, snackBar }) => {
+const Update = ({ user, setUser }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const history = useNavigate()
 	const dispatch = useDispatch()
 	const [showPassword, setShowPassword] = useState(false)
