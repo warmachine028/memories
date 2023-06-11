@@ -58,10 +58,7 @@ export default (
 		case FETCHING_PRIVATE_POSTS:
 			return { ...state, isFetchingPrivatePosts: true }
 		case FETCHING_RECOMMENDED_POSTS:
-			return {
-				...state,
-				isFetchingRecommendedPosts: true,
-			}
+			return { ...state, isFetchingRecommendedPosts: true }
 		case FETCHING_COMMENTS:
 			return { ...state, isFetchingComments: true }
 		case START_LOADING:
@@ -83,7 +80,7 @@ export default (
 		case FETCH_RECOMMENDED:
 			return { ...state, recommendedPosts: action.payload.data }
 		case CREATE_COMMENT:
-			return {...state, comments: [...state.comments, action.payload]}
+			return { ...state, comments: [...state.comments, action.payload] }
 		case CREATE:
 			return { ...state, posts: [...state.posts, action.payload] }
 		case FETCH_POST:
@@ -93,7 +90,7 @@ export default (
 		case DELETE:
 			return { ...state, posts: state.posts.filter((post) => (post._id !== action.payload._id ? action.payload : post)) }
 		case DELETE_COMMENT:
-			return { ...state, comments: state.comments.filter(comment => (comment._id !== action.payload)) }
+			return { ...state, comments: state.comments.filter((comment) => comment._id !== action.payload) }
 		case COMMENT:
 			return { ...state, posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)) }
 		case END_LOADING:

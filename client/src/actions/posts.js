@@ -18,7 +18,7 @@ import {
 import * as api from '../api'
 
 // Action Creators
-export const getPosts = (page) => async (dispatch) => {
+export const getPosts = (page, snackBar) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const {
@@ -27,7 +27,12 @@ export const getPosts = (page) => async (dispatch) => {
 		dispatch({ type: FETCH_ALL, payload: { data, currentPage: currentPage, numberOfPages } })
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		console.log(error)
+		if (typeof error === 'object') {
+			snackBar('warning', `${error.message}: Please refresh after some time`)
+			dispatch({ type: END_LOADING })
+		} else {
+			snackBar('error', error)
+		}
 	}
 }
 
@@ -38,7 +43,12 @@ export const getUserDetails = (userId) => async (dispatch) => {
 		dispatch({ type: USER_DETAILS, payload: { data: data } })
 		dispatch({ type: END_LOADING })
 	} catch (error) {
-		console.log(error)
+		if (typeof error === 'object') {
+			snackBar('warning', `${error.message}: Please Try again`)
+			dispatch({ type: END_LOADING })
+		} else {
+			snackBar('error', error)
+		}
 	}
 }
 

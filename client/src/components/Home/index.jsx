@@ -27,7 +27,7 @@ const Home = ({ user, snackBar }) => {
 						<Grid item xs={12} sm={6} md={3}>
 							<Form currentId={currentId} setCurrentId={setCurrentId} user={user} snackBar={snackBar} />
 							<Search tags={tags} setTags={setTags} />
-							{!searchQuery && <Paginate page={page} />}
+							{!searchQuery && <Paginate page={page} snackBar={snackBar} />}
 						</Grid>
 					</Grid>
 				</Container>

@@ -57,8 +57,8 @@ const CommentSection = ({ post, user, snackBar }) => {
 	const commentsRef = useRef()
 	const userId = user?.result.googleId || user?.result._id
 	const { isFetchingComments: loading, comments } = useSelector((state) => state.posts)
-	useEffect(() => dispatch(getComments(post._id)), [post._id])
-
+	useEffect(() => dispatch(getComments(post._id, snackBar)), [post._id])
+	console.log(comments)
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		const comment = { message: message, post: post._id, creator: userId }

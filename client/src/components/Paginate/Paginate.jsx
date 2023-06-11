@@ -5,12 +5,12 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { getPosts } from "../../actions/posts"
 
-const Paginate = ({ page }) => {
+const Paginate = ({ page, snackBar }) => {
     const dispatch = useDispatch()
     const { numberOfPages } = useSelector(state => state.posts)
 
     useEffect(() => {
-        if (page) dispatch(getPosts(page))
+        if (page) dispatch(getPosts(page, snackBar))
     }, [dispatch, page])
 
     return (
