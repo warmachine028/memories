@@ -12,6 +12,8 @@ import {
 	START_LOADING,
 	END_LOADING,
 	FETCH_POST,
+	CREATED_POST,
+	CREATING_POST,
 } from '../constants/actionTypes'
 import * as api from '../api'
 
@@ -98,12 +100,12 @@ export const getRecommendedPosts = (tags) => async (dispatch) => {
 
 export const createPost = (post, history, snackBar) => async (dispatch) => {
 	try {
-		dispatch({ type: START_LOADING })
+		dispatch({ type: CREATING_POST })
 		const { data } = await api.createPost(post)
 		dispatch({ type: CREATE, payload: data })
 		history(`/posts/${data._id}`)
 		snackBar('success', 'Post created successfully')
-		dispatch({ type: END_LOADING })
+		dispatch({ type: CREATED_POST })
 	} catch (error) {
 		snackBar('error', error.response.data)
 	}

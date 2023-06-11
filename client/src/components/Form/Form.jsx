@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TextField, Typography, Paper, Button } from '@mui/material'
+import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
 import ChipInput from '../ChipInput/ChipInput'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,6 +21,7 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 	const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null))
 	const validate = !(postData.title.trim() && postData.message.trim() && media && postData.tags.length)
 
+	const { isCreatingPost } = useSelector((state) => state.posts)
 	const dispatch = useDispatch()
 	const history = useNavigate()
 
@@ -110,8 +111,9 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 					<TextField sx={{ input: { color: 'white' } }} name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 					<TextField InputProps={{ style: { color: 'white' } }} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					<ChipInput fullWidth InputProps={{ style: { color: 'white' } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} />
-					<Button className={classes.buttonSubmit} disabled={validate} variant="contained" color="primary" type="submit" fullWidth>
-						{currentId ? 'Update' : 'Submit'}
+					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
+						{isCreatingPost && <CircularProgress size="1.5em" />}
+						{currentId ? 'Update' : isCreatingPost? 'Creating': 'Submit'}
 					</Button>
 					<Button className={classes.buttonSubmit} variant="contained" color="secondary" onClick={clear} fullWidth>
 						{currentId ? 'CANCEL' : 'CLEAR'}

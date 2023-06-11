@@ -26,7 +26,9 @@ import {
 	FETCHING_COMMENTS,
 	FETCH_COMMENTS,
 	FETCHED_COMMENTS,
-	CREATE_COMMENT
+	CREATE_COMMENT,
+	CREATING_POST,
+	CREATED_POST,
 } from '../constants/actionTypes'
 
 export default (
@@ -36,6 +38,7 @@ export default (
 		isFetchingPrivatePosts: true,
 		isFetchingRecommendedPosts: true,
 		isFetchingComments: true,
+		isCreatingPost: false,
 		isLoading: true,
 		posts: [],
 		data: {},
@@ -105,6 +108,10 @@ export default (
 			return { ...state, isFetchingCreatedPosts: false }
 		case FETCHED_COMMENTS:
 			return { ...state, isFetchingComments: false }
+		case CREATING_POST:
+			return { ...state, isCreatingPost: true }
+		case CREATED_POST:
+			return { ...state, isCreatingPost: false }
 		default:
 			return state
 	}
