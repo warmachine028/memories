@@ -56,14 +56,10 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 		setDragging(false)
 	}, [setDragging])
 
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const userId = user.result._id || user.result.googleId.padStart(24, '0')
-		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
-		else dispatch(updatePost(currentId, postData, snackBar))
-		clear()
+	const setMediaEmpty = () => {
+		setMedia(null)
+		setFileName('No post selected')
 	}
-
 	const clear = () => {
 		setCurrentId(0)
 		setTags([])
@@ -71,10 +67,12 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 		setPrivate(initial.private)
 		setMediaEmpty()
 	}
-
-	const setMediaEmpty = () => {
-		setMedia(null)
-		setFileName('No post selected')
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		const userId = user.result._id || user.result.googleId.padStart(24, '0')
+		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
+		else dispatch(updatePost(currentId, postData, snackBar))
+		clear()
 	}
 
 	const handleAdd = (tag) => {
@@ -113,7 +111,7 @@ const Form = ({ currentId, setCurrentId, user, snackBar }) => {
 					<ChipInput fullWidth InputProps={{ style: { color: 'white' } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} />
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
-						{currentId ? 'Update' : isCreatingPost? 'Creating': 'Submit'}
+						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}
 					</Button>
 					<Button className={classes.buttonSubmit} variant="contained" color="secondary" onClick={clear} fullWidth>
 						{currentId ? 'CANCEL' : 'CLEAR'}
