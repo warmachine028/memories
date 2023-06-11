@@ -77,11 +77,11 @@
 
 ## Preview
 
-![alt](./assets/banner.png)
+![alt](https://github.com/warmachine028/memories/assets/75939390/6b1ab1f2-42d1-4283-ba4d-1163f2a156d0)
 
 ![line]
 
-## Demo
+## [Demo](assets/demo.gif)
 
 ![Customizations](assets/demo.gif)
 
