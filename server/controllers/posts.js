@@ -1,12 +1,14 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import Post from '../models/post.js'
+import Media from '../models/media.js'
 
 const router = express.Router()
 
 export const setCreator = (posts) =>
 	posts.map((post) => {
 		delete post.creator[0].password
+		delete post.creator[0].resetToken
 		return { ...post, creator: post.creator[0] }
 	})
 
@@ -61,7 +63,27 @@ export const getPost = async (req, res) => {
 					as: 'creator',
 				},
 			},
+			{
+				$lookup: {
+					from: 'media',
+					localField: '_id',
+					foreignField: '_id',
+					as: 'media',
+				},
+			},
+			{
+				$addFields: {
+					image: { $arrayElemAt: ['$media.image', 0] },
+				},
+			},
+			{
+				$project: {
+					thumbnail: 0,
+					media: 0,
+				},
+			},
 		])
+
 		posts = setCreator(posts)
 		if (!posts.length) {
 			return res.status(404).send('Post not found with that id')
@@ -113,13 +135,20 @@ export const getPostsBySearch = async (req, res) => {
 
 export const createPost = async (req, res) => {
 	const post = req.body
-
+	const media = post.image
+	delete post.image
 	try {
 		const newPost = new Post({
 			...post,
 			creator: mongoose.Types.ObjectId(req.userId.padStart(24, '0')),
 		})
 		await newPost.save()
+		
+		const newMedia = new Media({
+			_id: newPost._id,
+			image: media,
+		})
+		await newMedia.save()
 		res.status(201).json(newPost)
 	} catch (error) {
 		res.status(409).send(error.message)
@@ -127,6 +156,7 @@ export const createPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
+	//! Add logic to update image in media collection also
 	const { id: _id } = req.params
 	if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id')
 
@@ -142,6 +172,7 @@ export const deletePost = async (req, res) => {
 		return res.status(404).send('No post with that id')
 	}
 	await Post.findByIdAndRemove(id)
+	await Media.findByIdAndRemove(id)
 	res.json({ message: 'Post deleted Successfully' })
 }
 

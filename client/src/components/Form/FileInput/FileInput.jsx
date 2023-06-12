@@ -7,9 +7,16 @@ export const compress = async (postData, setPostData, setFileName, setMedia, e) 
 	const imageFile = e.dataTransfer?.files[0] || e.target?.files[0]
 	setMedia(null)
 	try {
-		const compressedFile = await imageCompression(imageFile, { maxSizeMB: 0.8, maxWidthOrHeight: 1920 })
+		console.log(`Original File Size ${imageFile.size / (1024 * 1024)} Mb`) 
+		const compressedFile = await imageCompression(imageFile, { maxSizeMB: 1, maxWidthOrHeight: 1920 })
 		const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
-		setPostData({ ...postData, image: base64 })
+		
+		console.log('Image Compressed', Math.round((base64.length - 'data:image/jpeg;base64,'.length) * 0.75) / 1024 /1024, 'Mb') 
+		const thumbnailFile = await imageCompression(imageFile, { maxSizeMB: 100 / 1024, maxWidthOrHeight: 800 })
+		const thumbnail = await imageCompression.getDataUrlFromFile(thumbnailFile)
+		console.log('Thumbnail',  Math.round((thumbnail.length - 'data:image/jpeg;base64,'.length) * 0.75) / 1024, 'KB') 
+		
+		setPostData({ ...postData, image: base64, thumbnail })
 		setMedia(base64)
 		setFileName(imageFile.name)
 	} catch (error) {

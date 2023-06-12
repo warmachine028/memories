@@ -13,8 +13,8 @@ const app = express()
 app.use(
 	rateLimit({
 		windowMs: 1 * 60 * 1000, // 1 minuite
-		max: 10,
-	})
+		max: 30,
+	})	
 )
 app.use(cors())
 app.use(bodyParser.json({ limit: '30mb', extended: true }))

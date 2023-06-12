@@ -4,7 +4,7 @@ const postSchema = Schema({
 	creator: mongoose.Types.ObjectId,
 	title: String,
 	message: String,
-	image: String,
+	thumbnail: String,
 	tags: [String],
 	likes: [String],
 	createdAt: { type: Date, default: new Date() },

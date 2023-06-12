@@ -50,7 +50,7 @@ const Post = ({ post, setCurrentId, user }) => {
 		<Root className={classes.root}>
 			<Card className={classes.card} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={openPost} component="span">
-					<CardMedia className={classes.media} image={post.image} title={post.title} />
+					<CardMedia className={classes.media} image={post.thumbnail} title={post.title} />
 					<div className={classes.overlay}>
 						<Typography variant="h6" sx={{ color: 'white' }}>
 							{post.creator.name}

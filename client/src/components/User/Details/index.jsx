@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Root, classes } from './styles'
 import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button, Tooltip } from '@mui/material'
 import { PublishedWithChanges } from '@mui/icons-material'
@@ -11,6 +11,7 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
+import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
 const LinearProgressWithLabel = (props) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -33,6 +34,7 @@ const LIKED = 'liked'
 const PRIVATE = 'private'
 
 const UserDetails = ({ user }) => {
+	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const theme = useTheme()
 	const history = useNavigate()
 	const dispatch = useDispatch()
@@ -49,7 +51,7 @@ const UserDetails = ({ user }) => {
 	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector((state) => state.posts)
 	const userId = user.result._id || user.result.googleId
 
-	useEffect(() => dispatch(getUserDetails(userId)), [user])
+	useEffect(() => dispatch(getUserDetails(userId, snackBar)), [user])
 	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])

@@ -34,7 +34,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 			setTags(post.tags)
 			setFileName('Previous Image')
 			setOldLabel('Previous Image')
-			setMedia(post.image)
+			setMedia(post.thumbnail)
 		}
 	}, [post])
 
