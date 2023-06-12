@@ -95,7 +95,8 @@
 
 ## Designs
 
--    [Entity Relationship Diagram](https://drive.google.com/file/d/1_U648R_8eAd_Q5kThbBbBhMlY6gk5g00/view?usp=sharing)
+- ![ER diagram](https://github.com/warmachine028/memories/assets/75939390/d5ac36b6-2c2b-4987-8977-3620154afefd)
+
 
 ![line]
 

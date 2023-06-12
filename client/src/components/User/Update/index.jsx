@@ -31,7 +31,7 @@ const Update = ({ user, setUser }) => {
 	const shuffle = () => setAvatar(RandomAvatar())
 	useEffect(() => {
 		setAvatar(avatar)
-		setFormData({ ...formData, avatar: avatar })
+		setFormData({ ...formData, avatar })
 	}, [avatar])
 
 	const handleSubmit = (e) => {
