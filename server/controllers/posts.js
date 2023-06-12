@@ -136,14 +136,13 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req, res) => {
 	const post = req.body
 	const media = post.image
-	delete post.image
 	try {
 		const newPost = new Post({
 			...post,
 			creator: mongoose.Types.ObjectId(req.userId.padStart(24, '0')),
 		})
 		await newPost.save()
-		
+
 		const newMedia = new Media({
 			_id: newPost._id,
 			image: media,
@@ -156,13 +155,12 @@ export const createPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
-	//! Add logic to update image in media collection also
 	const { id: _id } = req.params
 	if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id')
 
 	const post = req.body
 	const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
-
+	await Media.findByIdAndUpdate(_id, { image: post.image })
 	res.status(200).json(updatedPost)
 }
 
