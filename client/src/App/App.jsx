@@ -23,21 +23,21 @@ const App = () => {
 			<BrowserRouter>
 				<Root className={classes.root}>
 					<div className={classes.blur}>
-							<Navbar user={user} setUser={setUser} />
-							<FloatingNavbar user={user} setUser={setUser} />
-							<Routes>
-								<Route path="/" element={<Navigate to="/posts" />} />
-								<Route path="/posts" element={<Home user={user} />} />
-								<Route path="/posts/search" element={<Home user={user} />} />
-								<Route path="/posts/:id" element={<PostDetails user={user} />} />
-								<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
-								<Route path="/user/update" element={user ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
-								<Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
-								<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword />} />
-								<Route path="/auth/forgotPassword/:id/:token" element={user ? <Navigate to="/" /> : <ForgotPassword />} />
-							</Routes>
-							<ScrollToTop />
-							<SnackBar {...snackBarProps} />
+						<Navbar user={user} setUser={setUser} />
+						<FloatingNavbar user={user} setUser={setUser} />
+						<Routes>
+							<Route path="/" element={<Navigate to="/posts" />} />
+							<Route path="/posts" element={<Home user={user} />} />
+							<Route path="/posts/search" element={<Home user={user} />} />
+							<Route path="/posts/:id" element={<PostDetails user={user} />} />
+							<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
+							<Route path="/user/update" element={user && user.result.avatar ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
+							<Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
+							<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword />} />
+							<Route path="/auth/forgotPassword/:id/:token" element={user ? <Navigate to="/" /> : <ForgotPassword />} />
+						</Routes>
+						<ScrollToTop />
+						<SnackBar {...snackBarProps} />
 					</div>
 				</Root>
 			</BrowserRouter>
