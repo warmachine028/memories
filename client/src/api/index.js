@@ -4,8 +4,9 @@ const apiURL = ['https://memories-pritam-server.vercel.app', 'http://localhost:5
 const API = axios.create({ baseURL: apiURL[0] })
 
 API.interceptors.request.use((req) => {
-	if (localStorage.getItem('profile')) {
-		req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
+	const profile = localStorage.getItem('profile')
+	if (profile) {
+		req.headers.Authorization = `Bearer ${JSON.parse(profile).token}`
 	}
 	return req
 })
