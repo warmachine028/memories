@@ -14,7 +14,7 @@ const auth = (req, _, next) => {
 			req.userId = decodedData?.id
 		} else {
 			decodedData = jwt.decode(token)
-			req.userId = decodedData?.sub
+			req.userId = decodedData?.sub.padStart(24, '0')
 		}
 
 		next()
