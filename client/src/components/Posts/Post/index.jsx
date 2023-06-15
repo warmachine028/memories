@@ -16,7 +16,7 @@ const Post = ({ post, setCurrentId, user }) => {
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const [likes, setLikes] = useState(post?.likes)
-	const userId = user?.result.googleId || user?.result?._id
+	const userId = user && (user.result.googleId || user.result._id)
 	const hasLikedPost = likes.find((like) => like === userId)
 
 	const handleLike = () => {
