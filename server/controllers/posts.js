@@ -16,7 +16,7 @@ export const getPosts = async (req, res) => {
 	const { page } = req.query
 
 	try {
-		const userId = mongoose.Types.ObjectId(req.userId?.padStart(24, '0'))
+		const userId = mongoose.Types.ObjectId(req.userId)
 		const query = { $or: [{ private: false }, { creator: userId }] }
 		const LIMIT = 8
 		const total = await Post.countDocuments(query)
@@ -89,7 +89,7 @@ export const getPost = async (req, res) => {
 			return res.status(404).send('Post not found with that id')
 		}
 		const post = posts[0]
-		if (post.private && `${post.creator._id}` !== req.userId?.padStart(24, 0)) {
+		if (post.private && `${post.creator._id}` !== req.userId) {
 			return res.status(404).send("Can't access post with that Id")
 		}
 		res.status(200).json(post)
@@ -103,7 +103,7 @@ export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query
 	try {
 		const title = new RegExp(searchQuery, 'i')
-		const userId = mongoose.Types.ObjectId(req.userId?.padStart(24, '0'))
+		const userId = mongoose.Types.ObjectId(req.userId)
 		const query = {
 			$and: [
 				{
@@ -139,7 +139,7 @@ export const createPost = async (req, res) => {
 	try {
 		const newPost = new Post({
 			...post,
-			creator: mongoose.Types.ObjectId(req.userId.padStart(24, '0')),
+			creator: mongoose.Types.ObjectId(post.creator),
 		})
 		await newPost.save()
 

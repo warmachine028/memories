@@ -47,7 +47,7 @@ export const googleSignin = async (req, res) => {
 	const { name, email, image, googleId } = req.body
 
 	try {
-		const id = mongoose.Types.ObjectId(googleId.padStart(24, '0'))
+		const id = mongoose.Types.ObjectId(googleId)
 		const user = await User.findByIdAndUpdate(id, { name, email, image }, { upsert: true })
 		res.status(200).json({ result: user })
 	} catch (error) {
@@ -130,7 +130,7 @@ export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 
 	try {
-		const userId = mongoose.Types.ObjectId(id.padStart(24, '0'))
+		const userId = mongoose.Types.ObjectId(id)
 		const allTags = await Post.aggregate([
 			{ $match: { creator: userId } },
 			{
@@ -204,7 +204,7 @@ export const getUserPostsByType = async (req, res) => {
 	const { page, type } = req.query
 
 	try {
-		const userId = mongoose.Types.ObjectId(id.padStart(24, '0'))
+		const userId = mongoose.Types.ObjectId(id)
 		const query = {
 			created: { creator: userId },
 			liked: { likes: { $all: [userId] } },
@@ -275,7 +275,7 @@ export const resetPassword = async (req, res) => {
 
 export const getUser = async (id) => {
 	try {
-		const userId = id.padStart(24, '0')
+		const userId = id
 		const user = await User.findById(userId)
 		delete user.password
 		return user

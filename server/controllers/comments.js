@@ -12,7 +12,7 @@ export const createComment = async (req, res) => {
 		const { creator: userId, post: postId, message } = comment
 		const newComment = new Comment({
 			post: mongoose.Types.ObjectId(postId),
-			creator: mongoose.Types.ObjectId(userId.padStart(24, '0')),
+			creator: mongoose.Types.ObjectId(userId),
 			message,
 		})
 		await newComment.save()
