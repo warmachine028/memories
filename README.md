@@ -103,6 +103,7 @@
 ## Upcomming
 
 - Shifting of User Login input validation in Client side from Client side to reduce time in validation.
+- User Icons/avatars on Posts
 
 ![line]
 
