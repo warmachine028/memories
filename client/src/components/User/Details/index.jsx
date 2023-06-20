@@ -183,7 +183,7 @@ const UserDetails = ({ user }) => {
 	)
 }
 
-export const PublicProfile = ({ user }) => {
+export const PublicProfile = () => {
 	const { id: userId } = useParams()
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const theme = useTheme()
