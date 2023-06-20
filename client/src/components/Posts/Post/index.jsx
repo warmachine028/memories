@@ -8,7 +8,7 @@ import { CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Ca
 import { Root, classes } from './styles'
 import { useDispatch } from 'react-redux'
 import { deletePost, updatePost } from '../../../actions/posts'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 import Avaatar from 'avataaars'
 
@@ -79,6 +79,7 @@ const Post = ({ post, setCurrentId, user }) => {
 				<div className={classes.overlay}>
 					<div style={{ display: 'flex' }}>
 						<div style={{ maxWidth: 50, display: 'flex', maxHeight: 100, marginRight: 10 }}>
+							<Link to={`/user/${post.creator._id}`} style={{ textDecoration: 'none' }}>
 								{post.creator.avatar ? (
 									<Avaatar className={classes.avaatar} avatarStyle="Circle" {...post.creator.avatar} />
 								) : (
@@ -86,6 +87,7 @@ const Post = ({ post, setCurrentId, user }) => {
 										{post.creator.name.charAt(0)}
 									</Avatar>
 								)}
+							</Link>
 						</div>
 						<div style={{ width: '100%' }}>
 							<Typography variant="h6" sx={{ color: 'white' }}>

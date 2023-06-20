@@ -8,6 +8,7 @@ import { createComment, getComments } from '../../../actions/comments'
 import Avaatar from 'avataaars'
 import { deleteComment } from '../../../actions/comments'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
+import { Link } from 'react-router-dom'
 
 const Comment = ({ data, user, post, handleDelete }) => {
 	let userId = user?.result.googleId || user?.result?._id
@@ -20,13 +21,15 @@ const Comment = ({ data, user, post, handleDelete }) => {
 		<Grow in={true} mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
 				<Grid item xl={2} style={{ maxWidth: 50, marginRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-					{creator.avatar ? (
-						<Avaatar className={classes.avaatar} avatarStyle="Circle" {...creator.avatar} />
-					) : (
-						<Avatar className={classes.avatar} alt={creator.name} src={creator.image}>
-							{creator.name.charAt(0)}
-						</Avatar>
-					)}
+					<Link to={`/user/${post.creator._id}`} style={{ textDecoration: 'none' }}>
+						{creator.avatar ? (
+							<Avaatar className={classes.avaatar} avatarStyle="Circle" {...creator.avatar} />
+						) : (
+							<Avatar className={classes.avatar} alt={creator.name} src={creator.image}>
+								{creator.name.charAt(0)}
+							</Avatar>
+						)}
+					</Link>
 				</Grid>
 				<Grid item className={classes.commentBox}>
 					<div className={classes.commentItem}>
