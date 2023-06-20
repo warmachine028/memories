@@ -16,20 +16,27 @@ export const classes = {
 	cardAction: `${PREFIX}-cardAction`,
 	cardActions: `${PREFIX}-cardActions`,
 	privateLabel: `${PREFIX}-privateLabel`,
+	avatar: `${PREFIX}-avatar`,
+	avaatar: `${PREFIX}-avaatar`,
 }
 
-export const Root = styled('div')({
+export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
 		height: '100%',
+	},
+	[`& .${classes.avaatar}`]: {
+		height: 50,
+		width: 50,
+	},
+	[`& .${classes.avatar}`]: {
+		height: 46,
+		width: 46,
 	},
 	[`& .${classes.media}`]: {
 		paddingTop: '56.25%',
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 		backgroundBlendMode: 'darken',
 		transition: 'transform .2s',
-		// '&:hover': {
-		// 	transform: 'scale(4.0)',
-		// },
 	},
 	[`& .${classes.card}`]: {
 		display: 'flex',
@@ -83,6 +90,6 @@ export const Root = styled('div')({
 		backgroundColor: '#00b5ff',
 		align: 'center',
 	},
-})
+}))
 
 export default Root
