@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 import FloatingNavbar from '../components/Navbar/FloatingNavbar'
 import Home from '../components/Home'
 import Auth from '../components/Auth/Auth'
-import UserDetails from '../components/User/Details'
+import UserDetails, { UserDetails2 } from '../components/User/Details'
 import UserUpdate from '../components/User/Update'
 import SnackBar from '../components/SnackBar'
 import ScrollToTop from '../components/ScrollToTop'
@@ -31,6 +31,7 @@ const App = () => {
 							<Route path="/posts/search" element={<Home user={user} />} />
 							<Route path="/posts/:id" element={<PostDetails user={user} />} />
 							<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
+							<Route path="/user/:id" element={<UserDetails2 />} />
 							<Route path="/user/update" element={user && user.result.avatar ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
 							<Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
 							<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword />} />

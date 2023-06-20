@@ -166,8 +166,12 @@ export const getUserDetails = async (req, res) => {
 				{ $sort: { messageLength: -1 } },
 			])
 		)[0]
-
+		const { email, image, avatar, name } = await User.findById(userId)
 		const result = {
+			name,
+			email,
+			image,
+			avatar,
 			postsCreated: await Post.countDocuments({ creator: userId }),
 			postsLiked: await Post.countDocuments({ likes: { $all: [userId] } }),
 			privatePosts: await Post.countDocuments({
@@ -202,8 +206,11 @@ export const getUserDetails = async (req, res) => {
 export const getUserPostsByType = async (req, res) => {
 	const { id } = req.params
 	const { page, type } = req.query
-
+	const currentUser = req.userId
 	try {
+		if (type === 'private' && currentUser !== id) {
+			return req.status(404).send("Can't access private posts of other users")
+		}
 		const userId = mongoose.Types.ObjectId(id)
 		const query = {
 			created: { creator: userId },

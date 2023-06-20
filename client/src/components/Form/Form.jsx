@@ -71,6 +71,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	}
 	const handleSubmit = async (e) => {
 		e.preventDefault()
+		postData.tags = postData.tags.map((tag) => tag.toLowerCase().trim().replace(/[^a-zA-Z0-9 ]/g, ''))
 		const userId = user.result._id || user.result.googleId.padStart(24, '0')
 		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
 		else dispatch(updatePost(currentId, postData, snackBar))

@@ -17,6 +17,12 @@ import {
 } from '../constants/actionTypes'
 import * as api from '../api'
 
+const sanitize = ({ tags, search }) => {
+	return {
+		tags: tags.replace('#', '%23').replace(' ', '%20'),
+		search: search?.replace('#', '%23').replace(' ', '%20'),
+	}
+}
 // Action Creators
 export const getPosts = (page, snackBar) => async (dispatch) => {
 	try {
@@ -88,6 +94,8 @@ export const getPost = (id, history, snackBar) => async (dispatch) => {
 }
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+	console.log(searchQuery)
+	searchQuery = sanitize(searchQuery)
 	try {
 		dispatch({ type: START_LOADING })
 		const {
@@ -101,6 +109,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 }
 
 export const getRecommendedPosts = (tags) => async (dispatch) => {
+	tags = sanitize({ tags }).tags
 	try {
 		dispatch({ type: FETCHING_RECOMMENDED_POSTS })
 		const {
