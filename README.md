@@ -1,4 +1,4 @@
-    updated: Thursday, 15th June 2023
+    updated: Monday, 19th June 2023
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
@@ -103,6 +103,7 @@
 ## Upcomming
 
 - Shifting of User Login input validation in Client side from Client side to reduce time in validation.
+- User Icons/avatars on Posts
 
 ![line]
 
@@ -133,4 +134,4 @@
 - [Memories Old - Repository](https://github.com/warmachine028/memories/tree/memories-old)
 
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
-<!-- 15/06/23 -->
+<!-- 19/06/23 -->
