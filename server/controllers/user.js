@@ -208,6 +208,9 @@ export const getUserPostsByType = async (req, res) => {
 	const { page, type } = req.query
 	const currentUser = req.userId
 	try {
+		if (type === 'private' && currentUser !== id) {
+			return req.status(404).send("Can't access private posts of other users")
+		}
 		const userId = mongoose.Types.ObjectId(id)
 		const query = {
 			created: { creator: userId },

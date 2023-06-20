@@ -8,6 +8,7 @@ import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
 import { getUserPostsByType } from '../../../actions/posts'
 import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
+import { useNavigate, Link, useParams } from 'react-router-dom'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
