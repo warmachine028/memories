@@ -137,6 +137,7 @@ export const createPost = (post, history, snackBar) => async (dispatch) => {
 			snackBar('error', error.response.data)
 			history('/')
 		}
+		dispatch({ type: CREATED_POST })
 	}
 }
 

@@ -84,7 +84,7 @@ const Post = ({ post, setCurrentId, user }) => {
 									<Avaatar className={classes.avaatar} avatarStyle="Circle" {...post.creator.avatar} />
 								) : (
 									<Avatar className={classes.avatar} alt={post.creator.name} src={post.creator.image}>
-										{post.creator.name.charAt(0)}
+										{post.creator.name?.charAt(0)}
 									</Avatar>
 								)}
 							</Link>
