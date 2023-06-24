@@ -1,4 +1,4 @@
-import { DialogActions, DialogContent, DialogContentText, Button, Dialog, DialogTitle, ButtonGroup, CircularProgress, Grow } from '@mui/material'
+import { DialogActions, DialogContent, DialogContentText, Button, Dialog, DialogTitle, ButtonGroup, CircularProgress } from '@mui/material'
 import { useSelector } from 'react-redux'
 
 const DeleteDialogBox = (props) => {
@@ -19,7 +19,7 @@ const DeleteDialogBox = (props) => {
 			<DialogActions>
 				<ButtonGroup variant="contained" disabled={isDeletingPost}>
 					<Button onClick={handleClose}>CANCEL</Button>
-					<Button onClick={callBack}  color="secondary">
+					<Button onClick={callBack} color="secondary">
 						{isDeletingPost ? <CircularProgress size="1.5em" /> : 'MOVE'}
 					</Button>
 				</ButtonGroup>
