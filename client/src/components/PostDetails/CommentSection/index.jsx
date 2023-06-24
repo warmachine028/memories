@@ -66,11 +66,11 @@ const CommentSection = ({ post, user }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		const comment = { message: message, post: post._id, creator: userId }
-		await dispatch(createComment(comment, snackBar))
+		dispatch(createComment(comment, snackBar))
 		setMessage('')
 	}
 
-	const handleDelete = async (id) => await dispatch(deleteComment(id, snackBar))
+	const handleDelete = async (id) => dispatch(deleteComment(id, snackBar))
 
 	return loading ? (
 		<CircularProgress size="7em" />
