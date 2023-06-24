@@ -18,7 +18,7 @@ const Comment = ({ data, user, post, handleDelete }) => {
 	const canEdit = userId === creator._id
 
 	return (
-		<Grow in={true} mountOnEnter unmountOnExit>
+		<Grow in mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
 				<Grid item xl={2} style={{ maxWidth: 50, marginRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
 					<Link to={`/user/${post.creator._id}`} style={{ textDecoration: 'none' }}>
