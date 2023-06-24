@@ -14,6 +14,8 @@ import {
 	FETCH_POST,
 	CREATED_POST,
 	CREATING_POST,
+	DELETING_POST,
+	DELETED_POST,
 } from '../constants/actionTypes'
 import * as api from '../api'
 
@@ -151,13 +153,16 @@ export const updatePost = (id, post, snackBar) => async (dispatch) => {
 	}
 }
 
-export const deletePost = (id, snackBar) => async (dispatch) => {
+export const deletePost = (id, snackBar, callBack) => async (dispatch) => {
 	try {
+		dispatch({ type: DELETING_POST })
 		await api.deletePost(id)
 		dispatch({ type: DELETE, payload: id })
+		dispatch({ type: DELETED_POST })
 		location.reload()
 		snackBar('info', 'Post deleted successfully')
 	} catch (error) {
 		snackBar('error', error)
 	}
+	callBack(false)
 }

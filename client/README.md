@@ -26,3 +26,5 @@
 - Added Scroll To Top Floating Action Button and Floating NavBar
 - Added redirects on post not found
 - Added Circular Progress in Form Submit button while Creating a post
+- User Avatar in Posts
+- Delete Confirmation Dialog box

@@ -29,6 +29,8 @@ import {
 	CREATE_COMMENT,
 	CREATING_POST,
 	CREATED_POST,
+	DELETING_POST,
+	DELETED_POST,
 } from '../constants/actionTypes'
 
 export default (
@@ -39,6 +41,7 @@ export default (
 		isFetchingRecommendedPosts: true,
 		isFetchingComments: true,
 		isCreatingPost: false,
+		isDeletingPost: false,
 		isLoading: true,
 		posts: [],
 		data: {},
@@ -109,6 +112,11 @@ export default (
 			return { ...state, isCreatingPost: true }
 		case CREATED_POST:
 			return { ...state, isCreatingPost: false }
+		case DELETING_POST:
+			return { ...state, isDeletingPost: true }
+		case DELETED_POST:
+			return { ...state, isDeletingPost: false }
+
 		default:
 			return state
 	}

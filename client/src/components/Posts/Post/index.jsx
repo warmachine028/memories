@@ -4,12 +4,13 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import moment from 'moment'
 import { useContext, useState } from 'react'
-import { CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Card, Avatar, Tooltip } from '@mui/material'
+import { CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Card, Avatar, Tooltip, Grow } from '@mui/material'
 import { Root, classes } from './styles'
 import { useDispatch } from 'react-redux'
 import { deletePost, updatePost } from '../../../actions/posts'
 import { Link, useNavigate } from 'react-router-dom'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
+import DeleteDialogBox from '../../DialogBox/DeleteDialogBox'
 import Avaatar from 'avataaars'
 
 const Post = ({ post, setCurrentId, user }) => {
@@ -19,11 +20,15 @@ const Post = ({ post, setCurrentId, user }) => {
 	const [likes, setLikes] = useState(post?.likes)
 	const userId = user && (user.result.googleId || user.result._id)
 	const hasLikedPost = likes.find((like) => like === userId)
+	const [deleteing, setDeleteing] = useState(false)
 
 	const handleLike = () => {
 		const usersLiked = hasLikedPost ? likes.filter((id) => id !== userId) : [...likes, userId]
 		setLikes(usersLiked)
 		dispatch(updatePost(post._id, { ...post, likes: usersLiked }))
+	}
+	const handleDelete = () => {
+		dispatch(deletePost(post._id, snackBar, setDeleteing))
 	}
 	const Likes = () => {
 		if (likes.length > 0)
@@ -49,6 +54,7 @@ const Post = ({ post, setCurrentId, user }) => {
 	const openPost = () => history(`/posts/${post._id}`)
 	return (
 		<Root className={classes.root}>
+			<DeleteDialogBox open={deleteing} setOpen={setDeleteing} post={post} callBack={handleDelete} />
 			<Card className={classes.card} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={openPost} component="span">
 					<CardMedia className={classes.media} image={post.thumbnail} title={post.title} />
@@ -113,7 +119,7 @@ const Post = ({ post, setCurrentId, user }) => {
 						<Likes />
 					</Button>
 					{userId === post.creator._id && (
-						<Button size="small" style={{ color: '#ae0050' }} onClick={() => dispatch(deletePost(post._id, snackBar))}>
+						<Button size="small" style={{ color: '#ae0050' }} onClick={() => setDeleteing(true)}>
 							<DeleteIcon fontSize="small" /> &nbsp; Delete{' '}
 						</Button>
 					)}
