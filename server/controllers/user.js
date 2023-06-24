@@ -68,7 +68,7 @@ export const signup = async (req, res) => {
 		if (existingUser) {
 			return res.status(409).json({ message: 'User already exists' })
 		}
-		if (!email.match(regex)) {
+		if (!regex.test(email)) {
 			return res.status(501).json({ message: 'Invalid Email ID' })
 		}
 		if (password !== confirmPassword) {
@@ -105,7 +105,7 @@ export const updateDetails = async (req, res) => {
 		if (sameData) {
 			return res.status(409).json({ message: 'No new updates were applied' })
 		}
-		if (!email.match(regex)) {
+		if (!regex.test(email)) {
 			return res.status(501).json({ message: 'Invalid Email ID' })
 		}
 		if (oldPasswordsDifferent) {

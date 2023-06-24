@@ -90,9 +90,9 @@ registerRoute(
       return false
     }
 
-    if (url.pathname.match(fileExtensionRegexp)) {
-      return false
-    }
+    if (fileExtensionRegexp.test(url.pathname)) {
+		return false
+	}
 
     return true
   },
