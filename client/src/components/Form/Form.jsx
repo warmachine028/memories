@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from 'react'
 import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
 import ChipInput from '../ChipInput/ChipInput'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Root, classes } from './styles'
 import { createPost, updatePost } from '../../actions/posts'
 import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
+
+const useQuery = () => new URLSearchParams(useLocation().search)
 
 const initial = { title: '', message: '', image: null, tags: [], private: false }
 
@@ -21,12 +23,13 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const [dragging, setDragging] = useState(false)
 	const [media, setMedia] = useState(postData.image)
 	const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null))
-	const validate = !(postData.title.trim() && postData.message.trim() && media && postData.tags.length)
-
+	const validate = !(postData.title.trim() && postData.message.trim() && media)
 	const { isCreatingPost } = useSelector((state) => state.posts)
 	const dispatch = useDispatch()
 	const history = useNavigate()
-
+	const query = useQuery()
+	const page = query.get('page') || 1
+	
 	useEffect(() => {
 		if (post) {
 			setPostData(post)
@@ -37,6 +40,10 @@ const Form = ({ currentId, setCurrentId, user }) => {
 			setMedia(post.thumbnail)
 		}
 	}, [post])
+
+	useEffect(() => {
+		clear()
+	}, [page])
 
 	const dragEnter = (e) => {
 		e.preventDefault()
