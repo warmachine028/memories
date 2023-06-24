@@ -19,7 +19,7 @@ const DeleteDialogBox = (props) => {
 			<DialogActions>
 				<ButtonGroup variant="contained" disabled={isDeletingPost}>
 					<Button onClick={handleClose}>CANCEL</Button>
-					<Button onClick={callBack} autoFocus color="secondary">
+					<Button onClick={callBack}  color="secondary">
 						{isDeletingPost ? <CircularProgress size="1.5em" /> : 'MOVE'}
 					</Button>
 				</ButtonGroup>
