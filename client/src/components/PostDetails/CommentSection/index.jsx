@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useContext } from 'react'
-import { Typography, TextField, Button, IconButton, Avatar, Box, Grow, CircularProgress, Grid } from '@mui/material'
+import { Typography, TextField, Button, IconButton, Avatar, Grow, CircularProgress, Grid } from '@mui/material'
 import { Delete, Edit } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Root, classes } from './styles'
