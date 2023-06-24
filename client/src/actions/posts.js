@@ -123,7 +123,7 @@ export const getRecommendedPosts = (tags) => async (dispatch) => {
 	}
 }
 
-export const createPost = (post, history, snackBar) => async (dispatch) => {
+export const createPost = (post, history, snackBar, callBack) => async (dispatch) => {
 	try {
 		dispatch({ type: CREATING_POST })
 		const { data } = await api.createPost(post)
@@ -141,6 +141,7 @@ export const createPost = (post, history, snackBar) => async (dispatch) => {
 		}
 		dispatch({ type: CREATED_POST })
 	}
+	callBack()
 }
 
 export const updatePost = (id, post, snackBar) => async (dispatch) => {

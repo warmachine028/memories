@@ -76,7 +76,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	useEffect(() => {
 		clear()
 	}, [page])
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault()
 		postData.tags = postData.tags.map((tag) =>
 			tag
@@ -85,9 +85,11 @@ const Form = ({ currentId, setCurrentId, user }) => {
 				.replace(/[^a-zA-Z0-9 ]/g, '')
 		)
 		const userId = user.result._id || user.result.googleId.padStart(24, '0')
-		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
-		else dispatch(updatePost(currentId, postData, snackBar))
-		clear()
+		if (currentId === 0) {
+			dispatch(createPost({ ...postData, creator: userId }, history, snackBar, clear))
+		} else {
+			dispatch(updatePost(currentId, postData, snackBar, clear))
+		}
 	}
 
 	const handleAdd = (tag) => {
