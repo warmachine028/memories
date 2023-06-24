@@ -20,7 +20,7 @@ export const sendEmail = (email, URL, res) => {
 		${URL}`,
 	}
 
-	transport.sendMail(mailOptions, (error, info) => {
+	return transport.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			return res.status(500).json({ message: 'Email was not sent', error: error.message })
 		}
