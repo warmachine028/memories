@@ -103,7 +103,7 @@ export const updateDetails = async (req, res) => {
 			(!newPassword || newPasswordsSame) &&
 			lodash.isEqual(oldAvatar, avatar)
 		if (sameData) {
-			return res.status(409).json({ message: "No new updates were applied" })
+			return res.status(409).json({ message: 'No new updates were applied' })
 		}
 		if (!email.match(regex)) {
 			return res.status(501).json({ message: 'Invalid Email ID' })
