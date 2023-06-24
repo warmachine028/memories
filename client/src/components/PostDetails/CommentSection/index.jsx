@@ -63,14 +63,14 @@ const CommentSection = ({ post, user }) => {
 	const userId = user?.result.googleId || user?.result._id
 	const { isFetchingComments: loading, comments } = useSelector((state) => state.posts)
 	useEffect(() => dispatch(getComments(post._id, snackBar)), [post._id])
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault()
 		const comment = { message: message, post: post._id, creator: userId }
 		dispatch(createComment(comment, snackBar))
 		setMessage('')
 	}
 
-	const handleDelete = async (id) => dispatch(deleteComment(id, snackBar))
+	const handleDelete = (id) => dispatch(deleteComment(id, snackBar))
 
 	return loading ? (
 		<CircularProgress size="7em" />

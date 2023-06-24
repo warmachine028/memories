@@ -35,10 +35,10 @@ const Auth = () => {
 		setIsSignUp((prevIsSignUp) => !prevIsSignUp)
 		setShowPassword(false)
 	}
-	const googleSuccess = async ({ credential: token }) => {
+	const googleSuccess = ({ credential: token }) => {
 		try {
 			const { email, family_name: familyName, given_name: givenName, sub, picture: image, name } = jwtDecode(token)
-			const googleId = sub.padStart(24, '0')	
+			const googleId = sub.padStart(24, '0')
 			const result = { email, familyName, givenName, googleId, image, name }
 			dispatch(googleSignIn({ result, token }, history, snackBar))
 		} catch (error) {

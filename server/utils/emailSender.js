@@ -11,7 +11,7 @@ const transport = nodemailer.createTransport({
 	},
 })
 
-export const sendEmail = async (email, URL, res) => {
+export const sendEmail = (email, URL, res) => {
 	const mailOptions = {
 		from: `Memories Server 👻 <${process.env.USER}>`,
 		to: email,
