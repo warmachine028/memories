@@ -29,7 +29,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const history = useNavigate()
 	const query = useQuery()
 	const page = query.get('page') || 1
-	
+
 	useEffect(() => {
 		if (post) {
 			setPostData(post)
@@ -40,10 +40,6 @@ const Form = ({ currentId, setCurrentId, user }) => {
 			setMedia(post.thumbnail)
 		}
 	}, [post])
-
-	useEffect(() => {
-		clear()
-	}, [page])
 
 	const dragEnter = (e) => {
 		e.preventDefault()
@@ -76,9 +72,18 @@ const Form = ({ currentId, setCurrentId, user }) => {
 		setPrivate(initial.private)
 		setMediaEmpty()
 	}
+
+	useEffect(() => {
+		clear()
+	}, [page])
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		postData.tags = postData.tags.map((tag) => tag.toLowerCase().trim().replace(/[^a-zA-Z0-9 ]/g, ''))
+		postData.tags = postData.tags.map((tag) =>
+			tag
+				.toLowerCase()
+				.trim()
+				.replace(/[^a-zA-Z0-9 ]/g, '')
+		)
 		const userId = user.result._id || user.result.googleId.padStart(24, '0')
 		if (currentId === 0) dispatch(createPost({ ...postData, creator: userId }, history, snackBar))
 		else dispatch(updatePost(currentId, postData, snackBar))
