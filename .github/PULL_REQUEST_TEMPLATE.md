@@ -1,6 +1,6 @@
-# Issue  📐
+# Issue <issue number> 📐
 
-- **I <your name here> have worked for <issue number>**
+- **I <[your name here](your github profile link)> have worked for <issue number>**
 
 [put x to check the boxes]: <> (This is a comment, it will not be included)
 
@@ -21,6 +21,6 @@
 
 <attach screenshots here>
   
-  
+<!-- Please refer to previous closed issues for better understanding of filling this template -->  
   
 ---
