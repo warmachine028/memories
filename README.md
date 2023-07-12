@@ -84,9 +84,8 @@
 
 ## Upcomming
 
-- Relocated user login input validation from the client-side to the server-side to optimize validation time.
-- Resolved issue #44 with necessary fixes.
-- Implemented functionality where clicking on any user's avatar redirects to their respective user profile.
+- Resolve issue #43 for theme toggling.
+
 ![line]
 
 ## Best Contributors 🎭
