@@ -13,7 +13,7 @@ export const Root = styled("div")(({ theme }) => ({
         display: "flex",
         justifyContent: "center",
         minHeight: 150,
-        alignItems: "center"
+        alignItems: "center",
     },
     [`& .${classes.mainContainer}`]: {
         display: "flex",

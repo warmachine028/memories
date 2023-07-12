@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { getPosts } from "../../actions/posts"
 import { SnackbarContext } from "../../contexts/SnackbarContext"
+import { ModeContext } from '../../contexts/ModeContext'
 
 const Paginate = ({ page }) => {
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
@@ -17,9 +18,11 @@ const Paginate = ({ page }) => {
             dispatch(getPosts(page, snackBar))
     }, [dispatch, page])
 
+    const { mode } = useContext(ModeContext);
+
     return (
         <Root className={classes.root}>
-            <Paper className={classes.paper} elevation={6}>
+            <Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6}>
                 <Pagination
                     className={classes.pagination}
                     classes={{ ul: classes.ul }}

@@ -20,6 +20,7 @@ export const Root = styled('div')(({ theme }) => ({
 		display: 'flex',
 		cursor: 'pointer',
 		alignItems: 'center',
+		color: 'white',
 		':active i::after': {
 			width: '28px',
 			transform: 'translate3d(2px, 2px, 0)',
@@ -48,6 +49,7 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.i}`]: {
 		position: 'relative',
 		display: 'inline-block',
+		color:'white',
 		marginRight: '.5rem',
 		width: '52px',
 		height: '25px',
@@ -73,10 +75,10 @@ export const Root = styled('div')(({ theme }) => ({
 			content: '""',
 			position: 'absolute',
 			left: '6px',
-			top: '0.25px',
+			top: '0.35px',
 			width: '20px',
 			height: '20px',
-			backgroundColor: 'black',
+			backgroundColor: 'white',
 			borderRadius: '25px',
 			boxShadow: '0 2px 2px rgba(0, 0, 0, 0.24)',
 			transform: 'translate3d(-3px, 2px, 0)',

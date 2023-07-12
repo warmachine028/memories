@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useContext} from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { AppBar, Typography, Toolbar, Button, Avatar } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -8,6 +8,7 @@ import icon from '../../images/icon.png'
 import decode from 'jwt-decode'
 import Avaatar from 'avataaars'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
+import { ModeContext } from '../../contexts/ModeContext'
 
 const Navbar = ({ user, setUser, floating }) => {
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
@@ -32,9 +33,11 @@ const Navbar = ({ user, setUser, floating }) => {
 		setUser(JSON.parse(localStorage.getItem('profile')))
 	}, [logout, token])
 
+	const { mode, modeToggle } = useContext(ModeContext);
+
 	return (
 		<Root className={classes.root} floating={floating?.toString()}>
-			<AppBar className={classes.appBar}>
+			<AppBar className={`${classes.appBarLight} ${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`}>
 				<Link to="/" className={classes.brandContainer}>
 					<img className={classes.logo} src={icon} alt="memories" />
 					<img className={classes.heading} src={memories} alt="memories" />
@@ -42,7 +45,7 @@ const Navbar = ({ user, setUser, floating }) => {
 				<Toolbar className={classes.toolbar}>
 					{user ? (
 						<div className={classes.profile}>
-							<Link to="/user" style={{ textDecoration: 'none'}}>
+							<Link to="/user" style={{ textDecoration: 'none' }}>
 								{user.result.avatar ? (
 									<Avaatar className={classes.avaatar} avatarStyle="Circle" {...user.result.avatar} />
 								) : (
@@ -65,6 +68,9 @@ const Navbar = ({ user, setUser, floating }) => {
 							</Button>
 						)
 					)}
+					<div className={classes.toggleDiv}>
+						<div className={`${classes.spanLight} ${mode === 'dark' ? classes.spanLight : classes.spanDark}`} onClick={modeToggle}></div>
+					</div>
 				</Toolbar>
 			</AppBar>
 		</Root>

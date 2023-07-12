@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 import DeleteDialogBox from '../../DialogBox/DeleteDialogBox'
 import Avaatar from 'avataaars'
+import { ModeContext } from '../../../contexts/ModeContext'
 
 const Post = ({ post, setCurrentId, user }) => {
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
@@ -27,35 +28,40 @@ const Post = ({ post, setCurrentId, user }) => {
 		setLikes(usersLiked)
 		dispatch(updatePost(post._id, { ...post, likes: usersLiked }))
 	}
+	
 	const handleDelete = () => {
 		dispatch(deletePost(post._id, snackBar, setDeleteing))
 	}
+
 	const Likes = () => {
 		if (likes.length > 0)
 			return hasLikedPost ? (
-				<Typography variant="body2" sx={{ align: 'center', display: 'flex' }}>
+				<Typography variant="body2" sx={{color: 'white', align: 'center', display: 'flex' }}>
 					<ThumbUpAltIcon fontSize="small" />
 					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			) : (
-				<Typography variant="body2" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
-					<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+				<Typography variant="body2" sx={{ color: 'white', align: 'center', display: 'flex' }}>
+					<ThumbUpAltOutlined fontSize="small" sx={{ color: 'white' }} />
 					&nbsp; {`${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			)
 		return (
-			<Typography variant="body2" color="primary" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
-				<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+			<Typography variant="body2" color="primary" sx={{ color: 'white', align: 'center', display: 'flex' }}>
+				<ThumbUpAltOutlined fontSize="small" sx={{ color: 'white'}} />
 				&nbsp; Like
 			</Typography>
 		)
 	}
 	const isLongMessage = post.message.length > 100
 	const openPost = () => history(`/posts/${post._id}`)
+
+	const { mode} = useContext(ModeContext);
+
 	return (
 		<Root className={classes.root}>
 			<DeleteDialogBox open={deleteing} setOpen={setDeleteing} post={post} callBack={handleDelete} />
-			<Card className={classes.card} raised elevation={6}>
+			<Card className={`${classes.cardLight} ${mode === 'light' ? classes.cardLight : classes.cardDark}`} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={openPost} component="span">
 					<CardMedia className={classes.media} image={post.thumbnail} title={post.title} />
 					<div className={classes.details}>

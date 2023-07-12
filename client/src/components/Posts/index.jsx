@@ -2,6 +2,7 @@ import Post from './Post'
 import { Grid, CircularProgress, Grow } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { Root, classes } from './styles'
+
 // import { posts, isLoading } from "../../temp"
 
 const Posts = ({ setCurrentId, user }) => {

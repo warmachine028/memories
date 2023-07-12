@@ -3,14 +3,30 @@ import Image from '../images/background.jpg'
 
 const PREFIX = 'App'
 export const classes = {
-	root: `${PREFIX}-root`,
+	rootLight: `${PREFIX}-rootLight`,
+	rootDark: `${PREFIX}-rootDark`,
 	floatingNavbar: `${PREFIX}-floatingNavbar`,
 	container: `${PREFIX}-container`,
 	blur: `${PREFIX}-blur`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
-	[`&.${classes.root}`]: {
+	[`&.${classes.rootLight}`]: {
+		backgroundImage: `url(${Image})`,
+		// backgroundImage: `url(https://source.unsplash.com/1920x1080/?dark,night,technology)`,
+		bacgroundSize: 'contain',
+		backgroundPosition: 'center',
+		backgroundAttachment: 'fixed',
+		maxWidth: '100%',
+		maxHeight: '100%',
+		minHeight: '1200px',
+		padding: '10px 5px',
+		[theme.breakpoints.down(948)]: {
+			backgroundPositionY: 'center',
+			minHeight: '1080px',
+		},
+	},
+	[`&.${classes.rootDark}`]: {
 		backgroundImage: `url(${Image})`,
 		// backgroundImage: `url(https://source.unsplash.com/1920x1080/?dark,night,technology)`,
 		bacgroundSize: 'contain',

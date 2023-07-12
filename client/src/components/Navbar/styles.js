@@ -1,10 +1,14 @@
 import { styled } from '@mui/material/styles'
-import { deepPurple } from '@mui/material/colors'
+import { deepPurple, red, yellow } from '@mui/material/colors'
+
+import lightmode from '../../images/lightmode.png'
+import darkmode from '../../images/darkmode.png';
 
 const PREFIX = 'NavBar'
 export const classes = {
 	root: `${PREFIX}-root`,
-	appBar: `${PREFIX}-appBar`,
+	appBarLight: `${PREFIX}-appBarLight`,
+	appBarDark: `${PREFIX}-appBarDark`,
 	heading: `${PREFIX}-heading`,
 	logo: `${PREFIX}-logo`,
 	toolbar: `${PREFIX}-toolbar`,
@@ -14,33 +18,52 @@ export const classes = {
 	brandContainer: `${PREFIX}-brandContainer`,
 	avatar: `${PREFIX}-avatar`,
 	avaatar: `${PREFIX}-avaatar`,
+	toggleDiv: `${PREFIX}-toggleDiv`,
+	spanLight: `${PREFIX}-spanLight`,
+	spanDark: `${PREFIX}-spanDark`,
 }
 
 export const Root = styled('div')(({ theme, floating }) => ({
 	[`&.${classes.root}`]: {
-		paddingRight: '10px',
+		padding: '20px',
 	},
 	[`& .${classes.avaatar}`]: {
 		margin: theme.spacing(1),
 		height: '50px',
 		width: '50px',
 	},
-	[`& .${classes.appBar}`]: {
+	[`& .${classes.appBarLight}`]: {
 		position: 'static',
-		borderRadius: '5px',
-		margin: '0 16px 0 6px',
+		borderRadius: '20px',
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: '10px 50px',
-		backgroundColor: 'rgba(255, 255, 255, .09)', //"transparent" //"rgba(69, 114, 200)"
+		padding: '10px',
+		backgroundColor: 'rgba(255, 255, 255, 0.09)', //"transparent" //"rgba(69, 114, 200)"
 		backdropFilter: 'blur(10px)',
 		[theme.breakpoints.down('md')]: {
 			flexDirection: 'column',
 		},
 		[theme.breakpoints.down(360)]: {
-			padding: '10px 30px',
+			padding: '10px',
+		},
+	},
+	[`& .${classes.appBarDark}`]: {
+		position: 'static',
+		borderRadius: '20px',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		padding: '10px',
+		backgroundColor: 'rgba(5, 5, 5, .90)', //"transparent" //"rgba(69, 114, 200)"
+		backdropFilter: 'blur(10px)',
+		[theme.breakpoints.down('md')]: {
+			flexDirection: 'column',
+		},
+		[theme.breakpoints.down(360)]: {
+			padding: '10px',
 		},
 	},
 	[`& .${classes.heading}`]: {
@@ -59,8 +82,8 @@ export const Root = styled('div')(({ theme, floating }) => ({
 	},
 	[`& .${classes.toolbar}`]: {
 		display: 'flex',
-		justifyContent: 'flex-end',
-		width: 400,
+		justifyContent: 'space-between',
+		gap: '20px',
 		[theme.breakpoints.down('md')]: {
 			width: '-webkit-fill-available',
 			justifyContent: 'center',
@@ -76,6 +99,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
 		justifyContent: 'space-between',
 		width: 400,
 		alignItems: 'center',
+		gap: '10px',
 		[theme.breakpoints.down('sm')]: {
 			width: 'auto',
 			marginTop: 20,
@@ -112,6 +136,34 @@ export const Root = styled('div')(({ theme, floating }) => ({
 		color: theme.palette.getContrastText(deepPurple[500]),
 		backgroundColor: deepPurple[500],
 	},
+	[`& .${classes.toggleDiv}`]:{
+		width: 30,
+		height: 30,
+		borderRadius: '100%',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'white',
+		padding: '4px',
+	},
+	[`& .${classes.spanLight}`]:{
+		width: '30px',
+		height: '30px',
+		border: 'none',
+		borderRadius: '100%',
+		backgroundImage: `url(${lightmode})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center',
+	},
+	[`& .${classes.spanDark}`]:{
+		width: '30px',
+		height: '30px',
+		border: 'none',
+		borderRadius: '100%',
+		backgroundImage: `url(${darkmode})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center',
+	}
 }))
 
 export default Root

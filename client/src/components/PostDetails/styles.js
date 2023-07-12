@@ -8,7 +8,8 @@ export const classes = {
 	section: `${PREFIX}-section`,
 	imageSection: `${PREFIX}-imageSection`,
 	recommendedPosts: `${PREFIX}-recommendedPosts`,
-	loadingPaper: `${PREFIX}-loadingPaper`,
+	loadingPaperLight: `${PREFIX}-loadingPaperLight`,
+	loadingPaperDark: `${PREFIX}-loadingPaperDark`,
 	commentText: `${PREFIX}-commentText`,
 	paragraph: `${PREFIX}-paragraph`,
 	tags: `${PREFIX}-tags`,
@@ -20,7 +21,8 @@ export const classes = {
 
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
-		margin: '10px 5px',
+		margin: '5px 5px',
+		padding: '15px',
 	},
 	[`& .${classes.media}`]: {
 		borderRadius: '5px',
@@ -61,16 +63,21 @@ export const Root = styled('div')(({ theme }) => ({
 			alignItems: 'center',
 		},
 	},
-	[`& .${classes.loadingPaper}`]: {
+	[`& .${classes.loadingPaperLight}`]: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		padding: '20px',
-		borderRadius: '5px',
+		borderRadius: '20px',
 		minheight: '39vh',
+		color: 'white',
 		backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 		flexDirection: 'column',
+	},
+	
+	[`& .${classes.loadingPaperDark}`]: {
+		backgroundColor: 'rgba(5, 5, 5, .9)',
 	},
 	[`& .${classes.commentText}`]: {
 		width: '94%',

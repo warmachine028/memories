@@ -68,7 +68,7 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.userName}`]: {
 		fontWeight: 600,
-		color: 'black',
+		color: 'white',
 	},
 	[`& .${classes.comment}`]: {
 		textAlign: 'justify',
