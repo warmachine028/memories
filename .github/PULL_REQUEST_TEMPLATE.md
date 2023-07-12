@@ -1,23 +1,23 @@
 # Issue <issue number> 📐
 
-- **I <[your name here](your github profile link)> have worked for <issue number>**
+- I <[your name here](your github profile link)> have worked for <issue number>
 
 [put x to check the boxes]: <> (This is a comment, it will not be included)
 
 ## Guidelines 🔐
 
-**I accept the fact that i have followed the guidelines and have not copied the codes from around the internet**
+I accept the fact that i have followed the guidelines and have not copied the codes from around the internet
 
 - [x] **Contribution Guidelines**
 - [x] **Code of Conduct**
 
 ## Issue to be closed 🛅
 
-- **My pull request closes <hashtag issuenumber>**
+- My pull request closes <hashtag issuenumber>
 
 ## Screenshots 📷
 
-**Here are the pictures of changes that i have made 🔽**
+Here are the pictures of changes that i have made 🔽
 
 <attach screenshots here>
   
