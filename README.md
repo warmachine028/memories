@@ -1,4 +1,4 @@
-    updated: Monday, 10th July 2023
+    updated: Wednesday, 12th July 2023
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
@@ -84,9 +84,8 @@
 
 ## Upcomming
 
-- Relocated user login input validation from the client-side to the server-side to optimize validation time.
-- Resolved issue #44 with necessary fixes.
-- Implemented functionality where clicking on any user's avatar redirects to their respective user profile.
+- Resolve issue #43 for theme toggling.
+
 ![line]
 
 ## Best Contributors 🎭
@@ -116,4 +115,4 @@
 - [Memories Old - Repository](https://github.com/warmachine028/memories/tree/memories-old)
 
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
-<!-- 10/07/23 -->
+<!-- 12/07/23 -->
