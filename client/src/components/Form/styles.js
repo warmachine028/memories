@@ -50,13 +50,11 @@ export const Root = styled('div')(({ theme }) => ({
 		backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 		borderRadius: '5px',
+		color: 'white',
 	},
 	
 	[`& .${classes.paperDark}`]: {
-		padding: theme.spacing(2),
 		backgroundColor: 'rgba(5, 5, 5, .90)',
-		backdropFilter: 'blur(10px)',
-		borderRadius: '5px',
 	},
 	[`& .${classes.form}`]: {
 		display: 'flex',

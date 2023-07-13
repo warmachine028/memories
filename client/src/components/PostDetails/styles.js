@@ -22,7 +22,7 @@ export const classes = {
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
 		margin: '5px 5px',
-		padding: '15px',
+		padding: '10px',
 	},
 	[`& .${classes.media}`]: {
 		borderRadius: '5px',
@@ -68,7 +68,7 @@ export const Root = styled('div')(({ theme }) => ({
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		padding: '20px',
-		borderRadius: '20px',
+		borderRadius: '5px',
 		minheight: '39vh',
 		color: 'white',
 		backgroundColor: 'rgba(255, 255, 255, .09)',

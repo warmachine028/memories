@@ -3,7 +3,8 @@ import { styled } from '@mui/material/styles'
 const PREFIX = 'Auth'
 export const classes = {
 	root: `${PREFIX}-root`,
-	paper: `${PREFIX}-paper`,
+	paperLight: `${PREFIX}-paperLight`,
+	paperDark: `${PREFIX}-paperDark`,
 	avatar: `${PREFIX}-avtar`,
 	form: `${PREFIX}-form`,
 	submit: `${PREFIX}-submit`,
@@ -16,7 +17,7 @@ export const Root = styled('div')(({ theme }) => ({
 			color: 'white',
 		},
 	},
-	[`& .${classes.paper}`]: {
+	[`& .${classes.paperLight}`]: {
 		marginBottom: theme.spacing(3),
 		display: 'flex',
 		flexDirection: 'column',
@@ -24,6 +25,17 @@ export const Root = styled('div')(({ theme }) => ({
 		padding: theme.spacing(2),
 		transition: '0.2s',
 		backgroundColor: 'rgba(255, 255, 255, .09)',
+		backdropFilter: 'blur(10px)',
+		borderRadius: '5px',
+	},
+	[`& .${classes.paperDark}`]: {
+		marginBottom: theme.spacing(3),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: theme.spacing(2),
+		transition: '0.2s',
+		backgroundColor: 'rgba(5, 5, 5, .9)',
 		backdropFilter: 'blur(10px)',
 		borderRadius: '5px',
 	},

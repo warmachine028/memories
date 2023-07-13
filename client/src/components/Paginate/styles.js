@@ -8,6 +8,7 @@ export const classes = {
 	pagination: `${PREFIX}-pagination`,
 	paperLight: `${PREFIX}-paperLight`,
 	paperDark: `${PREFIX}-paperDark`,
+	eachPage: `${PREFIX}-eachPage`,
 }
 
 export const Root = styled('div')({
@@ -42,6 +43,10 @@ export const Root = styled('div')({
 		padding: '16px',
 		backgroundColor: 'rgba(5, 5, 5, .90)',
 		backdropFilter: 'blur(10px)',
+	},
+	[`& .${classes.eachPage}`]: {
+		color: 'white',
+		border: '1px solid white',
 	},
 })
 

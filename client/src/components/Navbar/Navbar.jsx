@@ -57,13 +57,13 @@ const Navbar = ({ user, setUser, floating }) => {
 							<Typography className={classes.userName} variant="h6">
 								{user.result.name}
 							</Typography>
-							<Button className={classes.logout} variant="contained" onClick={logout}>
+							<Button className={`${classes.authButtonLight} ${mode === 'light' ? classes.authButtonLight : classes.authButtonDark}`} variant="contained" onClick={logout}>
 								Logout
 							</Button>
 						</div>
 					) : (
 						!userIsinAuth && (
-							<Button className={classes.logout} component={Link} to="/auth" variant="contained">
+							<Button className={`${classes.authButtonLight} ${mode === 'light' ? classes.authButtonLight : classes.authButtonDark}`} component={Link} to="/auth" variant="contained">
 								Sign In
 							</Button>
 						)

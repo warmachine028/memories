@@ -11,6 +11,7 @@ import Input from '../Input'
 import UserIcon from '../UserIcon/UserIcon'
 import { styled } from '@mui/material/styles'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
+import { ModeContext } from '../../contexts/ModeContext'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', remember: false }
 
@@ -55,10 +56,12 @@ const Auth = () => {
 
 	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])
 
+	const { mode } = useContext(ModeContext);
+
 	return (
 		<Root className={classes.root}>
 			<Container component="main" maxWidth="xs">
-				<Paper className={classes.paper} elevation={6} style={{ marginTop: margin }}>
+				<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6} style={{ marginTop: margin }}>
 					{isSignup ? (
 						<UserIcon formData={formData} setFormData={setFormData} />
 					) : (
@@ -66,7 +69,7 @@ const Auth = () => {
 							<LockOutlinedIcon />
 						</Avatar>
 					)}
-					<Typography variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
+					<Typography sx={{ color: 'white'}} variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
 							{isSignup && (
