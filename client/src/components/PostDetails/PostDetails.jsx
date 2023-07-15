@@ -8,6 +8,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Root, classes } from './styles'
 import { getPost } from '../../actions/posts'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
+import { ModeContext } from '../../contexts/ModeContext'
+
+
 // import { posts, isLoading } from '../../temp'
 // const post = posts[0]
 
@@ -20,15 +23,17 @@ const PostDetails = ({ user }) => {
 
 	const { post, isLoading } = useSelector((state) => state.posts)
 
+	const { mode } = useContext(ModeContext);
+
 	return isLoading || !post ? (
 		<Root className={classes.root}>
-			<Paper className={classes.loadingPaper} style={{ alignItems: 'center' }} elevation={6}>
+			<Paper className={`${classes.loadingPaperLight} ${mode === 'light' ? classes.loadingPaperLight : classes.loadingPaperDark}`} style={{ alignItems: 'center' }} elevation={6}>
 				<CircularProgress size="7em" />
 			</Paper>
 		</Root>
 	) : (
 		<Root className={classes.root}>
-			<Paper className={classes.loadingPaper} elevation={6}>
+			<Paper className={`${classes.loadingPaperLight} ${mode === 'light' ? classes.loadingPaperLight : classes.loadingPaperDark}`} elevation={6}>
 				<div className={classes.card}>
 					<div className={classes.section}>
 						<div className={classes.imageSection}>
@@ -55,7 +60,7 @@ const PostDetails = ({ user }) => {
 					</div>
 				</div>
 			</Paper>
-			<Paper className={classes.loadingPaper} elevation={6} sx={{ marginTop: 1 }}>
+			<Paper className={`${classes.loadingPaperLight} ${mode === 'light' ? classes.loadingPaperLight : classes.loadingPaperDark}`} elevation={6} sx={{ marginTop: 1 }}>
 				<RecommendedPosts tags={post.tags} user={user} post_id={post._id} />
 			</Paper>
 		</Root>

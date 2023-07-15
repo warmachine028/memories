@@ -2,8 +2,9 @@ import { Typography, Grid } from '@mui/material'
 import { Root, classes } from './styles'
 import { PostCard, LoadingCard } from '../User/Cards'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { getRecommendedPosts } from '../../actions/posts'
+import { ModeContext } from '../../contexts/ModeContext'
 // import dispatch
 
 // import { posts, isLoading } from '../../temp'
@@ -16,6 +17,9 @@ const RecommendedPosts = ({ user, tags, post_id }) => {
 	const { recommendedPosts, isFetchingRecommendedPosts: isLoading } = useSelector((state) => state.posts)
 
 	const posts = recommendedPosts?.filter(({ _id }) => _id !== post_id)
+
+	const { mode } = useContext(ModeContext);
+
 	return (
 		<Root className={classes.root} sx={{ width: '100%' }}>
 			<Typography variant="h5" styles={{ textAlign: 'left' }}>

@@ -3,7 +3,8 @@ import { styled } from "@mui/material/styles"
 const PREFIX = "Search"
 export const classes = {
     root: `${PREFIX}-root`,
-    searchBar: `${PREFIX}-searchBar`,
+    searchBarLight: `${PREFIX}-searchBarLight`,
+    searchBarDark: `${PREFIX}-searchBarDark`,
     searchButton: `${PREFIX}-searchButton`,
     chip: `${PREFIX}-chip`,
 }
@@ -23,12 +24,20 @@ export const Root = styled("div")(({ theme }) => ({
         },
         marginTop: "15px",
     },
-    [`& .${classes.searchBar}`]: {
+    [`& .${classes.searchBarLight}`]: {
         marginBottom: "1rem",
         display: "flex",
         padding: theme.spacing(2),
         borderRadius: "5px",
         backgroundColor: "rgba(255, 255, 255, .09)",
+        backdropFilter: "blur(10px)",
+    },
+    [`& .${classes.searchBarDark}`]: {
+        marginBottom: "1rem",
+        display: "flex",
+        padding: theme.spacing(2),
+        borderRadius: "5px",
+        backgroundColor: "rgba(5, 5, 5, .90)",
         backdropFilter: "blur(10px)",
     },
 

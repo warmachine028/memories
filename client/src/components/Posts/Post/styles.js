@@ -6,7 +6,8 @@ export const classes = {
 	media: `${PREFIX}-media`,
 	border: `${PREFIX}-border`,
 	fullHeightCard: `${PREFIX}-fullHeightCard`,
-	card: `${PREFIX}-card`,
+	cardLight: `${PREFIX}-cardLight`,
+	cardDark: `${PREFIX}-cardDark`,
 	overlay: `${PREFIX}-overlay`,
 	overlay2: `${PREFIX}-overlay2`,
 	grid: `${PREFIX}-grid`,
@@ -38,7 +39,7 @@ export const Root = styled('div')(({ theme }) => ({
 		backgroundBlendMode: 'darken',
 		transition: 'transform .2s',
 	},
-	[`& .${classes.card}`]: {
+	[`& .${classes.cardLight}`]: {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
@@ -46,6 +47,20 @@ export const Root = styled('div')(({ theme }) => ({
 		height: '100%',
 		position: 'relative',
 		backgroundColor: 'rgba(255, 255, 255, .09)',
+		backdropFilter: 'blur(10px)',
+		transition: 'transform .2s',
+		'&:hover': {
+			transform: 'scale(1.05)',
+		},
+	},
+	[`& .${classes.cardDark}`]: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+		borderRadius: 5,
+		height: '100%',
+		position: 'relative',
+		backgroundColor: 'rgba(5, 5, 5, .90)', //"transparent" //"rgba(69, 114, 200)"
 		backdropFilter: 'blur(10px)',
 		transition: 'transform .2s',
 		'&:hover': {
@@ -76,6 +91,7 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.title}`]: {
 		padding: '0 16px',
+		color: 'white',
 	},
 	[`& .${classes.cardActions}`]: {
 		padding: '0 16px 8px 16px',

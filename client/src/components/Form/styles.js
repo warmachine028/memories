@@ -6,7 +6,8 @@ export const classes = {
 	root: `${PREFIX}-root`,
 	drag: `${PREFIX}-drag`,
 	textField: `${PREFIX}-textField`,
-	paper: `${PREFIX}-paper`,
+	paperLight: `${PREFIX}-paperLight`,
+	paperDark: `${PREFIX}-paperDark`,
 	form: `${PREFIX}-form`,
 	buttonSubmit: `${PREFIX}-buttonSubmit`,
 	chip: `${PREFIX}-chip`,
@@ -44,11 +45,16 @@ export const Root = styled('div')(({ theme }) => ({
 		padding: theme.spacing(2),
 		color: 'white',
 	},
-	[`& .${classes.paper}`]: {
+	[`& .${classes.paperLight}`]: {
 		padding: theme.spacing(2),
 		backgroundColor: 'rgba(255, 255, 255, .09)',
 		backdropFilter: 'blur(10px)',
 		borderRadius: '5px',
+		color: 'white',
+	},
+	
+	[`& .${classes.paperDark}`]: {
+		backgroundColor: 'rgba(5, 5, 5, .90)',
 	},
 	[`& .${classes.form}`]: {
 		display: 'flex',

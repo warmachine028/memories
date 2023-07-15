@@ -8,6 +8,7 @@ import { createPost, updatePost } from '../../actions/posts'
 import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
+import { ModeContext } from '../../contexts/ModeContext'
 
 const useQuery = () => new URLSearchParams(useLocation().search)
 
@@ -29,6 +30,8 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const history = useNavigate()
 	const query = useQuery()
 	const page = query.get('page') || 1
+
+	const { mode } = useContext(ModeContext);
 
 	useEffect(() => {
 		if (post) {
@@ -106,7 +109,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	if (!user?.result?.name) {
 		return (
 			<Root className={classes.root}>
-				<Paper className={classes.paper} elevation={6}>
+				<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6}>
 					<Typography variant="h6" align="center">
 						Please Sign In to create your memories with us and like other&apos;s memories.
 					</Typography>
@@ -116,16 +119,16 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	}
 	return (
 		<Root className={dragging ? classes.drag : classes.root} onDragEnter={dragEnter} onDragOver={dragEnter} onDragLeave={dragLeave} onDrop={fileDrop}>
-			<Paper className={classes.paper} elevation={6}>
+			<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6}>
 				<form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
 					<Typography style={{ color: 'white', textAlign: 'center' }} variant="h6">
 						{currentId ? `Editing ${post.title}` : 'Create a Memory'}
 					</Typography>
 					<PrivateSwitch private_={private_} postData={postData} setPrivate={setPrivate} setPostData={setPostData} />
 					<FileInput postData={postData} setPostData={setPostData} classes={classes} fileName={fileName} setFileName={setFileName} media={media} setMedia={setMedia} setEmpty={setMediaEmpty} />
-					<TextField sx={{ input: { color: 'white' } }} name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-					<TextField InputProps={{ style: { color: 'white' } }} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
-					<ChipInput fullWidth InputProps={{ style: { color: 'white' } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} />
+					<TextField sx={{ input: { color: 'white', border: '1px solid white' } }} name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+					<TextField InputProps={{ style: { color: 'white', border: '1px solid white' } }} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
+					<ChipInput fullWidth InputProps={{ style: { color: 'white', border: '1px solid white' } }} value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} />
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
 						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}

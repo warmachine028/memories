@@ -95,7 +95,7 @@ const CommentSection = ({ post, user }) => {
 						Write a comment
 					</Typography>
 					<form onSubmit={handleSubmit}>
-						<TextField InputProps={{ style: { color: 'white' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
+						<TextField InputProps={{ style: { color: 'white', backgroundColor: 'rgba(255,255,255, 0.30)' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
 						<Button type="submit" style={{ marginTop: '10px' }} fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained">
 							{loading && <CircularProgress size="2em" />} Comment
 						</Button>
