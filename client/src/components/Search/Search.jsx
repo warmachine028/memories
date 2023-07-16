@@ -32,8 +32,8 @@ const Search = ({ tags, setTags }) => {
 	return (
 		<Root className={classes.root}>
 			<AppBar className={`${classes.searchBarLight} ${mode === 'light' ? classes.searchBarLight : classes.searchBarDark}`} position="static" color="inherit">
-				<TextField sx={{ input: { color: 'white', border: '1px solid white' } }} name="search" variant="outlined" label="Search Memories" onKeyDown={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)} />
-				<ChipInput label="Search Tags" InputProps={{ style: { color: 'white', border: '1px solid white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} variant="outlined" className={classes.chip} />
+				<TextField sx={{ input: { color: 'white' } }} name="search" variant="outlined" label="Search Memories" onKeyDown={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)} />
+				<ChipInput label="Search Tags" InputProps={{ style: { color: 'white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} variant="outlined" className={classes.chip} />
 				<Button className={classes.buttonSearch} onClick={searchPost} color="primary" variant="contained">
 					SEARCH
 				</Button>

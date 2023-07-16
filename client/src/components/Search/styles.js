@@ -14,11 +14,9 @@ export const Root = styled("div")(({ theme }) => ({
         "& .MuiTextField-root": {
             margin: theme.spacing(0.5, 0),
         },
-
         "& .MuiFormLabel-root": {
             color: "white",
         },
-
         "& .MuiChip-filled": {
             background: "#ffffff70",
         },
@@ -33,12 +31,15 @@ export const Root = styled("div")(({ theme }) => ({
         backdropFilter: "blur(10px)",
     },
     [`& .${classes.searchBarDark}`]: {
-        marginBottom: "1rem",
-        display: "flex",
-        padding: theme.spacing(2),
-        borderRadius: "5px",
         backgroundColor: "rgba(5, 5, 5, .90)",
-        backdropFilter: "blur(10px)",
+        '& .MuiOutlinedInput-root': {
+			'& fieldset': {
+                borderColor: '#b3b3b3',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: theme.palette.primary.main,
+			},
+		},
     },
 
     [`& .${classes.searchButton}`]: {

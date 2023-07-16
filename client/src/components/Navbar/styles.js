@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles'
 import { deepPurple, red, yellow } from '@mui/material/colors'
 
-import lightmode from '../../images/lightmode.png'
-import darkmode from '../../images/darkmode.png';
+import lightmodeIcon from '../../images/lightmodeIcon.png'
+import darkmodeIcon from '../../images/darkmodeIcon.png';
 
 const PREFIX = 'NavBar'
 export const classes = {
@@ -26,7 +26,7 @@ export const classes = {
 
 export const Root = styled('div')(({ theme, floating }) => ({
 	[`&.${classes.root}`]: {
-		padding: '10px',
+		paddingRight: '10px',
 	},
 	[`& .${classes.avaatar}`]: {
 		margin: theme.spacing(1),
@@ -36,11 +36,12 @@ export const Root = styled('div')(({ theme, floating }) => ({
 	[`& .${classes.appBarLight}`]: {
 		position: 'static',
 		borderRadius: '5px',
+		margin: '0 16px 0 6px',
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: '10px',
+		padding: '10px 50px',
 		backgroundColor: 'rgba(255, 255, 255, 0.09)', //"transparent" //"rgba(69, 114, 200)"
 		backdropFilter: 'blur(10px)',
 		[theme.breakpoints.down('md')]: {
@@ -143,7 +144,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
 		height: '30px',
 		border: 'none',
 		borderRadius: '100%',
-		backgroundImage: `url(${lightmode})`,
+		backgroundImage: `url(${lightmodeIcon})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center',
 	},
@@ -152,7 +153,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
 		height: '30px',
 		border: 'none',
 		borderRadius: '100%',
-		backgroundImage: `url(${darkmode})`,
+		backgroundImage: `url(${darkmodeIcon})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center',
 	}

@@ -38,15 +38,11 @@ export const Root = styled('div')({
 		backdropFilter: 'blur(10px)',
 	},
 	[`& .${classes.paperDark}`]: {
-		borderRadius: 4,
-		marginTop: '1rem',
-		padding: '16px',
 		backgroundColor: 'rgba(5, 5, 5, .90)',
-		backdropFilter: 'blur(10px)',
-	},
-	[`& .${classes.eachPage}`]: {
-		color: 'white',
-		border: '1px solid white',
+		[`& .${classes.eachPage}`]: {
+			color: 'white',
+			border: '1px solid white',
+		},
 	},
 })
 

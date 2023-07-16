@@ -41,6 +41,7 @@
 - However, as times have evolved, our requirements have remained constant.
 - This WebApp aims to fulfill the need for a digital diary while enhancing the user experience.
 - The anime film [Kimi no Na wa](https://en.wikipedia.org/wiki/Your_Name) has inspired me to continually enhance this project to its fullest potential.
+
 ![line]
 
 ## Improvements
@@ -67,7 +68,7 @@
 
 ## Preview
 
-![alt](https://github.com/warmachine028/memories/assets/75939390/6b1ab1f2-42d1-4283-ba4d-1163f2a156d0)
+![preview](https://github.com/warmachine028/memories/assets/75939390/6b1ab1f2-42d1-4283-ba4d-1163f2a156d0)
 
 ![line]
 
@@ -79,16 +80,15 @@
 
 - ![ER diagram](https://github.com/warmachine028/memories/assets/75939390/d5ac36b6-2c2b-4987-8977-3620154afefd)
 
-
 ![line]
 
 ## Upcomming
 
-- Resolve issue #43 for theme toggling.
+- Resolve dark theme issues in PostDetails and Comment Section. 
 
 ![line]
 
-## Best Contributors 🎭
+## Best Contributors
 
 <div align="center">
     <a  href="https://github.com/warmachine028/memories/graphs/contributors">
@@ -100,7 +100,7 @@
 
 ## License
 
--   see [LICENSE]
+- see [LICENSE]
 
 **Pritam, 2023**
 

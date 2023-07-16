@@ -27,4 +27,6 @@
 - Added redirects on post not found
 - Added Circular Progress in Form Submit button while Creating a post
 - User Avatar in Posts
+- Post Thumbnails
 - Delete Confirmation Dialog box
+- Theme Toggle by **[@avinasdube](https://github.com/avinasdube)**
