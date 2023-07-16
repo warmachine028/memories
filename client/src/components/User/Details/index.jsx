@@ -70,11 +70,12 @@ const UserDetails = ({ user }) => {
 
 	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
 	const labels = {
+		'Name': user.result.name,
 		Email: user.result.email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,
-		'Liked Recived': totalLikesRecieved,
+		'Likes Recived': totalLikesRecieved,
 	}
 	const createdProps = {
 		page: createdPage,
@@ -191,14 +192,15 @@ export const PublicProfile = () => {
 	const dispatch = useDispatch()
 	const [value, setValue] = useState(0)
 	const [progress, setProgress] = useState(0)
+	const [name, setName] = useState(1)
 	const [likedPage, setLikedPage] = useState(1)
 	const [createdPage, setCreatedPage] = useState(1)
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
-	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
+	const {likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
 	useEffect(() => dispatch(getUserDetails(userId, snackBar)), [userId])
-	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
-	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
+	useEffect(() => dispatch(getUserPostsByType(username, userId, createdPage, CREATED)), [createdPage])
+	useEffect(() => dispatch(getUserPostsByType(username, userId, likedPage, LIKED)), [likedPage])
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
@@ -217,12 +219,13 @@ export const PublicProfile = () => {
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
 	}
 
-	const { email, postsCreated, postsLiked, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
+	const {email, postsCreated, postsLiked, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
 	const labels = {
+		'Name': user.result.name,
 		Email: email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
-		'Liked Recived': totalLikesRecieved,
+		'Likes Recived': totalLikesRecieved,
 	}
 	const createdProps = {
 		page: createdPage,
