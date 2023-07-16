@@ -16,9 +16,7 @@
 
 ## What's new?
 
-- Updated User Details reflect on posts and comments
-- Compression and Thumbnails
-- User avatar on Post Cards
+- Dark theme toggle
 
 ![line]
 
