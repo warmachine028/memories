@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import lightmodeIcon from '../../images/lightmodeIcon.png';
 import darkmodeIcon from '../../images/darkmodeIcon.png';
 
-const PREFIX = 'NavBar';
+const PREFIX = 'Navbar';
 export const classes = {
   root: `${PREFIX}-root`,
   appBarLight: `${PREFIX}-appBarLight`,
@@ -25,7 +25,7 @@ export const classes = {
 
 export const Root = styled('div')(({ theme, floating }) => ({
   [`&.${classes.root}`]: {
-    padding: '10px',
+    paddingRight: 10,
   },
   [`& .${classes.avaatar}`]: {
     margin: theme.spacing(1),
@@ -35,11 +35,12 @@ export const Root = styled('div')(({ theme, floating }) => ({
   [`& .${classes.appBarLight}`]: {
     position: 'static',
     borderRadius: '5px',
+    margin: '0 16px 0 6px',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px',
+    padding: '10px 50px',
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     backdropFilter: 'blur(10px)',
     [theme.breakpoints.down('md')]: {
@@ -53,7 +54,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
     backgroundColor: 'rgba(5, 5, 5, .90)',
   },
   [`& .${classes.heading}`]: {
-    height: floating ? '50px' : '100px',
+    height: floating ? 50 : 100,
     [theme.breakpoints.down(400)]: {
       width: '-webkit-fill-available',
     },
@@ -91,11 +92,14 @@ export const Root = styled('div')(({ theme, floating }) => ({
     width: '400px',
     alignItems: 'center',
     gap: '20px',
+    [theme.breakpoints.down(920)]: {
+      gap: 10,
+      width: 350
+    },
     [theme.breakpoints.down(600)]: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      gap: '10px',
     },
     [theme.breakpoints.down(390)]: {
       width: '-webkit-fill-available',
@@ -113,7 +117,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
     display: 'flex',
     textAlign: 'center',
     alignItems: 'center',
-    [theme.breakpoints.down(390)]: {
+    [theme.breakpoints.down(420)]: {
       display: 'none',
     },
   },
@@ -128,33 +132,27 @@ export const Root = styled('div')(({ theme, floating }) => ({
 
     // Additional styles for the checkbox input (HiddenCheckbox)
 
-    '& input': {
-      width: '0',
-      height: '0',
-      visibility: 'hidden',
-    },
-
-    '& label:active:after': {
-      width: '40px',
-    }
   },
 
   [`& .${classes.dn}`]: {
-
+    width: '0',
+    height: '0',
+    visibility: 'hidden',
     // Styles for the label when the checkbox is checked
 
-    ':checked + label': {
+    ':checked + i': {
       backgroundColor: '#242424',
+      border: 'none',
     },
-    
-    ':checked + label:after': {
-      content: '""', 
+
+    ':checked + i::after': {
+      content: '""',
       width: '30px',
       height: '30px',
       position: 'absolute',
       backgroundImage: `url(${darkmodeIcon})`,
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',  
+      backgroundPosition: 'center',
       backgroundSize: '35px 35px',
       transition: '0.8s',
       transform: 'translate(100%)',
@@ -163,27 +161,25 @@ export const Root = styled('div')(({ theme, floating }) => ({
     // Additional styles for the label (ToggleLabel)
   },
   [`& .${classes.toggle}`]: {
-      width: '60px',
+    width: '60px',
+    height: '30px',
+    padding: '4px',
+    position: 'relative',
+    display: 'block',
+    border: '1px solid white',
+    borderRadius: '200px',
+    cursor: 'pointer',
+    transition: '0.8s',
+    '::after': {
+      content: '""',
+      width: '30px',
       height: '30px',
-      padding: '4px',
-      position: 'relative',
-      display: 'block',
-      backgroundColor: 'white',
-      borderRadius: '200px',
-      cursor: 'pointer',
+      position: 'absolute',
+      backgroundImage: `url(${lightmodeIcon})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundSize: '35px 35px',
       transition: '0.8s',
-
-      ':after': {
-        content: '""', 
-        width: '30px',
-        height: '30px',
-        position: 'absolute',
-        backgroundImage: `url(${lightmodeIcon})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: '35px 35px',
-        transition: '0.8s',
-      },
-    }
-
+    },
+  }
 }));

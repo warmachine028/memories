@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 const Comment = ({ data, user, post, handleDelete }) => {
 	let userId = user?.result.googleId || user?.result?._id
-	userId = userId ? userId.padStart(24, '0') : userId
+	// userId = userId ? userId.padStart(24, '0') : userId
 	const { creator, message, createdAt, _id } = data
 	const canDelete = [creator._id, post.creator._id].includes(userId)
 	const canEdit = userId === creator._id
@@ -21,7 +21,7 @@ const Comment = ({ data, user, post, handleDelete }) => {
 		<Grow in mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
 				<Grid item xl={2} style={{ maxWidth: 50, marginRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-					<Link to={`/user/${post.creator._id}`} style={{ textDecoration: 'none' }}>
+					<Link to={`/user/${creator._id}`} style={{ textDecoration: 'none' }}>
 						{creator.avatar ? (
 							<Avaatar className={classes.avaatar} avatarStyle="Circle" {...creator.avatar} />
 						) : (
