@@ -69,7 +69,8 @@ const Navbar = ({ user, setUser, floating }) => {
 						)
 					)}
 					<div className={classes.toggleDiv}>
-						<div className={`${classes.spanLight} ${mode === 'dark' ? classes.spanLight : classes.spanDark}`} onClick={modeToggle}></div>
+						<input type="checkbox" className={classes.dn} id="dn" />
+						<label htmlFor='dn' className={classes.toggle} onClick={modeToggle}></label>
 					</div>
 				</Toolbar>
 			</AppBar>
