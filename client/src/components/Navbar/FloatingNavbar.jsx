@@ -7,7 +7,7 @@ const FloatingNavbar = ({ user, setUser }) => {
 
 	useEffect(() => {
 		// Button is displayed after scrolling for 200 pixels
-		const toggleVisibility = () => setIsVisible(window.pageYOffset > 130)
+		const toggleVisibility = () => setIsVisible(window.scrollY > 130)
 		window.addEventListener('scroll', toggleVisibility)
 		return () => window.removeEventListener('scroll', toggleVisibility)
 	}, [])
