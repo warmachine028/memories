@@ -10,7 +10,6 @@ import { getPost } from '../../actions/posts'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
 import { ModeContext } from '../../contexts/ModeContext'
 
-
 // import { posts, isLoading } from '../../temp'
 // const post = posts[0]
 

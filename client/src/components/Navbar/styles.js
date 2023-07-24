@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 
-import lightmodeIcon from '../../images/lightmode.png';
-import darkmodeIcon from '../../images/darkmode.png';
+import lightmodeIcon from '../../images/lightmodeIcon.png';
+import darkmodeIcon from '../../images/darkmodeIcon.png';
 
 const PREFIX = 'NavBar';
 export const classes = {

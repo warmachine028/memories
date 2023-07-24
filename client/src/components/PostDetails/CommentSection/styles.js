@@ -82,11 +82,5 @@ export const Root = styled('div')(({ theme }) => ({
 		fontSize: 'small',
 		color: 'rgba(255, 255, 255, .30)',
 	},
-	[theme.breakpoints.down('sm')]: {
-		// [`& .${classes.avatar}`]: {
-		// 	margin: theme.spacing(1),
-		// 	height: 38.5,
-		// 	width: 38.5,
-		// },
-	},
+	
 }))

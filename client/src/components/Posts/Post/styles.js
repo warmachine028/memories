@@ -53,20 +53,6 @@ export const Root = styled('div')(({ theme }) => ({
 			transform: 'scale(1.05)',
 		},
 	},
-	[`& .${classes.cardDark}`]: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-		borderRadius: 5,
-		height: '100%',
-		position: 'relative',
-		backgroundColor: 'rgba(5, 5, 5, .90)', //"transparent" //"rgba(69, 114, 200)"
-		backdropFilter: 'blur(10px)',
-		transition: 'transform .2s',
-		'&:hover': {
-			transform: 'scale(1.05)',
-		},
-	},
 	[`& .${classes.overlay}`]: {
 		position: 'absolute',
 		top: 20,
@@ -91,21 +77,46 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.title}`]: {
 		padding: '0 16px',
-		color: 'white',
 	},
 	[`& .${classes.cardActions}`]: {
 		padding: '0 16px 8px 16px',
 		display: 'flex',
 		justifyContent: 'space-between',
+		'& .MuiButtonBase-root': {
+			'& .MuiTypography-root': {
+				display: 'flex',
+				align: 'center',
+			},
+			color:'#000000',
+		},
 	},
 	[`& .${classes.cardAction}`]: {
 		display: 'block',
 		textAlign: 'initial',
+		
 	},
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',
 		align: 'center',
+		
 	},
+	[`& .${classes.cardDark}`]: {
+		backgroundColor: 'rgba(5, 5, 5, .90)', //"transparent" //"rgba(69, 114, 200)"
+		[`& .${classes.tags}`]: {
+			'& .MuiTypography-root': {
+				color: '#b3b3b3'
+			}
+		},
+		[`& .${classes.title}`]: {
+			color: 'white',
+		},
+		[`& .${classes.cardActions}`]: {
+
+			'& .MuiButtonBase-root': {
+				color: '#ffffff',
+			},
+		}
+	},	
 }))
 
 export default Root

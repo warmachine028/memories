@@ -21,8 +21,8 @@ export const classes = {
 
 export const Root = styled('div')(({ theme }) => ({
 	[`&.${classes.root}`]: {
-		margin: '5px 5px',
-		padding: '10px',
+		margin: '10px 5px',
+		// padding: '10px',
 	},
 	[`& .${classes.media}`]: {
 		borderRadius: '5px',

@@ -28,27 +28,26 @@ const Post = ({ post, setCurrentId, user }) => {
 		setLikes(usersLiked)
 		dispatch(updatePost(post._id, { ...post, likes: usersLiked }))
 	}
-	
+
 	const handleDelete = () => {
 		dispatch(deletePost(post._id, snackBar, setDeleteing))
 	}
-
 	const Likes = () => {
 		if (likes.length > 0)
 			return hasLikedPost ? (
-				<Typography variant="body2" sx={{color: 'white', align: 'center', display: 'flex' }}>
+				<Typography variant="body2" color="primary">
 					<ThumbUpAltIcon fontSize="small" />
 					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			) : (
-				<Typography variant="body2" sx={{ color: 'white', align: 'center', display: 'flex' }}>
-					<ThumbUpAltOutlined fontSize="small" sx={{ color: 'white' }} />
+				<Typography variant="body2">
+					<ThumbUpAltOutlined fontSize="small" />
 					&nbsp; {`${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			)
 		return (
-			<Typography variant="body2" color="primary" sx={{ color: 'white', align: 'center', display: 'flex' }}>
-				<ThumbUpAltOutlined fontSize="small" sx={{ color: 'white'}} />
+			<Typography variant="body2">
+				<ThumbUpAltOutlined fontSize="small" />
 				&nbsp; Like
 			</Typography>
 		)
@@ -56,7 +55,7 @@ const Post = ({ post, setCurrentId, user }) => {
 	const isLongMessage = post.message.length > 100
 	const openPost = () => history(`/posts/${post._id}`)
 
-	const { mode} = useContext(ModeContext);
+	const { mode } = useContext(ModeContext)
 
 	return (
 		<Root className={classes.root}>
@@ -121,7 +120,7 @@ const Post = ({ post, setCurrentId, user }) => {
 					</div>
 				)}
 				<CardActions className={classes.cardActions}>
-					<Button size="small" color="primary" disabled={!user?.result} onClick={handleLike} style={{ align: 'center' }}>
+					<Button size="small" disabled={!user?.result} onClick={handleLike}>
 						<Likes />
 					</Button>
 					{userId === post.creator._id && (
