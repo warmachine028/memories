@@ -217,8 +217,10 @@ export const PublicProfile = () => {
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
 	}
 
-	const { email, postsCreated, postsLiked, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
+	const { email, name, postsCreated, postsLiked, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
+	
 	const labels = {
+		Name: name,
 		Email: email,
 		'Posts Created': postsCreated,
 		'Posts Liked': postsLiked,
