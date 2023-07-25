@@ -96,7 +96,7 @@ const checkValidServiceWorker = (swUrl, config) => {
 						window.location.reload()
 					})
 				})
-			} else {
+			} else {cls
 				// Service worker found. Proceed as normal.
 				registerValidSW(swUrl, config)
 			}
