@@ -105,10 +105,11 @@ export const Root = styled('div')(({ theme }) => ({
 	[`& .${classes.title}`]: {
 		textAlign: 'center',
 		wordBreak: 'break-word',
-		fontSize: '20px',
-		fontWeight: 'bolder',
-		marginBottom: '20px',
-		fontStyle: 'italic',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '30px',
+			fontWeight: 'bolder',
+			marginBottom: '20px',
+		},
 	},
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',
