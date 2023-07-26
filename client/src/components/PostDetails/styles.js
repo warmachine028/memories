@@ -75,7 +75,7 @@ export const Root = styled('div')(({ theme }) => ({
 		backdropFilter: 'blur(10px)',
 		flexDirection: 'column',
 	},
-	
+
 	[`& .${classes.loadingPaperDark}`]: {
 		backgroundColor: 'rgba(5, 5, 5, .9)',
 	},
@@ -104,7 +104,12 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.title}`]: {
 		textAlign: 'center',
-		wordBreak: 'break-word'
+		wordBreak: 'break-word',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '30px',
+			fontWeight: 'bolder',
+			marginBottom: '20px',
+		},
 	},
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',
