@@ -1,5 +1,5 @@
 mlname: 🐛 Bug Bounty Hunter
-description: Report an bug to help improve the project!
+description: Report an bug in Memories and help improve the project!
 labels: ["🛠 goal: fix", "good first issue", "🤩 Up for the grab", "help wanted", "enhancement", "bug"]
 body:
   - type: textarea
@@ -17,16 +17,15 @@ body:
       description: Screenshots to support replication of Bug
       placeholder: Please attach screenshots if applicable
     validations:
-      required: false
+      required: false  
   - type: textarea
     id: extrainfo
     attributes:
       label: Additional information
-      description: Is there anything else we should know about this bug?
+      description: Is there anything else we should know about this idea?
       value: |
-        - Maintain Folder Structure
-        - Always use styled componets and MUI components instead of plain CSS.
-        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/uemcrp/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/uemcrp/tree/main/rules) docs before proceeding**
+        - Always use styled components instead of plain CSS and MUI components.
+        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
         ## Happy contributing. 💐
         Star my other Repositories [here](https://github.com/warmachine028)
     validations:
@@ -34,6 +33,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/uemcrp/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/uemcrp/tree/main/rules) docs before proceeding**
+        ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
         ## Happy contributing. 💐
-        Star my other Repositories [here](https://github.com/warmachine028)
+        Star my other Repositories [here](https://github.com/warmachine028?tab=repositories)
+
