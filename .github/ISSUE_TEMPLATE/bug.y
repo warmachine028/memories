@@ -1,4 +1,4 @@
-name: 🐛 Bug Bounty Hunter
+mlname: 🐛 Bug Bounty Hunter
 description: Report an bug to help improve the project!
 labels: ["🛠 goal: fix", "good first issue", "🤩 Up for the grab", "help wanted", "enhancement", "bug"]
 body:
