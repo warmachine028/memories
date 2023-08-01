@@ -1,9 +1,25 @@
 body {
-    background-color: #0d1117;
-    margin: 0 0 0 0;
+	background-color: #0d1117;
+	margin: 0 0 0 0;
 }
 
 * {
-    font-family: Heebo,sans-serif!important;
+	font-family: Heebo, sans-serif !important;
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: slategrey;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: skyblue;
+}
