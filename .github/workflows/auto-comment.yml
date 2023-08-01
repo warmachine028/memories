@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: wow-actions/auto-comment@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           issuesOpened: |
             # 👋 @{{ author }}. It's great having you contribute to Memories 🎉 !
             Thank you for raising an issue. We will will investigate into the matter and get back to you as soon as possible.
