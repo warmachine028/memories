@@ -13,7 +13,7 @@ const DeleteDialogBox = (props) => {
 			<DialogTitle id="alert-dialog-title">Move your post to bin?</DialogTitle>
 			<DialogContent>
 				<DialogContentText id="alert-dialog-description">
-					Post with postId <strong>{post._id}</strong> witll be deleted permanently. This is an irreversible action and the post can not be recovered again. All likes, comemnts, associated with this post will also be removed from our database.
+					Post with postId <strong>{post._id}</strong> will be deleted permanently. This is an irreversible action and the post can not be recovered again. All likes, comments, associated with this post will also be removed from our database.
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
