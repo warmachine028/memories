@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Post from '../models/post.js'
 import Media from '../models/media.js'
+import Comment from '../models/comment.js'
 
 const router = express.Router()
 
@@ -171,6 +172,7 @@ export const deletePost = async (req, res) => {
 	}
 	await Post.findByIdAndRemove(id)
 	await Media.findByIdAndRemove(id)
+	await Comment.deleteMany({ post: mongoose.Types.ObjectId(id) })
 	res.json({ message: 'Post deleted Successfully' })
 }
 
