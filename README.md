@@ -89,7 +89,7 @@
 
 <div align="center">
     <a  href="https://github.com/warmachine028/memories/graphs/contributors">
-        <img src="https://contrib.rocks/image?repo=warmachine028/memories" />
+        <img src="https://contrib.rocks/image?repo=warmachine028/memories&anon=1" />
     </a>
 </div>
 
