@@ -1,0 +1,29 @@
+name: 🏡 Greet Contributor
+
+on:
+  fork:
+  push:
+    branches: [main]
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+    
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: EddieHubCommunity/gh-action-community/src/welcome@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            ### Hello @${{ github.actor }}, thank you for raising the issue.
+            
+            Thank you for raising an issue. Maintainer will soon investigate into the matter and get back to you as soon as possible.  
+            Meanwhile feel free to support star the repo and share it with your friends. 🤓 🚀
+            
+          pr-message: |
+            ### Hello @${{ github.actor }}, thank you for raising a pull request.
+            
+            Please make sure you have filled the PR template properly and followed our contributing guidelines.
