@@ -1,10 +1,9 @@
-name: Update Date
+name: 📆 Update Date
 
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-      - '.github/**'
+    branches: [ main ]
 
 jobs:
   publish:
@@ -15,9 +14,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.PAT }} # You need to create your own token with commit rights
+          token: ${{ secrets.GITHUB_TOKEN }} # You need to create your own token with commit rights
           ref: ${{ github.ref }} # The branch you want to commit to
-          
+      
+      - name: Give Permissions
+        run: | # if this line gives error, then run it locally
+          git update-index --chmod=+x ./.github/workflows/updateDate.sh
+
       - name: Update Files
         run: ./.github/workflows/updateDate.sh
         shell: bash
@@ -29,4 +32,4 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
           add: .
-          message: 'docs: Updating Date'
+          message: 'Updating Date'
