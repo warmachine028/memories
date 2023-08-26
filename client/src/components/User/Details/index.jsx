@@ -8,7 +8,7 @@ import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
 import { getUserPostsByType } from '../../../actions/posts'
 import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
-
+import { pages, page1, page2 } from '../../data/comments'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
@@ -45,17 +45,21 @@ const UserDetails = ({ user }) => {
 	const [likedPage, setLikedPage] = useState(1)
 	const [createdPage, setCreatedPage] = useState(1)
 	const [privatePage, setPrivatePage] = useState(1)
+	const [commentsPage, setCommentsPage] = useState(1)
 
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
 	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
 	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector((state) => state.posts)
+	// const { comments, commentsNumberOfPages, isFetchingComments } = useSelector((state) => state.posts)
+
 	const userId = user.result._id || user.result.googleId
 
 	useEffect(() => dispatch(getUserDetails(userId, snackBar)), [user])
 	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
+	// useEffect(() => dispatch(getUserComments(userId, commentsPage)), [commentsPage])
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -100,8 +104,17 @@ const UserDetails = ({ user }) => {
 		posts: privatePosts,
 		numberOfPages: privateNumberOfPages,
 		isLoading: isFetchingPrivatePosts,
-		user: user,
+		user: userId,
 		notDoneText: 'No Posts Private',
+	}
+	const commentProps = {
+		page: commentsPage,
+		setPage: setCommentsPage,
+		comments: commentsPage === 1 ? page1 : page2,
+		numberOfPages: 2,
+		isLoading: false,
+		user: userId,
+		notDoneText: 'No Comments posted',
 	}
 	return (
 		<Root className={classes.root}>
@@ -165,6 +178,7 @@ const UserDetails = ({ user }) => {
 						<Tab label="CREATED" />
 						<Tab label="LIKED" />
 						<Tab label="PRIVATE" />
+						<Tab label="COMMENTS" />
 					</Tabs>
 					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={(index) => setValue(index)}>
 						<TabPanel value={value} index={0} dir={theme.direction}>
@@ -175,6 +189,9 @@ const UserDetails = ({ user }) => {
 						</TabPanel>
 						<TabPanel value={value} index={2} dir={theme.direction}>
 							<TabPage {...privateProps} />
+						</TabPanel>
+						<TabPanel value={value} index={3} dir={theme.direction}>
+							<TabPage {...commentProps} />
 						</TabPanel>
 					</SwipeableViews>
 				</Box>
@@ -218,7 +235,7 @@ export const PublicProfile = () => {
 	}
 
 	const { email, name, postsCreated, postsLiked, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
-	
+
 	const labels = {
 		Name: name,
 		Email: email,

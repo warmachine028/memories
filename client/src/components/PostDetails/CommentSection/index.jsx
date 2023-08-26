@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 const Comment = ({ data, user, post, handleDelete }) => {
 	let userId = user?.result.googleId || user?.result?._id
-	// userId = userId ? userId.padStart(24, '0') : userId
+
 	const { creator, message, createdAt, _id } = data
 	const canDelete = [creator._id, post.creator._id].includes(userId)
 	const canEdit = userId === creator._id
