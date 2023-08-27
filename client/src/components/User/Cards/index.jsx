@@ -1,7 +1,8 @@
 import { Typography, Button, Skeleton, ButtonBase } from '@mui/material'
-import { CardActions, CardHeader, Card, CardContent, CardMedia } from '@mui/material'
+import { CardActions, CardHeader, Card, CardContent, CardMedia, Grid, Grow } from '@mui/material'
 import { ThumbUpAlt, Lock, ThumbUpAltOutlined } from '@mui/icons-material'
-import { Root, classes } from './styles'
+import { Link } from 'react-router-dom'
+import { Root, classes, Comment, Media } from './styles'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +18,27 @@ export const LoadingCard = () => {
 				</CardContent>
 			</Card>
 		</Root>
+	)
+}
+
+export const CommentCard = ({ message, createdAt, post }) => {
+	return (
+		<Comment in mountOnEnter unmountOnExit>
+			<Grid container>
+				<Grid item className={classes.commentBox} sm={12}>
+					<Link to={`/posts/${post}`}>
+						<Media image="https://source.unsplash.com/random/?city,night/1920x1080" />
+					</Link>
+					<div className={classes.commentItem}>
+						<Typography className={classes.userName}>Post Title</Typography>
+						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
+						<Typography className={classes.comment} component="p">
+							{message}
+						</Typography>
+					</div>
+				</Grid>
+			</Grid>
+		</Comment>
 	)
 }
 

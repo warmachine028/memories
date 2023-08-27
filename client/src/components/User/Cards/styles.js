@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-
+import { CardMedia, Grow as MUIGrow } from '@mui/material'
 const PREFIX = 'Cards'
 export const classes = {
 	root: `${PREFIX}-root`,
@@ -9,14 +9,17 @@ export const classes = {
 	buttonBase: `${PREFIX}-buttonBase`,
 	cardMedia: `${PREFIX}-cardMedia`,
 	cardContent: `${PREFIX}-cardContent`,
-    overlay: `${PREFIX}-overlay`,
-    cardActions: `${PREFIX}-cardActions`,
+	overlay: `${PREFIX}-overlay`,
+	cardActions: `${PREFIX}-cardActions`,
+	commentContainer: `${PREFIX}-commentContainer`,
+	commentBox: `${PREFIX}-commentBox`,
+	commentItem: `${PREFIX}-commentItem`,
+	userName: `${PREFIX}-userName`,
+	comment: `${PREFIX}-comment`,
+	time: `${PREFIX}-time`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
-	[`&.${classes.root}`]: {
-		// margin: '10px 5px',
-	},
 	[`& .${classes.loadingCard}`]: {
 		maxWidth: 345,
 		margin: 16,
@@ -70,5 +73,52 @@ export const Root = styled('div')(({ theme }) => ({
 		position: 'absolute',
 		bottom: 10,
 		left: 10,
+	},
+}))
+
+export const Media = styled(CardMedia)(({theme}) => ({
+	borderRadius: 5,
+	height: 90,
+	width: 130,
+	[theme.breakpoints.down('sm')]: {
+		height: '67px',
+		width: '100px'
+	}
+}))
+
+export const Comment = styled(MUIGrow)(() => ({
+	width: '100%',
+	[`& .${classes.commentContainer}`]: {
+		display: 'flex',
+		textDecoration: 'none',
+	},
+	[`& .${classes.commentBox}`]: {
+		width: '100%',
+		margin: 5,
+		height: 'fit-content',
+		borderRadius: 5,
+		backgroundColor: 'rgba(255, 255, 255, .09)',
+		display: 'flex',
+		alignItems: 'center',
+		padding: 5,
+	},
+	[`& .${classes.commentItem}`]: {
+		flexDirection: 'column',
+		width: '100%',
+		padding: 10,
+	},
+	[`& .${classes.userName}`]: {
+		fontWeight: 600,
+		color: 'black',
+	},
+	[`& .${classes.comment}`]: {
+		fontSize: 'small',
+		wordBreak: 'break-word',
+		color: 'white',
+	},
+	[`& .${classes.time}`]: {
+		textAlign: 'start',
+		fontSize: 'small',
+		color: 'rgba(255, 255, 255, .30)',
 	},
 }))
