@@ -81,7 +81,7 @@ const Post = ({ post, setCurrentId, user }) => {
 							</div>
 						)}
 						<CardContent>
-							<Typography variant="body2" sx={{ color: 'white', wordWrap: 'break-word' }} component="p" textAlign={isLongMessage ? 'justify' : 'center'}>
+							<Typography variant="body2" sx={{ color: 'white', wordWrap: 'break-word', whiteSpace: 'pre-wrap' }} component="p" textAlign={isLongMessage ? 'justify' : 'center'}>
 								{`${post.message.slice(0, 100)} ${isLongMessage ? '...' : ''}`}
 							</Typography>
 						</CardContent>

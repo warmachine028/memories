@@ -31,3 +31,4 @@ export const setNewPassword = (formData) => API.post('/user/resetPassword', form
 export const updateUser = (formData) => API.patch('/user/update', formData)
 export const userDetails = (userId) => API.get(`/user/details/${userId}`)
 export const fetchUserPostsByType = (userId, page, type) => API.get(`/user/posts/${userId}?page=${page}&type=${type}`)
+export const fetchUserComments = (userId, page) => API.get(`/user/comments/${userId}?page=${page}`)

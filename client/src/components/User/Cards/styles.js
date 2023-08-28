@@ -114,6 +114,7 @@ export const Comment = styled(MUIGrow)(() => ({
 	[`& .${classes.comment}`]: {
 		fontSize: 'small',
 		wordBreak: 'break-word',
+		whiteSpace: 'pre-wrap',
 		color: 'white',
 	},
 	[`& .${classes.time}`]: {

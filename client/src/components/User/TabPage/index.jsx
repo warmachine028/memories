@@ -1,6 +1,6 @@
 import { Root, classes } from './styles'
 import { Typography, Grid, Pagination, Skeleton } from '@mui/material'
-import { LoadingCard, PostCard, CommentCard } from '../Cards'
+import { LoadingCard, PostCard, CommentCard, CommentLoadingCard } from '../Cards'
 
 const TabPage = (props) => {
 	const { posts, numberOfPages, isLoading, notDoneText, page, setPage, userId, comments } = props
@@ -11,7 +11,7 @@ const TabPage = (props) => {
 				<div style={{ width: '100%' }}>
 					{isLoading ? (
 						<Grid className={classes.container} container spacing={3}>
-							{posts ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : [...Arrays(2).keys()].map((key) => <LoadingCard key={key} />)}
+							{posts ? [...Array(10).keys()].map((key) => <LoadingCard key={key} />) : [...Array(2).keys()].map((key) => <CommentLoadingCard key={key} />)}
 						</Grid>
 					) : posts?.length ? (
 						<Grid className={classes.container} container spacing={3}>

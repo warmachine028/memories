@@ -16,6 +16,9 @@ import {
 	CREATING_POST,
 	DELETING_POST,
 	DELETED_POST,
+	FETCHING_COMMENTS,
+	FETCHED_COMMENTS,
+	FETCH_COMMENTS,
 } from '../constants/actionTypes'
 import * as api from '../api'
 
@@ -73,6 +76,20 @@ export const getUserPostsByType = (userId, page, type) => async (dispatch) => {
 		} = await api.fetchUserPostsByType(userId, page, type)
 		dispatch({ type: fetchType, payload: { data, numberOfPages } })
 		dispatch({ type: fetchedType })
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const getUserComments = (userId, page) => async (dispatch) => {
+	try {
+		dispatch({ type: FETCHING_COMMENTS })
+		const {
+			data: { data, numberOfPages },
+		} = await api.fetchUserComments(userId, page)
+
+		dispatch({ type: FETCH_COMMENTS, payload: { comments: data, numberOfPages } })
+		dispatch({ type: FETCHED_COMMENTS })
 	} catch (error) {
 		console.log(error)
 	}

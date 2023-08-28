@@ -50,6 +50,7 @@ export default (
 		recommendedPosts: [],
 		privatePosts: [],
 		comments: [],
+		userComments: [],
 	},
 	action
 ) => {
@@ -67,7 +68,7 @@ export default (
 		case START_LOADING:
 			return { ...state, isLoading: true }
 		case FETCH_COMMENTS:
-			return { ...state, comments: action.payload }
+			return { ...state, comments: action.payload.comments ? [] : action.payload, commentsNumberOfPages: action.payload.numberOfPages, userComments: action.payload.comments }
 		case FETCH_ALL:
 			return { ...state, posts: action.payload.data, currentPage: action.payload.currentPage, numberOfPages: action.payload.numberOfPages }
 		case FETCH_BY_SEARCH:
@@ -107,7 +108,7 @@ export default (
 		case FETCHED_CREATED_POSTS:
 			return { ...state, isFetchingCreatedPosts: false }
 		case FETCHED_COMMENTS:
-			return { ...state, isFetchingComments: false }
+			return { ...state, isFetchingComments: false, }
 		case CREATING_POST:
 			return { ...state, isCreatingPost: true }
 		case CREATED_POST:

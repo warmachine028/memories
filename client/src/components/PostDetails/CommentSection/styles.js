@@ -75,6 +75,7 @@ export const Root = styled('div')(({ theme }) => ({
 		fontSize: 'small',
 		marginLeft: 10,
 		wordBreak: 'break-word',
+		whiteSpace: 'pre-wrap',
 		color: 'white',
 	},
 	[`& .${classes.time}`]: {

@@ -21,16 +21,33 @@ export const LoadingCard = () => {
 	)
 }
 
-export const CommentCard = ({ message, createdAt, post }) => {
+export const CommentLoadingCard = () => {
+	return (
+		<Comment in mountOnEnter unmountOnExit>
+			<Grid container>
+				<Grid item className={classes.commentBox} sm={12} gap={1}>
+					<Skeleton animation="wave" height={90} width={130} sx={{ WebkitTransform: 'scale(1, 1)' }} />
+					<div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+						<Skeleton animation="wave" height={30} width={120} />
+						<Skeleton animation="wave" height={20} width={50} sx={{ mb: 1 }} />
+						<Skeleton animation="wave" height={21} width="90%" />
+					</div>
+				</Grid>
+			</Grid>
+		</Comment>
+	)
+}
+
+export const CommentCard = ({ message, createdAt, post: { _id: postId, thumbnail: media, title } }) => {
 	return (
 		<Comment in mountOnEnter unmountOnExit>
 			<Grid container>
 				<Grid item className={classes.commentBox} sm={12}>
-					<Link to={`/posts/${post}`}>
-						<Media image="https://source.unsplash.com/random/?city,night/1920x1080" />
+					<Link to={`/posts/${postId}`}>
+						<Media image={media} />
 					</Link>
 					<div className={classes.commentItem}>
-						<Typography className={classes.userName}>Post Title</Typography>
+						<Typography className={classes.userName}>{title}</Typography>
 						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
 						<Typography className={classes.comment} component="p">
 							{message}

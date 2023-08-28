@@ -4,11 +4,11 @@ import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Ta
 import { PublishedWithChanges } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars'
-import { getUserDetails, getPostsBySearch } from '../../../actions/posts'
+import { getUserDetails, getPostsBySearch, getUserComments } from '../../../actions/posts'
 import { getUserPostsByType } from '../../../actions/posts'
 import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
-import { pages, page1, page2 } from '../../data/comments'
+// import { pages, page1, page2 } from '../../data/comments'
 
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
@@ -51,7 +51,7 @@ const UserDetails = ({ user }) => {
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
 	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
 	const { privatePosts, privateNumberOfPages, isFetchingPrivatePosts } = useSelector((state) => state.posts)
-	// const { comments, commentsNumberOfPages, isFetchingComments } = useSelector((state) => state.posts)
+	const { userComments: comments, commentsNumberOfPages, isFetchingComments } = useSelector((state) => state.posts)
 
 	const userId = user.result._id || user.result.googleId
 
@@ -59,7 +59,7 @@ const UserDetails = ({ user }) => {
 	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
 	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
-	// useEffect(() => dispatch(getUserComments(userId, commentsPage)), [commentsPage])
+	useEffect(() => dispatch(getUserComments(userId, commentsPage)), [commentsPage])
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -110,9 +110,9 @@ const UserDetails = ({ user }) => {
 	const commentProps = {
 		page: commentsPage,
 		setPage: setCommentsPage,
-		comments: commentsPage === 1 ? page1 : page2,
-		numberOfPages: 2,
-		isLoading: false,
+		comments: comments,
+		numberOfPages: commentsNumberOfPages,
+		isLoading: isFetchingComments,
 		user: userId,
 		notDoneText: 'No Comments posted',
 	}
@@ -163,7 +163,7 @@ const UserDetails = ({ user }) => {
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
 									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
 								</Typography>
-								<Box sx={{ marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
+								<Box sx={{ marginLeft: 1 }}>{top5Tags?.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
 						</div>
 					)}
