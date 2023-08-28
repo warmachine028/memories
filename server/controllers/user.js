@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import lodash from 'lodash'
 import User from '../models/user.js'
 import Post from '../models/post.js'
+import Comment from '../models/comment.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
 import mongoose from 'mongoose'
@@ -21,7 +22,6 @@ const getTop5Tags = ({ allTags: tags }) => {
 	})
 	return [...new Set(tags)].splice(0, 5)
 }
-
 export const signin = async (req, res) => {
 	const { email, password, remember } = req.body
 	try {
@@ -42,7 +42,6 @@ export const signin = async (req, res) => {
 		res.status(500).json({ message: 'Something went wrong' })
 	}
 }
-
 export const googleSignin = async (req, res) => {
 	const { name, email, image, googleId } = req.body
 
@@ -54,7 +53,6 @@ export const googleSignin = async (req, res) => {
 		res.status(500).json({ message: error.message })
 	}
 }
-
 export const signup = async (req, res) => {
 	const { email, password, confirmPassword, firstName, lastName, avatar } = req.body
 
@@ -87,7 +85,6 @@ export const signup = async (req, res) => {
 		res.status(500).json({ message: 'Something went wrong' })
 	}
 }
-
 export const updateDetails = async (req, res) => {
 	const { firstName, lastName, avatar, email, id, prevPassword, newPassword } = req.body
 
@@ -199,10 +196,39 @@ export const getUserDetails = async (req, res) => {
 		}
 		res.status(200).json(result)
 	} catch (error) {
-		res.status(404).json({ message: error.message })
+		res.status(500).json({ message: error.message })
 	}
 }
+export const getComments = async (req, res) => {
+	const { id } = req.params
+	const { page } = req.query
+	try {
+		const userId = mongoose.Types.ObjectId(id)
+		const query = { creator: userId }
+		const LIMIT = 8
+		const total = await Comment.countDocuments(query)
+		const startIndex = (Number(page) - 1) * LIMIT
 
+		const comments = await Comment.aggregate([
+			{ $match: query },
+			{ $sort: { createdAt: -1 } },
+			{ $skip: startIndex },
+			{ $limit: LIMIT },
+			{
+				$lookup: {
+					from: 'posts',
+					localField: 'post',
+					foreignField: '_id',
+					as: 'post',
+				},
+			},
+		])
+		comments.forEach(comment => comment.post = comment.post[0])
+		res.status(200).json({ data: comments, numberOfPages: Math.ceil(total / LIMIT) })
+	} catch (error) {
+		res.status(500).json({ message: error.message })
+	}
+}
 export const getUserPostsByType = async (req, res) => {
 	const { id } = req.params
 	const { page, type } = req.query
@@ -233,7 +259,7 @@ export const getUserPostsByType = async (req, res) => {
 
 		res.status(200).json({ data: posts, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
-		res.status(404).json({ message: error.message })
+		res.status(500).json({ message: error.message })
 	}
 }
 
