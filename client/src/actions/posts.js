@@ -24,8 +24,8 @@ import * as api from '../api'
 
 const sanitize = ({ tags, search }) => {
 	return {
-		tags: tags.replace('#', '%23').replace(' ', '%20'),
-		search: search?.replace('#', '%23').replace(' ', '%20'),
+		tags: tags.replace(/#/g, '%23').replace(/ /g, '%20'),
+		search: search?.replace(/#/g, '%23').replace(/ /g, '%20'),
 	}
 }
 // Action Creators
