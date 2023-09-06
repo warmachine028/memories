@@ -1,4 +1,4 @@
-    updated: Monday, 04th September 2023
+    updated: Wednesday, 06th September 2023
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
@@ -112,4 +112,4 @@
 - [Memories Old - Repository](https://github.com/warmachine028/memories/tree/memories-old)
 
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
-<!-- 04/09/23 -->
+<!-- 06/09/23 -->
