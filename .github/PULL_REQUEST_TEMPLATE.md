@@ -6,7 +6,7 @@
 
 ## Guidelines 🔐
 
-I accept the fact that i have followed the guidelines and have not copied the codes from around the internet
+I accept the fact that I have followed the guidelines and have not copied the codes from around the internet
 
 - [x] **Contribution Guidelines**
 - [x] **Code of Conduct**
@@ -17,7 +17,7 @@ I accept the fact that i have followed the guidelines and have not copied the co
 
 ## Screenshots 📷
 
-Here are the pictures of changes that i have made 🔽
+Here are the pictures of changes that I have made 🔽
 
 <attach screenshots here>
   
