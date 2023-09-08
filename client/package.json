@@ -1,6 +1,6 @@
 {
 	"name": "memories-client",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"private": true,
 	"proxy": "http://localhost:5000",
 	"dependencies": {
@@ -15,8 +15,8 @@
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
 		"avataaars": "^2.0.0",
-		"axios": "^0.26.0",
-		"browser-image-compression": "^1.0.17",
+		"axios": "^1.5.0",
+		"browser-image-compression": "^2.0.2",
 		"classnames": "^2.3.1",
 		"jwt-decode": "^3.1.2",
 		"lodash": "^4.17.21",

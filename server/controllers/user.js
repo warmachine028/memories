@@ -46,7 +46,7 @@ export const googleSignin = async (req, res) => {
 	const { name, email, image, googleId } = req.body
 
 	try {
-		const id = mongoose.Types.ObjectId(googleId)
+		const id = new mongoose.Types.ObjectId(googleId)
 		const user = await User.findByIdAndUpdate(id, { name, email, image }, { upsert: true })
 		res.status(200).json({ result: user })
 	} catch (error) {
@@ -127,7 +127,7 @@ export const getUserDetails = async (req, res) => {
 	const { id } = req.params
 
 	try {
-		const userId = mongoose.Types.ObjectId(id)
+		const userId = new mongoose.Types.ObjectId(id)
 		const allTags = await Post.aggregate([
 			{ $match: { creator: userId } },
 			{
@@ -203,7 +203,7 @@ export const getComments = async (req, res) => {
 	const { id } = req.params
 	const { page } = req.query
 	try {
-		const userId = mongoose.Types.ObjectId(id)
+		const userId = new mongoose.Types.ObjectId(id)
 		const query = { creator: userId }
 		const LIMIT = 8
 		const total = await Comment.countDocuments(query)
@@ -237,7 +237,7 @@ export const getUserPostsByType = async (req, res) => {
 		if (type === 'private' && currentUser !== id) {
 			return req.status(404).send("Can't access private posts of other users")
 		}
-		const userId = mongoose.Types.ObjectId(id)
+		const userId = new mongoose.Types.ObjectId(id)
 		const query = {
 			created: { creator: userId },
 			liked: { likes: { $all: [userId] } },

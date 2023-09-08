@@ -17,7 +17,7 @@ export const getPosts = async (req, res) => {
 	const { page } = req.query
 
 	try {
-		const userId = mongoose.Types.ObjectId(req.userId)
+		const userId = new mongoose.Types.ObjectId(req.userId)
 		const query = { $or: [{ private: false }, { creator: userId }] }
 		const LIMIT = 8
 		const total = await Post.countDocuments(query)
@@ -55,7 +55,7 @@ export const getPost = async (req, res) => {
 			return res.status(404).send('Invalid Id. Post Not Found')
 		}
 		let posts = await Post.aggregate([
-			{ $match: { _id: mongoose.Types.ObjectId(id) } },
+			{ $match: { _id: new mongoose.Types.ObjectId(id) } },
 			{
 				$lookup: {
 					from: 'users',
@@ -104,7 +104,7 @@ export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query
 	try {
 		const title = new RegExp(searchQuery, 'i')
-		const userId = mongoose.Types.ObjectId(req.userId)
+		const userId = new mongoose.Types.ObjectId(req.userId)
 		const query = {
 			$and: [
 				{
@@ -140,7 +140,7 @@ export const createPost = async (req, res) => {
 	try {
 		const newPost = new Post({
 			...post,
-			creator: mongoose.Types.ObjectId(post.creator),
+			creator: new mongoose.Types.ObjectId(post.creator),
 		})
 		await newPost.save()
 
@@ -172,7 +172,7 @@ export const deletePost = async (req, res) => {
 	}
 	await Post.findByIdAndRemove(id)
 	await Media.findByIdAndRemove(id)
-	await Comment.deleteMany({ post: mongoose.Types.ObjectId(id) })
+	await Comment.deleteMany({ post: new mongoose.Types.ObjectId(id) })
 	res.json({ message: 'Post deleted Successfully' })
 }
 

@@ -11,8 +11,8 @@ export const createComment = async (req, res) => {
 	try {
 		const { creator: userId, post: postId, message } = comment
 		const newComment = new Comment({
-			post: mongoose.Types.ObjectId(postId),
-			creator: mongoose.Types.ObjectId(userId),
+			post: new mongoose.Types.ObjectId(postId),
+			creator: new mongoose.Types.ObjectId(userId),
 			message,
 		})
 		await newComment.save()
@@ -27,7 +27,7 @@ export const createComment = async (req, res) => {
 export const getComments = async (req, res) => {
 	try {
 		const { id } = req.params
-		const postId = mongoose.Types.ObjectId(id)
+		const postId = new mongoose.Types.ObjectId(id)
 		let comments = await Comment.aggregate([
 			{ $match: { post: postId } }, //
 			{ $sort: { createdAt: -1 } },
