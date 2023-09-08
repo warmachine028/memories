@@ -44,7 +44,7 @@
 
 ## Improvements
 
-- [Imporovements](./client/README.md)
+- [Improvements](./client/README.md)
 
 ![line]
 
