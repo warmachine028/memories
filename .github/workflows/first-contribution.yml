@@ -12,11 +12,16 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: |
-          # Congratulations 🚀
+          # Congratulations 🎉 @${{ github.actor }}, on creating your first issue in memories
           
-          You have created your first Issue on Memories. 
-        
+          - Meanwhile if your liked this project, please make sure to star this 🌟🌟🌟.
+          - You can see my other projects too, which you might feel appealing.
+          - You also follow me for making more future contributions in open-source projects.
+
         pr-message: |
-          # Congratulations 🎊
+          # Congratulations 🎉 @${{ github.actor }}, on your first contribution in memories
           
-          Your have made your first contribution in Memories. Make sure to star this repo 💚
+          - Make sure to star this project, if you liked contributing to it. 🌟🌟🌟
+          - You can raise another new issue, if you find something is worth enhancement or needs a fix.
+          - You can see my other projects too, which you might feel appealing.
+          - You also follow me for making more future contributions in open-source projects.
