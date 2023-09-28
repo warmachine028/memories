@@ -1,4 +1,4 @@
-decimport { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@mui/material'
 import { Root, classes } from './styles'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
