@@ -29,4 +29,5 @@
 - User Avatar in Posts
 - Post Thumbnails
 - Delete Confirmation Dialog box
-- Theme Toggle by **[@avinasdube](https://github.com/avinasdube)**
+- Theme Toggle by **[Avinash Dubey](https://github.com/avinasdube)**
+- Migrate to Vite by **[@Pranav Ajay](https://github.com/cyblogerz)**

@@ -1,8 +1,14 @@
 {
 	"name": "memories-client",
+	"author": "warmachine028 <warmachine028@outlook.com>",
 	"version": "1.0.0",
 	"private": true,
 	"proxy": "http://localhost:5000",
+	"scripts": {
+		"start": "vite",
+		"build": "tsc && vite build",
+		"serve": "vite preview"
+	},
 	"dependencies": {
 		"@emotion/react": "^11.7.1",
 		"@emotion/styled": "^11.6.0",
@@ -14,7 +20,6 @@
 		"@testing-library/jest-dom": "^5.16.2",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
-		"@vitejs/plugin-react-swc": "^3.4.0",
 		"avataaars": "^2.0.0",
 		"axios": "^1.5.0",
 		"browser-image-compression": "^2.0.2",
@@ -32,10 +37,12 @@
 		"vite": "^4.4.9",
 		"web-vitals": "^2.1.4"
 	},
-	"scripts": {
-		"start": "vite",
-		"build": "tsc && vite build",
-		"serve": "vite preview"
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.17.0",
+		"@babel/preset-react": "^7.16.7",
+		"@vitejs/plugin-react": "^4.1.0",
+		"eslint": "^8.9.0",
+		"eslint-plugin-require": "^0.0.1"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -54,12 +61,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"@babel/eslint-parser": "^7.17.0",
-		"@babel/preset-react": "^7.16.7",
-		"eslint": "^8.9.0",
-		"eslint-plugin-require": "^0.0.1"
-	},
-	"author": "Pritam Kundu"
+	}
 }

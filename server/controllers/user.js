@@ -7,6 +7,9 @@ import Comment from '../models/comment.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const secret = process.env.TOKEN_SECRET
 
@@ -39,6 +42,7 @@ export const signin = async (req, res) => {
 		const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, secret, remember ? null : { expiresIn: '1h' })
 		res.status(200).json({ result: existingUser, token })
 	} catch (error) {
+		console.log(error)
 		res.status(500).json({ message: 'Something went wrong' })
 	}
 }
@@ -46,10 +50,13 @@ export const googleSignin = async (req, res) => {
 	const { name, email, image, googleId } = req.body
 
 	try {
-		const id = new mongoose.Types.ObjectId(googleId)
-		const user = await User.findByIdAndUpdate(id, { name, email, image }, { upsert: true })
+		if (![name, email, image].every((field) => typeof field === "string")) {
+			return res.status(400).json({ status: "error" });
+		}
+		const user = await User.findByIdAndUpdate(googleId, { name, email, image }, { upsert: true })
 		res.status(200).json({ result: user })
 	} catch (error) {
+		console.log(error.message)
 		res.status(500).json({ message: error.message })
 	}
 }

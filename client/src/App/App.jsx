@@ -28,7 +28,7 @@ const App = () => {
 	}
 
 	return (
-		<GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+		<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
 			<BrowserRouter>
 				<ModeContext.Provider value={{ mode, modeToggle }}>
 					<Root className={`${classes.rootLight} ${mode === 'light' ? classes.rootLight : classes.rootDark}`}>
