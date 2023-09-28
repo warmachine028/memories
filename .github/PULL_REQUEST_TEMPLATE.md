@@ -1,8 +1,6 @@
-# Issue <issue number> 📐
+# Issue #<issue number> 📐
 
-- I <[your name here](your github profile link)> have worked for <issue number>
-
-[put x to check the boxes]: <> (This is a comment, it will not be included)
+- I <[your name here](your github profile link)> have worked for #<issue number>
 
 ## Guidelines 🔐
 
@@ -13,7 +11,7 @@ I accept the fact that I have followed the guidelines and have not copied the co
 
 ## Issue to be closed 🛅
 
-- My pull request closes <hashtag issuenumber>
+- My pull request closes #<issue number>
 
 ## Screenshots 📷
 
