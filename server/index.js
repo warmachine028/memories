@@ -4,17 +4,17 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import rateLimit from 'express-rate-limit'
+import { rateLimit } from 'express-rate-limit'
 
 dotenv.config()
 
 const app = express()
 
 app.use(
-    rateLimit({
-        windowMs: 1 * 60 * 1000, // 1 minuite
- 	max: 30,
-    })	
+	rateLimit({
+		windowMs: 1 * 60 * 1000, // 1 minuite
+		max: 30,
+	})
 )
 app.use(cors())
 app.use(bodyParser.json({ limit: '30mb', extended: true }))

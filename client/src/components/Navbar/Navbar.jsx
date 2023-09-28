@@ -28,12 +28,14 @@ const Navbar = ({ user, setUser, floating }) => {
 	useEffect(() => {
 		if (token) {
 			const decodedToken = decode(token)
-			if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+			if (decodedToken.exp * 1000 < new Date().getTime()) {
+				logout()
+			}
 		}
 		setUser(JSON.parse(localStorage.getItem('profile')))
 	}, [logout, token])
 
-	const { mode, modeToggle } = useContext(ModeContext);
+	const { mode, modeToggle } = useContext(ModeContext)
 
 	return (
 		<Root className={classes.root} floating={floating?.toString()}>
@@ -69,7 +71,7 @@ const Navbar = ({ user, setUser, floating }) => {
 						)
 					)}
 					<label className={classes.toggleDiv}>
-						<input className={classes.dn} type="checkbox" onChange={modeToggle} checked={mode=="dark"} />
+						<input className={classes.dn} type="checkbox" onChange={modeToggle} checked={mode == 'dark'} />
 						<i className={classes.toggle} />
 					</label>
 				</Toolbar>
