@@ -1,5 +1,15 @@
     updated: Thursday, 28th September 2023
 
+![hf10_wallpaper_sponsors_1920x1080](https://github.com/warmachine028/memories/assets/75939390/208f77d6-f188-46ca-a66c-b166aa5265f4)
+
+<div align=center>
+    <h2>
+        MEMORIES is particiapting in Hacktoberfest 2023! 🎉
+        <br>
+        Accepting all first time contributions from October 1st to 31st, read <a href="https://github.com/warmachine028/memories/tree/main/CONTRIBUTING.md">CONTRIBUTING.md</a> to get started.
+    </h2>
+</div>
+
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
         <img width=200 src="https://github.com/warmachine028/memories/assets/75939390/33f03176-059a-43ed-b2a6-c9c492f75d14" alt="Memories">
@@ -17,7 +27,7 @@
 
 ## What's new?
 
-- Dark theme toggle
+- Migration to Vite
 
 ![line]
 
