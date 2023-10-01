@@ -13,18 +13,18 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { SnackbarContext } from '../contexts/SnackbarContext'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { classes, Root } from './styles'
-import { ModeContext, modes} from '../contexts/ModeContext'
+import { ModeContext, modes } from '../contexts/ModeContext'
 
 const App = () => {
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 	const { snackBarProps } = useContext(SnackbarContext)
 
-	const [mode, setMode] = useState(modes.light);
+	const [mode, setMode] = useState(modes.light)
 
 	// FUNCTION TO TOGGLE THEMES ON CLICK
 
-	function modeToggle() {
-		mode === modes.light ? setMode(modes.dark) : setMode(modes.light);
+	const modeToggle = () => {
+		mode === modes.light ? setMode(modes.dark) : setMode(modes.light)
 	}
 
 	return (
