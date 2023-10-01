@@ -11,7 +11,7 @@ import { deletePost, updatePost } from '../../../actions/posts'
 import { Link, useNavigate } from 'react-router-dom'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 import DeleteDialogBox from '../../DialogBox/DeleteDialogBox'
-import Avaatar from 'avataaars'
+import Avaatar from 'avataaars2'
 import { ModeContext } from '../../../contexts/ModeContext'
 
 const Post = ({ post, setCurrentId, user }) => {

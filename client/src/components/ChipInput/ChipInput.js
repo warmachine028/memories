@@ -1,12 +1,16 @@
 /* eslint-disable */
-Object.defineProperty(exports, '__esModule', {
-	value: true,
-})
-exports.defaultChipRenderer = exports.default = void 0
+// Object.defineProperty(exports, '__esModule', {
+// 	value: true,
+// })
+// const _defaultChipRenderer = exports.default = void 0
+// export { _defaultChipRenderer as defaultChipRenderer }
 
-var _react = _interopRequireDefault(require('react'))
-var _reactDom = _interopRequireDefault(require('react-dom'))
-var _propTypes = _interopRequireDefault(require('prop-types'))
+import _react from 'react'
+import _reactDom from "react-dom"
+import _propTypes from 'prop-types'
+// var _reactDom = _interopRequireDefault(require('react-dom'))
+
+// var _propTypes = _interopRequireDefault(require('prop-types'))
 var _Input = _interopRequireDefault(require('@mui/material/Input'))
 var _FilledInput = _interopRequireDefault(require('@mui/material/FilledInput'))
 var _OutlinedInput = _interopRequireDefault(require('@mui/material/OutlinedInput'))
@@ -1105,7 +1109,8 @@ ChipInput.defaultProps = {
 
 var _default = (0, _withStyles.default)(styles, { name: 'WAMuiChipInput' })(ChipInput)
 
-exports.default = _default
+const __default = _default
+export { __default as default }
 
 var defaultChipRenderer = function defaultChipRenderer(_ref, key) {
 	var text = _ref.text,
@@ -1128,4 +1133,5 @@ var defaultChipRenderer = function defaultChipRenderer(_ref, key) {
 	})
 }
 
-exports.defaultChipRenderer = defaultChipRenderer
+const _defaultChipRenderer = defaultChipRenderer
+export { _defaultChipRenderer as defaultChipRenderer }

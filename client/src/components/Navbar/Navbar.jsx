@@ -6,7 +6,7 @@ import { Root, classes } from './styles'
 import memories from '../../images/memories.png'
 import icon from '../../images/icon.png'
 import decode from 'jwt-decode'
-import Avaatar from 'avataaars'
+import Avaatar from 'avataaars2'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
 import { ModeContext } from '../../contexts/ModeContext'
 
