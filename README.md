@@ -81,7 +81,9 @@
 
 ![line]
 
-## [Demo](assets/demo.gif)
+## Demo
+
+![Demo](https://github.com/warmachine028/memories/raw/main/assets/demo.gif)
 
 ![line]
 
