@@ -2,7 +2,7 @@ import { TextField, Grid, InputAdornment, IconButton, AppBar } from '@mui/materi
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { Root, classes } from './styles'
 import { ModeContext } from '../../contexts/ModeContext'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 const Input = ({ name, half, type, handleShowPassword, ...props }) => {
 	const { mode } = useContext(ModeContext)
 	return (
