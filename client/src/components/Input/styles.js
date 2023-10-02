@@ -11,9 +11,15 @@ export const classes = {
 
 export const Root = styled("div")(({ theme }) => ({
     [`& .${classes.searchBarLight}`]: {
-        display: "flex",
-        borderRadius: "5px",
-        backgroundColor: "rgba(255, 255, 255, .09)",
+        backgroundColor: "transparent",
+        '& .MuiOutlinedInput-root': {
+			'& fieldset': {
+                // borderColor: '#000000',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: theme.palette.primary.main,
+			},
+		},
     },
     [`& .${classes.searchBarDark}`]: {
         backgroundColor: "rgba(5, 5, 5, .90)",

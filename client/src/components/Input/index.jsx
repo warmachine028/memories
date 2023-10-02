@@ -8,7 +8,7 @@ const Input = ({ name, half, type, handleShowPassword, ...props }) => {
 	return (
 		<Grid item xs={12} sm={half ? 6 : 12}>
 			<Root className={classes.root}>
-				<AppBar className={`${classes.searchBarLight} ${mode === 'light' ? classes.searchBarLight : classes.searchBarDark}`} position="static" color="inherit">
+				<AppBar className={`${mode === 'light' ? classes.searchBarLight : classes.searchBarDark}`} position="static" color="inherit">
 					<TextField
 						name={name}
 						variant="outlined"
