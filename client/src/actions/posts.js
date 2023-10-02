@@ -161,11 +161,12 @@ export const createPost = (post, history, snackBar, callBack) => async (dispatch
 	callBack()
 }
 
-export const updatePost = (id, post, snackBar) => async (dispatch) => {
+export const updatePost = (id, post, snackBar,clear) => async (dispatch) => {
 	try {
 		await api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
 		if (snackBar) snackBar('info', 'Post updated successfully')
+		clear();
 	} catch (error) {
 		snackBar('error', error)
 	}
