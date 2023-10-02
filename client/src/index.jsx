@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
@@ -7,15 +7,14 @@ import './index.css'
 import App from './App/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { SnackbarProvider } from './contexts/SnackbarContext'
-
+const root = ReactDOM.createRoot(document.getElementById('root'))
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)))
-ReactDOM.render(
+root.render(
 	<Provider store={store}>
 		<SnackbarProvider>
 			<App />
 		</SnackbarProvider>
-	</Provider>,
-	document.getElementById('root')
+	</Provider>
 )
 
 // If you want your app to work offline and load faster, you can change
