@@ -8,7 +8,7 @@ import { updateUser } from '../../../actions/user'
 import Input from '../../Input'
 import { RandomAvatar } from '../../UserIcon/avatar'
 import lodash from 'lodash'
-import Avatar from 'avataaars'
+import Avatar from 'avataaars2'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
 const Update = ({ user, setUser }) => {
