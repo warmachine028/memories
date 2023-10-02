@@ -12,6 +12,7 @@ export const classes = {
 export const Root = styled("div")(({ theme }) => ({
     [`& .${classes.searchBarLight}`]: {
         backgroundColor: "transparent",
+        boxShadow: "none", 
         '& .MuiOutlinedInput-root': {
 			'& fieldset': {
                 // borderColor: '#000000',
