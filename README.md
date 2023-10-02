@@ -83,7 +83,7 @@
 
 ## Demo
 
-![Demo](https://github.com/warmachine028/memories/raw/memories/assets/demo.gif)
+![Demo](https://github.com/warmachine028/memories/raw/main/assets/demo.gif)
 
 ![line]
 
