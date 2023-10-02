@@ -29,6 +29,7 @@
 ## What's new?
 
 - Migration to Vite
+- Migrate to react v18
 
 ![line]
 
