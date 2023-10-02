@@ -38,7 +38,6 @@ export const Root = styled('div')(({ theme }) => ({
 		backgroundColor: 'rgba(5, 5, 5, .9)',
 		backdropFilter: 'blur(10px)',
 		borderRadius: '5px',
-		border: '1.2px solid #ffffff'
 	},
 	[`& .${classes.avatar}`]: {
 		margin: theme.spacing(1),
