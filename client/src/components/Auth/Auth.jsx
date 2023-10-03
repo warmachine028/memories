@@ -47,6 +47,7 @@ const Auth = () => {
 		}
 	}
 	const googleFailure = ({ error }) => {
+		console.log(error)
 		if (error === 'popup_closed_by_user') {
 			return snackBar('warning', 'PopUp Closed By User')
 		}
