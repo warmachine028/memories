@@ -7,6 +7,7 @@ import { Root, classes } from './styles'
 import { forgotPassword, setNewPassword } from '../../../actions/auth'
 import Input from '../../Input'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
+import { ModeContext } from '../../../contexts/ModeContext'
 
 const initialState = { email: '' }
 
@@ -35,10 +36,12 @@ const ForgotPassword = () => {
 		}
 	}, [params])
 
+	const { mode } = useContext(ModeContext);
+
 	return (
 		<Root className={classes.root} reset={resetPassword?.toString()}>
 			<Container component="main" maxWidth="xs">
-				<Paper className={classes.paper} elevation={6} style={{ marginTop: '260px' }}>
+				<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6} style={{ marginTop: '260px' }}>
 					<Avatar className={classes.avatar}>{resetPassword ? <Pattern /> : <LockReset />}</Avatar>
 					<Typography variant="h5">{resetPassword ? 'Reset Password' : 'Account Recovery'}</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
