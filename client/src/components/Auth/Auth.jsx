@@ -56,7 +56,7 @@ const Auth = () => {
 
 	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])
 
-	const { mode } = useContext(ModeContext)
+	const { mode } = useContext(ModeContext);
 
 	return (
 		<Root className={classes.root}>
