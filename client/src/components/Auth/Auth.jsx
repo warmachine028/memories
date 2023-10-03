@@ -69,7 +69,9 @@ const Auth = () => {
 							<LockOutlinedIcon />
 						</Avatar>
 					)}
-					<Typography sx={{ color: 'white'}} variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
+					<Typography sx={{ color: 'white' }} variant="h5">
+						{isSignup ? 'Sign Up' : 'Sign In'}
+					</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
 							{isSignup && (
