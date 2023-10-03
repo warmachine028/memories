@@ -47,7 +47,6 @@ const Auth = () => {
 		}
 	}
 	const googleFailure = ({ error }) => {
-		console.log(error)
 		if (error === 'popup_closed_by_user') {
 			return snackBar('warning', 'PopUp Closed By User')
 		}
@@ -56,7 +55,7 @@ const Auth = () => {
 
 	useEffect(() => setMargin(isSignup ? '50px' : '200px'), [isSignup])
 
-	const { mode } = useContext(ModeContext);
+	const { mode } = useContext(ModeContext)
 
 	return (
 		<Root className={classes.root}>
@@ -69,7 +68,9 @@ const Auth = () => {
 							<LockOutlinedIcon />
 						</Avatar>
 					)}
-					<Typography sx={{ color: 'white'}} variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
+					<Typography sx={{ color: 'white' }} variant="h5">
+						{isSignup ? 'Sign Up' : 'Sign In'}
+					</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
 							{isSignup && (
