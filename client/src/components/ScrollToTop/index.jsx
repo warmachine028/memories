@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Fab, Fade } from '@mui/material'
 import { KeyboardArrowUp } from '@mui/icons-material'
-import { useEffect } from 'react'
 
 // Floating Action Button to scroll to top
 const ScrollToTop = () => {

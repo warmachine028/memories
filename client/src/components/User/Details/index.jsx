@@ -4,11 +4,9 @@ import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Ta
 import { PublishedWithChanges } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import Avaatar from 'avataaars2'
-import { getUserDetails, getPostsBySearch, getUserComments } from '../../../actions/posts'
-import { getUserPostsByType } from '../../../actions/posts'
+import { getUserDetails, getPostsBySearch, getUserComments, getUserPostsByType } from '../../../actions/posts'
 import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
-// import { pages, page1, page2 } from '../../data/comments'
 
 import SwipeableViews from 'react-swipeable-views-v18'
 import { useTheme } from '@mui/material/styles'

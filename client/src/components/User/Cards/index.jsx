@@ -1,10 +1,8 @@
-import { Typography, Button, Skeleton, ButtonBase } from '@mui/material'
-import { CardActions, CardHeader, Card, CardContent, CardMedia, Grid, Grow } from '@mui/material'
+import { CardActions, CardHeader, Card, CardContent, CardMedia, Grid, Grow, Typography, Button, Skeleton, ButtonBase } from '@mui/material'
 import { ThumbUpAlt, Lock, ThumbUpAltOutlined } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes, Comment, Media } from './styles'
 import moment from 'moment'
-import { useNavigate } from 'react-router-dom'
 
 export const LoadingCard = () => {
 	return (
