@@ -106,6 +106,8 @@ export const register = (config) => {
 	}
 }
 
+
+
 export const unregister = () => {
 	if ('serviceWorker' in navigator)
 		navigator.serviceWorker.ready //
