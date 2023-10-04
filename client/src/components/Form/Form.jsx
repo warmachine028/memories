@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
 // import ChipInput from '../ChipInput/ChipInput'
+import { MuiChipsInput } from 'mui-chips-input'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Root, classes } from './styles'
@@ -31,7 +32,12 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const query = useQuery()
 	const page = query.get('page') || 1
 
-	const { mode } = useContext(ModeContext);
+	const handleChange = (tags) => {
+		setTags(tags)
+		setPostData({ ...postData, tags: tags })
+	}
+
+	const { mode } = useContext(ModeContext)
 
 	useEffect(() => {
 		if (post) {
@@ -95,16 +101,16 @@ const Form = ({ currentId, setCurrentId, user }) => {
 		}
 	}
 
-	const handleAdd = (tag) => {
-		const array = [...tags, tag]
-		setTags(array)
-		setPostData({ ...postData, tags: array })
-	}
-	const handleDelete = (tagToDelete) => {
-		const array = tags.filter((tag) => tag !== tagToDelete)
-		setTags(array)
-		setPostData({ ...postData, tags: array })
-	}
+	// const handleAdd = (tag) => {
+	// 	const array = [...tags, tag]
+	// 	setTags(array)
+	// 	setPostData({ ...postData, tags: array })
+	// }
+	// const handleDelete = (tagToDelete) => {
+	// 	const array = tags.filter((tag) => tag !== tagToDelete)
+	// 	setTags(array)
+	// 	setPostData({ ...postData, tags: array })
+	// }
 
 	if (!user?.result?.name) {
 		return (
@@ -129,6 +135,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 					<TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 					<TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					{/* <ChipInput fullWidth value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} /> */}
+					<MuiChipsInput value={tags} onChange={handleChange} clearInputOnBlur hideClearAll />
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
 						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}
