@@ -20,5 +20,5 @@ jobs:
         uses: hoho4190/issue-pr-labeler@v1.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          disable-bot: false
+          # disable-bot: false
           config-file-name: labels.yml

@@ -7,9 +7,9 @@ categories:
       - 'enhancement'
   - title: '🐛 Bug Fixes'
     labels:
-      - 'fix'
       - 'bugfix'
-      - 'bug'
+      - '🐞 bug'
+      - '🛠 goal: fix'
   - title: '📑 Documentation'
     label: 
       - 'documentation'
