@@ -43,7 +43,7 @@ const ForgotPassword = () => {
 			<Container component="main" maxWidth="xs">
 				<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6} style={{ marginTop: '260px' }}>
 					<Avatar className={classes.avatar}>{resetPassword ? <Pattern /> : <LockReset />}</Avatar>
-					<Typography variant="h5">{resetPassword ? 'Reset Password' : 'Account Recovery'}</Typography>
+					<Typography sx={{ color: 'white' }} variant="h5">{resetPassword ? 'Reset Password' : 'Account Recovery'}</Typography>
 					<form className={classes.form} onSubmit={handleSubmit}>
 						<Grid container spacing={1}>
 							{resetPassword ? ( //
