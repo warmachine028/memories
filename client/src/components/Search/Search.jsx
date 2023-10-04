@@ -39,18 +39,15 @@ const Search = ({ tags, setTags }) => {
 				<TextField sx={{ input: { color: 'white' } }} name="search" variant="outlined" label="Search Memories" onKeyDown={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)} />
 				{/* <ChipInput label="Search Tags" InputProps={{ style: { color: 'white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} variant="outlined" className={classes.chip} /> */}
 				<MuiChipsInput
+					label="Tags"
 					value={tags}
 					onChange={handleChange}
 					clearInputOnBlur
 					hideClearAll
-					placeholder="Tags"
+					placeholder=""
 					sx={{
 						width: '100%',
-						color: 'white',
 						input: {
-							'&::placeholder': {
-								opacity: 1,
-							},
 							color: 'white',
 						},
 					}}

@@ -136,19 +136,15 @@ const Form = ({ currentId, setCurrentId, user }) => {
 					<TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					{/* <ChipInput fullWidth value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} /> */}
 					<MuiChipsInput
+						label="Tags"
 						value={tags}
 						onChange={handleChange}
 						clearInputOnBlur
 						hideClearAll
-						placeholder="Tags"
+						placeholder=""
 						sx={{
 							width: '100%',
 							color: 'white',
-							input: {
-								'&::placeholder': {
-									opacity: 1,
-								},
-							},
 						}}
 						className={classes.chip}
 					/>
