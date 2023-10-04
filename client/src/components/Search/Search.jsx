@@ -43,7 +43,7 @@ const Search = ({ tags, setTags }) => {
 					onChange={handleChange}
 					clearInputOnBlur
 					hideClearAll
-					placeholder="Search Tags"
+					placeholder="Tags"
 					sx={{
 						width: '100%',
 						color: 'white',
