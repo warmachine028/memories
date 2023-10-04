@@ -38,7 +38,21 @@ const Search = ({ tags, setTags }) => {
 			<AppBar className={`${classes.searchBarLight} ${mode === 'light' ? classes.searchBarLight : classes.searchBarDark}`} position="static" color="inherit">
 				<TextField sx={{ input: { color: 'white' } }} name="search" variant="outlined" label="Search Memories" onKeyDown={handleKeyPress} fullWidth value={search} onChangeCapture={(e) => setSearch(e.target.value)} />
 				{/* <ChipInput label="Search Tags" InputProps={{ style: { color: 'white' } }} value={tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} variant="outlined" className={classes.chip} /> */}
-				<MuiChipsInput value={tags} onChange={handleChange} sx={{ input: { color: 'white' } }} />
+				<MuiChipsInput
+					label="Search Tags"
+					value={tags}
+					onChange={handleChange}
+					clearInputOnBlur
+					hideClearAll
+					placeholder=""
+					sx={{
+						width: '100%',
+						input: {
+							color: 'white',
+						},
+					}}
+					className={classes.chip}
+				/>
 
 				<Button className={classes.buttonSearch} onClick={searchPost} color="primary" variant="contained">
 					SEARCH
