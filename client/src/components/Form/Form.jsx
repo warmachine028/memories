@@ -135,7 +135,23 @@ const Form = ({ currentId, setCurrentId, user }) => {
 					<TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 					<TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					{/* <ChipInput fullWidth value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} /> */}
-					<MuiChipsInput value={tags} onChange={handleChange} clearInputOnBlur hideClearAll />
+					<MuiChipsInput
+						value={tags}
+						onChange={handleChange}
+						clearInputOnBlur
+						hideClearAll
+						placeholder="Search Tags"
+						sx={{
+							width: '100%',
+							color: 'white',
+							input: {
+								'&::placeholder': {
+									opacity: 1,
+								},
+							},
+						}}
+						className={classes.chip}
+					/>
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
 						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}
