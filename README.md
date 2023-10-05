@@ -5,7 +5,7 @@
 
 <div align=center>
     <h2>
-        MEMORIES is particiapting in Hacktoberfest 2023! 🎉
+        MEMORIES is participating in Hacktoberfest 2023! 🎉
         <br>
         Accepting all first time contributions from October 1st to 31st, read <a href="https://github.com/warmachine028/memories/tree/main/CONTRIBUTING.md">CONTRIBUTING.md</a> to get started.
     </h2>
