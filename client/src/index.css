@@ -23,3 +23,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background: skyblue;
 }
+
+/* remove pagination from all swipable containers */
+.swipeable-container .pagination {
+	display: none;
+}
