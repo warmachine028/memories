@@ -6,8 +6,9 @@ import Post from '../models/post.js'
 import Comment from '../models/comment.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 import dotenv from 'dotenv'
+import { error } from 'console'
 
 dotenv.config()
 
@@ -323,7 +324,10 @@ export const resetPassword = async (req, res) => {
 
 export const getUser = async (id) => {
 	try {
-		const userId = id
+		const userId = new mongoose.Types.ObjectId(id);
+		if (userId !== typeof "ObjectId") {
+			throw new Error("Invalid data type.");
+		}
 		const user = await User.findById(userId)
 		delete user.password
 		return user
