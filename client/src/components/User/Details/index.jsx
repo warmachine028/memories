@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useRef, useContext, useEffect, useState } from 'react'
 import { Root, classes } from './styles'
 import { Paper, Typography, Divider, Avatar, LinearProgress, Box, Chip, Tabs, Tab, Button, Tooltip } from '@mui/material'
 import { PublishedWithChanges } from '@mui/icons-material'
@@ -9,6 +9,7 @@ import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
 
 import { SwipeableViews } from 'react-swipeable-views-v18'
+import { useSwipe } from '../../../hooks';
 import { useTheme } from '@mui/material/styles'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
@@ -38,7 +39,7 @@ const UserDetails = ({ user }) => {
 	const history = useNavigate()
 	const dispatch = useDispatch()
 
-	const [value, setValue] = useState(0)
+	const [idx, setIdx] = useState(0)
 	const [progress, setProgress] = useState(0)
 	const [likedPage, setLikedPage] = useState(1)
 	const [createdPage, setCreatedPage] = useState(1)
@@ -130,6 +131,11 @@ const UserDetails = ({ user }) => {
 		user: userId,
 		notDoneText: 'No Comments posted',
 	}
+
+	// change views
+	const swipeableViewsRef = useRef(null);
+	useSwipe(swipeableViewsRef, idx);
+
 	return (
 		<Root className={classes.root}>
 			<div className={classes.userContainer}>
@@ -188,23 +194,23 @@ const UserDetails = ({ user }) => {
 			</div>
 			<Paper className={classes.loadingPaper} elevation={6}>
 				<Box sx={{ width: '100%' }}>
-					<Tabs value={value} onChange={(_, newValue) => setValue(newValue)} aria-label="basic tabs" variant="scrollable">
+					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
 						<Tab label="CREATED" />
 						<Tab label="LIKED" />
 						<Tab label="PRIVATE" />
 						<Tab label="COMMENTS" />
 					</Tabs>
-					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={(index) => setValue(index)}>
-						<TabPanel value={value} index={0} dir={theme.direction}>
+					<SwipeableViews ref={swipeableViewsRef}>
+						<TabPanel value={idx} index={0} dir={theme.direction}>
 							<TabPage {...createdProps} />
 						</TabPanel>
-						<TabPanel value={value} index={1} dir={theme.direction}>
+						<TabPanel value={idx} index={1} dir={theme.direction}>
 							<TabPage {...likedProps} />
 						</TabPanel>
-						<TabPanel value={value} index={2} dir={theme.direction}>
+						<TabPanel value={idx} index={2} dir={theme.direction}>
 							<TabPage {...privateProps} />
 						</TabPanel>
-						<TabPanel value={value} index={3} dir={theme.direction}>
+						<TabPanel value={idx} index={3} dir={theme.direction}>
 							<TabPage {...commentProps} />
 						</TabPanel>
 					</SwipeableViews>
@@ -220,16 +226,27 @@ export const PublicProfile = () => {
 	const theme = useTheme()
 	const history = useNavigate()
 	const dispatch = useDispatch()
-	const [value, setValue] = useState(0)
+	const [idx, setIdx] = useState(0)
 	const [progress, setProgress] = useState(0)
 	const [likedPage, setLikedPage] = useState(1)
 	const [createdPage, setCreatedPage] = useState(1)
 	const { data, isLoading } = useSelector((state) => state.posts)
 	const { createdPosts, createdNumberOfPages, isFetchingCreatedPosts } = useSelector((state) => state.posts)
 	const { likedPosts, likedNumberOfPages, isFetchingLikedPosts } = useSelector((state) => state.posts)
-	useEffect(() => dispatch(getUserDetails(userId, snackBar)), [userId])
-	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
-	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
+
+	useEffect(() => {
+		const fetchUserDetails = async () => dispatch(getUserDetails(userId, snackBar))
+		fetchUserDetails()
+	}, [userId]);
+	useEffect(() => {
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, createdPage, CREATED))
+		fetchUserPostsByType()
+	}, [createdPage]);
+	useEffect(() => {
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, likedPage, LIKED))
+		fetchUserPostsByType()
+	}, [likedPage]);
+
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setProgress((prevProgress) => (prevProgress >= 90 ? (isLoading ? 90 : 100) : prevProgress + 10))
@@ -275,6 +292,10 @@ export const PublicProfile = () => {
 		userId: userId,
 		notDoneText: 'No Posts Liked',
 	}
+
+	// change views
+	const swipeableViewsRef = useRef(null);
+	useSwipe(swipeableViewsRef, idx);
 
 	return (
 		<Root className={classes.root}>
@@ -333,15 +354,15 @@ export const PublicProfile = () => {
 			</div>
 			<Paper className={classes.loadingPaper} elevation={6}>
 				<Box sx={{ width: '100%' }}>
-					<Tabs value={value} onChange={(_, newValue) => setValue(newValue)} aria-label="basic tabs">
+					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs">
 						<Tab label="CREATED" />
 						<Tab label="LIKED" />
 					</Tabs>
-					<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={(index) => setValue(index)}>
-						<TabPanel value={value} index={0} dir={theme.direction}>
+					<SwipeableViews ref={swipeableViewsRef}>
+						<TabPanel value={idx} index={0} dir={theme.direction}>
 							<TabPage {...createdProps} />
 						</TabPanel>
-						<TabPanel value={value} index={1} dir={theme.direction}>
+						<TabPanel value={idx} index={1} dir={theme.direction}>
 							<TabPage {...likedProps} />
 						</TabPanel>
 					</SwipeableViews>
