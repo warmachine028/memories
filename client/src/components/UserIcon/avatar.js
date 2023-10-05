@@ -24,7 +24,7 @@ export const RandomAvatar = () => {
 		options[key] = configArray[Math.floor(Math.random() * configArray.length)]
 	})
 	
-	const top = options['topType']
-	if (top.slice(0, 4) === 'Long' || top === 'Hijab' || top === 'WinterHat2' || options['clotheType'] === 'ShirtVNeck') options['facialHairType'] = 'Blank'
+	const top = options.topType
+	if (top.slice(0, 4) === 'Long' || top === 'Hijab' || top === 'WinterHat2' || options.clotheType === 'ShirtVNeck') options.facialHairType = 'Blank'
 	return options
 }
