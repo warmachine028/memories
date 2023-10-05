@@ -18,7 +18,13 @@ const PostDetails = ({ user }) => {
 	const { id } = useParams()
 	const dispatch = useDispatch()
 	const history = useNavigate()
-	useEffect(() => dispatch(getPost(id, history, snackBar)), [id])
+
+	useEffect(() => {
+		async function fetchPosts() {
+			dispatch(getPost(id, history, snackBar));
+		}
+		fetchPosts();
+	}, [id]);
 
 	const { post, isLoading } = useSelector((state) => state.posts)
 

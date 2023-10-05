@@ -14,8 +14,9 @@ const Paginate = ({ page }) => {
     const { numberOfPages } = useSelector(state => state.posts)
 
     useEffect(() => {
+        const fetchPosts = async () => dispatch(getPosts(page, snackBar));
         if (page)
-            dispatch(getPosts(page, snackBar))
+            fetchPosts();
     }, [dispatch, page])
 
     const { mode } = useContext(ModeContext);
