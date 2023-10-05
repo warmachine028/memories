@@ -8,7 +8,7 @@ import { getUserDetails, getPostsBySearch, getUserComments, getUserPostsByType }
 import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
 
-import SwipeableViews from 'react-swipeable-views-v18'
+import { SwipeableViews } from 'react-swipeable-views-v18'
 import { useTheme } from '@mui/material/styles'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 
@@ -53,11 +53,26 @@ const UserDetails = ({ user }) => {
 
 	const userId = user.result._id || user.result.googleId
 
-	useEffect(() => dispatch(getUserDetails(userId, snackBar)), [user])
-	useEffect(() => dispatch(getUserPostsByType(userId, createdPage, CREATED)), [createdPage])
-	useEffect(() => dispatch(getUserPostsByType(userId, likedPage, LIKED)), [likedPage])
-	useEffect(() => dispatch(getUserPostsByType(userId, privatePage, PRIVATE)), [privatePage])
-	useEffect(() => dispatch(getUserComments(userId, commentsPage)), [commentsPage])
+	useEffect(() => {
+		const fetchUserDetails = async () => dispatch(getUserDetails(userId, snackBar));
+		fetchUserDetails();
+	}, [userId]);
+	useEffect(() => {
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, createdPage, CREATED));
+		fetchUserPostsByType();
+	}, [createdPage]);
+	useEffect(() => {
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, likedPage, LIKED));
+		fetchUserPostsByType();
+	}, [likedPage]);
+	useEffect(() => {
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, privatePage, PRIVATE));
+		fetchUserPostsByType();
+	}, [privatePage]);
+	useEffect(() => {
+		const fetchUserComments = async () => dispatch(getUserComments(userId, commentsPage));
+		fetchUserComments();
+	}, [commentsPage]);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -65,6 +80,7 @@ const UserDetails = ({ user }) => {
 		}, 300)
 		return () => clearInterval(timer)
 	}, [isLoading])
+
 	const openPostsWithTag = (tag) => {
 		dispatch(getPostsBySearch({ tags: tag }))
 		history(`/posts/search?searchQuery=none&tags=${tag}`)
