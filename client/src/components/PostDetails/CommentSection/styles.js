@@ -17,6 +17,8 @@ export const classes = {
 	darkTextColor: `${PREFIX}-darkTextColor`,
 	commentContainerBox: `${PREFIX}-commentContainerBox`,
 	darkCommentContainerBox: `${PREFIX}-darkCommentContainerBox`,
+	buttonSubmit: `${PREFIX}-buttonSubmit`,
+	darkButtonSubmit: `${PREFIX}-darkButtonSubmit`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -97,12 +99,37 @@ export const Root = styled('div')(({ theme }) => ({
 		backgroundColor: 'transparent',
 		textarea : {
 			color: 'white'
-		}
+		},
+		'& .MuiOutlinedInput-root': {
+			color: 'white',
+		},
+		'& .MuiFormLabel-root': {
+			color: 'black',
+		},
 	},
 	[`& .${classes.darkCommentContainerBox}`]: {
-		backgroundColor: 'rgba(255,255,255, 0.30)',
 		textarea : {
 			color: 'white'
-		}
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: '#b3b3b3',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: theme.palette.primary.main,
+			},
+		},
+		'& .MuiFormLabel-root': {
+			color: 'white',
+		},
+	},
+	[`& .${classes.buttonSubmit}`]: {
+		marginTop: 10,
+	},
+	[`& .${classes.darkButtonSubmit}`]: {
+		marginTop: 10,
+		'&.Mui-disabled': {
+			backgroundColor: '#aebfd1'
+		},
 	},
 }))

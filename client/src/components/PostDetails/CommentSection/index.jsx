@@ -103,7 +103,7 @@ const CommentSection = ({ post, user, mode }) => {
 						<TextField className={`${mode === 'light' ? classes.commentContainerBox : classes.darkCommentContainerBox}`} 
 						// InputProps={{ style: { color: 'white', backgroundColor: 'rgba(255,255,255, 0.30)' } }} 
 						fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
-						<Button type="submit" style={{ marginTop: '10px' }} fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained">
+						<Button type="submit" fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained" className={`${mode=='light' ? classes.buttonSubmit: classes.darkButtonSubmit}`}>
 							{loading && <CircularProgress size="2em" />} Comment
 						</Button>
 					</form>
