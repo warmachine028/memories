@@ -9,13 +9,12 @@ import Avaatar from 'avataaars2'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 import { Link } from 'react-router-dom'
 
-const Comment = ({ data, user, post, handleDelete }) => {
+const Comment = ({ data, user, post, mode, handleDelete }) => {
 	let userId = user?.result.googleId || user?.result?._id
 
 	const { creator, message, createdAt, _id } = data
 	const canDelete = [creator._id, post.creator._id].includes(userId)
 	const canEdit = userId === creator._id
-
 	return (
 		<Grow in mountOnEnter unmountOnExit>
 			<div className={classes.commentContainer}>
@@ -32,7 +31,7 @@ const Comment = ({ data, user, post, handleDelete }) => {
 				</Grid>
 				<Grid item className={classes.commentBox}>
 					<div className={classes.commentItem}>
-						<Typography className={classes.userName}>{creator.name}</Typography>
+						<Typography className={`${classes.userName} ${mode == 'light' ? classes.textColor : classes.darkTextColor}`}>{creator.name}</Typography>
 						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
 						<Typography className={classes.comment} component="p">
 							{message}
@@ -54,7 +53,7 @@ const Comment = ({ data, user, post, handleDelete }) => {
 	)
 }
 
-const CommentSection = ({ post, user }) => {
+const CommentSection = ({ post, user, mode }) => {
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
 	const dispatch = useDispatch()
 	const [message, setMessage] = useState('')
@@ -82,7 +81,7 @@ const CommentSection = ({ post, user }) => {
 		<CircularProgress size="7em" />
 	) : (
 		<Root className={classes.root}>
-			<div className={classes.outerContainer}>
+			<div className={`${classes.outerContainer} ${mode === 'light' ? classes.textColor : classes.darkTextColor}`}>
 				<div style={{ width: '100%', display: comments.length ? 'block' : 'none' }}>
 					<Typography gutterBottom variant="h6">
 						Comments
@@ -90,7 +89,7 @@ const CommentSection = ({ post, user }) => {
 					<div className={classes.innerContainer}>
 						<Grid container>
 							{comments.map((comment) => (
-								<Comment key={comment._id} data={comment} user={user} post={post} handleDelete={handleDelete} />
+								<Comment key={comment._id} data={comment} user={user} post={post} mode={mode} handleDelete={handleDelete} />
 							))}
 						</Grid>
 						<div ref={commentsRef} />
@@ -101,7 +100,9 @@ const CommentSection = ({ post, user }) => {
 						Write a comment
 					</Typography>
 					<form onSubmit={handleSubmit}>
-						<TextField InputProps={{ style: { color: 'white', backgroundColor: 'rgba(255,255,255, 0.30)' } }} fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
+						<TextField className={`${mode === 'light' ? classes.commentContainerBox : classes.darkCommentContainerBox}`} 
+						// InputProps={{ style: { color: 'white', backgroundColor: 'rgba(255,255,255, 0.30)' } }} 
+						fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
 						<Button type="submit" style={{ marginTop: '10px' }} fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained">
 							{loading && <CircularProgress size="2em" />} Comment
 						</Button>
