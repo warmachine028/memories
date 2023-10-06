@@ -13,6 +13,12 @@ export const classes = {
 	time: `${PREFIX}-time`,
 	avatar: `${PREFIX}-avatar`,
 	avaatar: `${PREFIX}-avaatar`,
+	textColor: `${PREFIX}-textColor`,
+	darkTextColor: `${PREFIX}-darkTextColor`,
+	commentContainerBox: `${PREFIX}-commentContainerBox`,
+	darkCommentContainerBox: `${PREFIX}-darkCommentContainerBox`,
+	buttonSubmit: `${PREFIX}-buttonSubmit`,
+	darkButtonSubmit: `${PREFIX}-darkButtonSubmit`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -83,5 +89,47 @@ export const Root = styled('div')(({ theme }) => ({
 		fontSize: 'small',
 		color: 'rgba(255, 255, 255, .30)',
 	},
-	
+	[`& .${classes.textColor}`]: {
+		color: 'black',
+	},
+	[`& .${classes.darkTextColor}`]: {
+		color: 'white',
+	},
+	[`& .${classes.commentContainerBox}`]: {
+		backgroundColor: 'transparent',
+		textarea : {
+			color: 'white'
+		},
+		'& .MuiOutlinedInput-root': {
+			color: 'white',
+		},
+		'& .MuiFormLabel-root': {
+			color: 'black',
+		},
+	},
+	[`& .${classes.darkCommentContainerBox}`]: {
+		textarea : {
+			color: 'white'
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: '#b3b3b3',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: theme.palette.primary.main,
+			},
+		},
+		'& .MuiFormLabel-root': {
+			color: 'white',
+		},
+	},
+	[`& .${classes.buttonSubmit}`]: {
+		marginTop: 10,
+	},
+	[`& .${classes.darkButtonSubmit}`]: {
+		marginTop: 10,
+		'&.Mui-disabled': {
+			backgroundColor: '#aebfd1'
+		},
+	},
 }))
