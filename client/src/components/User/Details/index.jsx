@@ -12,6 +12,7 @@ import { SwipeableViews } from 'react-swipeable-views-v18'
 import { useSwipe } from '../../../hooks';
 import { useTheme } from '@mui/material/styles'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
+import { ModeContext } from '../../../contexts/ModeContext'
 
 const LinearProgressWithLabel = (props) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -35,6 +36,7 @@ const PRIVATE = 'private'
 
 const UserDetails = ({ user }) => {
 	const { openSnackBar: snackBar } = useContext(SnackbarContext)
+	const { mode, modeToggle } = useContext(ModeContext)
 	const theme = useTheme()
 	const history = useNavigate()
 	const dispatch = useDispatch()
@@ -138,8 +140,8 @@ const UserDetails = ({ user }) => {
 
 	return (
 		<Root className={classes.root}>
-			<div className={classes.userContainer}>
-				<Paper className={classes.userIcon} elevation={6}>
+			<div className={classes.userContainer} >
+				<Paper className={classes.userIcon} style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }} elevation={6}>
 					{user.result.avatar ? (
 						<Avaatar className={classes.avatar} {...user.result.avatar} />
 					) : (
@@ -153,7 +155,7 @@ const UserDetails = ({ user }) => {
 						UPDATE DETAILS
 					</Button>
 				</Paper>
-				<Paper className={classes.userDetails} elevation={6}>
+				<Paper style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }} className={classes.userDetails} elevation={6}>
 					{progress < 100 || isLoading ? (
 						<Box className={classes.loadingLine}>
 							<Typography color="white">Loading User Details ...</Typography>
@@ -162,9 +164,9 @@ const UserDetails = ({ user }) => {
 					) : (
 						<div>
 							{Object.entries(labels).map(([label, data]) => (
-								<Box key={label}>
+								<Box  key={label}>
 									<Typography color="white">
-										<strong style={{ color: 'black' }}>{label}: </strong>
+										<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>{label}: </strong>
 										{data}
 									</Typography>
 									<Divider />
@@ -172,7 +174,7 @@ const UserDetails = ({ user }) => {
 							))}
 							<Box>
 								<Typography color="white">
-									<strong style={{ color: 'black' }}>Longest Post Written: </strong>
+									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Longest Post Written: </strong>
 									<Tooltip title="Post with longest message">
 										<Link to={`/posts/${longestPostId}`} style={{ color: 'white', textDecoration: 'none' }}>{`${longestPostWords} Words`}</Link>
 									</Tooltip>
@@ -181,7 +183,7 @@ const UserDetails = ({ user }) => {
 							</Box>
 							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
-									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
+									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Top 5 Tags: </strong>
 								</Typography>
 								<Box sx={{ marginLeft: 1 }}>{top5Tags?.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
@@ -192,13 +194,13 @@ const UserDetails = ({ user }) => {
 					</Typography>
 				</Paper>
 			</div>
-			<Paper className={classes.loadingPaper} elevation={6}>
+			<Paper className={classes.loadingPaper} elevation={6}   style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }}>
 				<Box sx={{ width: '100%' }}>
 					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
-						<Tab label="CREATED" />
-						<Tab label="LIKED" />
-						<Tab label="PRIVATE" />
-						<Tab label="COMMENTS" />
+						<Tab style={{color: 'white'}} label="CREATED" />
+						<Tab style={{color: 'white'}} label="LIKED" />
+						<Tab style={{color: 'white'}} label="PRIVATE" />
+						<Tab style={{color: 'white'}} label="COMMENTS" />
 					</Tabs>
 					<SwipeableViews ref={swipeableViewsRef}>
 						<TabPanel value={idx} index={0} dir={theme.direction}>
