@@ -13,6 +13,10 @@ export const classes = {
 	time: `${PREFIX}-time`,
 	avatar: `${PREFIX}-avatar`,
 	avaatar: `${PREFIX}-avaatar`,
+	textColor: `${PREFIX}-textColor`,
+	darkTextColor: `${PREFIX}-darkTextColor`,
+	commentContainerBox: `${PREFIX}-commentContainerBox`,
+	darkCommentContainerBox: `${PREFIX}-darkCommentContainerBox`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -83,5 +87,22 @@ export const Root = styled('div')(({ theme }) => ({
 		fontSize: 'small',
 		color: 'rgba(255, 255, 255, .30)',
 	},
-	
+	[`& .${classes.textColor}`]: {
+		color: 'black',
+	},
+	[`& .${classes.darkTextColor}`]: {
+		color: 'white',
+	},
+	[`& .${classes.commentContainerBox}`]: {
+		backgroundColor: 'transparent',
+		textarea : {
+			color: 'white'
+		}
+	},
+	[`& .${classes.darkCommentContainerBox}`]: {
+		backgroundColor: 'rgba(255,255,255, 0.30)',
+		textarea : {
+			color: 'white'
+		}
+	},
 }))

@@ -14,9 +14,12 @@ export const classes = {
 	paragraph: `${PREFIX}-paragraph`,
 	tags: `${PREFIX}-tags`,
 	title: `${PREFIX}-title`,
+	darktitle: `${PREFIX}-darktitle`,
 	privateLabel: `${PREFIX}-privateLabel`,
 	notFound: `${PREFIX}-notFound`,
 	recommendedPostGrid: `${PREFIX}-recommendedPostGrid`,
+	textColor: `${PREFIX}-textColor`,
+	darkTextColor: `${PREFIX}-darkTextColor`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -104,12 +107,16 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.title}`]: {
 		textAlign: 'center',
+		color: 'black',
 		wordBreak: 'break-word',
 		[theme.breakpoints.down('sm')]: {
 			fontSize: '30px',
 			fontWeight: 'bolder',
 			marginBottom: '20px',
 		},
+	},
+	[`& .${classes.darktitle}`]: {
+		color: 'white' 
 	},
 	[`& .${classes.privateLabel}`]: {
 		backgroundColor: '#00b5ff',
@@ -129,6 +136,12 @@ export const Root = styled('div')(({ theme }) => ({
 		marginLeft: 0,
 		flexDirection: 'row',
 		width: '100%',
+	},
+	[`& .${classes.textColor}`]: {
+		color: 'black'
+	},
+	[`& .${classes.darkTextColor}`]: {
+		color: 'white'
 	},
 }))
 
