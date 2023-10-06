@@ -1,6 +1,6 @@
 name: 💡 General Feature Request
 description: Have a new idea/feature for Memories? Please suggest!
-labels: ["⭐ goal: addition", "good first issue", "🤩 Up for the grab", "help wanted", "enhancement", "hacktoberfest"]
+labels: ["⭐ goal: addition", "good first issue", "🤩 Up for the grab", "help wanted", "enhancement", "feature", "hacktoberfest"]
 title: "[FEATURE 💡] <description>"
 body:
   - type: textarea
