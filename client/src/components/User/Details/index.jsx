@@ -138,10 +138,10 @@ const UserDetails = ({ user }) => {
 	const swipeableViewsRef = useRef(null);
 	useSwipe(swipeableViewsRef, idx);
 
-	return (
+	return (   
 		<Root className={classes.root}>
 			<div className={classes.userContainer} >
-				<Paper className={classes.userIcon} style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }} elevation={6}>
+				<Paper className={`${classes.userIcon} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
 					{user.result.avatar ? (
 						<Avaatar className={classes.avatar} {...user.result.avatar} />
 					) : (
@@ -155,7 +155,7 @@ const UserDetails = ({ user }) => {
 						UPDATE DETAILS
 					</Button>
 				</Paper>
-				<Paper style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }} className={classes.userDetails} elevation={6}>
+				<Paper className={`${classes.userDetails} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
 					{progress < 100 || isLoading ? (
 						<Box className={classes.loadingLine}>
 							<Typography color="white">Loading User Details ...</Typography>
@@ -174,7 +174,7 @@ const UserDetails = ({ user }) => {
 							))}
 							<Box>
 								<Typography color="white">
-									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Longest Post Written: </strong>
+									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight }`}>Longest Post Written: </strong>
 									<Tooltip title="Post with longest message">
 										<Link to={`/posts/${longestPostId}`} style={{ color: 'white', textDecoration: 'none' }}>{`${longestPostWords} Words`}</Link>
 									</Tooltip>
@@ -183,7 +183,7 @@ const UserDetails = ({ user }) => {
 							</Box>
 							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
-									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Top 5 Tags: </strong>
+									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight }`}>Top 5 Tags: </strong>
 								</Typography>
 								<Box sx={{ marginLeft: 1 }}>{top5Tags?.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
@@ -194,13 +194,13 @@ const UserDetails = ({ user }) => {
 					</Typography>
 				</Paper>
 			</div>
-			<Paper className={classes.loadingPaper} elevation={6}   style={{ backgroundColor: mode === 'dark' ? 'rgba(5, 5, 5, .90)' : 'initial' }}>
+			<Paper className={`${classes.loadingPaper} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
 				<Box sx={{ width: '100%' }}>
 					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
-						<Tab style={{color: 'white'}} label="CREATED" />
-						<Tab style={{color: 'white'}} label="LIKED" />
-						<Tab style={{color: 'white'}} label="PRIVATE" />
-						<Tab style={{color: 'white'}} label="COMMENTS" />
+						<Tab className={classes.labeltxtColor} label="CREATED" />
+						<Tab className={classes.labeltxtColor} label="LIKED" />
+						<Tab className={classes.labeltxtColor} label="PRIVATE" />
+						<Tab className={classes.labeltxtColor} label="COMMENTS" />
 					</Tabs>
 					<SwipeableViews ref={swipeableViewsRef}>
 						<TabPanel value={idx} index={0} dir={theme.direction}>
