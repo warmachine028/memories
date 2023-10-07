@@ -196,11 +196,11 @@ const UserDetails = ({ user }) => {
 			</div>
 			<Paper className={`${classes.loadingPaper} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
 				<Box sx={{ width: '100%' }}>
-					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
-						<Tab className={classes.labeltxtColor} label="CREATED" />
-						<Tab className={classes.labeltxtColor} label="LIKED" />
-						<Tab className={classes.labeltxtColor} label="PRIVATE" />
-						<Tab className={classes.labeltxtColor} label="COMMENTS" />
+				<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="CREATED" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="LIKED" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="PRIVATE" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="COMMENTS" />
 					</Tabs>
 					<SwipeableViews ref={swipeableViewsRef}>
 						<TabPanel value={idx} index={0} dir={theme.direction}>
