@@ -6,7 +6,7 @@ import Post from '../models/post.js'
 import Comment from '../models/comment.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
-import mongoose, { Types } from 'mongoose'
+import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -325,7 +325,7 @@ export const getUser = async (id, res) => {
 	try {
 		const userId = id;
 		if (!userId === typeof "string") {
-			return res.status(404).json({ message: "User not found." });
+			return res.status(404).json({ message: "Error." });
 		}
 		const user = await User.findById(userId)
 		delete user.password
