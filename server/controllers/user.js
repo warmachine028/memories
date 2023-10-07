@@ -321,9 +321,12 @@ export const resetPassword = async (req, res) => {
 	}
 }
 
-export const getUser = async (id) => {
+export const getUser = async (id, res) => {
 	try {
-		const userId = id
+		const userId = id;
+		if (!userId === typeof "string") {
+			return res.status(404).json({ message: "Error." });
+		}
 		const user = await User.findById(userId)
 		delete user.password
 		return user
