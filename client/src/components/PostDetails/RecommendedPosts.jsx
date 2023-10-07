@@ -13,7 +13,14 @@ import { ModeContext } from '../../contexts/ModeContext'
 const RecommendedPosts = ({ user, tags, post_id }) => {
 	const dispatch = useDispatch()
 	const userId = user?.result.googleId || user?.result._id
-	useEffect(() => dispatch(getRecommendedPosts(tags.join(','))), [tags])
+
+	useEffect(() => {
+		const fetchRecommendedPosts = async() => {
+			dispatch(getRecommendedPosts(tags.join(',')));
+		}
+		fetchRecommendedPosts();
+	}, [tags]);
+
 	const { recommendedPosts, isFetchingRecommendedPosts: isLoading } = useSelector((state) => state.posts)
 
 	const posts = recommendedPosts?.filter(({ _id }) => _id !== post_id)

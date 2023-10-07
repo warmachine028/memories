@@ -1,6 +1,7 @@
 # Contributing to Memories
 
-**You must get assigned to an issue, by either creating one/commenting in an unassigned issue, before creating a PR to this project.**
+- **You must get assigned to an issue, by either creating one/commenting in an unassigned issue, before creating a PR to this project.**
+- Issues are assigned in a First Come First Serve order.
 
 First off, thanks for taking the time to contribute! ❤️
 

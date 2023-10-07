@@ -27,14 +27,14 @@ filters:
   - label: "🛠 goal: fix"
     regexs:
       - /fix/i
-      - /bug/i
+      - /refactor/i
     events: [pull_request]
     targets: [title]
 
   - label: "🐞 bug"
     regexs:
       - /fix/i
-      - /bug/i
+      - /refactor/i
     events: [pull_request]
     targets: [title]
 

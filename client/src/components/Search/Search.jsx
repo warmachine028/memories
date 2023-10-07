@@ -16,8 +16,9 @@ const Search = ({ tags, setTags }) => {
 	const searchPost = () => {
 		//dispatch -> fetch search post
 		if (search.trim() || tags) {
-			dispatch(getPostsBySearch({ search, tags: tags.join(',') }))
-			history(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
+			let tagList = tags.map((tag) => tag.toLowerCase());
+			dispatch(getPostsBySearch({ search, tags: tagList.join(',') }))
+			history(`/posts/search?searchQuery=${search || 'none'}&tags=${tagList.join(',')}`)
 		} else history('/')
 	}
 
