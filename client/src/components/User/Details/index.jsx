@@ -161,11 +161,11 @@ const UserDetails = ({ user }) => {
 						</Box>
 					) : (
 						<div>
-							{Object.entries(labels).map(([label, data]) => (
+							{Object.entries(labels).map(([label, labelData]) => (
 								<Box key={label}>
 									<Typography color="white">
 										<strong style={{ color: 'black' }}>{label}: </strong>
-										{data}
+										{labelData}
 									</Typography>
 									<Divider />
 								</Box>
@@ -321,11 +321,11 @@ export const PublicProfile = () => {
 						</Box>
 					) : (
 						<div>
-							{Object.entries(labels).map(([label, data]) => (
+							{Object.entries(labels).map(([label, labelData]) => (
 								<Box key={label}>
 									<Typography color="white">
 										<strong style={{ color: 'black' }}>{label}: </strong>
-										{data}
+										{labelData}
 									</Typography>
 									<Divider />
 								</Box>

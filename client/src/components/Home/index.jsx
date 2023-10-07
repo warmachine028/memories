@@ -12,7 +12,7 @@ const useQuery = () => new URLSearchParams(useLocation().search)
 const Home = ({ user }) => {
 	const [currentId, setCurrentId] = useState(0)
 	const query = useQuery()
-	const page = query.get('page') || 1
+	const page = query.get('page') ?? 1
 	const searchQuery = query.get('searchQuery')
 	const [tags, setTags] = useState([])
 

@@ -30,7 +30,7 @@ const registerValidSW = (swUrl, config) => {
 							console.log('New content is available and will be used when all tabs for this page are closed. See https://cra.link/PWA.')
 
 							// Execute callback
-							if (config && config.onUpdate) {
+							if (config?.onUpdate) {
 								config.onUpdate(registration)
 							}
 						} else {
@@ -40,7 +40,7 @@ const registerValidSW = (swUrl, config) => {
 							console.log('Content is cached for offline use.')
 
 							// Execute callback
-							if (config && config.onSuccess) {
+							if (config?.onSuccess) {
 								config.onSuccess(registration)
 							}
 						}

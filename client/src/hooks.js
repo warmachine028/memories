@@ -6,12 +6,12 @@ import { useRef, useEffect } from 'react'
  * @returns Previous value in component state
  */
 export const usePrevious = (value) => {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-};
+	const ref = useRef()
+	useEffect(() => {
+		ref.current = value
+	})
+	return ref.current
+}
 
 /**
  * Helper function to delay the program a number of ms
@@ -19,7 +19,7 @@ export const usePrevious = (value) => {
  * @returns a promise that is resolved after the time has passed
  */
 const sleep = (ms) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**
@@ -28,31 +28,28 @@ const sleep = (ms) => {
  * @param {Number} idx current index (zero based)
  */
 export const useSwipe = (swipeableViewsRef, idx) => {
-	const prevIdx = usePrevious(idx);
+	const prevIdx = usePrevious(idx)
+	const swipeForward = () => {
+		swipeableViewsRef.current.swipeForward()
+	}
+
+	const swipeBackward = () => {
+		swipeableViewsRef.current.swipeBackward()
+	}
 
 	useEffect(() => {
-		(async function() {
+		;(async function () {
 			if (prevIdx < idx) {
-				for (let i = 0; i < (idx - prevIdx); i++) {
-					swipeForward();
-					await sleep(300);
+				for (let i = 0; i < idx - prevIdx; i++) {
+					swipeForward()
+					await sleep(300)
 				}
-			}
-			else if (idx < prevIdx) {
-				for (let i = 0; i < (prevIdx - idx); i++) {
+			} else if (idx < prevIdx) {
+				for (let i = 0; i < prevIdx - idx; i++) {
 					swipeBackward()
-					await sleep(300);
+					await sleep(300)
 				}
 			}
 		})()
-	}, [idx, prevIdx]);
-
-
-	const swipeForward = () => {
-		swipeableViewsRef.current.swipeForward();
-	};
-
-	const swipeBackward = () => {
-		swipeableViewsRef.current.swipeBackward();
-	};
+	}, [idx, prevIdx])
 }
