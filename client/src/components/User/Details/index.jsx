@@ -204,7 +204,7 @@ const UserDetails = ({ user }) => {
 					</Tabs>
 					<SwipeableViews ref={swipeableViewsRef}>
 						<TabPanel value={idx} index={0} dir={theme.direction}>
-							<TabPage {...createdProps} />
+							<TabPage  {...createdProps} />
 						</TabPanel>
 						<TabPanel value={idx} index={1} dir={theme.direction}>
 							<TabPage {...likedProps} />
@@ -213,7 +213,7 @@ const UserDetails = ({ user }) => {
 							<TabPage {...privateProps} />
 						</TabPanel>
 						<TabPanel value={idx} index={3} dir={theme.direction}>
-							<TabPage {...commentProps} />
+							<TabPage  {...commentProps} />
 						</TabPanel>
 					</SwipeableViews>
 				</Box>

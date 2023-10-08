@@ -3,6 +3,8 @@ import { ThumbUpAlt, Lock, ThumbUpAltOutlined } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { Root, classes, Comment, Media } from './styles'
 import moment from 'moment'
+import { useContext } from 'react'
+import { ModeContext } from '../../../contexts/ModeContext'
 
 export const LoadingCard = () => {
 	return (
@@ -37,6 +39,7 @@ export const CommentLoadingCard = () => {
 }
 
 export const CommentCard = ({ message, createdAt, post: { _id: postId, thumbnail: media, title } }) => {
+	const { mode, modeToggle } = useContext(ModeContext)
 	return (
 		<Comment in mountOnEnter unmountOnExit>
 			<Grid container>
@@ -45,7 +48,7 @@ export const CommentCard = ({ message, createdAt, post: { _id: postId, thumbnail
 						<Media image={media} />
 					</Link>
 					<div className={classes.commentItem}>
-						<Typography className={classes.userName}>{title}</Typography>
+						<Typography className={`${classes.userName} ${mode === 'dark' ? classes.darkModeText : ''}`}>{title}</Typography>
 						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
 						<Typography className={classes.comment} component="p">
 							{message}
@@ -58,10 +61,12 @@ export const CommentCard = ({ message, createdAt, post: { _id: postId, thumbnail
 }
 
 export const PostCard = ({ post, userId }) => {
+	const { mode, modeToggle } = useContext(ModeContext)
 	const history = useNavigate()
 	const { title, message, name, tags, thumbnail, likes, createdAt, _id } = post
 	const hasLikedPost = likes.find((like) => like === userId)
 	const Likes = () => {
+		const textColor = mode === 'dark' ? 'white' : '#000000';
 		if (likes.length > 0)
 			return hasLikedPost ? (
 				<Typography variant="body2" sx={{ align: 'center', display: 'flex' }}>
@@ -99,15 +104,15 @@ export const PostCard = ({ post, userId }) => {
 									.slice(0, 50)}
 							</Typography>
 						</CardContent>
-						<div style={{ textAlign: 'center' }}>
-							<Typography variant="h5" gutterBottom>
+						<div style={{ textAlign: 'center' }} >
+							<Typography variant="h5" gutterBottom className={`${mode === 'dark' ? classes.darkModeText : ''}`}>
 								{title.slice(0, 25)}
 							</Typography>
 							<Button sx={{ display: post.private ? 'initial' : 'none', paddingBottom: 0 }} variant="contained" size="small" disableElevation>
 								<Lock />
 							</Button>
 							<CardContent>
-								<Typography variant="body2" color="text.secondary" component="p" sx={{ wordWrap: 'break-word' }}>
+								<Typography variant="body2" color="text.secondary" component="p" sx={{ wordWrap: 'break-word' }} className={`${mode === 'dark' ? classes.darkModeText : ''}`}>
 									{`${message.slice(0, 100)} ${message.length > 100 ? '...' : ''}`}
 								</Typography>
 							</CardContent>
