@@ -74,20 +74,20 @@ export const PostCard = ({ post, userId }) => {
 					&nbsp; {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			) : (
-				<Typography variant="body2" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
-					<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+				<Typography variant="body2" sx={{ color: textColor, align: 'center', display: 'flex' }}>
+					<ThumbUpAltOutlined fontSize="small" sx={{ color: textColor }} />
 					&nbsp; {`${likes.length} Like${likes.length > 1 ? 's' : ''}`}
 				</Typography>
 			)
 		return (
-			<Typography variant="body2" color="primary" sx={{ color: '#000000', align: 'center', display: 'flex' }}>
-				<ThumbUpAltOutlined fontSize="small" sx={{ color: '#000000' }} />
+			<Typography variant="body2" color="primary" sx={{ color: textColor, align: 'center', display: 'flex' }}>
+				<ThumbUpAltOutlined fontSize="small" sx={{ color: textColor }} />
 				&nbsp; Like
 			</Typography>
 		)
 	}
 	return (
-		<Root className={classes.root}>
+		<Root className={classes.root} mode={mode}>
 			<Card raised className={classes.postCard}>
 				<ButtonBase className={classes.buttonBase} onClick={() => history(`/posts/${_id}`)} component="span">
 					<CardMedia className={classes.cardMedia} component="img" image={thumbnail} />

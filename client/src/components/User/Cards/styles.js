@@ -20,7 +20,7 @@ export const classes = {
 	darkModeText: `${PREFIX}-darkModeText`,
 }
 
-export const Root = styled('div')(({ theme }) => ({
+export const Root = styled('div')(({ mode }) => ({
 	[`& .${classes.loadingCard}`]: {
 		maxWidth: 345,
 		margin: 16,
@@ -38,6 +38,7 @@ export const Root = styled('div')(({ theme }) => ({
 		margin: 16,
 		backgroundColor: 'transparent',
 		backdropFilter: 'blur(10px)',
+		border: mode === 'dark' ? '2px solid gray' : '',
 	},
 	[`& .${classes.buttonBase}`]: {
 		width: '100%',
