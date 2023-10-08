@@ -149,7 +149,7 @@ const UserDetails = ({ user }) => {
 							<Typography variant="h1" color="white">
 								{user.result.name.charAt(0)}
 							</Typography>
-						</Avatar>
+						</Avatar> 
 					)}
 					<Button variant="contained" disabled={Boolean(user.result.googleId)} component={Link} to="/user/update" startIcon={<PublishedWithChanges />}>
 						UPDATE DETAILS
