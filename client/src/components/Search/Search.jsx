@@ -28,8 +28,8 @@ const Search = ({ tags, setTags }) => {
 
 	// const handleAdd = (tag) => setTags([...tags, tag])
 	// const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
-	const handleChange = (tags) => {
-		setTags(tags)
+	const handleChange = (newTags) => {
+		setTags(newTags)
 	}
 
 	const { mode } = useContext(ModeContext)

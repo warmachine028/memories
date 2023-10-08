@@ -34,6 +34,7 @@ import {
 } from '../constants/actionTypes'
 
 export default (
+	
 	state = {
 		isFetchingCreatedPosts: true,
 		isFetchingLikedPosts: true,
@@ -51,8 +52,7 @@ export default (
 		privatePosts: [],
 		comments: [],
 		userComments: [],
-	},
-	action
+	},action
 ) => {
 	switch (action.type) {
 		case FETCHING_CREATED_POSTS:
@@ -108,7 +108,7 @@ export default (
 		case FETCHED_CREATED_POSTS:
 			return { ...state, isFetchingCreatedPosts: false }
 		case FETCHED_COMMENTS:
-			return { ...state, isFetchingComments: false, }
+			return { ...state, isFetchingComments: false }
 		case CREATING_POST:
 			return { ...state, isCreatingPost: true }
 		case CREATED_POST:

@@ -42,7 +42,7 @@ const App = () => {
 								<Route path="/posts/:id" element={<PostDetails user={user} />} />
 								<Route path="/user" element={user ? <UserDetails user={user} /> : <Navigate to="/" />} />
 								<Route path="/user/:id" element={<PublicProfile />} />
-								<Route path="/user/update" element={user && user.result.avatar ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
+								<Route path="/user/update" element={user?.result.avatar ? <UserUpdate user={user} setUser={setUser} /> : <Navigate to="/" />} />
 								<Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
 								<Route path="/auth/forgotPassword" element={user ? <Navigate to="/" /> : <ForgotPassword />} />
 								<Route path="/auth/forgotPassword/:id/:token" element={user ? <Navigate to="/" /> : <ForgotPassword />} />

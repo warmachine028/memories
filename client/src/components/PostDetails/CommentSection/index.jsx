@@ -31,7 +31,7 @@ const Comment = ({ data, user, post, mode, handleDelete }) => {
 				</Grid>
 				<Grid item className={classes.commentBox}>
 					<div className={classes.commentItem}>
-						<Typography className={`${classes.userName} ${mode == 'light' ? classes.textColor : classes.darkTextColor}`}>{creator.name}</Typography>
+						<Typography className={`${classes.userName} ${mode === 'light' ? classes.textColor : classes.darkTextColor}`}>{creator.name}</Typography>
 						<Typography className={classes.time}>{moment(createdAt).fromNow()}</Typography>
 						<Typography className={classes.comment} component="p">
 							{message}
@@ -103,7 +103,7 @@ const CommentSection = ({ post, user, mode }) => {
 						<TextField className={`${mode === 'light' ? classes.commentContainerBox : classes.darkCommentContainerBox}`} 
 						// InputProps={{ style: { color: 'white', backgroundColor: 'rgba(255,255,255, 0.30)' } }} 
 						fullWidth rows={10} variant="outlined" label="Comment" multiline value={message} onChange={(e) => setMessage(e.target.value)} />
-						<Button type="submit" fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained" className={`${mode=='light' ? classes.buttonSubmit: classes.darkButtonSubmit}`}>
+						<Button type="submit" fullWidth disabled={!message.trim().length || loading} color="primary" variant="contained" className={`${mode==='light' ? classes.buttonSubmit: classes.darkButtonSubmit}`}>
 							{loading && <CircularProgress size="2em" />} Comment
 						</Button>
 					</form>
