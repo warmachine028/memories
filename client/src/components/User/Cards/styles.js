@@ -17,9 +17,10 @@ export const classes = {
 	userName: `${PREFIX}-userName`,
 	comment: `${PREFIX}-comment`,
 	time: `${PREFIX}-time`,
+	darkModeText: `${PREFIX}-darkModeText`,
 }
 
-export const Root = styled('div')(({ theme }) => ({
+export const Root = styled('div')(({ mode }) => ({
 	[`& .${classes.loadingCard}`]: {
 		maxWidth: 345,
 		margin: 16,
@@ -37,6 +38,7 @@ export const Root = styled('div')(({ theme }) => ({
 		margin: 16,
 		backgroundColor: 'transparent',
 		backdropFilter: 'blur(10px)',
+		border: mode === 'dark' ? '2px solid gray' : '',
 	},
 	[`& .${classes.buttonBase}`]: {
 		width: '100%',
@@ -74,6 +76,10 @@ export const Root = styled('div')(({ theme }) => ({
 		bottom: 10,
 		left: 10,
 	},
+	[`& .${classes.darkModeText}`]: {
+		color: 'white',
+	},
+	
 }))
 
 export const Media = styled(CardMedia)(({theme}) => ({
@@ -121,5 +127,8 @@ export const Comment = styled(MUIGrow)(() => ({
 		textAlign: 'start',
 		fontSize: 'small',
 		color: 'rgba(255, 255, 255, .30)',
+	},
+	[`& .${classes.darkModeText}`]: {
+		color: 'white',
 	},
 }))

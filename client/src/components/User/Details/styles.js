@@ -12,6 +12,9 @@ export const classes = {
 	loadingPaper: `${PREFIX}-loadingPaper`,
 	chips: `${PREFIX}-chips`,
 	newUser: `${PREFIX}-newUser`,
+	appBarDark: `${PREFIX}-appBarDark`,
+	appBarLight: `${PREFIX}-appBarLight`,
+	labeltxtColor: `${PREFIX}-labeltxtColor`,
 }
 
 export const Root = styled('div')(({ theme }) => ({
@@ -110,6 +113,15 @@ export const Root = styled('div')(({ theme }) => ({
 	},
 	[`& .${classes.newUser}`]: {
 		margin: 'auto',
+		color: 'white',
+	},
+	[`& .${classes.appBarDark}`]: {
+		backgroundColor: 'rgba(5, 5, 5, .90)',
+	},
+	[`& .${classes.appBarLight}`]: {
+		color: 'black',
+	},
+	[`& .${classes.labeltxtColor}`]: {
 		color: 'white',
 	},
 }))
