@@ -20,7 +20,7 @@ const getTop5Tags = ({ allTags: tags }) => {
 	tags.forEach((tag) => (frequency[tag] = countOccurrences(tags, tag)))
 	tags.sort((self, other) => {
 		let diff = frequency[other] - frequency[self]
-		if (diff == 0) diff = frequency[other] - frequency[self]
+		if (diff === 0) diff = frequency[other] - frequency[self]
 		return diff
 	})
 	return [...new Set(tags)].splice(0, 5)
@@ -98,7 +98,7 @@ export const updateDetails = async (req, res) => {
 	try {
 		const { name, email: oldEmail, avatar: oldAvatar, password } = await User.findById(id)
 		// Check for same existing data posted
-		const newPasswordsSame = await bcrypt.compare(newPassword || '', password)
+		const newPasswordsSame = await bcrypt.compare(newPassword ?? '', password)
 		const oldPasswordsDifferent = !(await bcrypt.compare(prevPassword, password))
 		const sameData =
 			name.split(' ')[0] === firstName && //
@@ -230,7 +230,7 @@ export const getComments = async (req, res) => {
 				},
 			},
 		])
-		comments.forEach(comment => comment.post = comment.post[0])
+		comments.forEach(comment => { comment.post = comment.post[0] })
 		res.status(200).json({ data: comments, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(500).json({ message: error.message })
@@ -321,9 +321,12 @@ export const resetPassword = async (req, res) => {
 	}
 }
 
-export const getUser = async (id) => {
+export const getUser = async (id, res) => {
 	try {
-		const userId = id
+		const userId = id;
+		if (!userId === typeof "string") {
+			return res.status(404).json({ message: "Error." });
+		}
 		const user = await User.findById(userId)
 		delete user.password
 		return user

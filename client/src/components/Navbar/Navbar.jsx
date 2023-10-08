@@ -71,7 +71,7 @@ const Navbar = ({ user, setUser, floating }) => {
 						)
 					)}
 					<label className={classes.toggleDiv}>
-						<input className={classes.dn} type="checkbox" onChange={modeToggle} checked={mode == 'dark'} />
+						<input className={classes.dn} type="checkbox" onChange={modeToggle} checked={mode === 'dark'} />
 						<i className={classes.toggle} />
 					</label>
 				</Toolbar>

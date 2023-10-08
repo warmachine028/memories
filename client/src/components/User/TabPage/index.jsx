@@ -31,7 +31,7 @@ const TabPage = (props) => {
 						</Typography>
 					)}
 				</div>
-				{isLoading ? <Skeleton height={30} width={310} animation="pulse" variant="rectangular" /> : <Pagination count={numberOfPages || 0} color="primary" page={page} onChange={(_, page) => setPage(page)} />}
+				{isLoading ? <Skeleton height={30} width={310} animation="pulse" variant="rectangular" /> : <Pagination count={numberOfPages ?? 0} color="primary" page={page} onChange={(_, newPage) => setPage(newPage)} />}
 			</div>
 		</Root>
 	)

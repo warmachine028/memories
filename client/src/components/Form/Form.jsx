@@ -30,7 +30,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const dispatch = useDispatch()
 	const history = useNavigate()
 	const query = useQuery()
-	const page = query.get('page') || 1
+	const page = query.get('page') ?? 1
 
 	const handleChange = (tags) => {
 		setTags(tags)
