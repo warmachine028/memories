@@ -37,7 +37,9 @@ registerRoute(
 			return false
 		} // If this looks like a URL for a resource, because it contains // a file extension, skip.
 
-		return !fileExtensionRegexp.test(url.pathname)
+		if (fileExtensionRegexp.test(url.pathname)){
+			return false
+		}
 		// Return true to signal that we want to use the handler.
 
 		return true

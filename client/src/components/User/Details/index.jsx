@@ -164,11 +164,11 @@ const UserDetails = ({ user }) => {
 					) : (
 						<div>
 
-							{Object.entries(labels).map(([label, data]) => (
+							{Object.entries(labels).map(([label, newdata]) => (
 								<Box  key={label}>
 									<Typography color="white">
 										<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>{label}: </strong>
-										{data}
+										{newdata}
 
 									</Typography>
 									<Divider />
