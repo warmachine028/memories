@@ -32,9 +32,9 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const query = useQuery()
 	const page = query.get('page') ?? 1
 
-	const handleChange = (tags) => {
-		setTags(tags)
-		setPostData({ ...postData, tags: tags })
+	const handleChange = (newtags) => {
+		setTags(newtags)
+		setPostData({ ...postData, tags: newtags })
 	}
 
 	const { mode } = useContext(ModeContext)
