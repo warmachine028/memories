@@ -93,12 +93,6 @@
 
 ![line]
 
-## Upcomming
-
--   Resolve dark theme issues in PostDetails and Comment Section.
-
-![line]
-
 ## Best Contributors
 
 <div align="center">
