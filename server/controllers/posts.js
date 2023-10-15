@@ -102,7 +102,7 @@ export const getPost = async (req, res) => {
 
 export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query
-	console.log(tags)
+
 	try {
 		const title = new RegExp(searchQuery, 'i')
 		const userId = new mongoose.Types.ObjectId(req.userId)
@@ -119,7 +119,7 @@ export const getPostsBySearch = async (req, res) => {
 				},
 			],
 		}
-		console.log(query);
+	
 		let posts = await Post.aggregate([
 			{ $match: query },
 			{ $sort: { createdAt: -1 } },
@@ -133,7 +133,7 @@ export const getPostsBySearch = async (req, res) => {
 			},
 		])
 		posts = setCreator(posts)
-		console.log(posts)
+
 		res.status(200).json({ data: posts })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
