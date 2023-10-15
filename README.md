@@ -1,18 +1,16 @@
     updated: Sunday, 15th October 2023
 
-[![hf10_wallpaper_sponsors_1920x1080](https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/271391134-208f77d6-f188-46ca-a66c-b166aa5265f4.png)](https://hacktoberfest.com/)
-
-<div align=center>
+<img style="display: block; margin-left: auto; margin-right: auto;" href="https://hacktoberfest.com/" height="150" src="https://github.com/warmachine028/memories/assets/116362593/3f371181-b498-4442-84d0-38bc77c98064">
+<div style="text-align:center">
     <h2>
-        MEMORIES is participating in Hacktoberfest 2023! 🎉
-        <br>
-        Accepting all first time contributions from October 1st to 31st, read <a href="https://github.com/warmachine028/memories/tree/main/CONTRIBUTING.md">CONTRIBUTING.md</a> to get started.
-    </h2>
+        Participate in Hacktoberfest 2023 with <a href="https://memories-pritam.vercel.app/">MEMORIES</a>🎉</h2>
+        Accepting all first time contributions from October 1st to 31st, read <a href="https://github.com/warmachine028/memories/tree/main/CONTRIBUTING.md">CONTRIBUTING.md</a> to get started.</li>
 </div>
+<br>
 
-<div align=center>
+<div style="text-align:center">
     <a href="https://memories-pritam.vercel.app">
-        <img width=200 src="https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/244920666-33f03176-059a-43ed-b2a6-c9c492f75d14.png" alt="Memories">
+        <img width=150 src="https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/244920666-33f03176-059a-43ed-b2a6-c9c492f75d14.png" alt="Memories">
     </a>
     <p style="font-family: roboto, calibri; font-size:12pt; font-style:italic"> Cherishing the past with love </p>
     <a href="https://deepsource.io/gh/warmachine028/memories/?ref=repository-badge">
@@ -33,14 +31,18 @@
 
 ## Table of Contents
 
--   [Introduction](#introduction)
--   [Improvements](#improvements)
--   [Tech Stack Used](#tech-stack-used)
--   [Preview](#preview)
--   [Demo](#demo)
--   [Designs](#designs)
--   [License](#license)
--   [Best Contributors](#best-contributors)
+- [Memories](#memories)
+  - [What's new?](#whats-new)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Improvements](#improvements)
+  - [Tech Stack Used](#tech-stack-used)
+  - [Preview](#preview)
+  - [Demo](#demo)
+  - [Designs](#designs)
+  - [Best Contributors](#best-contributors)
+  - [License](#license)
+    - [Thank you, everyone! 💚](#thank-you-everyone-)
 
 ![line]
 
