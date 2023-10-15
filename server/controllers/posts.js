@@ -102,6 +102,7 @@ export const getPost = async (req, res) => {
 
 export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query
+
 	try {
 		const title = new RegExp(searchQuery, 'i')
 		const userId = new mongoose.Types.ObjectId(req.userId)
@@ -111,10 +112,14 @@ export const getPostsBySearch = async (req, res) => {
 					$or: [{ creator: userId }, { private: false }],
 				},
 				{
-					$or: [{ title }, { tags: { $in: tags.split(',') } }],
+					$and: [
+						{ title }, // Include title condition if not empty
+						tags ? { tags: { $in: tags.split(',') } } : {}, // Include tags condition if tags are given
+					  ],
 				},
 			],
 		}
+	
 		let posts = await Post.aggregate([
 			{ $match: query },
 			{ $sort: { createdAt: -1 } },
@@ -128,6 +133,7 @@ export const getPostsBySearch = async (req, res) => {
 			},
 		])
 		posts = setCreator(posts)
+
 		res.status(200).json({ data: posts })
 	} catch (error) {
 		res.status(404).json({ message: error.message })
@@ -176,4 +182,21 @@ export const deletePost = async (req, res) => {
 	res.json({ message: 'Post deleted Successfully' })
 }
 
+export const getAllTags = async (req, res) => {
+	try {
+	  // Use the aggregation framework to retrieve all unique tags from posts
+	  const tags = await Post.aggregate([
+		{ $unwind: '$tags' },  // Unwind the 'tags' array
+		{ $group: { _id: '$tags' } },  // Group by tags
+	  ]);
+  
+	  // Extract the tag names from the aggregation result
+	  const tagNames = tags.map(tag => tag._id);
+  
+	  res.status(200).json({data:tagNames});
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ message: 'Internal server error' });
+	}
+  } 
 export default router

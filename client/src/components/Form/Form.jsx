@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
-// import ChipInput from '../ChipInput/ChipInput'
+
+
+import Autocomplete from '@mui/material/Autocomplete';
 import { MuiChipsInput } from 'mui-chips-input'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +12,7 @@ import { compress, FileInput } from './FileInput/FileInput'
 import PrivateSwitch from './PrivateSwitch/PrivateSwitch'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
 import { ModeContext } from '../../contexts/ModeContext'
-
+import * as api from '../../api/index'
 const useQuery = () => new URLSearchParams(useLocation().search)
 
 const initial = { title: '', message: '', image: null, tags: [], private: false }
@@ -31,6 +33,31 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const history = useNavigate()
 	const query = useQuery()
 	const page = query.get('page') ?? 1
+	const { posts, isLoading } = useSelector((state) => state.posts)
+	
+	
+	const[statictags,Setstatictags]=useState([]);
+
+	// 	const [selecttags,Setselecttags]=useState('');
+
+	useEffect(() => {
+		const fetchData = async () => {
+		  try {
+			const response = await api.fetchTags();
+			
+			Setstatictags(response.data.data);
+		  } catch (error) {
+			console.error('Error fetching tags:', error);
+			// Handle the error as needed, e.g., show a message to the user
+		  }
+		};
+	  
+		fetchData();
+	  
+	
+	  }, []);
+		
+	
 
 	const handleChange = (newtags) => {
 		setTags(newtags)
@@ -135,7 +162,7 @@ const Form = ({ currentId, setCurrentId, user }) => {
 					<TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 					<TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 					{/* <ChipInput fullWidth value={postData.tags} newChipKeyCodes={[188, 13]} onAdd={handleAdd} onDelete={handleDelete} label="Tags" variant="outlined" className={classes.chip} /> */}
-					<MuiChipsInput
+					{/* <MuiChipsInput
 						label="Tags"
 						value={tags}
 						onChange={handleChange}
@@ -147,7 +174,37 @@ const Form = ({ currentId, setCurrentId, user }) => {
 							color: 'white',
 						}}
 						className={classes.chip}
-					/>
+					/> */}
+						<Autocomplete
+          multiple
+          id="tags-autocomplete"
+          options={statictags ? statictags :[ "Loading"]} // Replace with your tag data
+          value={tags}
+		  sx={{
+			width: '100%',
+			color: 'white',
+		}}
+		className={classes.chip}
+          onChange={(_, newTags) => {
+			setTags(newTags);
+	
+			const updatedSelectTags = Array.from(statictags).filter(tag => !newTags.includes(tag));
+
+		
+				Setstatictags(updatedSelectTags);
+			setPostData({ ...postData, tags: newTags });
+		}
+		}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+			  label="Tags"
+              variant="outlined"
+              InputProps={{ ...params.InputProps, style: { color: 'white' } }}
+			 
+            />
+          )}
+        />
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
 						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}
