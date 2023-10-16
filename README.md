@@ -31,18 +31,14 @@
 
 ## Table of Contents
 
-- [Memories](#memories)
-  - [What's new?](#whats-new)
-  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Improvements](#improvements)
   - [Tech Stack Used](#tech-stack-used)
   - [Preview](#preview)
   - [Demo](#demo)
   - [Designs](#designs)
-  - [Best Contributors](#best-contributors)
   - [License](#license)
-    - [Thank you, everyone! 💚](#thank-you-everyone-)
+  - [Best Contributors](#best-contributors)
 
 ![line]
 
