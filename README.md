@@ -1,8 +1,9 @@
     updated: Sunday, 15th October 2023
 
-[![hf10_wallpaper_sponsors_1920x1080](https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/271391134-208f77d6-f188-46ca-a66c-b166aa5265f4.png)](https://hacktoberfest.com/)
-
-<div align=center>
+<div align=center>  
+    <a href="https://hacktoberfest.com">
+        <img width=600 src="https://github.com/warmachine028/memories/assets/116362593/3f371181-b498-4442-84d0-38bc77c98064" />
+    </a> 
     <h2>
         MEMORIES is participating in Hacktoberfest 2023! 🎉
         <br>
