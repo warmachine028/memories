@@ -23,11 +23,15 @@ const Paginate = ({ page }) => {
 
 	return (
 		<Root className={classes.root}>
-			{!isLoading && (
-				<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6}>
+			<Paper className={`${classes.paperLight} ${mode === 'light' ? classes.paperLight : classes.paperDark}`} elevation={6}>
+				{isLoading ? (
+					<div className={`${classes.centerDiv}`}>
+						<CircularProgress size="1rem" />
+					</div>
+				) : (
 					<Pagination className={classes.pagination} classes={{ ul: classes.ul }} count={numberOfPages} page={Number(page) || 1} variant="outlined" color="primary" renderItem={(item) => <PaginationItem className={classes.eachPage} {...item} component={Link} to={`/posts?page=${item.page}`} />} />
-				</Paper>
-			)}
+				)}
+			</Paper>
 		</Root>
 	)
 }
