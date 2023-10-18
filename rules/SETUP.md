@@ -15,7 +15,7 @@
 - Go inside `client` folder by using `cd client`.
 - Next to setup the react app `npm i` in the terminal inside your project directory.
 - Set Up Environment Variables, take reference from **[ENV_VARIABLES](./ENV_VARIABLES.md)** file.
-- Once the node modules and other stuffs are installed , `npm start` to start the app in `http://localhost:3000/`
+- Once the node modules and other stuffs are installed , `npm run dev` to start the app in `http://localhost:3000/`
 - You can acess the `server` folder to get the backend and start it with `npm start` in `http://localhost:5000/`
   - Currently since the server is already deployed, hence it uses the deployed server by default.
   - If you make changes in server files, then navigate to `client/src/api/`
