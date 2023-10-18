@@ -23,8 +23,8 @@ export const Root = styled('div')({
 	},
 	[`& .${classes.ul}`]: {
 		justifyContent: 'space-around',
-        color: 'white',
-        opacity: 1,
+		color: 'white',
+		opacity: 1,
 		'& .Mui-disabled ': {
 			color: 'white',
 			opacity: 0.5,
@@ -43,6 +43,11 @@ export const Root = styled('div')({
 			color: 'white',
 			border: '1px solid white',
 		},
+	},
+	[`& .${classes.centerDiv}`]: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 })
 
