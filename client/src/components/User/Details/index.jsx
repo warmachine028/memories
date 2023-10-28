@@ -9,7 +9,7 @@ import TabPage from '../TabPage'
 import { useNavigate, Link, useParams } from 'react-router-dom'
 
 import { SwipeableViews } from 'react-swipeable-views-v18'
-import { useSwipe } from '../../../hooks';
+import { useSwipe } from '../../../hooks'
 import { useTheme } from '@mui/material/styles'
 import { SnackbarContext } from '../../../contexts/SnackbarContext'
 import { ModeContext } from '../../../contexts/ModeContext'
@@ -57,25 +57,25 @@ const UserDetails = ({ user }) => {
 	const userId = user.result._id || user.result.googleId
 
 	useEffect(() => {
-		const fetchUserDetails = async () => dispatch(getUserDetails(userId, snackBar));
-		fetchUserDetails();
-	}, [userId]);
+		const fetchUserDetails = async () => dispatch(getUserDetails(userId, snackBar))
+		fetchUserDetails()
+	}, [userId])
 	useEffect(() => {
-		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, createdPage, CREATED));
-		fetchUserPostsByType();
-	}, [createdPage]);
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, createdPage, CREATED))
+		fetchUserPostsByType()
+	}, [createdPage])
 	useEffect(() => {
-		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, likedPage, LIKED));
-		fetchUserPostsByType();
-	}, [likedPage]);
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, likedPage, LIKED))
+		fetchUserPostsByType()
+	}, [likedPage])
 	useEffect(() => {
-		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, privatePage, PRIVATE));
-		fetchUserPostsByType();
-	}, [privatePage]);
+		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, privatePage, PRIVATE))
+		fetchUserPostsByType()
+	}, [privatePage])
 	useEffect(() => {
-		const fetchUserComments = async () => dispatch(getUserComments(userId, commentsPage));
-		fetchUserComments();
-	}, [commentsPage]);
+		const fetchUserComments = async () => dispatch(getUserComments(userId, commentsPage))
+		fetchUserComments()
+	}, [commentsPage])
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -92,7 +92,7 @@ const UserDetails = ({ user }) => {
 	const { postsCreated, postsLiked, privatePosts: numberOfPrivatePosts, totalLikesRecieved, longestPostWords, top5Tags, longestPostId } = data
 	const labels = {
 		Email: user.result.email,
-		'Posts Created': postsCreated,
+		'Posts Created f': postsCreated,
 		'Posts Liked': postsLiked,
 		'Private Posts': numberOfPrivatePosts,
 		'Liked Recived': totalLikesRecieved,
@@ -135,13 +135,13 @@ const UserDetails = ({ user }) => {
 	}
 
 	// change views
-	const swipeableViewsRef = useRef(null);
-	useSwipe(swipeableViewsRef, idx);
+	const swipeableViewsRef = useRef(null)
+	useSwipe(swipeableViewsRef, idx)
 
-	return (   
+	return (
 		<Root className={classes.root}>
-			<div className={classes.userContainer} >
-				<Paper className={`${classes.userIcon} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
+			<div className={classes.userContainer}>
+				<Paper className={`${classes.userIcon} ${mode === 'dark' ? classes.appBarDark : ''}`} elevation={6}>
 					{user.result.avatar ? (
 						<Avaatar className={classes.avatar} {...user.result.avatar} />
 					) : (
@@ -149,13 +149,13 @@ const UserDetails = ({ user }) => {
 							<Typography variant="h1" color="white">
 								{user.result.name.charAt(0)}
 							</Typography>
-						</Avatar> 
+						</Avatar>
 					)}
 					<Button variant="contained" disabled={Boolean(user.result.googleId)} component={Link} to="/user/update" startIcon={<PublishedWithChanges />}>
 						UPDATE DETAILS
 					</Button>
 				</Paper>
-				<Paper className={`${classes.userDetails} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
+				<Paper className={`${classes.userDetails} ${mode === 'dark' ? classes.appBarDark : ''}`} elevation={6}>
 					{progress < 100 || isLoading ? (
 						<Box className={classes.loadingLine}>
 							<Typography color="white">Loading User Details ...</Typography>
@@ -163,29 +163,27 @@ const UserDetails = ({ user }) => {
 						</Box>
 					) : (
 						<div>
-
 							{Object.entries(labels).map(([label, newdata]) => (
-								<Box  key={label}>
+								<Box key={label}>
 									<Typography color="white">
 										<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>{label}: </strong>
 										{newdata}
-
 									</Typography>
-									<Divider />
+									<Divider style={{ backgroundColor: mode === 'dark' ? 'darkgray' : 'black' }} />
 								</Box>
 							))}
 							<Box>
 								<Typography color="white">
-									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight }`}>Longest Post Written: </strong>
+									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`}>Longest Post Written: </strong>
 									<Tooltip title="Post with longest message">
 										<Link to={`/posts/${longestPostId}`} style={{ color: 'white', textDecoration: 'none' }}>{`${longestPostWords} Words`}</Link>
 									</Tooltip>
 								</Typography>
-								<Divider />
+								<Divider style={{ backgroundColor: mode === 'dark' ? 'darkgray' : 'black' }} />
 							</Box>
 							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
-									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight }`}>Top 5 Tags: </strong>
+									<strong className={`${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`}>Top 5 Tags: </strong>
 								</Typography>
 								<Box sx={{ marginLeft: 1 }}>{top5Tags?.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
@@ -196,17 +194,17 @@ const UserDetails = ({ user }) => {
 					</Typography>
 				</Paper>
 			</div>
-			<Paper className={`${classes.loadingPaper} ${mode === 'dark' ? classes.appBarDark : '' }`} elevation={6}>
+			<Paper className={`${classes.loadingPaper} ${mode === 'dark' ? classes.appBarDark : ''}`} elevation={6}>
 				<Box sx={{ width: '100%' }}>
-				<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
-						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="CREATED" />
-						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="LIKED" />
-						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="PRIVATE" />
-						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : '' }`} label="COMMENTS" />
+					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs" variant="scrollable">
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : ''}`} label="CREATED" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : ''}`} label="LIKED" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : ''}`} label="PRIVATE" />
+						<Tab className={`${mode === 'dark' ? classes.labeltxtColor : ''}`} label="COMMENTS" />
 					</Tabs>
 					<SwipeableViews ref={swipeableViewsRef}>
 						<TabPanel value={idx} index={0} dir={theme.direction}>
-							<TabPage  {...createdProps} />
+							<TabPage {...createdProps} />
 						</TabPanel>
 						<TabPanel value={idx} index={1} dir={theme.direction}>
 							<TabPage {...likedProps} />
@@ -215,7 +213,7 @@ const UserDetails = ({ user }) => {
 							<TabPage {...privateProps} />
 						</TabPanel>
 						<TabPanel value={idx} index={3} dir={theme.direction}>
-							<TabPage  {...commentProps} />
+							<TabPage {...commentProps} />
 						</TabPanel>
 					</SwipeableViews>
 				</Box>
@@ -241,15 +239,15 @@ export const PublicProfile = () => {
 	useEffect(() => {
 		const fetchUserDetails = async () => dispatch(getUserDetails(userId, snackBar))
 		fetchUserDetails()
-	}, [userId]);
+	}, [userId])
 	useEffect(() => {
 		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, createdPage, CREATED))
 		fetchUserPostsByType()
-	}, [createdPage]);
+	}, [createdPage])
 	useEffect(() => {
 		const fetchUserPostsByType = async () => dispatch(getUserPostsByType(userId, likedPage, LIKED))
 		fetchUserPostsByType()
-	}, [likedPage]);
+	}, [likedPage])
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -298,13 +296,14 @@ export const PublicProfile = () => {
 	}
 
 	// change views
-	const swipeableViewsRef = useRef(null);
-	useSwipe(swipeableViewsRef, idx);
+	const swipeableViewsRef = useRef(null)
+	useSwipe(swipeableViewsRef, idx)
+	const { mode, modeToggle } = useContext(ModeContext)
 
 	return (
 		<Root className={classes.root}>
 			<div className={classes.userContainer}>
-				<Paper className={classes.userIcon} elevation={6}>
+				<Paper className={`${classes.userIcon} ${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`} elevation={6}>
 					{progress < 100 || isLoading ? (
 						<Avatar className={classes.avatar} />
 					) : data.avatar ? (
@@ -317,7 +316,7 @@ export const PublicProfile = () => {
 						</Avatar>
 					)}
 				</Paper>
-				<Paper className={classes.userDetails} elevation={6}>
+				<Paper className={`${classes.userDetails} ${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`} style={{ color: mode === 'dark' ? 'white' : 'black' }} elevation={6}>
 					{progress < 100 || isLoading ? (
 						<Box className={classes.loadingLine}>
 							<Typography color="white">Loading User Details ...</Typography>
@@ -328,24 +327,24 @@ export const PublicProfile = () => {
 							{Object.entries(labels).map(([label, labelData]) => (
 								<Box key={label}>
 									<Typography color="white">
-										<strong style={{ color: 'black' }}>{label}: </strong>
+										<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>{label}: </strong>
 										{labelData}
 									</Typography>
-									<Divider />
+									<Divider style={{ backgroundColor: mode === 'dark' ? 'darkgray' : 'black' }} />
 								</Box>
 							))}
 							<Box>
 								<Typography color="white">
-									<strong style={{ color: 'black' }}>Longest Post Written: </strong>
+									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Longest Post Written: </strong>
 									<Tooltip title="Post with longest message">
 										<Link to={`/posts/${longestPostId}`} style={{ color: 'white', textDecoration: 'none' }}>{`${longestPostWords} Words`}</Link>
 									</Tooltip>
 								</Typography>
-								<Divider />
+								<Divider style={{ backgroundColor: mode === 'dark' ? 'darkgray' : 'black' }} />
 							</Box>
 							<div className={classes.tagsContainer}>
 								<Typography color="white" style={{ whiteSpace: 'nowrap' }}>
-									<strong style={{ color: 'black' }}>Top 5 Tags: </strong>
+									<strong style={{ color: mode === 'dark' ? 'white' : 'black' }}>Top 5 Tags: </strong>
 								</Typography>
 								<Box sx={{ marginLeft: 1 }}>{top5Tags.length ? top5Tags.map((tag) => <Chip key={tag} label={tag} onClick={() => openPostsWithTag(tag)} className={classes.chips} />) : <Chip label="no tags found" className={classes.chips} />}</Box>
 							</div>
@@ -356,7 +355,7 @@ export const PublicProfile = () => {
 					</Typography>
 				</Paper>
 			</div>
-			<Paper className={classes.loadingPaper} elevation={6}>
+			<Paper className={`${classes.loadingPaper} ${mode === 'dark' ? classes.appBarDark : classes.appBarLight}`} elevation={6}>
 				<Box sx={{ width: '100%' }}>
 					<Tabs value={idx} onChange={(_, newValue) => setIdx(newValue)} aria-label="basic tabs">
 						<Tab label="CREATED" />
