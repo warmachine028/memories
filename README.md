@@ -1,15 +1,5 @@
     updated: Friday, 26th January 2024
 
-<div align=center>  
-    <a href="https://hacktoberfest.com">
-        <img width=600 src="https://github.com/warmachine028/memories/assets/116362593/3f371181-b498-4442-84d0-38bc77c98064" />
-    </a> 
-    <h2>
-        MEMORIES is participating in Hacktoberfest 2023! 🎉
-        <br>
-        Accepting all first time contributions from October 1st to 31st, read <a href="https://github.com/warmachine028/memories/tree/main/CONTRIBUTING.md">CONTRIBUTING.md</a> to get started.
-    </h2>
-</div>
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
