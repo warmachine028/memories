@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@emotion/react": "^11.13.0",
-		"@emotion/styled": "^11.11.0",
+		"@emotion/styled": "^11.13.0",
 		"@mui/icons-material": "^5.16.7",
 		"@mui/material": "^5.14.11",
 		"@react-oauth/google": "^0.12.1",
