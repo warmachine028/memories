@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.17.0",
-		"@babel/preset-react": "^7.16.7",
+		"@babel/preset-react": "^7.24.7",
 		"@vitejs/plugin-react": "^4.1.0",
 		"eslint": "^8.9.0",
 		"eslint-plugin-require": "^0.0.1"
