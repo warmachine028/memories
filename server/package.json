@@ -17,7 +17,7 @@
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
-		"express-rate-limit": "^7.0.2",
+		"express-rate-limit": "^7.4.0",
 		"jsonwebtoken": "^9.0.2",
 		"lodash": "^4.17.21",
 		"mongoose": "^7.5.0",
