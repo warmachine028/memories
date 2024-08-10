@@ -16,7 +16,7 @@
 		"@emotion/styled": "^11.11.0",
 		"@mui/icons-material": "^5.14.11",
 		"@mui/material": "^5.14.11",
-		"@react-oauth/google": "^0.11.1",
+		"@react-oauth/google": "^0.12.1",
 		"avataaars2": "^1.1.1",
 		"axios": "^1.6.0",
 		"browser-image-compression": "^2.0.2",
