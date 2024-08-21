@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Root, classes } from './styles'
 import memories from '../../images/memories.png'
 import icon from '../../images/icon.png'
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import Avaatar from 'avataaars2'
 import { SnackbarContext } from '../../contexts/SnackbarContext'
 import { ModeContext } from '../../contexts/ModeContext'
@@ -27,7 +27,7 @@ const Navbar = ({ user, setUser, floating }) => {
 
 	useEffect(() => {
 		if (token) {
-			const decodedToken = decode(token)
+			const decodedToken = jwtDecode(token)
 			if (decodedToken.exp * 1000 < new Date().getTime()) {
 				logout()
 			}
