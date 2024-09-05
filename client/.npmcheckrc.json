@@ -1,0 +1,9 @@
+{
+    "depcheck": {
+        "ignoreMatches": [
+            "prop-types",
+            "@material-ui/core",
+            "classnames"
+        ]
+    }
+}

@@ -12,7 +12,6 @@ export const signin = (formData, history, snackBar) => async (dispatch) => {
 		snackBar('error', error.response.data.message)
 	}
 }
-
 export const googleSignIn = (formData, history, snackBar) => async (dispatch) => {
 	try {
 		await api.googleSignIn(formData.result)
