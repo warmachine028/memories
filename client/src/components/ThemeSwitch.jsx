@@ -15,15 +15,25 @@ const ThemeSwitch = () => {
 	}
 
 	const setTheme = (theme) => {
-		console.log(theme)
 		switchTheme(theme)
 		handleClose()
 	}
 	return (
-		<Paper>
-			<Button id="basic-button" aria-controls={open ? 'basic-menu' : undefined} variant="contained" aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-				Switch Theme
-			</Button>
+		<Button
+			id="basic-button"
+			aria-controls={open ? 'basic-menu' : undefined}
+			variant="contained"
+			aria-haspopup="true"
+			aria-expanded={open ? 'true' : undefined}
+			onClick={handleClick}
+			sx={{
+				width: {
+					xs: '100%',
+					md: 'auto',
+				},
+			}}
+		>
+			Switch Theme
 			<Menu
 				id="basic-menu"
 				anchorEl={anchorEl}
@@ -49,7 +59,7 @@ const ThemeSwitch = () => {
 					</Button>
 				</MenuItem>
 			</Menu>
-		</Paper>
+		</Button>
 	)
 }
 

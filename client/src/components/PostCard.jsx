@@ -2,10 +2,10 @@ import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBa
 
 const PostCard = () => {
 	return (
-		<Card sx={{ maxWidth: 345 }}>
+		<Card sx={{ maxWidth: { md: 345 } }}>
 			<ButtonBase component="a" href="/post/sssadsa">
 				<div>
-					<CardMedia sx={{ height: 140 }} image="/favicon.ico" title="green iguana" />
+					<CardMedia sx={{ height: { md: 140, xs: 200 } }} image="/favicon.ico" title="green iguana" />
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
 							Lizard

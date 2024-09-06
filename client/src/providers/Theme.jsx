@@ -61,7 +61,7 @@ const ThemeProvider = ({ children }) => {
 
 	const switchTheme = (mode) => setMode(mode)
 
-	const values = { theme, switchTheme, Themes }
+	const values = { theme, switchTheme, Themes, mode }
 	return (
 		<ThemeContext.Provider value={values}>
 			<MUIThemeProvider theme={theme}>{children}</MUIThemeProvider>
