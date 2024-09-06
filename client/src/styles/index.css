@@ -4,12 +4,18 @@
 @import '@fontsource/roboto/700.css';
 
 body {
-	/* background-color: #0d1117; */
+	background-color: #0d1117;
 	margin: 0 0 0 0;
 }
 
 * {
 	font-family: Heebo, sans-serif !important;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		color: 'white';
+	}
 }
 
 ::-webkit-scrollbar {

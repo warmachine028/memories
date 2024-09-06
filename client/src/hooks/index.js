@@ -1,8 +1,9 @@
 import { useContext, useEffect, useRef } from 'react'
-import { ModeContext, SnackbarContext } from '../contexts'
+import { ModeContext, SnackbarContext, ThemeContext } from '../contexts'
 
 export const useSnackbar = () => useContext(SnackbarContext)
 export const useMode = () => useContext(ModeContext)
+export const useTheme = () => useContext(ThemeContext)
 
 /**
  * Returns the previous value of the state of a component

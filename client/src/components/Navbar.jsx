@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Menu, Typography, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, Menu, Typography, Container, Avatar, Button, Tooltip, MenuItem, ButtonGroup } from '@mui/material'
 import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-const pages = ['Products', 'Pricing', 'Blog']
+import AccountMenu from './AccountMenu'
+import ThemeSwitch from './ThemeSwitch'
+import logo from '../images/memories.png'
+const pages = []
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 const Navbar = () => {
@@ -34,24 +36,9 @@ const Navbar = () => {
 		<AppBar position="sticky">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-					<Link to="/" style={{ textDecoration: 'none' }}>
-						<Typography
-							variant="h6"
-							noWrap
-							href="#app-bar-with-responsive-menu"
-							sx={{
-								mr: 2,
-								display: { xs: 'none', md: 'flex' },
-								fontFamily: 'monospace',
-								fontWeight: 700,
-								letterSpacing: '.3rem',
-								color: 'inherit',
-								textDecoration: 'none',
-							}}
-						>
-							MEMORIES
-						</Typography>
+					<Link to="/" style={{ textDecoration: 'none', display: 'flex', justifyItems: 'center', alignItems: 'center', gap: 10 }}>
+						<img src="favicon.ico" width="40" />
+						<img src={logo} alt="logo" width={200} />
 					</Link>
 
 					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -138,13 +125,16 @@ const Navbar = () => {
 							</Menu>
 						</Box>
 					)}
+
 					{!user && !inAuth && (
-						<Link to="/login" style={{ textDecoration: 'none' }}>
-							<Button variant="contained" color="secondary">
+						<ButtonGroup>
+							<ThemeSwitch />
+							<Button variant="contained" color="secondary" href="/login">
 								LOGIN
 							</Button>
-						</Link>
+						</ButtonGroup>
 					)}
+					{user && <AccountMenu />}
 				</Toolbar>
 			</Container>
 		</AppBar>
