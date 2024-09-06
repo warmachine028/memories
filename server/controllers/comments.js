@@ -1,10 +1,7 @@
-import express from 'express'
 import mongoose from 'mongoose'
-import Comment from '../models/comment.js'
+import { Comment } from '../models/index.js'
 import { setCreator } from './posts.js'
 import { getUser } from './user.js'
-
-const router = express.Router()
 
 export const createComment = async (req, res) => {
 	const comment = req.body
@@ -46,8 +43,6 @@ export const getComments = async (req, res) => {
 		res.status(409).json({ message: error.message })
 	}
 }
-
-export default router
 
 export const deleteComment = async (req, res) => {
 	try {

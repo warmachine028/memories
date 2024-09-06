@@ -13,13 +13,6 @@ const Navbar = () => {
 	const [anchorElNav, setAnchorElNav] = useState(null)
 	const [anchorElUser, setAnchorElUser] = useState(null)
 
-	const handleOpenNavMenu = (event) => {
-		setAnchorElNav(event.currentTarget)
-	}
-	const handleOpenUserMenu = (event) => {
-		setAnchorElUser(event.currentTarget)
-	}
-
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null)
 	}
@@ -35,7 +28,7 @@ const Navbar = () => {
 	// const user = {}
 	return (
 		<AppBar position="sticky">
-			<Container maxWidth="xl">
+			<Container maxWidth="xl" sx={{ bgcolor: 'transparent' }}>
 				<Toolbar disableGutters>
 					<IconButton
 						size="large"
@@ -78,6 +71,7 @@ const Navbar = () => {
 										xs: 'none',
 										sm: 'block',
 									},
+									bgcolor: 'transparent',
 								}}
 							>
 								<img src="favicon.ico" width="40" />

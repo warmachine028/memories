@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Container, Paper, Typography } from '@mui/material'
+import { Box, Button, ButtonGroup, Container, Paper, Typography } from '@mui/material'
 import { useSnackbar } from '../hooks'
 import { ThemeSwitch } from '../components'
 
@@ -9,19 +9,27 @@ const PlayGround = () => {
 		<Container
 			maxWidth="xl"
 			sx={{
-				padding: 10,
+				p: {
+					md: 10,
+					xs: 0,
+				},
 			}}
 		>
-			<Paper sx={{ padding: 20 }}>
+			<Paper
+				sx={{
+					p: { xs: 5, md: 20 },
+					height: '100vh',
+				}}
+			>
 				<Typography variant="h3" textAlign="left">
 					Playground
 				</Typography>
-				<ButtonGroup variant="contained">
+				<Box sx={{ display: 'flex', gap: 2 }}>
 					<Button variant="contained" onClick={handleClick}>
 						Open Snackbar
 					</Button>
 					<ThemeSwitch />
-				</ButtonGroup>
+				</Box>
 			</Paper>
 		</Container>
 	)

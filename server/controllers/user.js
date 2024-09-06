@@ -1,9 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import lodash from 'lodash'
-import User from '../models/user.js'
-import Post from '../models/post.js'
-import Comment from '../models/comment.js'
+import { User, Post, Comment } from '../models/index.js'
 import crypto from 'crypto'
 import { sendEmail } from '../utils/emailSender.js'
 import mongoose from 'mongoose'
@@ -31,7 +29,7 @@ export const signin = async (req, res) => {
 		const existingUser = await User.findOne({ email })
 
 		if (!existingUser) {
-			return res.status(404).json({ message: "Invalid credentials" })
+			return res.status(404).json({ message: 'Invalid credentials' })
 		}
 		const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
 
@@ -50,8 +48,8 @@ export const googleSignin = async (req, res) => {
 	const { name, email, image, googleId } = req.body
 
 	try {
-		if (![name, email, image].every((field) => typeof field === "string")) {
-			return res.status(400).json({ status: "error" });
+		if (![name, email, image].every((field) => typeof field === 'string')) {
+			return res.status(400).json({ status: 'error' })
 		}
 		const user = await User.findByIdAndUpdate(googleId, { name, email, image }, { upsert: true })
 		res.status(200).json({ result: user })
@@ -230,7 +228,9 @@ export const getComments = async (req, res) => {
 				},
 			},
 		])
-		comments.forEach(comment => { comment.post = comment.post[0] })
+		comments.forEach((comment) => {
+			comment.post = comment.post[0]
+		})
 		res.status(200).json({ data: comments, numberOfPages: Math.ceil(total / LIMIT) })
 	} catch (error) {
 		res.status(500).json({ message: error.message })
@@ -323,9 +323,9 @@ export const resetPassword = async (req, res) => {
 
 export const getUser = async (id, res) => {
 	try {
-		const userId = id;
-		if (!userId === typeof "string") {
-			return res.status(404).json({ message: "Error." });
+		const userId = id
+		if (!userId === typeof 'string') {
+			return res.status(404).json({ message: 'Error.' })
 		}
 		const user = await User.findById(userId)
 		delete user.password

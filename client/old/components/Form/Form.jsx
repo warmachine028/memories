@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { TextField, Typography, Paper, Button, CircularProgress } from '@mui/material'
 
-
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete'
 import { MuiChipsInput } from 'mui-chips-input'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,30 +33,25 @@ const Form = ({ currentId, setCurrentId, user }) => {
 	const query = useQuery()
 	const page = query.get('page') ?? 1
 	const { posts, isLoading } = useSelector((state) => state.posts)
-	
-	
-	const[statictags,Setstatictags]=useState([]);
+
+	const [statictags, Setstatictags] = useState([])
 
 	// 	const [selecttags,Setselecttags]=useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
-		  try {
-			const response = await api.fetchTags();
-			
-			Setstatictags(response.data.data);
-		  } catch (error) {
-			console.error('Error fetching tags:', error);
-			// Handle the error as needed, e.g., show a message to the user
-		  }
-		};
-	  
-		fetchData();
-	  
-	
-	  }, []);
-		
-	
+			try {
+				const response = await api.fetchTags()
+
+				Setstatictags(response.data.data)
+			} catch (error) {
+				console.error('Error fetching tags:', error)
+				// Handle the error as needed, e.g., show a message to the user
+			}
+		}
+
+		fetchData()
+	}, [])
 
 	const handleChange = (newtags) => {
 		setTags(newtags)
@@ -175,36 +169,26 @@ const Form = ({ currentId, setCurrentId, user }) => {
 						}}
 						className={classes.chip}
 					/> */}
-						<Autocomplete
-          multiple
-          id="tags-autocomplete"
-          options={statictags ? statictags :[ "Loading"]} // Replace with your tag data
-          value={tags}
-		  sx={{
-			width: '100%',
-			color: 'white',
-		}}
-		className={classes.chip}
-          onChange={(_, newTags) => {
-			setTags(newTags);
-	
-			const updatedSelectTags = Array.from(statictags).filter(tag => !newTags.includes(tag));
+					<Autocomplete
+						multiple
+						id="tags-autocomplete"
+						options={statictags ? statictags : ['Loading']} // Replace with your tag data
+						value={tags}
+						sx={{
+							width: '100%',
+							color: 'white',
+						}}
+						className={classes.chip}
+						onChange={(_, newTags) => {
+							setTags(newTags)
 
-		
-				Setstatictags(updatedSelectTags);
-			setPostData({ ...postData, tags: newTags });
-		}
-		}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-			  label="Tags"
-              variant="outlined"
-              InputProps={{ ...params.InputProps, style: { color: 'white' } }}
-			 
-            />
-          )}
-        />
+							const updatedSelectTags = Array.from(statictags).filter((tag) => !newTags.includes(tag))
+
+							Setstatictags(updatedSelectTags)
+							setPostData({ ...postData, tags: newTags })
+						}}
+						renderInput={(params) => <TextField {...params} label="Tags" variant="outlined" InputProps={{ ...params.InputProps, style: { color: 'white' } }} />}
+					/>
 					<Button className={classes.buttonSubmit} disabled={validate || isCreatingPost} variant="contained" color="primary" type="submit" fullWidth>
 						{isCreatingPost && <CircularProgress size="1.5em" />}
 						{currentId ? 'Update' : isCreatingPost ? 'Creating' : 'Submit'}

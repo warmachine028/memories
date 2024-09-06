@@ -1,10 +1,5 @@
-import express from 'express'
 import mongoose from 'mongoose'
-import Post from '../models/post.js'
-import Media from '../models/media.js'
-import Comment from '../models/comment.js'
-
-const router = express.Router()
+import { Post, Media, Comment } from '../models/index.js'
 
 export const setCreator = (posts) =>
 	posts.map((post) => {
@@ -115,11 +110,11 @@ export const getPostsBySearch = async (req, res) => {
 					$and: [
 						{ title }, // Include title condition if not empty
 						tags ? { tags: { $in: tags.split(',') } } : {}, // Include tags condition if tags are given
-					  ],
+					],
 				},
 			],
 		}
-	
+
 		let posts = await Post.aggregate([
 			{ $match: query },
 			{ $sort: { createdAt: -1 } },
@@ -184,19 +179,18 @@ export const deletePost = async (req, res) => {
 
 export const getAllTags = async (req, res) => {
 	try {
-	  // Use the aggregation framework to retrieve all unique tags from posts
-	  const tags = await Post.aggregate([
-		{ $unwind: '$tags' },  // Unwind the 'tags' array
-		{ $group: { _id: '$tags' } },  // Group by tags
-	  ]);
-  
-	  // Extract the tag names from the aggregation result
-	  const tagNames = tags.map(tag => tag._id);
-  
-	  res.status(200).json({data:tagNames});
+		// Use the aggregation framework to retrieve all unique tags from posts
+		const tags = await Post.aggregate([
+			{ $unwind: '$tags' }, // Unwind the 'tags' array
+			{ $group: { _id: '$tags' } }, // Group by tags
+		])
+
+		// Extract the tag names from the aggregation result
+		const tagNames = tags.map((tag) => tag._id)
+
+		res.status(200).json({ data: tagNames })
 	} catch (error) {
-	  console.error(error);
-	  res.status(500).json({ message: 'Internal server error' });
+		console.error(error)
+		res.status(500).json({ message: 'Internal server error' })
 	}
-  } 
-export default router
+}

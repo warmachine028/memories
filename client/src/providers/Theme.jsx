@@ -12,6 +12,19 @@ const Light = createTheme({
 		secondary: {
 			main: '#f50057',
 		},
+		background: {
+			paper: '#ffffff',
+			default: '#f5f5f5',
+		},
+		components: {
+			MuiContainer: {
+				styleOverrides: {
+					root: {
+						backgroundColor: '#ffffff',
+					},
+				},
+			},
+		},
 	},
 })
 
@@ -19,10 +32,23 @@ const Dark = createTheme({
 	palette: {
 		mode: 'dark',
 		primary: {
-			main: '#3f51b5',
+			main: '#5f57ff',
 		},
 		secondary: {
-			main: '#f50057',
+			main: '#ffffff',
+		},
+		background: {
+			paper: '#000000',
+			default: '#0d1017',
+		},
+	},
+	components: {
+		MuiContainer: {
+			styleOverrides: {
+				root: {
+					backgroundColor: '#000000',
+				},
+			},
 		},
 	},
 })
@@ -30,6 +56,7 @@ const Dark = createTheme({
 const System = createTheme({
 	colorSchemes: {
 		dark: true,
+		light: true,
 	},
 })
 
@@ -61,7 +88,7 @@ const ThemeProvider = ({ children }) => {
 
 	const switchTheme = (mode) => setMode(mode)
 
-	const values = { theme, switchTheme, Themes, mode }
+	const values = { switchTheme, Themes, mode }
 	return (
 		<ThemeContext.Provider value={values}>
 			<MUIThemeProvider theme={theme}>{children}</MUIThemeProvider>

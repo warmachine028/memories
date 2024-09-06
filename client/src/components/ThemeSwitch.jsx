@@ -1,11 +1,11 @@
-import { DarkMode, LightMode, Nightlight, Palette as PaletteIcon, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, Menu, MenuItem, Paper } from '@mui/material'
+import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
+import { Button, ButtonGroup, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 import { useTheme } from '../hooks'
 
 const ThemeSwitch = () => {
 	const [open, setOpen] = useState(false)
-	const { theme, switchTheme, Themes } = useTheme()
+	const { switchTheme, Themes, mode } = useTheme()
 	const handleClose = () => setOpen(false)
 	const [anchorEl, setAnchorEl] = useState(null)
 
@@ -14,52 +14,65 @@ const ThemeSwitch = () => {
 		setOpen(!open)
 	}
 
-	const setTheme = (theme) => {
-		switchTheme(theme)
-		handleClose()
-	}
 	return (
-		<Button
-			id="basic-button"
-			aria-controls={open ? 'basic-menu' : undefined}
-			variant="contained"
-			aria-haspopup="true"
-			aria-expanded={open ? 'true' : undefined}
-			onClick={handleClick}
-			sx={{
-				width: {
-					xs: '100%',
-					md: 'auto',
-				},
-			}}
-		>
-			Switch Theme
-			<Menu
-				id="basic-menu"
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				MenuListProps={{
-					'aria-labelledby': 'basic-button',
+		<>
+			<Button
+				id="basic-button"
+				aria-controls={open ? 'basic-menu' : undefined}
+				variant="contained"
+				aria-haspopup="true"
+				aria-expanded={open ? 'true' : undefined}
+				onClick={handleClick}
+				sx={{
+					display: {
+						xs: 'none',
+						md: 'block',
+					},
 				}}
 			>
-				<MenuItem onClick={() => setTheme(Themes.LIGHT)} selected={theme === Themes.LIGHT}>
-					<Button variant="text" endIcon={<LightMode />}>
-						Light
-					</Button>
-				</MenuItem>
-				<MenuItem onClick={() => setTheme(Themes.DARK)} selected={theme === Themes.DARK}>
-					<Button variant="text" endIcon={<DarkMode />}>
-						Dark
-					</Button>
-				</MenuItem>
-				<MenuItem onClick={() => setTheme(Themes.SYSTEM)} selected={theme === Themes.SYSTEM}>
-					<Button variant="text" endIcon={<SettingsSystemDaydream />}>
-						System
-					</Button>
-				</MenuItem>
-			</Menu>
-		</Button>
+				Switch Theme
+				<Menu
+					id="basic-menu"
+					anchorEl={anchorEl}
+					open={open}
+					onClose={handleClose}
+					MenuListProps={{
+						'aria-labelledby': 'basic-button',
+					}}
+				>
+					<MenuItem onClick={() => switchTheme(Themes.LIGHT)} selected={mode === Themes.LIGHT}>
+						<Button variant="text" endIcon={<LightMode />}>
+							Light
+						</Button>
+					</MenuItem>
+					<MenuItem onClick={() => switchTheme(Themes.DARK)} selected={mode === Themes.DARK}>
+						<Button variant="text" endIcon={<DarkMode />}>
+							Dark
+						</Button>
+					</MenuItem>
+					<MenuItem onClick={() => switchTheme(Themes.SYSTEM)} selected={mode === Themes.SYSTEM}>
+						<Button variant="text" endIcon={<SettingsSystemDaydream />}>
+							System
+						</Button>
+					</MenuItem>
+				</Menu>
+			</Button>
+			<ButtonGroup
+				sx={{
+					display: { md: 'none' },
+				}}
+			>
+				<Button variant={mode === Themes.LIGHT ? 'contained' : 'outlined'} onClick={() => switchTheme(Themes.LIGHT)}>
+					<LightMode />
+				</Button>
+				<Button variant={mode === Themes.DARK ? 'contained' : 'outlined'} onClick={() => switchTheme(Themes.DARK)}>
+					<DarkMode />
+				</Button>
+				<Button variant={mode === Themes.SYSTEM ? 'contained' : 'outlined'} onClick={() => switchTheme(Themes.SYSTEM)}>
+					<Computer />
+				</Button>
+			</ButtonGroup>
+		</>
 	)
 }
 

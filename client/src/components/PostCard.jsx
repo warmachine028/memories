@@ -1,3 +1,4 @@
+import { Delete, ThumbsUpDown, ThumbUpOutlined } from '@mui/icons-material'
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase } from '@mui/material'
 
 const PostCard = () => {
@@ -17,8 +18,12 @@ const PostCard = () => {
 				</div>
 			</ButtonBase>
 			<CardActions>
-				<Button size="small">Share</Button>
-				<Button size="small">Learn More</Button>
+				<Button size="small" color="primary" startIcon={<ThumbUpOutlined />} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					Like
+				</Button>
+				<Button size="small" color="error" startIcon={<Delete />} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					Delete
+				</Button>
 			</CardActions>
 		</Card>
 	)

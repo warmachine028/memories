@@ -36,13 +36,13 @@ const Search = () => {
 
 	return (
 		<Paper sx={{ padding: 2 }}>
-			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }} onSubmit={() => { }}>
+			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }} onSubmit={() => {}}>
 				<div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 9 }}>
 					<FormGroup className="mb-3">
-						<TextField id="title" label="Title" variant="outlined" />
+						<TextField id="title" label="Search Memories" variant="outlined" />
 					</FormGroup>
 					<FormControl fullWidth>
-						<InputLabel id="demo-simple-select-label">Tags</InputLabel>
+						<InputLabel id="demo-simple-select-label">Search Tags</InputLabel>
 						<Select labelId="demo-multiple-name-label" id="demo-multiple-name" multiple value={personName} onChange={handleChange} input={<OutlinedInput label="Name" />} MenuProps={MenuProps}>
 							{names.map((name) => (
 								<MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>

@@ -2,6 +2,7 @@ export { default as AppRouter } from './AppRouter'
 export { default as Navbar } from './Navbar'
 export { default as ThemeSwitch } from './ThemeSwitch'
 export { default as PostCard } from './PostCard'
+export { default as AccountMenu } from './AccountMenu'
 export {
 	//
 	CreateComment as CreateCommentForm,
@@ -13,4 +14,3 @@ export {
 	SignUp as SignUpForm,
 } from './Forms'
 
-export { default as AccountMenu } from './AccountMenu'

@@ -13,9 +13,9 @@ import { SnackbarProvider } from './contexts/SnackbarContext'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { classes, Root } from './styles/styles'
 import { Provider as ReduxProvider, useSelector } from 'react-redux'
-import { ModeProvider } from './providers'
-import { useMode } from './hooks'
-import { useSnackbar } from './hooks'
+import { ModeProvider } from '../src/providers'
+import { useMode } from '../src/hooks'
+import { useSnackbar } from '../src/hooks'
 
 const App = () => {
 	const { mode } = useMode()

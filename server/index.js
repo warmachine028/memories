@@ -4,18 +4,22 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-// import { rateLimit } from 'express-rate-limit'
+import { rateLimit } from 'express-rate-limit'
 
 dotenv.config()
 
 const app = express()
 
-// app.use(
-// 	rateLimit({
-// 		windowMs: 1 * 60 * 1000, // 1 minuite
-// 		max: 30,
-// 	})
-// )
+app.use(
+	rateLimit({
+		windowMs: 1 * 60 * 1000, // 1 minuite
+		max: 30,
+		standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+		legacyHeaders: false, // `X-RateLimit-*` headers,
+		message: 'Too many requests, please try again later.',
+		statusCode: 429,
+	})
+)
 app.use(cors())
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
@@ -38,3 +42,4 @@ mongoose // https://www.mongodb.com/cloud/atlas
 // CONFIGURE AUTODEPLOY From Github:
 // https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
 // https://github.com/timanovsky/subdir-heroku-buildpack
+export default app
