@@ -3,6 +3,8 @@ export { default as Navbar } from './Navbar'
 export { default as ThemeSwitch } from './ThemeSwitch'
 export { default as PostCard } from './PostCard'
 export { default as AccountMenu } from './AccountMenu'
+export { default as ScrollToTop } from './ScrollToTop'
+export { default as Snackbar } from './Snackbar'
 export {
 	//
 	CreateComment as CreateCommentForm,
@@ -13,4 +15,3 @@ export {
 	Search as SearchForm,
 	SignUp as SignUpForm,
 } from './Forms'
-

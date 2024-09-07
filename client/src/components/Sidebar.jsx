@@ -13,9 +13,16 @@ const SideBar = ({ open, setOpen }) => {
 
 	return (
 		<Drawer open={open} onClose={toggleDrawer(false)}>
-			<Box width="100vw" role="presentation" maxWidth="450px">
+			<Box width="100vw" role="presentation" maxWidth="500px">
 				<Box position="sticky" sx={{ w: '100%', display: 'flex', justifyContent: 'space-between', bgcolor: 'transparent', m: 1, alignItems: 'center' }}>
-					<Button href="/">
+					<Button
+						href="/"
+						sx={{
+							':hover': {
+								backgroundColor: 'transparent',
+							},
+						}}
+					>
 						<img src="favicon.ico" alt="logo" width={40} />
 						<img src={logo} alt="logo" height={60} />
 					</Button>

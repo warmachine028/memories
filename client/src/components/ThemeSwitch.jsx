@@ -1,5 +1,5 @@
 import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ButtonGroup, Menu, MenuItem } from '@mui/material'
+import { Button, ButtonGroup, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 import { useTheme } from '../hooks'
 
@@ -41,19 +41,22 @@ const ThemeSwitch = () => {
 					}}
 				>
 					<MenuItem onClick={() => switchTheme(Themes.LIGHT)} selected={mode === Themes.LIGHT}>
-						<Button variant="text" endIcon={<LightMode />}>
-							Light
-						</Button>
+						<ListItemText sx={{ mr: 1 }}>Light</ListItemText>
+						<ListItemIcon>
+							<LightMode />
+						</ListItemIcon>
 					</MenuItem>
 					<MenuItem onClick={() => switchTheme(Themes.DARK)} selected={mode === Themes.DARK}>
-						<Button variant="text" endIcon={<DarkMode />}>
-							Dark
-						</Button>
+						<ListItemText sx={{ mr: 1 }}>Dark</ListItemText>
+						<ListItemIcon>
+							<DarkMode />
+						</ListItemIcon>
 					</MenuItem>
 					<MenuItem onClick={() => switchTheme(Themes.SYSTEM)} selected={mode === Themes.SYSTEM}>
-						<Button variant="text" endIcon={<SettingsSystemDaydream />}>
-							System
-						</Button>
+						<ListItemText sx={{ mr: 1 }}>System</ListItemText>
+						<ListItemIcon>
+							<SettingsSystemDaydream />
+						</ListItemIcon>
 					</MenuItem>
 				</Menu>
 			</Button>

@@ -1,64 +1,8 @@
-import { createTheme, useMediaQuery } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
 import { ThemeContext } from '../contexts'
 import { ThemeProvider as MUIThemeProvider } from '@mui/material'
 import { useEffect, useState } from 'react'
-
-const Light = createTheme({
-	palette: {
-		mode: 'light',
-		primary: {
-			main: '#3f51b5',
-		},
-		secondary: {
-			main: '#f50057',
-		},
-		background: {
-			paper: '#ffffff',
-			default: '#f5f5f5',
-		},
-		components: {
-			MuiContainer: {
-				styleOverrides: {
-					root: {
-						backgroundColor: '#ffffff',
-					},
-				},
-			},
-		},
-	},
-})
-
-const Dark = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: '#5f57ff',
-		},
-		secondary: {
-			main: '#ffffff',
-		},
-		background: {
-			paper: '#000000',
-			default: '#0d1017',
-		},
-	},
-	components: {
-		MuiContainer: {
-			styleOverrides: {
-				root: {
-					backgroundColor: '#000000',
-				},
-			},
-		},
-	},
-})
-
-const System = createTheme({
-	colorSchemes: {
-		dark: true,
-		light: true,
-	},
-})
+import { Light, Dark, System } from '../styles/themes'
 
 const ThemeProvider = ({ children }) => {
 	const SystemDark = useMediaQuery('(prefers-color-scheme: dark)')
@@ -71,7 +15,7 @@ const ThemeProvider = ({ children }) => {
 	}
 	const savedTheme = localStorage.getItem('theme') || Themes.SYSTEM
 	const [mode, setMode] = useState(savedTheme)
-
+	console.log(theme)
 	useEffect(() => {
 		localStorage.setItem('theme', mode)
 		switch (mode) {

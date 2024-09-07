@@ -6,21 +6,8 @@ const PlayGround = () => {
 	const { openSnackBar } = useSnackbar()
 	const handleClick = () => openSnackBar('success', 'This is a success message')
 	return (
-		<Container
-			maxWidth="xl"
-			sx={{
-				p: {
-					md: 10,
-					xs: 0,
-				},
-			}}
-		>
-			<Paper
-				sx={{
-					p: { xs: 5, md: 20 },
-					height: '100vh',
-				}}
-			>
+		<Container maxWidth="xl" sx={{ p: { md: 10, xs: 0 } }}>
+			<Paper sx={{ p: { xs: 5, md: 20 }, height: '100vh' }}>
 				<Typography variant="h3" textAlign="left">
 					Playground
 				</Typography>

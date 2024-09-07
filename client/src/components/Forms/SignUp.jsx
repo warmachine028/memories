@@ -41,8 +41,10 @@ const SignUp = () => {
 						Log In with Google
 					</Button>
 				</ButtonGroup>
-				<Button fullWidth to="/login" LinkComponent={Link}>
-					Already have an account? Log In
+				<Button fullWidth to="/login" LinkComponent={Link} sx={{ ':hover': { backgroundColor: 'transparent' } }}>
+					<Typography variant="subtitle2" sx={{ fontWeight: { xs: '12px' } }}>
+						Already have an account? Log In
+					</Typography>
 				</Button>
 			</form>
 		</Paper>

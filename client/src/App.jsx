@@ -1,31 +1,17 @@
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 import { store } from './store'
-import { GoogleOAuthProvider } from '@react-oauth/google'
-import { AppRouter, Navbar } from './components'
-import { Alert, Container, Snackbar } from '@mui/material'
-import { useSnackbar } from './hooks'
-import { ThemeProvider } from './providers'
+import { AppRouter, Navbar, ScrollToTop, Snackbar } from './components'
 
 const App = () => {
-	const {
-		snackBarProps: { message, onClose, open, alertSeverity },
-	} = useSnackbar()
-
 	return (
 		<Provider store={store}>
-			<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-				<ThemeProvider>
-					<Navbar />
-					<Container maxWidth="100vw">
-						<AppRouter />
-					</Container>
-					<Snackbar autoHideDuration={3000} onClose={onClose} open={open}>
-						<Alert onClose={onClose} severity={alertSeverity} variant="filled" sx={{ width: '100%' }}>
-							{message}
-						</Alert>
-					</Snackbar>
-				</ThemeProvider>
-			</GoogleOAuthProvider>
+			<BrowserRouter>
+				<Navbar />
+				<AppRouter />
+				<Snackbar />
+			</BrowserRouter>
+			<ScrollToTop />
 		</Provider>
 	)
 }

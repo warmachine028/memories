@@ -12,7 +12,16 @@ const Posts = () => {
 						</Grid>
 					))}
 				</Grid>
-				<Grid container size={{ xs: 12, sm: 6, md: 9, xl: 3 }} height={1}>
+				<Grid
+					container
+					size={{ xs: 12, sm: 6, md: 3, xl: 3 }}
+					sx={{
+						display: {
+							// md: 'none',
+						},
+					}}
+					height={1}
+				>
 					<Grid size={12}>
 						<CreatePostForm />
 					</Grid>
