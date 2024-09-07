@@ -1,7 +1,7 @@
-import { Delete, LightMode, MoreVert, Person, Share, ThumbsUpDown, ThumbUpOutlined } from '@mui/icons-material'
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, CardActionArea, CardHeader, Avatar, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Delete, MoreVert, Person, Share, ThumbUpOutlined } from '@mui/icons-material'
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardActionArea, CardHeader, Avatar, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material'
 
 const PostCard = () => {
 	const [anchorEl, setAnchorEl] = useState(null)
@@ -20,6 +20,7 @@ const PostCard = () => {
 					zIndex: 1,
 					left: 0,
 					right: 0,
+					color:'white',
 				}}
 				avatar={
 					<Avatar
