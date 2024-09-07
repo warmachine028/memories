@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 import { unregister as serviceWorkerUnregister } from './serviceWorkerRegistration'
 import { SnackbarProvider, ThemeProvider } from './providers'
 import './styles/index.css'

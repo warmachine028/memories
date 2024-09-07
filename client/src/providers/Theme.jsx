@@ -15,7 +15,6 @@ const ThemeProvider = ({ children }) => {
 	}
 	const savedTheme = localStorage.getItem('theme') || Themes.SYSTEM
 	const [mode, setMode] = useState(savedTheme)
-	console.log(theme)
 	useEffect(() => {
 		localStorage.setItem('theme', mode)
 		switch (mode) {

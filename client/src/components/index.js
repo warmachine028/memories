@@ -5,6 +5,7 @@ export { default as PostCard } from './PostCard'
 export { default as AccountMenu } from './AccountMenu'
 export { default as ScrollToTop } from './ScrollToTop'
 export { default as Snackbar } from './Snackbar'
+export { default as Bottombar } from './Bottombar'
 export {
 	//
 	CreateComment as CreateCommentForm,

@@ -16,7 +16,7 @@ const ScrollToTop = () => {
 
 	return (
 		<Fade in={isVisible}>
-			<Box onClick={handleClick} role="presentation" sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+			<Box onClick={handleClick} role="presentation" sx={{ position: 'fixed', bottom: 70, right: 16 }}>
 				<Fab size="small" aria-label="scroll back to top" color="primary">
 					<KeyboardArrowUp />
 				</Fab>
