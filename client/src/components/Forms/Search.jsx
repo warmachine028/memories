@@ -1,4 +1,4 @@
-import { Button, FormControl, FormGroup, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography, useTheme } from '@mui/material'
+import { Button, FormControl, FormGroup, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, useTheme } from '@mui/material'
 import { useState } from 'react'
 
 const ITEM_HEIGHT = 48
@@ -21,7 +21,6 @@ function getStyles(name, personName, theme) {
 }
 
 const Search = () => {
-	const [age, setAge] = useState('')
 	const theme = useTheme()
 	const [personName, setPersonName] = useState([])
 	const handleChange = (event) => {

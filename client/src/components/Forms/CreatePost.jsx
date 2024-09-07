@@ -22,7 +22,6 @@ function getStyles(name, personName, theme) {
 }
 
 const CreatePost = () => {
-	const [age, setAge] = useState('')
 	const theme = useTheme()
 	const [personName, setPersonName] = useState([])
 	const handleChange = (event) => {

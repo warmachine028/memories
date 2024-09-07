@@ -1,23 +1,14 @@
 import { Google, LockOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, Checkbox, FormGroup, Icon, Paper, TextField, Typography, Avatar, Grid2 as Grid } from '@mui/material'
+import { Box, Button, ButtonGroup, Checkbox, FormGroup, Icon, Paper, TextField, Typography, Avatar } from '@mui/material'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const LogIn = () => {
+	const [checked, setChecked] = useState(true)
 	return (
-		<Paper
-			sx={{
-				padding: 2,
-				width: '100vw',
-				maxWidth: 400,
-				margin: 'auto',
-			}}
-		>
+		<Paper sx={{ padding: 2, width: '100vw', maxWidth: 400, margin: 'auto' }}>
 			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
-				<Avatar
-					sx={{
-						bgcolor: { xs: 'secondary.main' },
-					}}
-				>
+				<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
 					<LockOutlined />
 				</Avatar>
 				<Typography variant="h5">WELCOME BACK</Typography>

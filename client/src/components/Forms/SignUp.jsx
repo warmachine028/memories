@@ -4,20 +4,20 @@ import { Link } from 'react-router-dom'
 
 const SignUp = () => {
 	return (
-		<Paper sx={{ padding: 2, width: 350, margin: 'auto' }}>
+		<Paper sx={{ padding: 2, width: '100vw', maxWidth: 400, margin: 'auto' }}>
 			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
-				<Avatar>
+				<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
 					<LockOutlined />
 				</Avatar>
 				<Typography variant="h5">JOIN US NOW</Typography>
 				<Box width="100%" display="flex" flexDirection="column" gap="12px" marginBottom="9px">
 					<Grid container size={{ xs: 12, md: 12, xl: 3 }} spacing={1.5}>
-						<Grid size={{ xs: 12, sm: 12, md: 6 }}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<FormGroup className="mb-3">
 								<TextField id="first-name" label="First Name" variant="outlined" name="firstName" type="text" autoComplete="given-name" required half />
 							</FormGroup>
 						</Grid>
-						<Grid size={{ xs: 12, sm: 12, md: 6 }}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<FormGroup className="mb-3">
 								<TextField id="last-name" label="Last Name" variant="outlined" name="email" type="text" autoComplete="family-name" required half />
 							</FormGroup>
