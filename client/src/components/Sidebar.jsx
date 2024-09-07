@@ -13,7 +13,15 @@ const SideBar = ({ open, setOpen }) => {
 
 	return (
 		<Drawer open={open} onClose={toggleDrawer(false)}>
-			<Box width="100vw" role="presentation" maxWidth="500px">
+			<Box
+				role="presentation"
+				maxWidth="500px"
+				sx={{
+					width: {
+						xs: '100vw',
+					},
+				}}
+			>
 				<Box position="sticky" sx={{ w: '100%', display: 'flex', justifyContent: 'space-between', bgcolor: 'transparent', m: 1, alignItems: 'center' }}>
 					<Button
 						href="/"

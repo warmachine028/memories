@@ -1,26 +1,74 @@
-import { Delete, MoreVert, Person, ThumbsUpDown, ThumbUpOutlined } from '@mui/icons-material'
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, CardActionArea, CardHeader, Avatar, IconButton } from '@mui/material'
+import { Delete, LightMode, MoreVert, Person, Share, ThumbsUpDown, ThumbUpOutlined } from '@mui/icons-material'
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, CardActionArea, CardHeader, Avatar, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const PostCard = () => {
+	const [anchorEl, setAnchorEl] = useState(null)
+	const [open, setOpen] = useState(false)
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget)
+		setOpen(!open)
+	}
 	return (
-		<Card sx={{ maxWidth: { md: 345 }, position: 'relative' }}>
+		<Card sx={{ position: 'relative' }}>
 			<CardHeader
-				sx={{ position: 'absolute', top: 0, bgcolor: 'transparent', zIndex: 10, width: '100%' }}
+				sx={{
+					position: 'absolute',
+					top: 0,
+					bgcolor: 'transparent',
+					zIndex: 1,
+					left: 0,
+					right: 0,
+				}}
 				avatar={
-					<Avatar component={Link} to={`/user/dynamic-user-id`}>
+					<Avatar
+						component={Link}
+						to={`/user/dynamic-user-id`}
+						sx={{
+							':hover': {
+								outline: '2px solid',
+								outlineOffset: '1px',
+								outlineColor: 'primary.main',
+							},
+						}}
+					>
 						<Person />
 					</Avatar>
 				}
 				action={
-					<IconButton aria-label="settings">
+					<IconButton id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} aria-label="settings" onClick={handleClick}>
 						<MoreVert />
+						<Menu
+							id="basic-menu"
+							anchorEl={anchorEl}
+							open={open}
+							onClose={() => setOpen(false)}
+							MenuListProps={{
+								'aria-labelledby': 'basic-button',
+							}}
+							anchorOrigin={{
+								vertical: 'bottom',
+								horizontal: 'right',
+							}}
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+						>
+							<MenuItem onClick={() => {}}>
+								<ListItemText primary="Share" sx={{ mr: 1.5 }} />
+								<ListItemIcon>
+									<Share />
+								</ListItemIcon>
+							</MenuItem>
+						</Menu>
 					</IconButton>
 				}
 				title="Shrimp and Chorizo Paella"
 				subheader="September 14, 2016"
 			/>
-			<CardActionArea component="a" href="/post/sssadsa">
+			<CardActionArea component={Link} to="/post/sssadsa">
 				<CardMedia
 					sx={{
 						height: { md: 140, xs: 200 },
