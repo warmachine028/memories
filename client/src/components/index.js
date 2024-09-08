@@ -9,12 +9,12 @@ export { default as Bottombar } from './Bottombar'
 export { default as SuspenseFallback } from './SuspenseFalback'
 export { default as PlaygroundFab } from './PlaygroundFab'
 export {
-	//
-	CreateComment as CreateCommentForm,
-	CreatePost as CreatePostForm,
-	ForgotPassword as ForgotPasswordForm,
-	LogIn as LogInForm,
-	ResetPassword as ResetPasswordForm,
-	Search as SearchForm,
-	SignUp as SignUpForm,
+  //
+  CreateComment as CreateCommentForm,
+  CreatePost as CreatePostForm,
+  ForgotPassword as ForgotPasswordForm,
+  LogIn as LogInForm,
+  ResetPassword as ResetPasswordForm,
+  Search as SearchForm,
+  SignUp as SignUpForm
 } from './Forms'
