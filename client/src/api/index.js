@@ -4,18 +4,18 @@ const apiURL = ['https://memories-pritam-server.vercel.app', 'http://localhost:5
 const API = axios.create({ baseURL: apiURL[0] })
 
 API.interceptors.request.use((req) => {
-	const profile = localStorage.getItem('profile')
-	if (profile) {
-		req.headers.Authorization = `Bearer ${JSON.parse(profile).token}`
-	}
-	return req
+  const profile = localStorage.getItem('profile')
+  if (profile) {
+    req.headers.Authorization = `Bearer ${JSON.parse(profile).token}`
+  }
+  return req
 })
 
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
 export const fetchPost = (id) => API.get(`/posts/${id}`)
 export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search ?? 'none'}&tags=${searchQuery.tags ?? 'none'}`)
 export const fetchComments = (postId) => API.get(`/comments/${postId}`)
-export const fetchTags = () => API.get(`/posts/tags`)
+export const fetchTags = () => API.get('/posts/tags')
 
 export const createPost = (newPost) => API.post('/posts', newPost)
 export const createComment = (comment) => API.post('/comments/', comment)

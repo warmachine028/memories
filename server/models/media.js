@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const mediaSchema = Schema({
-    image: String
+  image: String
 })
 
 export default mongoose.model('media', mediaSchema)

@@ -10,11 +10,11 @@ import { SnackbarProvider } from './contexts/SnackbarContext'
 
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)))
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<Provider store={store}>
-		<SnackbarProvider>
-			<App />
-		</SnackbarProvider>
-	</Provider>
+  <Provider store={store}>
+    <SnackbarProvider>
+      <App />
+    </SnackbarProvider>
+  </Provider>
 )
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,8 +1,5 @@
 import express from 'express'
-import {
-    getComments,
-    signin, signup, updateDetails, getUserDetails, getUserPostsByType, forgotPassword, resetPassword, googleSignin
-} from '../controllers/user.js'
+import { getComments, signin, signup, updateDetails, getUserDetails, getUserPostsByType, forgotPassword, resetPassword, googleSignin } from '../controllers/user.js'
 import auth from '../middleware/auth.js'
 
 const router = express.Router()

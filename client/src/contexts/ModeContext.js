@@ -1,10 +1,10 @@
-// USING CONTEXT TO PROVIDE THEME FEATURE GLOBALLY 
+// USING CONTEXT TO PROVIDE THEME FEATURE GLOBALLY
 
-import { createContext } from "react";
+import { createContext } from 'react'
 
 export const modes = {
-    dark: 'dark',
-    light: 'light',
-};
+  dark: 'dark',
+  light: 'light'
+}
 
-export const ModeContext = createContext();
+export const ModeContext = createContext()

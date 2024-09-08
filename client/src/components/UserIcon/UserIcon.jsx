@@ -6,22 +6,22 @@ import Avatar from 'avataaars2'
 import { RandomAvatar } from './avatar'
 
 export const UserIcon = ({ formData, setFormData }) => {
-	const [avatar, setAvatar] = useState(RandomAvatar())
+  const [avatar, setAvatar] = useState(RandomAvatar())
 
-	const shuffle = () => setAvatar(RandomAvatar())
-	useEffect(() => {
-		setAvatar(avatar)
-		setFormData({ ...formData, avatar: avatar })
-	}, [avatar])
+  const shuffle = () => setAvatar(RandomAvatar())
+  useEffect(() => {
+    setAvatar(avatar)
+    setFormData({ ...formData, avatar })
+  }, [avatar])
 
-	return (
-		<Root className={classes.root}>
-			<Avatar className={classes.avatar} avatarStyle="Circle" {...avatar} />
-			<Button name="avatar" onClick={shuffle} variant="outlined" size="small" startIcon={<ShuffleIcon />}>
-				Random
-			</Button>
-		</Root>
-	)
+  return (
+    <Root className={classes.root}>
+      <Avatar className={classes.avatar} avatarStyle='Circle' {...avatar} />
+      <Button name='avatar' onClick={shuffle} variant='outlined' size='small' startIcon={<ShuffleIcon />}>
+        Random
+      </Button>
+    </Root>
+  )
 }
 
 export default UserIcon

@@ -1,9 +1,9 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 
-import lightmodeIcon from '../../images/lightmodeIcon.png';
-import darkmodeIcon from '../../images/darkmodeIcon.png';
+import lightmodeIcon from '../../images/lightmodeIcon.png'
+import darkmodeIcon from '../../images/darkmodeIcon.png'
 
-const PREFIX = 'Navbar';
+const PREFIX = 'Navbar'
 export const classes = {
   root: `${PREFIX}-root`,
   appBarLight: `${PREFIX}-appBarLight`,
@@ -20,17 +20,17 @@ export const classes = {
   avaatar: `${PREFIX}-avaatar`,
   toggleDiv: `${PREFIX}-toggleDiv`,
   dn: `${PREFIX}-dn`,
-  toggle: `${PREFIX}-toggle`,
-};
+  toggle: `${PREFIX}-toggle`
+}
 
 export const Root = styled('div')(({ theme, floating }) => ({
   [`&.${classes.root}`]: {
-    paddingRight: 10,
+    paddingRight: 10
   },
   [`& .${classes.avaatar}`]: {
     margin: theme.spacing(1),
     height: '50px',
-    width: '50px',
+    width: '50px'
   },
   [`& .${classes.appBarLight}`]: {
     position: 'static',
@@ -44,28 +44,28 @@ export const Root = styled('div')(({ theme, floating }) => ({
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     backdropFilter: 'blur(10px)',
     [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
+      flexDirection: 'column'
     },
     [theme.breakpoints.down(360)]: {
-      padding: '10px',
-    },
+      padding: '10px'
+    }
   },
   [`& .${classes.appBarDark}`]: {
-    backgroundColor: 'rgba(5, 5, 5, .90)',
+    backgroundColor: 'rgba(5, 5, 5, .90)'
   },
   [`& .${classes.heading}`]: {
     height: floating ? 50 : 100,
     [theme.breakpoints.down(400)]: {
-      width: '-webkit-fill-available',
-    },
+      width: '-webkit-fill-available'
+    }
   },
   [`& .${classes.logo}`]: {
     marginLeft: '10px',
     marginTop: '5px',
     height: floating ? '30px' : '60px',
     [theme.breakpoints.down(400)]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   [`& .${classes.toolbar}`]: {
     display: 'flex',
@@ -77,14 +77,14 @@ export const Root = styled('div')(({ theme, floating }) => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '40px',
+      gap: '40px'
     },
     [theme.breakpoints.down(600)]: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '20px',
-    },
+      gap: '20px'
+    }
   },
   [`& .${classes.profile}`]: {
     display: 'flex',
@@ -99,39 +99,38 @@ export const Root = styled('div')(({ theme, floating }) => ({
     [theme.breakpoints.down(600)]: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'space-between'
     },
     [theme.breakpoints.down(390)]: {
       width: '-webkit-fill-available',
-      justifyContent: 'space-evenly',
-    },
+      justifyContent: 'space-evenly'
+    }
   },
   [`& .${classes.authButtonLight}`]: {
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   [`& .${classes.authButtonDark}`]: {
     backgroundColor: 'white',
-    color: 'black',
+    color: 'black'
   },
   [`& .${classes.userName}`]: {
     display: 'flex',
     textAlign: 'center',
     alignItems: 'center',
     [theme.breakpoints.down(420)]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   [`& .${classes.brandContainer}`]: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   [`& .${classes.toggleDiv}`]: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
 
     // Additional styles for the checkbox input (HiddenCheckbox)
-
   },
 
   [`& .${classes.dn}`]: {
@@ -142,7 +141,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
 
     ':checked + i': {
       backgroundColor: '#242424',
-      border: 'none',
+      border: 'none'
     },
 
     ':checked + i::after': {
@@ -155,8 +154,8 @@ export const Root = styled('div')(({ theme, floating }) => ({
       backgroundPosition: 'center',
       backgroundSize: '35px 35px',
       transition: '0.8s',
-      transform: 'translate(100%)',
-    },
+      transform: 'translate(100%)'
+    }
 
     // Additional styles for the label (ToggleLabel)
   },
@@ -179,7 +178,7 @@ export const Root = styled('div')(({ theme, floating }) => ({
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: '35px 35px',
-      transition: '0.8s',
-    },
+      transition: '0.8s'
+    }
   }
-}));
+}))

@@ -6,7 +6,7 @@
 // export { _defaultChipRenderer as defaultChipRenderer }
 
 import _react from 'react'
-import _reactDom from "react-dom"
+import _reactDom from 'react-dom'
 import _propTypes from 'prop-types'
 // var _reactDom = _interopRequireDefault(require('react-dom'))
 
@@ -96,7 +96,7 @@ function _objectSpread(target) {
 			ownKeys = ownKeys.concat(
 				Object.getOwnPropertySymbols(source).filter(function (sym) {
 					return Object.getOwnPropertyDescriptor(source, sym).enumerable
-				})
+				}),
 			)
 		}
 		ownKeys.forEach(function (key) {
@@ -161,7 +161,7 @@ function _getPrototypeOf(o) {
 		? Object.getPrototypeOf
 		: function _getPrototypeOf(o) {
 				return o.__proto__ || Object.getPrototypeOf(o)
-		  }
+			}
 	return _getPrototypeOf(o)
 }
 
@@ -721,8 +721,8 @@ const ChipInput =
 									chips: chips,
 									chipsUpdated: true,
 								},
-								additionalUpdates
-							)
+								additionalUpdates,
+							),
 						)
 
 						if (this.props.onChange) {
@@ -858,7 +858,7 @@ const ChipInput =
 									},
 									className: classes.chip,
 								},
-								i
+								i,
 							)
 						})
 						var InputMore = {}
@@ -888,7 +888,7 @@ const ChipInput =
 									disabled: disabled,
 									variant: variant,
 								},
-								other
+								other,
 							),
 							label &&
 								_react.default.createElement(
@@ -905,9 +905,9 @@ const ChipInput =
 											variant: variant,
 											ref: this.labelRef,
 										},
-										InputLabelProps
+										InputLabelProps,
 									),
-									label
+									label,
 								),
 							_react.default.createElement(
 								'div',
@@ -939,9 +939,9 @@ const ChipInput =
 											readOnly: readOnly,
 										},
 										InputProps,
-										InputMore
-									)
-								)
+										InputMore,
+									),
+								),
 							),
 							helperText &&
 								_react.default.createElement(
@@ -949,8 +949,8 @@ const ChipInput =
 									_extends({}, FormHelperTextProps, {
 										className: FormHelperTextProps ? (0, _classnames.default)(FormHelperTextProps.className, classes.helperText) : classes.helperText,
 									}),
-									helperText
-								)
+									helperText,
+								),
 						)
 					},
 				},
@@ -993,7 +993,7 @@ const ChipInput =
 						return newState
 					},
 				},
-			]
+			],
 		)
 
 		return ChipInput

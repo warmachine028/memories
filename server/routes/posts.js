@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPostsBySearch, getPosts, getPost, createPost, updatePost, deletePost,getAllTags } from '../controllers/posts.js'
+import { getPostsBySearch, getPosts, getPost, createPost, updatePost, deletePost, getAllTags } from '../controllers/posts.js'
 import auth from '../middleware/auth.js'
 
 const router = express.Router()
