@@ -18,14 +18,14 @@ import {
 	DELETED_POST,
 	FETCHING_COMMENTS,
 	FETCHED_COMMENTS,
-	FETCH_COMMENTS,
+	FETCH_COMMENTS
 } from '../constants/actionTypes'
 import * as api from '../api'
 
 const sanitize = ({ tags, search }) => {
 	return {
 		tags: tags.replace(/#/g, '%23').replace(/ /g, '%20'),
-		search: search?.replace(/#/g, '%23').replace(/ /g, '%20'),
+		search: search?.replace(/#/g, '%23').replace(/ /g, '%20')
 	}
 }
 // Action Creators
@@ -33,11 +33,11 @@ export const getPosts = (page, snackBar) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const {
-			data: { data, curretPage: currentPage, numberOfPages },
+			data: { data, curretPage: currentPage, numberOfPages }
 		} = await api.fetchPosts(page)
 		dispatch({
 			type: FETCH_ALL,
-			payload: { data, currentPage: currentPage, numberOfPages },
+			payload: { data, currentPage: currentPage, numberOfPages }
 		})
 		dispatch({ type: END_LOADING })
 	} catch (error) {
@@ -75,7 +75,7 @@ export const getUserPostsByType = (userId, page, type) => async (dispatch) => {
 	try {
 		dispatch({ type: fetchingType })
 		const {
-			data: { data, numberOfPages },
+			data: { data, numberOfPages }
 		} = await api.fetchUserPostsByType(userId, page, type)
 		dispatch({ type: fetchType, payload: { data, numberOfPages } })
 		dispatch({ type: fetchedType })
@@ -88,12 +88,12 @@ export const getUserComments = (userId, page) => async (dispatch) => {
 	try {
 		dispatch({ type: FETCHING_COMMENTS })
 		const {
-			data: { data, numberOfPages },
+			data: { data, numberOfPages }
 		} = await api.fetchUserComments(userId, page)
 
 		dispatch({
 			type: FETCH_COMMENTS,
-			payload: { comments: data, numberOfPages },
+			payload: { comments: data, numberOfPages }
 		})
 		dispatch({ type: FETCHED_COMMENTS })
 	} catch (error) {
@@ -123,7 +123,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING })
 		const {
-			data: { data },
+			data: { data }
 		} = await api.fetchPostsBySearch(searchQuery)
 		dispatch({ type: FETCH_BY_SEARCH, payload: { data } })
 		dispatch({ type: END_LOADING })
@@ -137,7 +137,7 @@ export const getRecommendedPosts = (tags) => async (dispatch) => {
 	try {
 		dispatch({ type: FETCHING_RECOMMENDED_POSTS })
 		const {
-			data: { data },
+			data: { data }
 		} = await api.fetchPostsBySearch({ tags: tags })
 		dispatch({ type: FETCH_RECOMMENDED, payload: { data } })
 		dispatch({ type: FETCHED_RECOMMENDED_POSTS })

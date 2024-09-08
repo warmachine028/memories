@@ -8,7 +8,7 @@ const LogIn = () => {
 				height: '100vh',
 				display: 'flex',
 				alignItems: 'center',
-				width: '100%',
+				width: '100%'
 			}}
 			maxWidth="xl"
 		>

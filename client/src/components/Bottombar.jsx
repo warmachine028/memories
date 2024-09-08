@@ -12,8 +12,8 @@ const Bottombar = () => {
 				zIndex: 2,
 				display: {
 					md: 'none',
-					xs: 'flex',
-				},
+					xs: 'flex'
+				}
 			}}
 		>
 			<BottomNavigationAction
@@ -26,7 +26,7 @@ const Bottombar = () => {
 							height: 60,
 							position: 'absolute',
 							bottom: '30%',
-							bgcolor: 'primary.main',
+							bgcolor: 'primary.main'
 						}}
 					>
 						<Add />

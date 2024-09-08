@@ -15,9 +15,9 @@ const creator1 = {
 		hatColor: 'Gray02',
 		mouthType: 'Twinkle',
 		skinColor: 'Yellow',
-		topType: 'WinterHat3',
+		topType: 'WinterHat3'
 	},
-	__v: 0,
+	__v: 0
 }
 
 export const comments = [
@@ -28,7 +28,7 @@ export const comments = [
 		likes: [],
 		message: 'Aperiam asperiores asperiores nulla beatae unde deleniti similique eos.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '252f1bf5-94d0-47f0-b7e5-7d54339b123b',
@@ -37,7 +37,7 @@ export const comments = [
 		likes: [],
 		message: 'Nobis dolor necessitatibus unde delectus blanditiis laudantium nostrum.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'db6d688e-5675-4a5e-a1b9-aa487d705533',
@@ -46,7 +46,7 @@ export const comments = [
 		likes: [],
 		message: 'Quam assumenda blanditiis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '23fb40b4-2fc6-48df-a6a2-b6014c425fad',
@@ -55,7 +55,7 @@ export const comments = [
 		likes: [],
 		message: 'Aut soluta incidunt quasi et minus maiores pariatur.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '14256fad-29b7-43cf-9a26-b57299ec375c',
@@ -64,7 +64,7 @@ export const comments = [
 		likes: [],
 		message: 'Eum molestiae dolores beatae nam.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'db840948-e418-4be0-94bf-003e52b90c89',
@@ -73,7 +73,7 @@ export const comments = [
 		likes: [],
 		message: 'Aliquam ab sequi adipisci consectetur quis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'b297f3f9-146f-4a80-b573-ba61b973cce4',
@@ -82,7 +82,7 @@ export const comments = [
 		likes: [],
 		message: 'Magni modi quibusdam ab provident.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '5af4f936-3d2d-452c-a9fb-22883f00c5d7',
@@ -91,7 +91,7 @@ export const comments = [
 		likes: [],
 		message: 'Perspiciatis officiis sit incidunt quas dignissimos cumque fugiat cupiditate facilis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'ca6daa2b-32dd-48c0-988c-613377141d82',
@@ -100,7 +100,7 @@ export const comments = [
 		likes: [],
 		message: 'Quos magnam sapiente occaecati aut voluptatum iusto voluptatum.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '994eb70f-4928-4207-91c5-c54ed39e2f0a',
@@ -109,7 +109,7 @@ export const comments = [
 		likes: [],
 		message: 'Architecto ipsum sequi consectetur dolore officia minus.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'caeb3fc4-90d3-4ae9-8dae-8b3766e22d2d',
@@ -118,7 +118,7 @@ export const comments = [
 		likes: [],
 		message: 'Aliquam voluptate officiis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '1a1abfd0-1fbe-4b92-850d-3baf09ca673d',
@@ -127,7 +127,7 @@ export const comments = [
 		likes: [],
 		message: 'At facilis error beatae at distinctio quos necessitatibus quia.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'e30b4a4e-a3ae-4898-ae54-60e898b1426f',
@@ -136,7 +136,7 @@ export const comments = [
 		likes: [],
 		message: 'Illum repellendus minus tempore.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '8da95c55-c2be-4c36-94b5-c3c6fda10886',
@@ -145,7 +145,7 @@ export const comments = [
 		likes: [],
 		message: 'Sequi consequuntur aperiam vel id ad.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: 'e40724b4-72a8-4c67-a170-b6595b9a5cd4',
@@ -154,7 +154,7 @@ export const comments = [
 		likes: [],
 		message: 'Quia tempore necessitatibus vero laborum fugit odit facilis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
+		__v: 0
 	},
 	{
 		_id: '58afd2a6-b5bd-44e1-bdc7-ed79043d9217',
@@ -163,8 +163,8 @@ export const comments = [
 		likes: [],
 		message: 'Commodi optio eum rem illum temporibus numquam debitis.',
 		post: '64beed3d7ba580756e0c5fac',
-		__v: 0,
-	},
+		__v: 0
+	}
 ]
 export const pages = 2
 export const page1 = comments.slice(0, 9)

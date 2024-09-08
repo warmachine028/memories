@@ -8,7 +8,7 @@ const Post = () => {
 				display: 'flex',
 				p: 1,
 				flexDirection: 'column',
-				bgcolor: 'transparent',
+				bgcolor: 'transparent'
 			}}
 			maxWidth="xl"
 		>

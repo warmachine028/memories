@@ -12,7 +12,7 @@ const LogIn = () => {
 					display: 'flex',
 					alignItems: 'center',
 					flexDirection: 'column',
-					gap: 5,
+					gap: 5
 				}}
 			>
 				<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
@@ -45,9 +45,9 @@ const LogIn = () => {
 						<Button
 							sx={{
 								':hover': {
-									backgroundColor: 'transparent',
+									backgroundColor: 'transparent'
 								},
-								p: 0,
+								p: 0
 							}}
 							onClick={() => setChecked(!checked)}
 							disableTouchRipple

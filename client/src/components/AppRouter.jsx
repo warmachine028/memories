@@ -13,7 +13,7 @@ const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, 
 	Profile: lazy(() => import('../pages/Profile')),
 	Playground: lazy(() => import('../pages/Playground')),
 	Post: lazy(() => import('../pages/Post')),
-	UpdateUser: lazy(() => import('../pages/UpdateUser')),
+	UpdateUser: lazy(() => import('../pages/UpdateUser'))
 }
 
 import { AuthRoute, PrivateRoute } from '../routes'

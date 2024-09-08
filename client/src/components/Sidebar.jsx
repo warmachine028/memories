@@ -18,8 +18,8 @@ const SideBar = ({ open, setOpen }) => {
 				maxWidth="500px"
 				sx={{
 					width: {
-						xs: '100vw',
-					},
+						xs: '100vw'
+					}
 				}}
 			>
 				<Box
@@ -30,15 +30,15 @@ const SideBar = ({ open, setOpen }) => {
 						justifyContent: 'space-between',
 						bgcolor: 'transparent',
 						m: 1,
-						alignItems: 'center',
+						alignItems: 'center'
 					}}
 				>
 					<Button
 						href="/"
 						sx={{
 							':hover': {
-								backgroundColor: 'transparent',
-							},
+								backgroundColor: 'transparent'
+							}
 						}}
 					>
 						<img src="favicon.ico" alt="logo" width={40} />
@@ -48,7 +48,7 @@ const SideBar = ({ open, setOpen }) => {
 						onClick={toggleDrawer(false)}
 						sx={{
 							width: '50px',
-							height: '50px',
+							height: '50px'
 						}}
 					>
 						<Close />

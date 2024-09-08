@@ -14,7 +14,7 @@ const CreatePost = () => {
 					display: 'flex',
 					alignItems: 'center',
 					flexDirection: 'column',
-					gap: 5,
+					gap: 5
 				}}
 			>
 				<Typography variant="h6">Create a Post</Typography>
@@ -24,7 +24,7 @@ const CreatePost = () => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 12,
-						marginBottom: 9,
+						marginBottom: 9
 					}}
 				>
 					<FormGroup className="mb-3">

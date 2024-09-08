@@ -4,7 +4,7 @@ import postReducer from '../reducers/post'
 
 const reducer = combineReducers({
 	authReducer,
-	postReducer,
+	postReducer
 	// add more reducers here
 })
 

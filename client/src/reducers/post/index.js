@@ -5,7 +5,7 @@ const initialState = {
 	posts: [],
 	post: null,
 	numberOfPages: null,
-	error: null,
+	error: null
 }
 
 export const getPosts = createAsyncThunk(
@@ -39,7 +39,7 @@ export const slice = createSlice({
 				state.posts = []
 				state.error = action.payload
 			})
-	},
+	}
 })
 
 export default slice.reducer

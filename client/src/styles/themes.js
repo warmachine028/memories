@@ -5,14 +5,14 @@ const Light = createTheme({
 	palette: {
 		mode: 'light',
 		primary: {
-			main: '#3f51b5',
+			main: '#3f51b5'
 		},
 		secondary: {
-			main: '#f50057',
+			main: '#f50057'
 		},
 		background: {
 			paper: '#ffffff',
-			default: '#f5f5f5',
+			default: '#f5f5f5'
 		},
 		components: {
 			// MuiContainer: {
@@ -22,23 +22,23 @@ const Light = createTheme({
 			// 		},
 			// 	},
 			// },
-		},
-	},
+		}
+	}
 })
 
 const Dark = createTheme({
 	palette: {
 		mode: 'dark',
 		primary: {
-			main: '#5f57ff',
+			main: '#5f57ff'
 		},
 		secondary: {
-			main: '#ffffff',
+			main: '#ffffff'
 		},
 		background: {
 			paper: '#000000',
-			default: '#0d1017',
-		},
+			default: '#0d1017'
+		}
 	},
 	components: {
 		// MuiContainer: {
@@ -48,7 +48,7 @@ const Dark = createTheme({
 		// 		},
 		// 	},
 		// },
-	},
+	}
 })
 
 const System = createTheme({ colorSchemes: { dark: true } })

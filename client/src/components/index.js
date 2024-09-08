@@ -16,5 +16,5 @@ export {
 	LogIn as LogInForm,
 	ResetPassword as ResetPasswordForm,
 	Search as SearchForm,
-	SignUp as SignUpForm,
+	SignUp as SignUpForm
 } from './Forms'

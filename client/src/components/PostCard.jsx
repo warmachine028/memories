@@ -21,8 +21,8 @@ const PostCard = () => {
 							':hover': {
 								outline: '2px solid',
 								outlineOffset: '1px',
-								outlineColor: 'primary.main',
-							},
+								outlineColor: 'primary.main'
+							}
 						}}
 					>
 						<Person />
@@ -37,15 +37,15 @@ const PostCard = () => {
 							open={open}
 							onClose={() => setOpen(false)}
 							MenuListProps={{
-								'aria-labelledby': 'basic-button',
+								'aria-labelledby': 'basic-button'
 							}}
 							anchorOrigin={{
 								vertical: 'bottom',
-								horizontal: 'right',
+								horizontal: 'right'
 							}}
 							transformOrigin={{
 								vertical: 'top',
-								horizontal: 'right',
+								horizontal: 'right'
 							}}
 						>
 							<MenuItem onClick={() => {}}>
@@ -66,8 +66,8 @@ const PostCard = () => {
 						height: { md: 140, xs: 200 },
 						':hover': {
 							opacity: 0.6,
-							cursor: 'pointer',
-						},
+							cursor: 'pointer'
+						}
 					}}
 					image="/favicon.ico"
 					title="green iguana"
@@ -89,7 +89,7 @@ const PostCard = () => {
 					sx={{
 						display: 'flex',
 						justifyContent: 'center',
-						alignItems: 'center',
+						alignItems: 'center'
 					}}
 				>
 					Like
@@ -101,7 +101,7 @@ const PostCard = () => {
 					sx={{
 						display: 'flex',
 						justifyContent: 'center',
-						alignItems: 'center',
+						alignItems: 'center'
 					}}
 				>
 					Delete

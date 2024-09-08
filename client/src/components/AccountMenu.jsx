@@ -47,7 +47,7 @@ const AccountMenu = () => {
 								width: 32,
 								height: 32,
 								ml: -0.5,
-								mr: 1,
+								mr: 1
 							},
 							'&::before': {
 								content: '""',
@@ -59,10 +59,10 @@ const AccountMenu = () => {
 								height: 10,
 								bgcolor: 'background.paper',
 								transform: 'translateY(-50%) rotate(45deg)',
-								zIndex: 0,
-							},
-						},
-					},
+								zIndex: 0
+							}
+						}
+					}
 				}}
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -91,7 +91,7 @@ const AccountMenu = () => {
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: 'space-between',
+						justifyContent: 'space-between'
 					}}
 				>
 					<div style={{ display: 'flex', alignItems: 'center' }}>

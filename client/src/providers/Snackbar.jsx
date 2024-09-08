@@ -18,8 +18,8 @@ const SnackbarProvider = ({ children }) => {
 			open,
 			alertSeverity,
 			message,
-			onClose: () => setOpen(false),
-		},
+			onClose: () => setOpen(false)
+		}
 	}
 
 	return <SnackbarContext.Provider value={value}>{children}</SnackbarContext.Provider>

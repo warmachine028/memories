@@ -6,30 +6,37 @@ import require from 'eslint-plugin-require'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import presetEnv from '@babel/preset-env'
+import presetReact from '@babel/preset-react'
 
 export default [
 	js.configs.recommended,
 	{
+		ignores: ['old/*', 'dist/*']
+	},
+	{
 		files: ['**/*.{js,jsx}'],
-		ignores: ['dist/**/*', 'old/**/*'],
-
 		languageOptions: {
-			ecmaVersion: 2020,
+			ecmaVersion: 'latest',
 			globals: globals.browser,
 			parser: eslintParser,
 			parserOptions: {
 				babelrc: false,
 				configFile: false,
 				// your babel options
-				presets: ['@babel/preset-env'],
-			},
+				presets: [presetEnv, presetReact]
+			}
 		},
-		settings: { react: { version: '18.3' } },
+		settings: {
+			react: {
+				version: '18.3'
+			}
+		},
 		plugins: {
 			react,
 			require,
 			'react-hooks': reactHooks,
-			'react-refresh': reactRefresh,
+			'react-refresh': reactRefresh
 		},
 		rules: {
 			...js.configs.recommended.rules,
@@ -43,13 +50,18 @@ export default [
 					args: 'after-used',
 					caughtErrors: 'all',
 					ignoreRestSiblings: false,
-					reportUsedIgnorePattern: false,
-				},
+					reportUsedIgnorePattern: false
+				}
 			],
 			'react/jsx-no-target-blank': 'off',
 			'react/prop-types': 'off',
-			'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-		},
+			'react-refresh/only-export-components': [
+				'warn',
+				{
+					allowConstantExport: true
+				}
+			]
+		}
 	},
-	eslintConfigPrettier,
+	eslintConfigPrettier
 ]

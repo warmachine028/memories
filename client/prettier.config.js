@@ -12,8 +12,8 @@ const config = {
 	semi: false,
 	singleQuote: true,
 	tabWidth: 4,
-	trailingComma: 'es5',
-	useTabs: true,
+	trailingComma: 'none',
+	useTabs: true
 }
 
 export default config

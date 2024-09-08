@@ -7,16 +7,16 @@ const MenuProps = {
 	PaperProps: {
 		style: {
 			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
+			width: 250
+		}
+	}
 }
 
 const names = ['Oliver Hansen', 'Van Henry', 'April Tucker', 'Ralph Hubbard', 'Omar Alexander', 'Carlos Abbott', 'Miriam Wagner', 'Bradley Wilkerson', 'Virginia Andrews', 'Kelly Snyder']
 
 function getStyles(name, personName, theme) {
 	return {
-		fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+		fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 	}
 }
 
@@ -25,7 +25,7 @@ const Search = () => {
 	const [personName, setPersonName] = useState([])
 	const handleChange = (event) => {
 		const {
-			target: { value },
+			target: { value }
 		} = event
 		setPersonName(
 			// On autofill we get a stringified value.
@@ -40,7 +40,7 @@ const Search = () => {
 					display: 'flex',
 					alignItems: 'center',
 					flexDirection: 'column',
-					gap: 5,
+					gap: 5
 				}}
 				onSubmit={() => {}}
 			>
@@ -50,7 +50,7 @@ const Search = () => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 12,
-						marginBottom: 9,
+						marginBottom: 9
 					}}
 				>
 					<FormGroup className="mb-3">

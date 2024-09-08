@@ -5,7 +5,7 @@ import { googleLogout } from '@react-oauth/google'
 const initialState = {
 	loading: false,
 	user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
-	error: null,
+	error: null
 }
 
 // Reusable function for API calls
@@ -98,7 +98,7 @@ export const slice = createSlice({
 				state.loading = false
 				state.error = action.payload
 			})
-	},
+	}
 })
 
 export default slice.reducer

@@ -8,7 +8,7 @@ const ThemeProvider = ({ children }) => {
 	const Themes = {
 		LIGHT: 'LIGHT',
 		DARK: 'DARK',
-		SYSTEM: 'SYSTEM',
+		SYSTEM: 'SYSTEM'
 	}
 	const savedTheme = localStorage.getItem('theme') || Themes.SYSTEM
 	const [mode, setMode] = useState(savedTheme)

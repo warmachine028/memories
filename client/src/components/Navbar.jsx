@@ -30,7 +30,7 @@ const Navbar = () => {
 							width: '50px',
 							height: '50px',
 							display: { xs: 'block', md: 'none' },
-							marginRight: 2,
+							marginRight: 2
 						}}
 					>
 						<MenuIcon />
@@ -40,7 +40,7 @@ const Navbar = () => {
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
-							width: { xs: 'calc(100% - 100px)', sm: 'auto' },
+							width: { xs: 'calc(100% - 100px)', sm: 'auto' }
 						}}
 					>
 						<Link
@@ -50,7 +50,7 @@ const Navbar = () => {
 								display: 'flex',
 								justifyItems: 'center',
 								alignItems: 'center',
-								gap: 10,
+								gap: 10
 							}}
 						>
 							<Container
@@ -58,9 +58,9 @@ const Navbar = () => {
 									p: 0,
 									display: {
 										xs: 'none',
-										sm: 'block',
+										sm: 'block'
 									},
-									bgcolor: 'transparent',
+									bgcolor: 'transparent'
 								}}
 							>
 								<img src="favicon.ico" width="40" />
@@ -72,7 +72,7 @@ const Navbar = () => {
 					{!user && !inAuth && (
 						<ButtonGroup
 							sx={{
-								display: { xs: 'none', md: 'flex' },
+								display: { xs: 'none', md: 'flex' }
 							}}
 						>
 							<ThemeSwitch />

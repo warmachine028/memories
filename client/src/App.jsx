@@ -18,7 +18,7 @@ const MemoriesApp = () => {
 				<AppRouter />
 				<Snackbar />
 				<ScrollToTop />
-				{!(appEnviromnent === 'production') && <PlaygroundFab />}
+				{appEnviromnent !== 'production' && <PlaygroundFab />}
 			</BrowserRouter>
 		</Provider>
 	)

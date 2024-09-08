@@ -30,7 +30,7 @@ import {
 	CREATING_POST,
 	CREATED_POST,
 	DELETING_POST,
-	DELETED_POST,
+	DELETED_POST
 } from '../constants/actionTypes'
 
 export default (
@@ -50,7 +50,7 @@ export default (
 		recommendedPosts: [],
 		privatePosts: [],
 		comments: [],
-		userComments: [],
+		userComments: []
 	},
 	action
 ) => {
@@ -72,14 +72,14 @@ export default (
 				...state,
 				comments: action.payload.comments ? [] : action.payload,
 				commentsNumberOfPages: action.payload.numberOfPages,
-				userComments: action.payload.comments,
+				userComments: action.payload.comments
 			}
 		case FETCH_ALL:
 			return {
 				...state,
 				posts: action.payload.data,
 				currentPage: action.payload.currentPage,
-				numberOfPages: action.payload.numberOfPages,
+				numberOfPages: action.payload.numberOfPages
 			}
 		case FETCH_BY_SEARCH:
 			return { ...state, posts: action.payload.data }
@@ -89,19 +89,19 @@ export default (
 			return {
 				...state,
 				likedPosts: action.payload.data,
-				likedNumberOfPages: action.payload.numberOfPages,
+				likedNumberOfPages: action.payload.numberOfPages
 			}
 		case FETCH_CREATED:
 			return {
 				...state,
 				createdPosts: action.payload.data,
-				createdNumberOfPages: action.payload.numberOfPages,
+				createdNumberOfPages: action.payload.numberOfPages
 			}
 		case FETCH_PRIVATE:
 			return {
 				...state,
 				privatePosts: action.payload.data,
-				privateNumberOfPages: action.payload.numberOfPages,
+				privateNumberOfPages: action.payload.numberOfPages
 			}
 		case FETCH_RECOMMENDED:
 			return { ...state, recommendedPosts: action.payload.data }
@@ -114,22 +114,22 @@ export default (
 		case UPDATE:
 			return {
 				...state,
-				posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)),
+				posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))
 			}
 		case DELETE:
 			return {
 				...state,
-				posts: state.posts.filter((post) => (post._id !== action.payload._id ? action.payload : post)),
+				posts: state.posts.filter((post) => (post._id !== action.payload._id ? action.payload : post))
 			}
 		case DELETE_COMMENT:
 			return {
 				...state,
-				comments: state.comments.filter((comment) => comment._id !== action.payload),
+				comments: state.comments.filter((comment) => comment._id !== action.payload)
 			}
 		case COMMENT:
 			return {
 				...state,
-				posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post)),
+				posts: state.posts.map((post) => (post._id === Number(action.payload._id) ? action.payload : post))
 			}
 		case END_LOADING:
 			return { ...state, isLoading: false }

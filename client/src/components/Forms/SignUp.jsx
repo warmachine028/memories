@@ -10,7 +10,7 @@ const SignUp = () => {
 					display: 'flex',
 					alignItems: 'center',
 					flexDirection: 'column',
-					gap: 5,
+					gap: 5
 				}}
 			>
 				<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>

@@ -26,8 +26,8 @@ const ThemeSwitch = () => {
 				sx={{
 					display: {
 						xs: 'none',
-						md: 'block',
-					},
+						md: 'block'
+					}
 				}}
 			>
 				Switch Theme
@@ -37,7 +37,7 @@ const ThemeSwitch = () => {
 					open={open}
 					onClose={handleClose}
 					MenuListProps={{
-						'aria-labelledby': 'basic-button',
+						'aria-labelledby': 'basic-button'
 					}}
 				>
 					<MenuItem onClick={() => switchTheme(Themes.LIGHT)} selected={mode === Themes.LIGHT}>
@@ -62,7 +62,7 @@ const ThemeSwitch = () => {
 			</Button>
 			<ButtonGroup
 				sx={{
-					display: { md: 'none' },
+					display: { md: 'none' }
 				}}
 			>
 				<Button variant={mode === Themes.LIGHT ? 'contained' : 'outlined'} onClick={() => switchTheme(Themes.LIGHT)}>

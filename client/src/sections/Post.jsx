@@ -9,7 +9,7 @@ const Post = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				minHeight: '400px',
+				minHeight: '400px'
 			}}
 		>
 			<Card>
@@ -41,7 +41,7 @@ const Post = () => {
 					sx={{
 						display: 'flex',
 						alignItems: 'self-start',
-						flexDirection: 'column',
+						flexDirection: 'column'
 					}}
 				>
 					<Box display="flex">
@@ -51,7 +51,7 @@ const Post = () => {
 								display: 'flex',
 								justifyContent: 'center',
 								gap: 1,
-								':hover': { bgcolor: 'transparent' },
+								':hover': { bgcolor: 'transparent' }
 							}}
 						>
 							<Share />
@@ -63,7 +63,7 @@ const Post = () => {
 								display: 'flex',
 								justifyContent: 'center',
 								gap: 1,
-								':hover': { bgcolor: 'transparent' },
+								':hover': { bgcolor: 'transparent' }
 							}}
 						>
 							<Comment />
@@ -75,7 +75,7 @@ const Post = () => {
 								display: 'flex',
 								justifyContent: 'center',
 								gap: 1,
-								':hover': { bgcolor: 'transparent' },
+								':hover': { bgcolor: 'transparent' }
 							}}
 						>
 							<ThumbUpAltSharp />
