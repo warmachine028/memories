@@ -11,11 +11,11 @@ export const useTheme = () => useContext(ThemeContext)
  * @returns Previous value in component state
  */
 export const usePrevious = (value) => {
-	const ref = useRef()
-	useEffect(() => {
-		ref.current = value
-	})
-	return ref.current
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
 }
 
 /**
@@ -24,7 +24,7 @@ export const usePrevious = (value) => {
  * @returns a promise that is resolved after the time has passed
  */
 const sleep = (ms) => {
-	return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**
@@ -33,28 +33,28 @@ const sleep = (ms) => {
  * @param {Number} idx current index (zero based)
  */
 export const useSwipe = (swipeableViewsRef, idx) => {
-	const prevIdx = usePrevious(idx)
-	const swipeForward = useCallback(() => {
-		swipeableViewsRef.current.swipeForward()
-	}, [swipeableViewsRef])
+  const prevIdx = usePrevious(idx)
+  const swipeForward = useCallback(() => {
+    swipeableViewsRef.current.swipeForward()
+  }, [swipeableViewsRef])
 
-	const swipeBackward = useCallback(() => {
-		swipeableViewsRef.current.swipeBackward()
-	}, [swipeableViewsRef])
+  const swipeBackward = useCallback(() => {
+    swipeableViewsRef.current.swipeBackward()
+  }, [swipeableViewsRef])
 
-	useEffect(() => {
-		;(async function () {
-			if (prevIdx < idx) {
-				for (let i = 0; i < idx - prevIdx; i++) {
-					swipeForward()
-					await sleep(300)
-				}
-			} else if (idx < prevIdx) {
-				for (let i = 0; i < prevIdx - idx; i++) {
-					swipeBackward()
-					await sleep(300)
-				}
-			}
-		})()
-	}, [idx, prevIdx, swipeBackward, swipeForward])
+  useEffect(() => {
+    ;(async function () {
+      if (prevIdx < idx) {
+        for (let i = 0; i < idx - prevIdx; i++) {
+          swipeForward()
+          await sleep(300)
+        }
+      } else if (idx < prevIdx) {
+        for (let i = 0; i < prevIdx - idx; i++) {
+          swipeBackward()
+          await sleep(300)
+        }
+      }
+    })()
+  }, [idx, prevIdx, swipeBackward, swipeForward])
 }
