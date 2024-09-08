@@ -2,7 +2,7 @@ import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { useSnackbar } from '../hooks'
 import { SuspenseFallback, ThemeSwitch } from '../components'
 
-const PlayGround = () => {
+const Playground = () => {
 	const { openSnackBar } = useSnackbar()
 	const handleClick = () => openSnackBar('success', 'This is a success message')
 	return (
@@ -23,4 +23,4 @@ const PlayGround = () => {
 	)
 }
 
-export default PlayGround
+export default Playground
