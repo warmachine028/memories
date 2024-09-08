@@ -20,7 +20,7 @@ const Post = () => {
 							</Box>
 						</Box>
 					</Box>
-					<Typography variant="h4" marginBotton="30px">
+					<Typography variant="h4" marginBottom="30px">
 						Post Title
 					</Typography>
 

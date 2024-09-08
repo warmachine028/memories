@@ -11,17 +11,8 @@ const PostCard = () => {
 		setOpen(!open)
 	}
 	return (
-		<Card sx={{ position: 'relative' }}>
+		<Card>
 			<CardHeader
-				sx={{
-					position: 'absolute',
-					top: 0,
-					bgcolor: 'transparent',
-					zIndex: 1,
-					left: 0,
-					right: 0,
-					color:'white',
-				}}
 				avatar={
 					<Avatar
 						component={Link}

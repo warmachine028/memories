@@ -1,6 +1,6 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { useSnackbar } from '../hooks'
-import { ThemeSwitch } from '../components'
+import { SuspenseFallback, ThemeSwitch } from '../components'
 
 const PlayGround = () => {
 	const { openSnackBar } = useSnackbar()
@@ -18,6 +18,7 @@ const PlayGround = () => {
 					<ThemeSwitch />
 				</Box>
 			</Paper>
+			<SuspenseFallback />
 		</Container>
 	)
 }

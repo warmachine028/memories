@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Light, Dark, System } from '../styles/themes'
 
 const ThemeProvider = ({ children }) => {
-	// const System = SystemDark ? Dark : Light
 	const [theme, setTheme] = useState(System)
 	const Themes = {
 		LIGHT: 'LIGHT',
