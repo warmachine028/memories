@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import { ModeContext, SnackbarContext, ThemeContext } from '../contexts'
 
 export const useSnackbar = () => useContext(SnackbarContext)
@@ -34,13 +34,13 @@ const sleep = (ms) => {
  */
 export const useSwipe = (swipeableViewsRef, idx) => {
 	const prevIdx = usePrevious(idx)
-	const swipeForward = () => {
+	const swipeForward = useCallback(() => {
 		swipeableViewsRef.current.swipeForward()
-	}
+	}, [swipeableViewsRef])
 
-	const swipeBackward = () => {
+	const swipeBackward = useCallback(() => {
 		swipeableViewsRef.current.swipeBackward()
-	}
+	}, [swipeableViewsRef])
 
 	useEffect(() => {
 		;(async function () {
@@ -56,5 +56,5 @@ export const useSwipe = (swipeableViewsRef, idx) => {
 				}
 			}
 		})()
-	}, [idx, prevIdx])
+	}, [idx, prevIdx, swipeBackward, swipeForward])
 }

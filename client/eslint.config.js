@@ -1,25 +1,31 @@
 import js from '@eslint/js'
 import globals from 'globals'
+import eslintParser from '@babel/eslint-parser'
 import react from 'eslint-plugin-react'
+import require from 'eslint-plugin-require'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
 	{
+		ignores: ['dist/*', 'old/**/*', 'node_modules/*', '!**/eslint.config.js'],
 		files: ['**/*.{js,jsx}'],
-		ignores: ['dist'],
+
 		languageOptions: {
 			ecmaVersion: 2020,
 			globals: globals.browser,
+			parser: eslintParser,
 			parserOptions: {
-				ecmaVersion: 'latest',
-				ecmaFeatures: { jsx: true },
-				sourceType: 'module',
+				babelrc: false,
+				configFile: false,
+				// your babel options
+				presets: ['@babel/preset-env'],
 			},
 		},
 		settings: { react: { version: '18.3' } },
 		plugins: {
 			react,
+			require,
 			'react-hooks': reactHooks,
 			'react-refresh': reactRefresh,
 		},

@@ -1,6 +1,5 @@
-import { Comment, Delete, Person, Share, ThumbUpAltSharp, ThumbUpOffAlt, ThumbUpOffAltOutlined, ThumbUpOutlined, ThumbUpSharp } from '@mui/icons-material'
-import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Divider, IconButton, ListItemText, Paper, Typography } from '@mui/material'
-import React from 'react'
+import { Comment, Person, Share, ThumbUpAltSharp } from '@mui/icons-material'
+import { Avatar, Box, Card, CardActions, CardContent, CardMedia, Divider, IconButton, ListItemText, Paper, Typography } from '@mui/material'
 
 const Post = () => {
 	return (

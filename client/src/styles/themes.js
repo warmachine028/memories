@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material'
-import { deepmerge } from '@mui/utils'
+
 const Light = createTheme({
 	breakpoints: {},
 	palette: {

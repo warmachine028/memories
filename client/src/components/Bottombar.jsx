@@ -1,5 +1,5 @@
-import { Add, Archive, Favorite, PlusOne, Restore } from '@mui/icons-material'
-import { Avatar, BottomNavigation, BottomNavigationAction, Button, Icon, IconButton, Paper } from '@mui/material'
+import { Add } from '@mui/icons-material'
+import { Avatar, BottomNavigation, BottomNavigationAction } from '@mui/material'
 
 const Bottombar = () => {
 	return (
@@ -20,7 +20,7 @@ const Bottombar = () => {
 				sx={{ position: 'relative', cursor: 'unset' }}
 				disableRipple
 				icon={
-					<Avatar component={Button} sx={{ width: 60, height: 60, position: 'absolute', bottom: '30%', bgcolor: 'primary.main' }}>
+					<Avatar sx={{ width: 60, height: 60, position: 'absolute', bottom: '30%', bgcolor: 'primary.main' }}>
 						<Add />
 					</Avatar>
 				}

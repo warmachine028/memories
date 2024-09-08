@@ -1,5 +1,5 @@
 import { Google, LockOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, Checkbox, FormGroup, Icon, Paper, TextField, Typography, Avatar } from '@mui/material'
+import { Box, Button, ButtonGroup, Checkbox, FormGroup, Paper, TextField, Typography, Avatar } from '@mui/material'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -30,7 +30,7 @@ const LogIn = () => {
 				</ButtonGroup>
 				<Button fullWidth to="/signup" LinkComponent={Link} sx={{ ':hover': { backgroundColor: 'transparent' } }} disableTouchRipple>
 					<Typography variant="subtitle2" sx={{ fontWeight: { xs: '12px' } }}>
-						Don't have an account? Sign Up
+						Don&apos;t have an account? Sign Up
 					</Typography>
 				</Button>
 				<Box display="flex" width="100%">
@@ -42,9 +42,10 @@ const LogIn = () => {
 								},
 								p: 0,
 							}}
+							onClick={() => setChecked(!checked)}
 							disableTouchRipple
 						>
-							<Checkbox size="small" />
+							<Checkbox size="small" value={checked} />
 							<Typography variant="subtitle2" sx={{ fontWeight: { xs: '12px' } }}>
 								REMEMBER ME
 							</Typography>

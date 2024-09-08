@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSnackbar } from '../hooks'
 import { Alert, Snackbar as MUISnackbar } from '@mui/material'
 

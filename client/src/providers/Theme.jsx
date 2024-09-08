@@ -1,11 +1,9 @@
-import { useMediaQuery } from '@mui/material'
-import { ThemeContext } from '../contexts'
 import { ThemeProvider as MUIThemeProvider } from '@mui/material'
+import { ThemeContext } from '../contexts'
 import { useEffect, useState } from 'react'
 import { Light, Dark, System } from '../styles/themes'
 
 const ThemeProvider = ({ children }) => {
-	const SystemDark = useMediaQuery('(prefers-color-scheme: dark)')
 	// const System = SystemDark ? Dark : Light
 	const [theme, setTheme] = useState(System)
 	const Themes = {
@@ -27,7 +25,7 @@ const ThemeProvider = ({ children }) => {
 			default:
 				setTheme(Light)
 		}
-	}, [mode])
+	}, [mode, Themes.DARK, Themes.SYSTEM])
 
 	const switchTheme = (mode) => setMode(mode)
 

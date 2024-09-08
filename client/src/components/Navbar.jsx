@@ -1,25 +1,14 @@
 import { useState } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Menu, Typography, Container, Avatar, Button, Tooltip, MenuItem, ButtonGroup } from '@mui/material'
-import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material'
+import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup } from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import AccountMenu from './AccountMenu'
 import ThemeSwitch from './ThemeSwitch'
 import logo from '../images/memories.png'
 import SideBar from './Sidebar'
-const pages = []
 
 const Navbar = () => {
-	const [anchorElNav, setAnchorElNav] = useState(null)
-	const [anchorElUser, setAnchorElUser] = useState(null)
-
-	const handleCloseNavMenu = () => {
-		setAnchorElNav(null)
-	}
-
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null)
-	}
 	const [open, setOpen] = useState(false)
 
 	const location = useLocation()
@@ -78,14 +67,6 @@ const Navbar = () => {
 							</Container>
 							<img src={logo} alt="logo" width={200} />
 						</Link>
-					</Box>
-
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{pages.map((page) => (
-							<Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-								{page}
-							</Button>
-						))}
 					</Box>
 
 					{!user && !inAuth && (
