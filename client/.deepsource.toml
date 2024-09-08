@@ -1,0 +1,16 @@
+version = 1
+
+exclude_patterns = ["old/**"]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["react"]
+  environment = ["browser"]
+
+[[transformers]]
+name = "prettier"
+
+[[transformers]]
+name = "standardjs"
