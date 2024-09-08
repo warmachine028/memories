@@ -3,23 +3,26 @@ version = 1
 test_patterns = ["*/test/**"]
 
 exclude_patterns = [
-    "public/**,",
-    "dist/**"
+  "public/**,",
+  "dist/**"
 ]
 
 [[analyzers]]
 name = "shell"
-enabled = true
 
 [[analyzers]]
 name = "javascript"
-enabled = true
 
   [analyzers.meta]
   plugins = ["react"]
-  environment = ["mongo", "nodejs", "browser"]
-  module_system = "es-modules"
-  dependency_file_paths = [
-    "./client",
-    "./server",
+  environment = [
+    "mongo",
+    "nodejs",
+    "browser"
   ]
+
+[[transformers]]
+name = "prettier"
+
+[[transformers]]
+name = "standardjs"
