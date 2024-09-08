@@ -22,7 +22,17 @@ const SideBar = ({ open, setOpen }) => {
 					},
 				}}
 			>
-				<Box position="sticky" sx={{ w: '100%', display: 'flex', justifyContent: 'space-between', bgcolor: 'transparent', m: 1, alignItems: 'center' }}>
+				<Box
+					position="sticky"
+					sx={{
+						w: '100%',
+						display: 'flex',
+						justifyContent: 'space-between',
+						bgcolor: 'transparent',
+						m: 1,
+						alignItems: 'center',
+					}}
+				>
 					<Button
 						href="/"
 						sx={{

@@ -20,7 +20,15 @@ const Bottombar = () => {
 				sx={{ position: 'relative', cursor: 'unset' }}
 				disableRipple
 				icon={
-					<Avatar sx={{ width: 60, height: 60, position: 'absolute', bottom: '30%', bgcolor: 'primary.main' }}>
+					<Avatar
+						sx={{
+							width: 60,
+							height: 60,
+							position: 'absolute',
+							bottom: '30%',
+							bgcolor: 'primary.main',
+						}}
+					>
 						<Add />
 					</Avatar>
 				}

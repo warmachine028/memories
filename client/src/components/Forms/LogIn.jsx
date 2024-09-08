@@ -7,7 +7,14 @@ const LogIn = () => {
 	const [checked, setChecked] = useState(true)
 	return (
 		<Paper sx={{ padding: 2, width: '100vw', maxWidth: 400, margin: 'auto' }}>
-			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
+			<form
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: 'column',
+					gap: 5,
+				}}
+			>
 				<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
 					<LockOutlined />
 				</Avatar>

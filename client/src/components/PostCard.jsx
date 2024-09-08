@@ -82,10 +82,28 @@ const PostCard = () => {
 				</CardContent>
 			</CardActionArea>
 			<CardActions>
-				<Button size="small" color="primary" startIcon={<ThumbUpOutlined />} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Button
+					size="small"
+					color="primary"
+					startIcon={<ThumbUpOutlined />}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
 					Like
 				</Button>
-				<Button size="small" color="error" startIcon={<Delete />} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Button
+					size="small"
+					color="error"
+					startIcon={<Delete />}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
 					Delete
 				</Button>
 			</CardActions>

@@ -1,11 +1,5 @@
 {
-    
-    "depcheck": {
-        "ignoreMatches": [
-            "prop-types",
-            "@material-ui/core",
-            "classnames",
-            "@fontsource/roboto" 
-        ]
-    }
+	"depcheck": {
+		"ignoreMatches": ["prop-types", "@material-ui/core", "classnames", "@fontsource/roboto"]
+	}
 }

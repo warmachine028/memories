@@ -5,11 +5,13 @@ import react from 'eslint-plugin-react'
 import require from 'eslint-plugin-require'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default [
+	js.configs.recommended,
 	{
-		ignores: ['dist/*', 'old/**/*', 'node_modules/*', '!**/eslint.config.js'],
 		files: ['**/*.{js,jsx}'],
+		ignores: ['dist/**/*', 'old/**/*'],
 
 		languageOptions: {
 			ecmaVersion: 2020,
@@ -49,4 +51,5 @@ export default [
 			'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 		},
 	},
+	eslintConfigPrettier,
 ]

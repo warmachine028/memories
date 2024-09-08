@@ -1,17 +1,32 @@
 import { Box, Button, FormGroup, Paper, TextField, Typography } from '@mui/material'
-import { FormControl, InputLabel } from '@mui/material'
-import { useState } from 'react'
+import { FormControl } from '@mui/material'
+// import { useState } from 'react'
 // import { MuiChipsInput } from 'mui-chips-input'
 const CreatePost = () => {
-	const [chips, setChips] = useState([])
-	const handleChange = (newChips) => {
-		setChips(newChips)
-	}
+	// const [chips, setChips] = useState([])
+	// const handleChange = (newChips) => {
+	// 	setChips(newChips)
+	// }
 	return (
 		<Paper sx={{ padding: 2 }}>
-			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
+			<form
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: 'column',
+					gap: 5,
+				}}
+			>
 				<Typography variant="h6">Create a Post</Typography>
-				<Box style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 9 }}>
+				<Box
+					style={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 12,
+						marginBottom: 9,
+					}}
+				>
 					<FormGroup className="mb-3">
 						<TextField id="title" label="Title" variant="outlined" />
 					</FormGroup>

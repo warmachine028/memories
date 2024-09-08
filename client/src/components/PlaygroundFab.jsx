@@ -1,5 +1,5 @@
-import { Home, PlayCircle } from '@mui/icons-material'
-import { Box, Fab, Fade, Icon, SvgIcon } from '@mui/material'
+import { Home } from '@mui/icons-material'
+import { Box, Fab, Fade, SvgIcon } from '@mui/material'
 import { Link, useLocation } from 'react-router-dom'
 import { SiReact } from '@icons-pack/react-simple-icons'
 const PlaygroundFab = () => {

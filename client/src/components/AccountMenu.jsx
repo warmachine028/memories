@@ -86,8 +86,15 @@ const AccountMenu = () => {
 					</ListItemIcon>
 					Settings
 				</MenuItem>
-				<MenuItem onClick={handleClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<div style={{ display: 'flex', alignItems: 'center', }}>
+				<MenuItem
+					onClick={handleClose}
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+					}}
+				>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<ListItemIcon>
 							<Computer fontSize="small" />
 						</ListItemIcon>

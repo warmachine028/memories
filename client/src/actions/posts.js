@@ -35,7 +35,10 @@ export const getPosts = (page, snackBar) => async (dispatch) => {
 		const {
 			data: { data, curretPage: currentPage, numberOfPages },
 		} = await api.fetchPosts(page)
-		dispatch({ type: FETCH_ALL, payload: { data, currentPage: currentPage, numberOfPages } })
+		dispatch({
+			type: FETCH_ALL,
+			payload: { data, currentPage: currentPage, numberOfPages },
+		})
 		dispatch({ type: END_LOADING })
 	} catch (error) {
 		if (typeof error === 'object') {
@@ -88,7 +91,10 @@ export const getUserComments = (userId, page) => async (dispatch) => {
 			data: { data, numberOfPages },
 		} = await api.fetchUserComments(userId, page)
 
-		dispatch({ type: FETCH_COMMENTS, payload: { comments: data, numberOfPages } })
+		dispatch({
+			type: FETCH_COMMENTS,
+			payload: { comments: data, numberOfPages },
+		})
 		dispatch({ type: FETCHED_COMMENTS })
 	} catch (error) {
 		console.log(error)
@@ -161,12 +167,12 @@ export const createPost = (post, history, snackBar, callBack) => async (dispatch
 	callBack()
 }
 
-export const updatePost = (id, post, snackBar,clear) => async (dispatch) => {
+export const updatePost = (id, post, snackBar, clear) => async (dispatch) => {
 	try {
 		await api.updatePost(id, post)
 		dispatch({ type: UPDATE, payload: post })
 		if (snackBar) snackBar('info', 'Post updated successfully')
-		clear();
+		clear()
 	} catch (error) {
 		snackBar('error', error)
 	}

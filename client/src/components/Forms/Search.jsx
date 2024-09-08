@@ -35,8 +35,24 @@ const Search = () => {
 
 	return (
 		<Paper sx={{ padding: 2 }}>
-			<form style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }} onSubmit={() => {}}>
-				<div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 9 }}>
+			<form
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: 'column',
+					gap: 5,
+				}}
+				onSubmit={() => {}}
+			>
+				<div
+					style={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 12,
+						marginBottom: 9,
+					}}
+				>
 					<FormGroup className="mb-3">
 						<TextField id="title" label="Search Memories" variant="outlined" />
 					</FormGroup>
