@@ -11,7 +11,7 @@ const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, 
 	ForgotPassword: lazy(() => import('../pages/ForgotPassword')),
 	ResetPassword: lazy(() => import('../pages/ResetPassword')),
 	Profile: lazy(() => import('../pages/Profile')),
-	Playground: lazy(() => import('../pages/Playground')),
+	// Playground: lazy(() => import('../pages/Playground')),
 	Post: lazy(() => import('../pages/Post')),
 	UpdateUser: lazy(() => import('../pages/UpdateUser')),
 }
@@ -26,7 +26,7 @@ const AppRouter = () => {
 				<Route path="/" element={<Navigate to="/post" />} />
 				<Route path="/post" element={<Posts />} />
 				<Route path="/post/:id" element={<Post />} />
-				<Route path="/playground" element={<Playground />} />
+				{/* <Route path="/playground" element={<Playground />} /> */}
 				<Route path="/user" element={<PrivateRoute component={<Profile />} />} />
 				<Route path="/user/update" element={<PrivateRoute component={<UpdateUser />} />} />
 				<Route path="/user/:id" element={<Profile />} />
