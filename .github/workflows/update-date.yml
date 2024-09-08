@@ -1,35 +1,30 @@
 name: 📆 Update Date
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+    workflow_dispatch:
+    push:
+        branches: [main]
+
+permissions:
+    contents: write
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-    
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }} # You need to create your own token with commit rights
-          ref: ${{ github.ref }} # The branch you want to commit to
-      
-      - name: Give Permissions
-        run: | # if this line gives error, then run it locally
-          git update-index --chmod=+x ./.github/workflows/updateDate.sh
+    update-date:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@main
 
-      - name: Update Files
-        run: ./.github/workflows/updateDate.sh
-        shell: bash
-      
-      - name: Push changes
-        uses: EndBug/add-and-commit@v9
-        if: ${{ '<!-- `date "+%d/%m/%y"` -->' != '`tail -n 1 README.md`' }}
-        with:
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
-          add: .
-          message: 'Updating Date'
+            - name: Give Permissions
+              run: git update-index --chmod=+x ./.github/update-date.sh # if this line gives error, then run it locally
+
+            - name: Update README
+              run: .github/update-date.sh
+              shell: bash
+
+            - name: Push Changes
+              uses: ./.github/actions/push-changes
+              if: ${{ '<!-- `date "+%d/%m/%y"` -->' != '`tail -n 1 README.md`' }}
+              with:
+                  message: 'feat: updated date in README.md'
+                  

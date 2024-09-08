@@ -1,28 +1,29 @@
 name: 🙏 Welcome First Time Contributors
 
 on: [pull_request_target, issues]
-jobs:
-  greeting:
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
-    steps:
-    - uses: actions/first-interaction@main
-      if: ${{ github.event.sender.login != github.repository_owner }}
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: |
-          # Congratulations 🎉 @${{ github.actor }}, on creating your first issue in memories
-          
-          - Meanwhile if your liked this project, please make sure to star this 🌟🌟🌟.
-          - You can see my other projects too, which you might feel appealing.
-          - You also follow me for making more future contributions in open-source projects.
 
-        pr-message: |
-          # Congratulations 🎉 @${{ github.actor }}, on your first contribution in memories
-          
-          - Make sure to star this project, if you liked contributing to it. 🌟🌟🌟
-          - You can raise another new issue, if you find something is worth enhancement or needs a fix.
-          - You can see my other projects too, which you might feel appealing.
-          - You also follow me for making more future contributions in open-source projects.
+jobs:
+    welcome:
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+            pull-requests: write
+        steps:
+            - uses: actions/first-interaction@main
+              if: ${{ github.event.sender.login != github.repository_owner && !contains(fromJson('[ "dependabot[bot]", "dependabot-preview[bot]", "imgbot[bot]", "allcontributors" ]'), github.actor) }}
+              with:
+                  repo-token: ${{ github.token }}
+                  issue-message: |
+                      # Congratulations 🎉 @${{ github.actor }}, on creating your first issue in ${{ github.event.repository.name }}
+
+                      - Meanwhile if your liked this project, please make sure to star this 🌟🌟🌟.
+                      - You can see my other projects too, which you might feel appealing.
+                      - You also follow me for making more future contributions in open-source projects.
+
+                  pr-message: |
+                      # Congratulations 🎉 @${{ github.actor }}, on your first contribution in ${{ github.event.repository.name }}
+
+                      - Make sure to star this project, if you liked contributing to it. 🌟🌟🌟
+                      - You can raise another new issue, if you find something is worth enhancement or needs a fix.
+                      - You can see my other projects too, which you might feel appealing.
+                      - You also follow me for making more future contributions in open-source projects.
