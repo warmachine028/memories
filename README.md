@@ -1,6 +1,5 @@
     updated: Sunday, 08th September 2024
 
-
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
         <img width=200 src="https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/244920666-33f03176-059a-43ed-b2a6-c9c492f75d14.png" alt="Memories">
