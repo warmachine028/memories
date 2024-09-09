@@ -28,11 +28,14 @@ const Bottombar = () => {
 				<BottomNavigationAction icon={<Favorite />} />
 				<BottomNavigationAction
 					onClick={handleClickOpen}
-					sx={{ position: 'relative', cursor: 'unset' }}
 					disableRipple
+					sx={{ position: 'relative' }}
+					component="button"
 					icon={
 						<Avatar
 							sx={{
+								':hover': { transform: 'rotate(45deg)' },
+								transition: 'transform 0.2s',
 								width: 60,
 								height: 60,
 								position: 'absolute',

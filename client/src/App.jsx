@@ -3,7 +3,7 @@ import { CssBaseline } from '@mui/material'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from '@/store'
 import { AppRouter, Navbar, PlaygroundFab, ScrollToTop, Snackbar } from '@/components'
-import { SnackbarProvider, ThemeProvider } from '@/providers'
+import { ThemeProvider } from '@/providers'
 // import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const MemoriesApp = () => {
@@ -27,9 +27,7 @@ const App = () => {
 		<ThemeProvider>
 			<CssBaseline />
 			{/* <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}> */}
-			<SnackbarProvider>
-				<MemoriesApp />
-			</SnackbarProvider>
+			<MemoriesApp />
 			{/* </GoogleOAuthProvider> */}
 		</ThemeProvider>
 	)

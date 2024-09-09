@@ -7,7 +7,7 @@ import AccountMenu from './AccountMenu'
 import ThemeSwitch from './ThemeSwitch'
 import brand from '../images/memories.png'
 import SideBar from './Sidebar'
-import { Searchbar } from '.'
+import Searchbar from './Searchbar'
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
@@ -19,14 +19,16 @@ const Navbar = () => {
 	// const user = {}
 	return (
 		<AppBar position="sticky">
-			<Container maxWidth="xl" sx={{ bgcolor: 'transparent', pb: { xs: 2, md: 0 } }}>
-				<Toolbar disableGutters sx={{ display: 'flex', justifyContent: { md: 'space-between' } }}>
+			<Container maxWidth="xl" sx={{ pb: { xs: 2, md: 0 } }}>
+				<SideBar open={open} setOpen={setOpen} />
+				<Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', position: 'relative', py: 2 }}>
 					<IconButton
 						size="large"
 						aria-label="account of current user"
 						aria-controls="menu-appbar"
 						aria-haspopup="true"
-						onClick={setOpen}
+						onClick={() => setOpen(true)}
+						edge="start"
 						color="inherit"
 						sx={{
 							width: '50px',
@@ -42,14 +44,13 @@ const Navbar = () => {
 					{user && <AccountMenu />}
 				</Toolbar>
 				{inHome && <Searchbar />}
-				<SideBar open={open} setOpen={setOpen} />
 			</Container>
 		</AppBar>
 	)
 }
 
 const Branding = () => (
-	<Box display="flex" justifyContent="center" alignItems="center">
+	<Box display="flex" justifyContent="center" alignItems="center" position={{ xs: 'absolute', md: 'revert' }} left="50%" right="50%">
 		<Box component={Link} to="/" alignItems="center" justifyContent="center" display="flex" gap={1}>
 			<img src="favicon.ico" width="40" alt="logo" />
 			<img src={brand} alt="brand" width={200} />
@@ -58,11 +59,7 @@ const Branding = () => (
 )
 
 const LoggedOutOptions = () => (
-	<ButtonGroup
-		sx={{
-			display: { xs: 'none', md: 'flex' }
-		}}
-	>
+	<ButtonGroup sx={{ display: { xs: 'none', md: 'flex' } }}>
 		<ThemeSwitch />
 		<Button variant="contained" color="secondary" href="/login">
 			LOGIN

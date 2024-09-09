@@ -2,60 +2,52 @@ import logo from '../images/memories.png'
 import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, Drawer, Box } from '@mui/material'
 import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
 import ThemeSwitch from './ThemeSwitch'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import { logOut } from '@/reducers/auth'
 
 const SideBar = ({ open, setOpen }) => {
-	const toggleDrawer = (newOpen) => () => {
-		setOpen(newOpen)
-	}
+	const closeDrawer = useCallback(() => setOpen(false), [setOpen])
+
 	const { user } = useSelector((state) => state.authReducer)
+	const dispatch = useDispatch()
+
+	const handleLogout = useCallback(
+		(event) => {
+			event.preventDefault()
+			dispatch(logOut())
+		},
+		[dispatch]
+	)
 
 	return (
-		<Drawer open={open} onClose={toggleDrawer(false)}>
-			<Box
-				role="presentation"
-				maxWidth="500px"
-				sx={{
-					width: {
-						xs: '100vw'
-					}
-				}}
-			>
+		<Drawer open={open} onClose={closeDrawer} position="sticky">
+			<Box role="presentation" maxWidth="500px" sx={{ width: { xs: '100vw' } }} bgcolor="background.paper">
 				<Box
-					position="sticky"
 					sx={{
 						w: '100%',
 						display: 'flex',
 						justifyContent: 'space-between',
-						bgcolor: 'transparent',
 						m: 1,
-						alignItems: 'center'
+						alignItems: 'center',
+						top: 0,
+						zIndex: 4
 					}}
+					position="sticky"
+					bgcolor="background.paper"
 				>
-					<Button
-						href="/"
-						sx={{
-							':hover': {
-								backgroundColor: 'transparent'
-							}
-						}}
-					>
+					<Button href="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
 						<img src="favicon.ico" alt="logo" width={40} />
 						<img src={logo} alt="logo" height={60} />
 					</Button>
-					<IconButton
-						onClick={toggleDrawer(false)}
-						sx={{
-							width: '50px',
-							height: '50px'
-						}}
-					>
+					<IconButton onClick={closeDrawer} sx={{ width: '50px', height: '50px' }}>
 						<Close />
 					</IconButton>
 				</Box>
 				{!user && (
 					<>
-						<List>
+						<List sx={{ height: '70vh' }}>
 							<ListItem>
 								<Button variant="contained" fullWidth href="/login">
 									LOGIN
@@ -71,20 +63,21 @@ const SideBar = ({ open, setOpen }) => {
 					</>
 				)}
 				{user && (
-					<List sx={{ p: 1, height: '100vh' }}>
+					<List sx={{ p: 1, height: '100vh', zIndex: 1 }}>
 						<ListItem>
 							<ListItemIcon>
 								<Avatar src={user.image} />
 							</ListItemIcon>
 							<ListItemText primary={user.name} secondary={user.email} />
 						</ListItem>
-						<ListItemButton href="/user">
+						<Divider />
+						<ListItemButton LinkComponent={Link} to="/user" onClick={closeDrawer}>
 							<ListItemText primary="Dashboard" />
 							<ListItemIcon sx={{ minWidth: '0px' }}>
 								<Dashboard />
 							</ListItemIcon>
 						</ListItemButton>
-						<ListItemButton href="/user/update">
+						<ListItemButton LinkComponent={Link} to="/user/update" onClick={closeDrawer}>
 							<ListItemText primary="Account Settings" />
 							<ListItemIcon sx={{ minWidth: '0px' }}>
 								<Settings />
@@ -96,7 +89,7 @@ const SideBar = ({ open, setOpen }) => {
 								<ThemeSwitch />
 							</ListItemIcon>
 						</ListItem>
-						<ListItemButton>
+						<ListItemButton onClick={handleLogout}>
 							<ListItemText primary="Log Out" />
 							<ListItemIcon sx={{ minWidth: '0px' }}>
 								<Logout />

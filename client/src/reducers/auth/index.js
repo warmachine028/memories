@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import * as api from '../../api'
+import * as api from '@/api'
 import { googleLogout } from '@react-oauth/google'
+import { user } from '@/data/users'
 
 const initialState = {
 	loading: false,
-	user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+	// user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+	user: user,
 	error: null
 }
 

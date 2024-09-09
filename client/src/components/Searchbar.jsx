@@ -1,7 +1,8 @@
-import { useSnackbar } from '@/hooks'
+import { openSnackbar } from '@/reducers/notif'
 import { Search as SearchIcon } from '@mui/icons-material'
 import { alpha, Box, InputBase, styled } from '@mui/material'
 import { useCallback, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const Search = styled(Box)(({ theme }) => ({
 	position: 'relative',
@@ -44,15 +45,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	}
 }))
 const Searchbar = () => {
-	const { openSnackBar } = useSnackbar()
-	const [search, setSearch] = useState()
+	const dispatch = useDispatch()
+	const [search, setSearch] = useState('')
 
 	const handleSubmit = useCallback(
 		(event) => {
 			event.preventDefault()
-			openSnackBar('success', `Hurrray! 🎊🎊, You searched for "${search}"`)
+			if (!search) {
+				return
+			}
+			const securityLevels = ['info', 'warning', 'error', 'success']
+
+			const lowerCaseSearch = search.toLowerCase()
+			const foundLevel = securityLevels.find((level) => lowerCaseSearch.includes(level))
+
+			if (foundLevel) {
+				dispatch(
+					openSnackbar({
+						severity: foundLevel || 'success',
+						message: `Alert! You searched for a term containing "${foundLevel}".`
+					})
+				)
+			} else {
+				dispatch(
+					openSnackbar({
+						severity: 'success',
+						message: `Hurrray! 🎊🎊, You searched for "${search}"`
+					})
+				)
+			}
+			setSearch('')
 		},
-		[openSnackBar, search]
+		[dispatch, search]
 	)
 
 	const handleChange = useCallback((e) => setSearch(e.target.value), [])
@@ -62,7 +86,7 @@ const Searchbar = () => {
 			<SearchIconWrapper>
 				<SearchIcon />
 			</SearchIconWrapper>
-			<StyledInputBase placeholder="Search Memories" onChange={handleChange} />
+			<StyledInputBase placeholder="Search Memories" value={search} onChange={handleChange} />
 		</Search>
 	)
 }

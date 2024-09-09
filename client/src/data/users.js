@@ -17,6 +17,7 @@ export const user = {
 		skinColor: 'Yellow',
 		topType: 'WinterHat3'
 	},
+	image: 'https://mui.com/static/images/avatar/3.jpg',
 	__v: 0
 }
 
