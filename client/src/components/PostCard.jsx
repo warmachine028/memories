@@ -13,7 +13,7 @@ const PostCard = () => {
 		},
 		[open]
 	)
-
+	const handleClose = useCallback(() => setOpen(false), [])
 	return (
 		<Card>
 			<CardHeader
@@ -39,7 +39,7 @@ const PostCard = () => {
 							id="basic-menu"
 							anchorEl={anchorEl}
 							open={open}
-							onClose={() => setOpen(false)}
+							onClose={handleClose}
 							MenuListProps={{
 								'aria-labelledby': 'basic-button'
 							}}
@@ -52,7 +52,7 @@ const PostCard = () => {
 								horizontal: 'right'
 							}}
 						>
-							<MenuItem onClick={() => {}}>
+							<MenuItem>
 								<ListItemText primary="Share" sx={{ mr: 1.5 }} />
 								<ListItemIcon>
 									<Share />

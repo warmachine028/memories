@@ -6,10 +6,12 @@ export { default as AccountMenu } from './AccountMenu'
 export { default as ScrollToTop } from './ScrollToTop'
 export { default as Snackbar } from './Snackbar'
 export { default as Bottombar } from './Bottombar'
-export { default as SuspenseFallback } from './SuspenseFalback'
+export { default as SuspenseFallback } from './SuspenseFallback'
 export { default as PlaygroundFab } from './PlaygroundFab'
 export { default as CreatePostDialog } from './CreatePostDialog'
 export { default as Searchbar } from './Searchbar'
+export { default as Sidebar } from './Sidebar'
+export { default as PostSkeleton } from './PostSkeleton'
 export {
 	//
 	CreateComment as CreateCommentForm,

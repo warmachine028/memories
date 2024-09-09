@@ -1,10 +1,11 @@
 import { comments } from './comments'
 import { movies } from './movies'
+import { posts } from './posts'
+
 import { default as users } from './users'
 
 export const pages = 2
 export const page1 = comments.slice(0, 9)
 export const page2 = comments.slice(10)
 
-
-export { comments, movies, users }
+export { comments, movies, users, posts }

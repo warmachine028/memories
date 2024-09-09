@@ -1,16 +1,9 @@
 import { useCallback, useState } from 'react'
-import Box from '@mui/material/Box'
-import Avatar from '@mui/material/Avatar'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
+import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from '@mui/material'
 import { PersonAdd, Settings, ChevronRight, Computer, DarkMode, Done, LightMode, Logout } from '@mui/icons-material'
 import { useTheme } from '@/hooks'
 import { Link } from 'react-router-dom'
-import { logOut } from '@/reducers/auth'
+import { logOut } from '@/actions/auth'
 import { useDispatch } from 'react-redux'
 
 const AccountIcon = ({ handleClick, open }) => (
@@ -53,21 +46,13 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 				</ListItemIcon>
 				Settings
 			</MenuItem>
-			<MenuItem
-				aria-controls={open ? 'account-menu' : undefined}
-				onClick={handleClick}
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between'
-				}}
-			>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
+			<MenuItem aria-controls={open ? 'account-menu' : undefined} onClick={handleClick} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<Box display="flex" alignItems="center">
 					<ListItemIcon>
 						<Computer fontSize="small" />
 					</ListItemIcon>
 					Theme
-				</div>
+				</Box>
 				<ListItemIcon>
 					<ChevronRight fontSize="small" />
 				</ListItemIcon>
@@ -84,7 +69,12 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 
 const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 	const { switchTheme, Themes, mode } = useTheme()
-
+	const handleClick = useCallback(
+		(event) => {
+			switchTheme(event.currentTarget.textContent.toUpperCase())
+		},
+		[switchTheme]
+	)
 	return (
 		<Menu
 			anchorEl={anchorEl}
@@ -121,7 +111,7 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 			anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
 			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 		>
-			<MenuItem onClick={() => switchTheme(Themes.LIGHT)} selected={mode === Themes.LIGHT}>
+			<MenuItem onClick={handleClick} selected={mode === Themes.LIGHT}>
 				<ListItemIcon>
 					<LightMode fontSize="small" />
 				</ListItemIcon>
@@ -132,7 +122,7 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 					</ListItemIcon>
 				)}
 			</MenuItem>
-			<MenuItem onClick={() => switchTheme(Themes.DARK)} selected={mode === Themes.DARK}>
+			<MenuItem onClick={handleClick} selected={mode === Themes.DARK}>
 				<ListItemIcon>
 					<DarkMode fontSize="small" />
 				</ListItemIcon>
@@ -143,7 +133,7 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 					</ListItemIcon>
 				)}
 			</MenuItem>
-			<MenuItem onClick={() => switchTheme(Themes.SYSTEM)} selected={mode === Themes.SYSTEM}>
+			<MenuItem onClick={handleClick} selected={mode === Themes.SYSTEM}>
 				<ListItemIcon>
 					<Computer fontSize="small" />
 				</ListItemIcon>

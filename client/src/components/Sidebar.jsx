@@ -1,11 +1,11 @@
-import logo from '../images/memories.png'
+import logo from '@/assets/memories.png'
 import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, Drawer, Box } from '@mui/material'
 import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
-import ThemeSwitch from './ThemeSwitch'
 import { useDispatch, useSelector } from 'react-redux'
+import { logOut } from '@/actions/auth'
+import ThemeSwitch from './ThemeSwitch'
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { logOut } from '@/reducers/auth'
 
 const SideBar = ({ open, setOpen }) => {
 	const closeDrawer = useCallback(() => setOpen(false), [setOpen])
@@ -24,20 +24,8 @@ const SideBar = ({ open, setOpen }) => {
 	return (
 		<Drawer open={open} onClose={closeDrawer} position="sticky">
 			<Box role="presentation" maxWidth="500px" sx={{ width: { xs: '100vw' } }} bgcolor="background.paper">
-				<Box
-					sx={{
-						w: '100%',
-						display: 'flex',
-						justifyContent: 'space-between',
-						m: 1,
-						alignItems: 'center',
-						top: 0,
-						zIndex: 4
-					}}
-					position="sticky"
-					bgcolor="background.paper"
-				>
-					<Button href="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
+				<Box width="100%" display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
+					<Button LinkComponent={Link} to="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
 						<img src="favicon.ico" alt="logo" width={40} />
 						<img src={logo} alt="logo" height={60} />
 					</Button>
@@ -49,12 +37,12 @@ const SideBar = ({ open, setOpen }) => {
 					<>
 						<List sx={{ height: '70vh' }}>
 							<ListItem>
-								<Button variant="contained" fullWidth href="/login">
+								<Button variant="contained" fullWidth LinkComponent={Link} to="/login">
 									LOGIN
 								</Button>
 							</ListItem>
 							<ListItem>
-								<Button variant="outlined" fullWidth color="secondary" href="/signup">
+								<Button variant="outlined" fullWidth LinkComponent={Link} color="secondary" to="/signup">
 									SIGN UP
 								</Button>
 							</ListItem>

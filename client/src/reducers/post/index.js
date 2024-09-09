@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import * as api from '../../api'
+import { fetchPosts } from '@/api'
+import { posts } from '@/data'
+
 const initialState = {
 	loading: false,
-	posts: [],
-	post: null,
+	posts,
 	numberOfPages: null,
 	error: null
 }
@@ -12,7 +13,7 @@ export const getPosts = createAsyncThunk(
 	'post/getPosts', // prefix
 	async (formData, thunkAPI) => {
 		try {
-			const { data } = await api.fetchPosts(formData)
+			const { data } = await fetchPosts(formData)
 			return data
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.message)

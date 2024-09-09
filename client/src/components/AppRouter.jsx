@@ -17,11 +17,12 @@ const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, 
 }
 
 import { AuthRoute, PrivateRoute } from '../routes'
+import { SuspenseFallback } from '.'
 
 const AppRouter = () => {
 	const location = useLocation()
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<SuspenseFallback />}>
 			<Routes location={location}>
 				<Route path="/" element={<Navigate to="/post" />} />
 				<Route path="/post" element={<Posts />} />
