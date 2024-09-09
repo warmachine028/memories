@@ -1,6 +1,5 @@
 import { Google, LockOutlined } from '@mui/icons-material'
 import { Box, Button, ButtonGroup, Checkbox, FormGroup, Paper, TextField, Typography, Avatar, FormControlLabel } from '@mui/material'
-import SwitchBase from '@mui/material/internal/SwitchBase'
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 

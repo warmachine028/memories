@@ -26,13 +26,9 @@ const fileExtensionRegexp = /[^/?]+\.[^/]+$/
 registerRoute(
 	// Return false to exempt requests from being fulfilled by index.html.
 	({ request, url }) => {
-		if (request.mode !== 'navigate' || url.pathname.startsWith('/_') || !fileExtensionRegexp.test(url.pathname)) {
-			return false
-		} else {
-			return true
-		}
+		return !(request.mode !== 'navigate' || url.pathname.startsWith('/_') || !fileExtensionRegexp.test(url.pathname))
 	},
-	createHandlerBoundToURL(import.meta.env.PUBLIC_URL + '/index.html')
+	createHandlerBoundToURL(`${import.meta.env.PUBLIC_URL}/index.html`)
 )
 
 // An example runtime caching route for requests that aren't handled by the
