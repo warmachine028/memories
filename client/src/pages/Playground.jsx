@@ -1,11 +1,15 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
-import { useSnackbar } from '../hooks'
+import { openSnackbar } from '@/reducers/notif'
 import { SuspenseFallback, ThemeSwitch } from '@/components'
 import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 
 const Playground = () => {
-	const { openSnackBar } = useSnackbar()
-	const handleClick = useCallback(() => openSnackBar('success', 'This is a success message'), [openSnackBar])
+	const dispatch = useDispatch()
+
+	const handleClick = useCallback(() => {
+		dispatch(openSnackbar({ message: 'This is a snackbar message', severity: 'success' }))
+	}, [dispatch])
 	return (
 		<Container maxWidth="xl" sx={{ p: { md: 10, xs: 0 } }}>
 			<Paper sx={{ p: { xs: 5, md: 20 }, height: '100vh' }}>

@@ -18,7 +18,7 @@ const Navbar = () => {
 	const { user } = useSelector((state) => state.authReducer)
 	// const user = {}
 	return (
-		<AppBar position="sticky">
+		<AppBar position="sticky" >
 			<Container maxWidth="xl" sx={{ pb: { xs: 2, md: 0 } }}>
 				<SideBar open={open} setOpen={setOpen} />
 				<Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', position: 'relative', py: 2 }}>
