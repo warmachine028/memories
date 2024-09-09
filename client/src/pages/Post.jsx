@@ -1,5 +1,5 @@
 import { Container } from '@mui/material'
-import { CommentSection, PostSection } from '../sections'
+import { CommentSection, PostSection, RecommendationSection } from '@/sections'
 const Post = () => {
 	return (
 		<Container
@@ -14,6 +14,7 @@ const Post = () => {
 		>
 			<PostSection />
 			<CommentSection />
+			<RecommendationSection />
 		</Container>
 	)
 }

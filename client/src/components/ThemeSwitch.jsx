@@ -8,12 +8,12 @@ const ThemeSwitch = () => {
 	const { switchTheme, Themes, mode } = useTheme()
 	const handleClose = () => setOpen(false)
 	const [anchorEl, setAnchorEl] = useState(null)
-
+	
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget)
 		setOpen(!open)
 	}
-
+	
 	return (
 		<>
 			<Button

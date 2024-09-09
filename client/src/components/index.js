@@ -8,6 +8,8 @@ export { default as Snackbar } from './Snackbar'
 export { default as Bottombar } from './Bottombar'
 export { default as SuspenseFallback } from './SuspenseFalback'
 export { default as PlaygroundFab } from './PlaygroundFab'
+export { default as CreatePostDialog } from './CreatePostDialog'
+export { default as Searchbar } from './Searchbar'
 export {
 	//
 	CreateComment as CreateCommentForm,

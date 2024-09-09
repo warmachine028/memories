@@ -1,22 +1,26 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Delete, MoreVert, Person, Share, ThumbUpOutlined } from '@mui/icons-material'
+import { Delete, MoreVert, Share, ThumbUpOutlined } from '@mui/icons-material'
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardActionArea, CardHeader, Avatar, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material'
 
 const PostCard = () => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const [open, setOpen] = useState(false)
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget)
-		setOpen(!open)
-	}
+	const handleClick = useCallback(
+		(event) => {
+			setAnchorEl(event.currentTarget)
+			setOpen(!open)
+		},
+		[open]
+	)
+
 	return (
 		<Card>
 			<CardHeader
 				avatar={
 					<Avatar
 						component={Link}
-						to={`/user/dynamic-user-id`}
+						to={`/user/${'dynamic-user-id'}`}
 						sx={{
 							':hover': {
 								outline: '2px solid',
@@ -25,7 +29,7 @@ const PostCard = () => {
 							}
 						}}
 					>
-						<Person />
+						<img src="https://ashallendesign.ams3.cdn.digitaloceanspaces.com/rMbsGOyK6i1KjNkbXff8qLohzM1nWQA8HNGwHF0J.png" alt="avatar" width="100%" />
 					</Avatar>
 				}
 				action={
@@ -57,7 +61,7 @@ const PostCard = () => {
 						</Menu>
 					</IconButton>
 				}
-				title="Shrimp and Chorizo Paella"
+				title="Saul Goodman"
 				subheader="September 14, 2016"
 			/>
 			<CardActionArea component={Link} to="/post/sssadsa">

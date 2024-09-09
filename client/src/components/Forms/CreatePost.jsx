@@ -1,23 +1,34 @@
-import { Box, Button, FormGroup, Paper, TextField, Typography } from '@mui/material'
-import { FormControl } from '@mui/material'
-// import { useState } from 'react'
-// import { MuiChipsInput } from 'mui-chips-input'
+import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, TextField, Typography } from '@mui/material'
+import { useCallback } from 'react'
+import { movies } from '@/data'
+
 const CreatePost = () => {
-	// const [chips, setChips] = useState([])
-	// const handleChange = (newChips) => {
-	// 	setChips(newChips)
-	// }
-	return (
-		<Paper sx={{ padding: 2 }}>
-			<form
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					flexDirection: 'column',
-					gap: 5
+	const handleSubmit = useCallback((event) => {
+		event.preventDefault()
+		console.log('Submitted')
+	}, [])
+	const handleSearchInput = useCallback(
+		(params) => (
+			<TextField
+				{...params}
+				label="Tags"
+				slotProps={{
+					input: {
+						...params.InputProps,
+						type: 'search'
+					}
 				}}
-			>
-				<Typography variant="h6">Create a Post</Typography>
+			/>
+		),
+		[]
+	)
+
+	return (
+		<Paper sx={{ p: 3, display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column', gap: 5, width: { xs: '85vw', md: 'auto' } }}>
+			<Paper sx={{ width: '100%' }} component={'form'} onSubmit={handleSubmit}>
+				<Typography variant="h6" gutterBottom>
+					Create a Post
+				</Typography>
 				<Box
 					style={{
 						width: '100%',
@@ -34,15 +45,7 @@ const CreatePost = () => {
 						<TextField id="description" label="Description" variant="outlined" rows={4} multiline />
 					</FormGroup>
 					<FormControl fullWidth>
-						<TextField id="tags" label="Tags" variant="outlined" />
-						{/* <MuiChipsInput value={chips} onChange={handleChange} /> */}
-						{/* <Select labelId="demo-multiple-name-label" id="demo-multiple-name" multiple value={personName} onChange={handleChange} input={<OutlinedInput label="Name" />} MenuProps={MenuProps}>
-							{names.map((name) => (
-								<MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-									{name}
-								</MenuItem>
-							))}
-						</Select> */}
+						<Autocomplete freeSolo id="free-solo-2-demo" multiple options={movies.map((option) => option.title)} renderInput={handleSearchInput} />
 					</FormControl>
 				</Box>
 				<Button variant="contained" type="submit" fullWidth>
@@ -51,7 +54,7 @@ const CreatePost = () => {
 				<Button variant="contained" color="secondary" type="clear" fullWidth>
 					Clear
 				</Button>
-			</form>
+			</Paper>
 		</Paper>
 	)
 }

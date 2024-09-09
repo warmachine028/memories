@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useCallback, useState } from 'react'
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
@@ -12,24 +12,76 @@ import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import { ChevronRight, Computer } from '@mui/icons-material'
 
+const AccountIcon = ({ handleClick, open }) => (
+	<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+		<Tooltip title="Account settings">
+			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} aria-controls={open ? 'account-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
+				<Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+			</IconButton>
+		</Tooltip>
+	</Box>
+)
+
+const AccountMenuItems = ({ handleClose }) => (
+	<>
+		<MenuItem onClick={handleClose}>
+			<Avatar /> Profile
+		</MenuItem>
+		<MenuItem onClick={handleClose}>
+			<Avatar /> My account
+		</MenuItem>
+		<Divider />
+		<MenuItem onClick={handleClose}>
+			<ListItemIcon>
+				<PersonAdd fontSize="small" />
+			</ListItemIcon>
+			Add another account
+		</MenuItem>
+		<MenuItem onClick={handleClose}>
+			<ListItemIcon>
+				<Settings fontSize="small" />
+			</ListItemIcon>
+			Settings
+		</MenuItem>
+		<MenuItem
+			onClick={handleClose}
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between'
+			}}
+		>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				<ListItemIcon>
+					<Computer fontSize="small" />
+				</ListItemIcon>
+				Theme
+			</div>
+			<ListItemIcon>
+				<ChevronRight fontSize="small" />
+			</ListItemIcon>
+		</MenuItem>
+		<MenuItem onClick={handleClose}>
+			<ListItemIcon>
+				<Logout fontSize="small" />
+			</ListItemIcon>
+			Logout
+		</MenuItem>
+	</>
+)
+
 const AccountMenu = () => {
-	const [anchorEl, setAnchorEl] = React.useState(null)
+	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
-	const handleClick = (event) => {
+	const handleClick = useCallback((event) => {
 		setAnchorEl(event.currentTarget)
-	}
-	const handleClose = () => {
+	}, [])
+	const handleClose = useCallback(() => {
 		setAnchorEl(null)
-	}
+	}, [])
 	return (
-		<React.Fragment>
-			<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-				<Tooltip title="Account settings">
-					<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} aria-controls={open ? 'account-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
-						<Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-					</IconButton>
-				</Tooltip>
-			</Box>
+		<>
+			<AccountIcon handleClick={handleClick} open={open} />
 			<Menu
 				anchorEl={anchorEl}
 				id="account-menu"
@@ -67,51 +119,9 @@ const AccountMenu = () => {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<MenuItem onClick={handleClose}>
-					<Avatar /> Profile
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<Avatar /> My account
-				</MenuItem>
-				<Divider />
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon>
-						<PersonAdd fontSize="small" />
-					</ListItemIcon>
-					Add another account
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon>
-						<Settings fontSize="small" />
-					</ListItemIcon>
-					Settings
-				</MenuItem>
-				<MenuItem
-					onClick={handleClose}
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between'
-					}}
-				>
-					<div style={{ display: 'flex', alignItems: 'center' }}>
-						<ListItemIcon>
-							<Computer fontSize="small" />
-						</ListItemIcon>
-						Theme
-					</div>
-					<ListItemIcon>
-						<ChevronRight fontSize="small" />
-					</ListItemIcon>
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon>
-						<Logout fontSize="small" />
-					</ListItemIcon>
-					Logout
-				</MenuItem>
+				<AccountMenuItems handleClose={handleClose} />
 			</Menu>
-		</React.Fragment>
+		</>
 	)
 }
 export default AccountMenu

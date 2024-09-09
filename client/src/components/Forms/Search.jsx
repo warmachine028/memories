@@ -1,38 +1,28 @@
-import { Button, FormControl, FormGroup, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, useTheme } from '@mui/material'
-import { useState } from 'react'
-
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250
-		}
-	}
-}
-
-const names = ['Oliver Hansen', 'Van Henry', 'April Tucker', 'Ralph Hubbard', 'Omar Alexander', 'Carlos Abbott', 'Miriam Wagner', 'Bradley Wilkerson', 'Virginia Andrews', 'Kelly Snyder']
-
-function getStyles(name, personName, theme) {
-	return {
-		fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-	}
-}
+import { movies } from '@/data'
+import { Autocomplete, Button, FormControl, FormGroup, Paper, TextField } from '@mui/material'
+import { useCallback } from 'react'
 
 const Search = () => {
-	const theme = useTheme()
-	const [personName, setPersonName] = useState([])
-	const handleChange = (event) => {
-		const {
-			target: { value }
-		} = event
-		setPersonName(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value
-		)
-	}
+	const handleSearchInput = useCallback(
+		(params) => (
+			<TextField
+				{...params}
+				label="Search Tags"
+				slotProps={{
+					input: {
+						...params.InputProps,
+						type: 'search'
+					}
+				}}
+			/>
+		),
+		[]
+	)
 
+	const handleSubmit = useCallback((event) => {
+		event.preventDefault()
+		console.log('Submitted')
+	}, [])
 	return (
 		<Paper sx={{ padding: 2 }}>
 			<form
@@ -42,7 +32,7 @@ const Search = () => {
 					flexDirection: 'column',
 					gap: 5
 				}}
-				onSubmit={() => {}}
+				onSubmit={handleSubmit}
 			>
 				<div
 					style={{
@@ -57,14 +47,7 @@ const Search = () => {
 						<TextField id="title" label="Search Memories" variant="outlined" />
 					</FormGroup>
 					<FormControl fullWidth>
-						<InputLabel id="demo-simple-select-label">Search Tags</InputLabel>
-						<Select labelId="demo-multiple-name-label" id="demo-multiple-name" multiple value={personName} onChange={handleChange} input={<OutlinedInput label="Name" />} MenuProps={MenuProps}>
-							{names.map((name) => (
-								<MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-									{name}
-								</MenuItem>
-							))}
-						</Select>
+						<Autocomplete freeSolo id="free-solo-2-demo" multiple options={movies.map((option) => option.title)} renderInput={handleSearchInput} />
 					</FormControl>
 				</div>
 				<Button variant="contained" type="submit" color="success" fullWidth>

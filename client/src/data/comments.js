@@ -1,30 +1,10 @@
-const creator1 = {
-	_id: '640826f38431da1e123456778',
-	name: 'John Doe',
-	email: 'johnDoe@email.com',
-	avatar: {
-		accessoriesType: 'Round',
-		clotheColor: 'PastelYellow',
-		clotheType: 'GraphicShirt',
-		eyeType: 'WinkWacky',
-		eyebrowType: 'DefaultNatural',
-		facialHairColor: 'BrownDark',
-		facialHairType: 'BeardMedium',
-		graphicType: 'Deer',
-		hairColor: 'Black',
-		hatColor: 'Gray02',
-		mouthType: 'Twinkle',
-		skinColor: 'Yellow',
-		topType: 'WinterHat3'
-	},
-	__v: 0
-}
+import { user as creator1, user2 as creator2 } from './users.js'
 
 export const comments = [
 	{
 		_id: '35fcb842-6bc4-4833-8baf-386efcd270af',
 		createdAt: '2023-06-28T22:41:04.897Z',
-		creator: creator1,
+		creator: creator2,
 		likes: [],
 		message: 'Aperiam asperiores asperiores nulla beatae unde deleniti similique eos.',
 		post: '64beed3d7ba580756e0c5fac',
@@ -166,6 +146,3 @@ export const comments = [
 		__v: 0
 	}
 ]
-export const pages = 2
-export const page1 = comments.slice(0, 9)
-export const page2 = comments.slice(10)

@@ -5,20 +5,22 @@ import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import AccountMenu from './AccountMenu'
 import ThemeSwitch from './ThemeSwitch'
-import logo from '../images/memories.png'
+import brand from '../images/memories.png'
 import SideBar from './Sidebar'
+import { Searchbar } from '.'
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
 
 	const location = useLocation()
 	const inAuth = ['/login', '/signup', '/forgot-password', '/reset-password'].includes(location.pathname)
+	const inHome = location.pathname === '/post'
 	const { user } = useSelector((state) => state.authReducer)
 	// const user = {}
 	return (
 		<AppBar position="sticky">
-			<Container maxWidth="xl" sx={{ bgcolor: 'transparent' }}>
-				<Toolbar disableGutters>
+			<Container maxWidth="xl" sx={{ bgcolor: 'transparent', pb: { xs: 2, md: 0 } }}>
+				<Toolbar disableGutters sx={{ display: 'flex', justifyContent: { md: 'space-between' } }}>
 					<IconButton
 						size="large"
 						aria-label="account of current user"
@@ -35,58 +37,36 @@ const Navbar = () => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							width: { xs: 'calc(100% - 100px)', sm: 'auto' }
-						}}
-					>
-						<Link
-							to="/"
-							style={{
-								textDecoration: 'none',
-								display: 'flex',
-								justifyItems: 'center',
-								alignItems: 'center',
-								gap: 10
-							}}
-						>
-							<Container
-								sx={{
-									p: 0,
-									display: {
-										xs: 'none',
-										sm: 'block'
-									},
-									bgcolor: 'transparent'
-								}}
-							>
-								<img src="favicon.ico" width="40" />
-							</Container>
-							<img src={logo} alt="logo" width={200} />
-						</Link>
-					</Box>
-
-					{!user && !inAuth && (
-						<ButtonGroup
-							sx={{
-								display: { xs: 'none', md: 'flex' }
-							}}
-						>
-							<ThemeSwitch />
-							<Button variant="contained" color="secondary" href="/login">
-								LOGIN
-							</Button>
-						</ButtonGroup>
-					)}
-
+					<Branding />
+					{!user && !inAuth && <LoggedOutOptions />}
 					{user && <AccountMenu />}
 				</Toolbar>
+				{inHome && <Searchbar />}
 				<SideBar open={open} setOpen={setOpen} />
 			</Container>
 		</AppBar>
 	)
 }
+
+const Branding = () => (
+	<Box display="flex" justifyContent="center" alignItems="center">
+		<Box component={Link} to="/" alignItems="center" justifyContent="center" display="flex" gap={1}>
+			<img src="favicon.ico" width="40" alt="logo" />
+			<img src={brand} alt="brand" width={200} />
+		</Box>
+	</Box>
+)
+
+const LoggedOutOptions = () => (
+	<ButtonGroup
+		sx={{
+			display: { xs: 'none', md: 'flex' }
+		}}
+	>
+		<ThemeSwitch />
+		<Button variant="contained" color="secondary" href="/login">
+			LOGIN
+		</Button>
+	</ButtonGroup>
+)
 export default Navbar

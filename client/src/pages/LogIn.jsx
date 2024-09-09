@@ -1,5 +1,5 @@
 import { Container } from '@mui/material'
-import { LogInForm } from '../components'
+import { LogInForm } from '@/components'
 
 const LogIn = () => {
 	return (

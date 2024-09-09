@@ -1,10 +1,11 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { useSnackbar } from '../hooks'
-import { SuspenseFallback, ThemeSwitch } from '../components'
+import { SuspenseFallback, ThemeSwitch } from '@/components'
+import { useCallback } from 'react'
 
 const Playground = () => {
 	const { openSnackBar } = useSnackbar()
-	const handleClick = () => openSnackBar('success', 'This is a success message')
+	const handleClick = useCallback(() => openSnackBar('success', 'This is a success message'), [openSnackBar])
 	return (
 		<Container maxWidth="xl" sx={{ p: { md: 10, xs: 0 } }}>
 			<Paper sx={{ p: { xs: 5, md: 20 }, height: '100vh' }}>

@@ -1,5 +1,4 @@
 import logo from '../images/memories.png'
-
 import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, Drawer, Box } from '@mui/material'
 import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
 import ThemeSwitch from './ThemeSwitch'
