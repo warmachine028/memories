@@ -3,7 +3,7 @@ import { PostCard, SearchForm, CreatePostForm, Bottombar } from '@/components'
 
 const Posts = () => {
 	return (
-		<Container sx={{ paddingY: 10 }} maxWidth="xl">
+		<Container sx={{ py: { xs: 2, md: 4 } }} maxWidth="xl">
 			<Grid container spacing={3}>
 				<Grid container size={{ xs: 12, md: 8, xl: 9 }}>
 					{[1, 2, 3, 4, 5, 6].map((post) => (
