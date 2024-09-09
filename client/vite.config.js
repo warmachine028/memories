@@ -11,5 +11,8 @@ export default defineConfig({
 			'@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'src'),
 			'~': path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'node_modules')
 		}
+	},
+	build: {
+		chunkSizeWarningLimit: 1600
 	}
 })

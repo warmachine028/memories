@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, ButtonGroup, FormControl, FormGroup, Paper, TextField, Typography } from '@mui/material'
 import { useCallback } from 'react'
 import { movies } from '@/data'
 
@@ -48,12 +48,14 @@ const CreatePost = () => {
 						<Autocomplete freeSolo id="free-solo-2-demo" multiple options={movies.map((option) => option.title)} renderInput={handleSearchInput} />
 					</FormControl>
 				</Box>
-				<Button variant="contained" type="submit" fullWidth>
-					Create
-				</Button>
-				<Button variant="contained" color="secondary" type="clear" fullWidth>
-					Clear
-				</Button>
+				<ButtonGroup orientation="vertical" fullWidth>
+					<Button variant="contained" type="submit">
+						Create
+					</Button>
+					<Button variant="contained" color="secondary" type="clear">
+						Clear
+					</Button>
+				</ButtonGroup>
 			</Paper>
 		</Paper>
 	)
