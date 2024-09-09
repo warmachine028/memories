@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/providers'
 
 const MemoriesApp = () => {
 	//  [System.Environment]::SetEnvironmentVariable("NODE_ENV","development","User")
-	const appEnviromnent = import.meta.env.MODE || 'development'
+	// const appEnviromnent = import.meta.env.MODE || 'development'
 	return (
 		<Provider store={store}>
 			<BrowserRouter>
@@ -16,7 +16,7 @@ const MemoriesApp = () => {
 				<AppRouter />
 				<Snackbar />
 				<ScrollToTop />
-				{appEnviromnent !== 'production' && <PlaygroundFab />}
+				<PlaygroundFab />
 			</BrowserRouter>
 		</Provider>
 	)
