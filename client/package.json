@@ -19,7 +19,7 @@
 		"@fontsource/roboto": "^5.0.15",
 		"@icons-pack/react-simple-icons": "^10.0.0",
 		"@mui/icons-material": "^6.0.2",
-		"@mui/material": "^6.0.2",
+		"@mui/material": "^6.1.0",
 		"@react-oauth/google": "^0.12.1",
 		"@reduxjs/toolkit": "^2.2.7",
 		"avataaars2": "^1.1.1",
