@@ -25,4 +25,5 @@ name = "javascript"
 name = "prettier"
 
 [[transformers]]
+
 name = "standardjs"
