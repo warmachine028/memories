@@ -39,7 +39,7 @@
 	"description": "This is the client side for memories Project",
 	"devDependencies": {
 		"@babel/core": "^7.25.7",
-		"@babel/eslint-parser": "^7.25.1",
+		"@babel/eslint-parser": "^7.25.7",
 		"@babel/preset-env": "^7.25.7",
 		"@babel/preset-react": "^7.25.7",
 		"@eslint/js": "^9.11.1",
