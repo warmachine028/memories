@@ -1,5 +1,10 @@
 {
-	"author": "warmachine028 <warmachine028@outlook.com>",
+	"$schema": "https://json.schemastore.org/package",
+	"author": {
+		"name": "Pritam Kundu",
+		"email": "pritamkundu771@gmail.com",
+		"url": "https://github.com/warmachine028"
+	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.20.3",
@@ -9,14 +14,21 @@
 		"express-rate-limit": "^7.4.0",
 		"jsonwebtoken": "^9.0.2",
 		"lodash": "^4.17.21",
-		"mongoose": "^8.6.1",
+		"mongoose": "^8.7.0",
 		"nodemailer": "^6.9.15"
 	},
 	"description": "This is the server for memories-client",
 	"devDependencies": {
-		"nodemon": "^3.1.4"
+		"nodemon": "^3.1.7"
 	},
-	"keywords": [],
+	"keywords": [
+		"mongoDB",
+		"express",
+		"node",
+		"express-rate-limit",
+		"jsonwebtoken",
+		"nodemailer"
+	],
 	"license": "ISC",
 	"main": "index.js",
 	"name": "memories-server",
