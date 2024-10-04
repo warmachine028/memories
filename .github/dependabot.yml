@@ -6,8 +6,14 @@ updates:
           interval: daily
           time: '21:00'
     - package-ecosystem: npm #! enable for javascript & typescript
+      open-pull-requests-limit: 10
       directory: 'client'
       schedule:
           interval: daily
           time: '21:00'
-      
+    - package-ecosystem: npm #! enable for javascript & typescript
+      open-pull-requests-limit: 10
+      directory: 'server'
+      schedule:
+          interval: daily
+          time: '21:00'
