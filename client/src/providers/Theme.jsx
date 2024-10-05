@@ -26,7 +26,7 @@ const ThemeProvider = ({ children }) => {
 		}
 	}, [mode, Themes.DARK, Themes.SYSTEM])
 
-	const switchTheme = (mode) => setMode(mode)
+	const switchTheme = (newMode) => setMode(newMode)
 
 	const values = { switchTheme, Themes, mode }
 	return (
