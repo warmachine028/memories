@@ -14,9 +14,7 @@ const AuthorDetails = ({ avatarIcon, authorName, authorEmail, timestamp }) => (
 		<Box>
 			<ListItemText primary={`Author: ${authorName}`} secondary={authorEmail} />
 			<Typography variant="body2" color="textSecondary" component="p">
-				<span>
-				{moment(timestamp).fromNow()}
-				</span>
+				<span>{moment(timestamp).fromNow()}</span>
 			</Typography>
 		</Box>
 	</Box>

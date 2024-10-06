@@ -20,7 +20,7 @@ import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'
 
 const AppRouter = () => {
-	const location = useLocation()	
+	const location = useLocation()
 	return (
 		<Suspense fallback={<SuspenseFallback />}>
 			<Routes location={location}>

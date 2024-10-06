@@ -17,7 +17,6 @@ const Branding = () => {
 	)
 }
 
-
 const LoggedOutOptions = () => {
 	return (
 		<ButtonGroup sx={{ display: { xs: 'none', md: 'flex' } }}>

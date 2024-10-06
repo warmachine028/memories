@@ -14,7 +14,7 @@ export default [
 			globals: {
 				...globals.browser,
 				__dirname: true
-			 },
+			},
 			parserOptions: {
 				ecmaVersion: 'latest',
 				ecmaFeatures: { jsx: true },
