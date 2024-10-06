@@ -4,7 +4,6 @@ import { SignUpForm } from '../components'
 const SignUp = () => {
 	return (
 		<Container
-			
 			style={{
 				height: '100vh',
 				display: 'flex',
