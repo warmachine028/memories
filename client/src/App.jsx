@@ -1,35 +1,28 @@
 import { Provider } from 'react-redux'
-import { CssBaseline } from '@mui/material'
-import { BrowserRouter } from 'react-router-dom'
-import { store } from '@/store'
-import { AppRouter, Navbar, PlaygroundFab, ScrollToTop, Snackbar } from '@/components'
 import { ThemeProvider } from '@/providers'
-// import { GoogleOAuthProvider } from '@react-oauth/google'
+import { store } from '@/store'
+import { BrowserRouter } from 'react-router-dom'
+import { AppRouter, Navbar, PlaygroundFab, ScrollToTop, Snackbar } from '@/components'
 
 const MemoriesApp = () => {
-	//  [System.Environment]::SetEnvironmentVariable("NODE_ENV","development","User")
-	// const appEnviromnent = import.meta.env.MODE || 'development'
 	return (
-		<Provider store={store}>
-			<BrowserRouter>
-				<Navbar />
-				<AppRouter />
-				<Snackbar />
-				<ScrollToTop />
-				<PlaygroundFab />
-			</BrowserRouter>
-		</Provider>
+		<BrowserRouter>
+			<Navbar />
+			<AppRouter />
+			<Snackbar />
+			<ScrollToTop />
+			<PlaygroundFab />
+		</BrowserRouter>
 	)
 }
 
 const App = () => {
 	return (
-		<ThemeProvider>
-			<CssBaseline />
-			{/* <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}> */}
-			<MemoriesApp />
-			{/* </GoogleOAuthProvider> */}
-		</ThemeProvider>
+		<Provider store={store}>
+			<ThemeProvider>
+				<MemoriesApp />
+			</ThemeProvider>
+		</Provider>
 	)
 }
 

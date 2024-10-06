@@ -3,11 +3,11 @@ import { handleApiCall } from '@/lib'
 import {
 	signUp as signUpAPI,
 	signIn as signInAPI, //
-	googleSignIn as googleSignInAPI,
+	// googleSignIn as googleSignInAPI,
 	sendResetLink,
 	setNewPassword
 } from '@/api'
-import { googleLogout } from '@react-oauth/google'
+// import { googleLogout } from '@react-oauth/google'
 
 export const signUp = createAsyncThunk(
 	'auth/signup', //
@@ -23,17 +23,17 @@ export const logIn = createAsyncThunk(
 	}
 )
 
-export const googleSignIn = createAsyncThunk(
-	'auth/google-signin', //
-	(formData, thunkAPI) => {
-		handleApiCall(googleSignInAPI, formData.result, thunkAPI)
-	}
-)
+// export const googleSignIn = createAsyncThunk(
+// 	'auth/google-signin', //
+// 	(formData, thunkAPI) => {
+// 		handleApiCall(googleSignInAPI, formData.result, thunkAPI)
+// 	}
+// )
 
 export const logOut = createAsyncThunk(
 	'auth/logout', //
 	() => {
-		googleLogout()
+		// googleLogout()
 		localStorage.removeItem('user')
 	}
 )

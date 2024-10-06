@@ -1,9 +1,16 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import { ModeContext, SnackbarContext, ThemeContext } from '../contexts'
+import { ModeContext, SnackbarContext, ThemeContext } from '@/contexts'
 
 export const useSnackbar = () => useContext(SnackbarContext)
 export const useMode = () => useContext(ModeContext)
-export const useTheme = () => useContext(ThemeContext)
+// export { useTheme } from './theme'
+export const useTheme = () => {
+	const context = useContext(ThemeContext)
+	if (context === undefined) {
+		throw new Error('useTheme must be used within a ThemeProvider')
+	}
+	return context
+}
 
 /**
  * Returns the previous value of the state of a component
@@ -15,7 +22,7 @@ export const usePrevious = (value) => {
 	useEffect(() => {
 		ref.current = value
 	})
-	return ref.current
+	return ref
 }
 
 /**

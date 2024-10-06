@@ -1,37 +1,66 @@
-import { ThemeProvider as MUIThemeProvider } from '@mui/material'
-import { ThemeContext } from '../contexts'
 import { useEffect, useState } from 'react'
-import { Light, Dark, System } from '../styles/themes'
+import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThemeContext } from '@/contexts'
+import { setThemeAction } from '@/reducers/theme'
+import { Light as lightTheme, Dark as darkTheme } from '@/themes'
 
 const ThemeProvider = ({ children }) => {
-	const [theme, setTheme] = useState(System)
-	const Themes = {
-		LIGHT: 'LIGHT',
-		DARK: 'DARK',
-		SYSTEM: 'SYSTEM'
-	}
-	const savedTheme = localStorage.getItem('theme') || Themes.SYSTEM
-	const [mode, setMode] = useState(savedTheme)
-	useEffect(() => {
-		localStorage.setItem('theme', mode)
-		switch (mode) {
-			case Themes.DARK:
-				setTheme(Dark)
-				break
-			case Themes.SYSTEM:
-				setTheme(System)
-				break
-			default:
-				setTheme(Light)
+	const dispatch = useDispatch()
+	const reduxTheme = useSelector((state) => state.theme)
+	const [theme, setThemeState] = useState(() => {
+		// Try to get the theme from localStorage, fallback to reduxTheme
+		if (typeof window !== 'undefined') {
+			return localStorage.getItem('theme') || reduxTheme
 		}
-	}, [mode, Themes.DARK, Themes.SYSTEM])
+		return reduxTheme
+	})
+	const [actualTheme, setActualTheme] = useState(reduxTheme === 'system' ? 'light' : reduxTheme)
 
-	const switchTheme = (mode) => setMode(mode)
+	useEffect(() => {
+		const handleSystemThemeChange = (event) => {
+			if (theme === 'system') {
+				setActualTheme(event.matches ? 'dark' : 'light')
+			}
+		}
 
-	const values = { switchTheme, Themes, mode }
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+		// Set initial theme
+		if (theme === 'system') {
+			setActualTheme(mediaQuery.matches ? 'dark' : 'light')
+		} else {
+			setActualTheme(theme)
+		}
+
+		// Use addEventListener instead of addListener
+		mediaQuery.addEventListener('change', handleSystemThemeChange)
+
+		// Clean up the event listener
+		return () => mediaQuery.removeEventListener('change', handleSystemThemeChange)
+	}, [theme])
+
+	useEffect(() => {
+		// Sync Redux state with localStorage
+		dispatch(setThemeAction(theme))
+		localStorage.setItem('theme', theme)
+	}, [theme, dispatch])
+
+	const setTheme = (newTheme) => {
+		setThemeState(newTheme)
+		if (newTheme !== 'system') {
+			setActualTheme(newTheme)
+		}
+	}
+
+	const currentTheme = actualTheme === 'dark' ? darkTheme : lightTheme
+
 	return (
-		<ThemeContext.Provider value={values}>
-			<MUIThemeProvider theme={theme}>{children}</MUIThemeProvider>
+		<ThemeContext.Provider value={{ theme, setTheme, actualTheme }}>
+			<MUIThemeProvider theme={currentTheme}>
+				<CssBaseline />
+				{children}
+			</MUIThemeProvider>
 		</ThemeContext.Provider>
 	)
 }

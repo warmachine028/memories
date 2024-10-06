@@ -35,7 +35,7 @@ const Navbar = () => {
 	const location = useLocation()
 	const inAuth = ['/login', '/signup', '/forgot-password', '/reset-password'].includes(location.pathname)
 	const inHome = location.pathname === '/post'
-	const { user } = useSelector((state) => state.authReducer)
+	const { user } = useSelector((state) => state.auth)
 	// const user = {}
 	return (
 		<AppBar position="sticky">

@@ -1,14 +1,12 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import authReducer from '../reducers/auth'
-import postReducer from '../reducers/post'
-import notifReducer from '../reducers/notif'
+import { configureStore } from '@reduxjs/toolkit'
+import { authReducer, postReducer, notifReducer, themeReducer } from '@/reducers'
 
-
-const reducer = combineReducers({
-	authReducer,
-	postReducer,
-	notifReducer
-	// add more reducers here
+export const store = configureStore({
+	reducer: {
+		auth: authReducer,
+		posts: postReducer,
+		notification: notifReducer,
+		theme: themeReducer
+		// Other reducers...
+	}
 })
-
-export const store = configureStore({ reducer })

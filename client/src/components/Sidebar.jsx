@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 const SideBar = ({ open, setOpen }) => {
 	const closeDrawer = useCallback(() => setOpen(false), [setOpen])
 
-	const { user } = useSelector((state) => state.authReducer)
+	const { user } = useSelector((state) => state.auth)
 	const dispatch = useDispatch()
 
 	const handleLogout = useCallback(

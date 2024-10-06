@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 
 const Snackbar = () => {
 	const dispatch = useDispatch()
-	const reducer = useSelector((state) => state.notifReducer)
+	const reducer = useSelector((state) => state.notification)
 	const { message, open, severity } = reducer
 	const handleClose = useCallback(() => {
 		dispatch(closeSnackbar())
@@ -13,7 +13,7 @@ const Snackbar = () => {
 
 	return (
 		<MUISnackbar
-			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={open}
 			autoHideDuration={5000}
 			onClose={handleClose}

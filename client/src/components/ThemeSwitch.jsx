@@ -1,90 +1,32 @@
-import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ButtonGroup, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import { DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
+import { Button, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import { useCallback, useState } from 'react'
-import { useTheme } from '../hooks'
+import { useTheme } from '@/hooks'
 
-const ThemeSwitch = () => {
-	const [open, setOpen] = useState(false)
-	const { switchTheme, Themes, mode } = useTheme()
-	const handleClose = useCallback(() => setOpen(false), [])
-	const [anchorEl, setAnchorEl] = useState(null)
-
-	const handleOpen = useCallback(
-		(event) => {
-			setAnchorEl(event.currentTarget)
-			setOpen(!open)
-		},
-		[open]
-	)
-	const handleClick = useCallback(
-		(event) => {
-			switchTheme(event.currentTarget.textContent.toUpperCase())
-		},
-		[switchTheme]
-	)
-
-	return (
-		<>
-			<Button
-				id="basic-button"
-				aria-controls={open ? 'basic-menu' : undefined}
-				variant="contained"
-				aria-haspopup="true"
-				aria-expanded={open ? 'true' : undefined}
-				onClick={handleOpen}
-				sx={{
-					display: {
-						xs: 'none',
-						md: 'block'
-					}
-				}}
-			>
-				Switch Theme
-				{open && <ThemeMenu anchorEl={anchorEl} handleClose={handleClose} switchTheme={switchTheme} mode={mode} Themes={Themes} />}
-			</Button>
-			<ButtonGroup
-				sx={{
-					display: { md: 'none' }
-				}}
-			>
-				<Button variant={mode === Themes.LIGHT ? 'contained' : 'outlined'} onClick={handleClick}>
-					<LightMode />
-				</Button>
-				<Button variant={mode === Themes.DARK ? 'contained' : 'outlined'} onClick={handleClick}>
-					<DarkMode />
-				</Button>
-				<Button variant={mode === Themes.SYSTEM ? 'contained' : 'outlined'} onClick={handleClick}>
-					<Computer />
-				</Button>
-			</ButtonGroup>
-		</>
-	)
-}
-
-const ThemeMenu = ({ anchorEl, handleClose, handleClick, mode, Themes }) => {
+const ThemeMenu = ({ anchorEl, handleClose, handleClick, theme }) => {
 	return (
 		<Menu
-			id="basic-menu"
+			id="theme-menu"
 			anchorEl={anchorEl}
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
 			MenuListProps={{
-				'aria-labelledby': 'basic-button'
+				'aria-labelledby': 'theme-button'
 			}}
 		>
-			<MenuItem onClick={handleClick} selected={mode === Themes.LIGHT}>
+			<MenuItem onClick={() => handleClick('light')} selected={theme === 'light'}>
 				<ListItemText sx={{ mr: 1 }}>Light</ListItemText>
 				<ListItemIcon>
 					<LightMode />
 				</ListItemIcon>
 			</MenuItem>
-			<MenuItem onClick={handleClick} selected={mode === Themes.DARK}>
+			<MenuItem onClick={() => handleClick('dark')} selected={theme === 'dark'}>
 				<ListItemText sx={{ mr: 1 }}>Dark</ListItemText>
 				<ListItemIcon>
 					<DarkMode />
 				</ListItemIcon>
 			</MenuItem>
-			<MenuItem onClick={handleClick} selected={mode === Themes.SYSTEM}>
+			<MenuItem onClick={() => handleClick('system')} selected={theme === 'system'}>
 				<ListItemText sx={{ mr: 1 }}>System</ListItemText>
 				<ListItemIcon>
 					<SettingsSystemDaydream />
@@ -93,5 +35,45 @@ const ThemeMenu = ({ anchorEl, handleClose, handleClick, mode, Themes }) => {
 		</Menu>
 	)
 }
+const ThemeSwitch = () => {
+	const [anchorEl, setAnchorEl] = useState(null)
+	const { theme, setTheme } = useTheme()
 
+	const handleOpen = useCallback((event) => {
+		setAnchorEl(event.currentTarget)
+	}, [])
+
+	const handleClose = useCallback(() => {
+		setAnchorEl(null)
+	}, [])
+
+	const handleClick = useCallback(
+		(newTheme) => {
+			setTheme(newTheme)
+			handleClose()
+		},
+		[setTheme, handleClose]
+	)
+
+	return (
+		<>
+			<Button //
+				id="theme-button"
+				aria-controls={anchorEl ? 'theme-menu' : undefined}
+				aria-haspopup="true"
+				aria-expanded={anchorEl ? 'true' : undefined}
+				variant="contained"
+				onClick={handleOpen}
+			>
+				Switch Theme
+			</Button>
+			<ThemeMenu //
+				anchorEl={anchorEl}
+				handleClose={handleClose}
+				handleClick={handleClick}
+				theme={theme}
+			/>
+		</>
+	)
+}
 export default ThemeSwitch

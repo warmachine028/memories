@@ -68,12 +68,12 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 }
 
 const ThemeMenu = ({ handleClose, anchorEl, open }) => {
-	const { switchTheme, Themes, mode } = useTheme()
+	const { theme, setTheme } = useTheme()
 	const handleClick = useCallback(
-		(event) => {
-			switchTheme(event.currentTarget.textContent.toUpperCase())
+		(newTheme) => {
+			setTheme(newTheme)
 		},
-		[switchTheme]
+		[setTheme]
 	)
 	return (
 		<Menu
@@ -111,34 +111,34 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 			anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
 			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 		>
-			<MenuItem onClick={handleClick} selected={mode === Themes.LIGHT}>
+			<MenuItem onClick={() => handleClick('light')} selected={theme === 'light'}>
 				<ListItemIcon>
 					<LightMode fontSize="small" />
 				</ListItemIcon>
 				Light
-				{mode === Themes.LIGHT && (
+				{theme === 'light' && (
 					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
 						<Done fontSize="small" />
 					</ListItemIcon>
 				)}
 			</MenuItem>
-			<MenuItem onClick={handleClick} selected={mode === Themes.DARK}>
+			<MenuItem onClick={() => handleClick('dark')} selected={theme === 'light'}>
 				<ListItemIcon>
 					<DarkMode fontSize="small" />
 				</ListItemIcon>
 				Dark
-				{mode === Themes.DARK && (
+				{theme === 'dark' && (
 					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
 						<Done fontSize="small" />
 					</ListItemIcon>
 				)}
 			</MenuItem>
-			<MenuItem onClick={handleClick} selected={mode === Themes.SYSTEM}>
+			<MenuItem onClick={() => handleClick('system')} selected={theme === 'light'}>
 				<ListItemIcon>
 					<Computer fontSize="small" />
 				</ListItemIcon>
 				System
-				{mode === Themes.SYSTEM && (
+				{theme === 'system' && (
 					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
 						<Done fontSize="small" />
 					</ListItemIcon>

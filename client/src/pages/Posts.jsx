@@ -3,7 +3,7 @@ import { PostCard, SearchForm, CreatePostForm, Bottombar, PostSkeleton } from '@
 import { useSelector } from 'react-redux'
 
 const Posts = () => {
-	const { posts, loading } = useSelector((state) => state.postReducer)
+	const { posts, loading } = useSelector((state) => state.posts)
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, mb: 10 }} maxWidth="xl">
 			<Grid container spacing={3}>

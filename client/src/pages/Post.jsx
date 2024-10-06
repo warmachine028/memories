@@ -1,5 +1,6 @@
 import { Container } from '@mui/material'
 import { CommentSection, PostSection, RecommendationSection } from '@/sections'
+
 const Post = () => {
 	return (
 		<Container

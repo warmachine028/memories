@@ -4,23 +4,23 @@ import { lazy, Suspense } from 'react'
 // const Posts = lazy(() => import('../pages/Posts'))
 // const LogIn = lazy(() => import('../pages/LogIn'))
 const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, Playground, Post, UpdateUser } = {
-	Posts: lazy(() => import('../pages/Posts')),
-	LogIn: lazy(() => import('../pages/LogIn')),
-	NotFound: lazy(() => import('../pages/NotFound')),
-	SignUp: lazy(() => import('../pages/SignUp')),
-	ForgotPassword: lazy(() => import('../pages/ForgotPassword')),
-	ResetPassword: lazy(() => import('../pages/ResetPassword')),
-	Profile: lazy(() => import('../pages/Profile')),
-	Playground: lazy(() => import('../pages/Playground')),
-	Post: lazy(() => import('../pages/Post')),
-	UpdateUser: lazy(() => import('../pages/UpdateUser'))
+	Posts: lazy(() => import('@/pages/Posts')),
+	LogIn: lazy(() => import('@/pages/LogIn')),
+	NotFound: lazy(() => import('@/pages/NotFound')),
+	SignUp: lazy(() => import('@/pages/SignUp')),
+	ForgotPassword: lazy(() => import('@/pages/ForgotPassword')),
+	ResetPassword: lazy(() => import('@/pages/ResetPassword')),
+	Profile: lazy(() => import('@/pages/Profile')),
+	Playground: lazy(() => import('@/pages/Playground')),
+	Post: lazy(() => import('@/pages/Post')),
+	UpdateUser: lazy(() => import('@/pages/UpdateUser'))
 }
 
-import { AuthRoute, PrivateRoute } from '../routes'
+import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'
 
 const AppRouter = () => {
-	const location = useLocation()
+	const location = useLocation()	
 	return (
 		<Suspense fallback={<SuspenseFallback />}>
 			<Routes location={location}>

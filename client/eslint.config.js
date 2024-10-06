@@ -1,40 +1,29 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import eslintParser from '@babel/eslint-parser'
 import react from 'eslint-plugin-react'
-import require from 'eslint-plugin-require'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import eslintConfigPrettier from 'eslint-config-prettier'
-import presetEnv from '@babel/preset-env'
-import presetReact from '@babel/preset-react'
 
 export default [
-	js.configs.recommended,
-	{
-		ignores: ['old/*', 'dist/*']
-	},
+	{ ignores: ['dist'] },
 	{
 		files: ['**/*.{js,jsx}'],
 		languageOptions: {
-			ecmaVersion: 'latest',
-			globals: globals.browser,
-			parser: eslintParser,
+			ecmaVersion: 2025,
+			globals: {
+				...globals.browser,
+				__dirname: true
+			 },
 			parserOptions: {
-				babelrc: false,
-				configFile: false,
-				// your babel options
-				presets: [presetEnv, presetReact]
+				ecmaVersion: 'latest',
+				ecmaFeatures: { jsx: true },
+				sourceType: 'module'
 			}
 		},
-		settings: {
-			react: {
-				version: '18.3'
-			}
-		},
+		settings: { react: { version: '18.3' } },
 		plugins: {
 			react,
-			require,
 			'react-hooks': reactHooks,
 			'react-refresh': reactRefresh
 		},
@@ -43,24 +32,10 @@ export default [
 			...react.configs.recommended.rules,
 			...react.configs['jsx-runtime'].rules,
 			...reactHooks.configs.recommended.rules,
-			'no-unused-vars': [
-				'warn',
-				{
-					vars: 'all',
-					args: 'after-used',
-					caughtErrors: 'all',
-					ignoreRestSiblings: false,
-					reportUsedIgnorePattern: false
-				}
-			],
+			'no-unused-vars': ['warn'],
 			'react/jsx-no-target-blank': 'off',
 			'react/prop-types': 'off',
-			'react-refresh/only-export-components': [
-				'warn',
-				{
-					allowConstantExport: true
-				}
-			]
+			'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
 		}
 	},
 	eslintConfigPrettier

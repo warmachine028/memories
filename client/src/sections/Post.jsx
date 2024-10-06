@@ -1,5 +1,6 @@
 import { Comment, Person, Share, ThumbUpAltSharp } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardMedia, Divider, IconButton, ListItemText, Paper, Typography } from '@mui/material'
+import moment from 'moment'
 
 const AuthorInfo = ({ avatarIcon, authorName, authorEmail, timestamp }) => (
 	<Box marginBottom="20px">
@@ -11,9 +12,11 @@ const AuthorDetails = ({ avatarIcon, authorName, authorEmail, timestamp }) => (
 	<Box display="flex" gap="10px" alignItems="center">
 		<Avatar>{avatarIcon}</Avatar>
 		<Box>
-			<ListItemText primary={authorName} secondary={authorEmail} />
+			<ListItemText primary={`Author: ${authorName}`} secondary={authorEmail} />
 			<Typography variant="body2" color="textSecondary" component="p">
-				<span>@</span> {timestamp}
+				<span>
+				{moment(timestamp).fromNow()}
+				</span>
 			</Typography>
 		</Box>
 	</Box>
@@ -82,7 +85,7 @@ const Post = () => {
 			<Card>
 				<CardMedia component="img" sx={{ maxHeight: 300, objectFit: 'contain' }} image="favicon.ico" alt="green iguana" />
 				<CardContent>
-					<AuthorInfo avatarIcon={<Person />} authorName="Author: Lorem Epsum" authorEmail="lorem@epsum.com" timestamp="12:00 PM yesterday" />
+					<AuthorInfo avatarIcon={<Person />} authorName="Saul Goodman" authorEmail="lorem@epsum.com" timestamp={Date.now()} />
 					<Typography variant="h4" marginBottom="30px">
 						Post Title
 					</Typography>

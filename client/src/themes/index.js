@@ -13,15 +13,6 @@ const Light = createTheme({
 		background: {
 			paper: '#ffffff',
 			default: '#f5f5f5'
-		},
-		components: {
-			// MuiContainer: {
-			// 	styleOverrides: {
-			// 		root: {
-			// 			backgroundColor: '#ffffff',
-			// 		},
-			// 	},
-			// },
 		}
 	}
 })
@@ -39,18 +30,7 @@ const Dark = createTheme({
 			paper: '#000000',
 			default: '#0d1017'
 		}
-	},
-	components: {
-		// MuiContainer: {
-		// 	styleOverrides: {
-		// 		root: {
-		// 			backgroundColor: '#000000',
-		// 		},
-		// 	},
-		// },
 	}
 })
 
-const System = createTheme({ colorSchemes: { dark: true } })
-
-export { Light, Dark, System }
+export { Light, Dark }

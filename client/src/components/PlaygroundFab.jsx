@@ -1,7 +1,7 @@
 import { Home } from '@mui/icons-material'
 import { Box, Fab, Fade, SvgIcon, Tooltip } from '@mui/material'
 import { Link, useLocation } from 'react-router-dom'
-import { SiReact } from '@icons-pack/react-simple-icons'
+import { IconBrandReact } from '@tabler/icons-react'
 const PlaygroundFab = () => {
 	const { pathname } = useLocation()
 	const destination = pathname === '/playground' ? '/' : '/playground'
@@ -26,7 +26,7 @@ const PlaygroundFab = () => {
 									}
 								}}
 							>
-								<SiReact />
+								<IconBrandReact />
 							</SvgIcon>
 						)}
 					</Fab>
