@@ -58,7 +58,7 @@ const ThemeProvider = ({ children }) => {
 	return (
 		<ThemeContext.Provider value={{ theme, setTheme, actualTheme }}>
 			<MUIThemeProvider theme={currentTheme}>
-				<CssBaseline />
+				<CssBaseline enableColorScheme />
 				{children}
 			</MUIThemeProvider>
 		</ThemeContext.Provider>
