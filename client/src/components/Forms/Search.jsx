@@ -23,7 +23,7 @@ const Search = () => {
 		event.preventDefault()
 		console.log('Submitted')
 	}, [])
-	
+
 	return (
 		<Paper sx={{ padding: 2 }}>
 			<Box gap={1} width={1} display="flex" flexDirection="column" component="form" onSubmit={handleSubmit}>
