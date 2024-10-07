@@ -24,7 +24,7 @@ const SideBar = ({ open, setOpen }) => {
 	return (
 		<SwipeableDrawer open={open} onClose={closeDrawer} position="sticky">
 			<Box role="presentation" maxWidth="500px" sx={{ width: { xs: '100vw' } }} bgcolor="background.paper">
-				<Box  display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
+				<Box display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
 					<Button LinkComponent={Link} to="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
 						<img src="favicon.ico" alt="logo" width={40} />
 						<img src={logo} alt="logo" height={60} />
