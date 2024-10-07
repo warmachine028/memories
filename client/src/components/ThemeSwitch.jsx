@@ -1,5 +1,5 @@
-import { DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
+import { Button, ButtonGroup, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import { useCallback, useState } from 'react'
 import { useTheme } from '@/hooks'
 
@@ -64,6 +64,12 @@ const ThemeSwitch = () => {
 				aria-expanded={anchorEl ? 'true' : undefined}
 				variant="contained"
 				onClick={handleOpen}
+				sx={{
+					display: {
+						xs: 'none',
+						md: 'block'
+					}
+				}}
 			>
 				Switch Theme
 			</Button>
@@ -73,6 +79,21 @@ const ThemeSwitch = () => {
 				handleClick={handleClick}
 				theme={theme}
 			/>
+			<ButtonGroup
+				sx={{
+					display: { md: 'none' }
+				}}
+			>
+				<Button variant={theme === 'light' ? 'contained' : 'outlined'} onClick={() => handleClick('light')}>
+					<LightMode />
+				</Button>
+				<Button variant={theme === 'dark' ? 'contained' : 'outlined'} onClick={() => handleClick('dark')}>
+					<DarkMode />
+				</Button>
+				<Button variant={theme === 'system' ? 'contained' : 'outlined'} onClick={() => handleClick('system')}>
+					<Computer />
+				</Button>
+			</ButtonGroup>
 		</>
 	)
 }
