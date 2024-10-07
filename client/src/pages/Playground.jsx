@@ -10,7 +10,7 @@ const Playground = () => {
 	const handleClick = useCallback(() => {
 		dispatch(openSnackbar({ message: 'This is a snackbar message', severity: 'success' }))
 	}, [dispatch])
-	
+
 	return (
 		<Suspense fallback={<SuspenseFallback />}>
 			<Container maxWidth="xl" sx={{ p: { md: 10, xs: 0 } }}>
