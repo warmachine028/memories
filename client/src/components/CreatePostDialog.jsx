@@ -8,7 +8,7 @@ const CreatePostDialog = ({ open, setOpen }) => {
 	}, [setOpen])
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={open} onClose={handleClose} fullWidth>
 			<CreatePost />
 		</Dialog>
 	)

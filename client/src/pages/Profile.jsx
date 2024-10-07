@@ -1,19 +1,14 @@
-import { Avatar, Box, Card, CardContent, Container, Grid2 as Grid, Typography, Paper, List, ListItem, ListItemText, ListItemIcon, Button, Tabs, Tab } from '@mui/material'
-import { Article as ArticleIcon, Comment as CommentIcon, Favorite as FavoriteIcon, Lock as LockIcon, TextFields as TextFieldsIcon } from '@mui/icons-material'
-import { useSelector } from 'react-redux'
+import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { UpdateProfile } from '@/components/Forms'
+import { openSnackbar } from '@/reducers/notif'
 
 // Mock user data (replace with actual data fetching logic)
 const user = {
-	id: '123e4567-e89b-12d3-a456-426614174000',
-	firstName: 'John',
-	lastName: 'Doe',
-	email: 'john.doe@example.com',
-	bio: 'Passionate writer and tech enthusiast.',
-	profileImageUrl: '/placeholder.svg?height=200&width=200',
-	createdAt: new Date('2023-01-01'),
 	metrics: {
 		postsCount: 42,
 		longestPostWords: 1500,
@@ -24,11 +19,20 @@ const user = {
 	}
 }
 
-export default function UserDashboard() {
+const Profile = () => {
+	const dispatch = useDispatch()
 	const { user: currentUser } = useSelector((state) => state.auth)
 	const { image, email, firstName, lastName, bio, created_at } = currentUser
-	const [value, setValue] = useState(0)
+	const [value, setValue] = useState('liked-posts')
 	const handleChange = (_, newValue) => setValue(newValue)
+	const [open, setOpen] = useState(false)
+	const handleClickOpen = () => setOpen(true)
+	const handleClose = () => setOpen(false)
+
+	const handleUpdateUser = useCallback(() => {
+		handleClose()
+		dispatch(openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' }))
+	}, [dispatch])
 
 	return (
 		<Container maxWidth="xl">
@@ -61,7 +65,9 @@ export default function UserDashboard() {
 									</Typography>
 								</ListItem>
 								<ListItem sx={{ flexDirection: 'column' }}>
-									<Button variant="contained">Edit Profile</Button>
+									<Button variant="contained" onClick={handleClickOpen}>
+										Edit Profile
+									</Button>
 								</ListItem>
 							</List>
 						</Paper>
@@ -124,19 +130,26 @@ export default function UserDashboard() {
 										Your Posts
 									</Typography>
 								</ListItem>
-								<ListItem>
-									
-									<Tabs value={value} onChange={handleChange} variant="scrollable" aria-label="your posts" scrollButtons="auto">
-										<Tab label="Liked Posts" />
-										<Tab label="Private Posts" />
-										<Tab label="Commented Posts" />
-									</Tabs>
+								<ListItem sx={{ flexDirection: 'column' }}>
+									<TabContext value={value}>
+										<TabList value={value} sx={{ width: '100%' }} onChange={handleChange} variant="scrollable" aria-label="your posts" scrollButtons="auto">
+											<Tab label="Liked Posts" value="liked-posts" />
+											<Tab label="Private Posts" value="private-posts" />
+											<Tab label="Commented Posts" value="commented-posts" />
+										</TabList>
+										<TabPanel value="liked-posts"> No Posts Available</TabPanel>
+										<TabPanel value="private-posts"> No Posts Available</TabPanel>
+										<TabPanel value="commented-posts"> No Posts Available</TabPanel>
+									</TabContext>
 								</ListItem>
 							</List>
 						</Paper>
 					</Grid>
 				</Grid>
 			</Box>
+			<UpdateProfile open={open} onClose={handleClose} onUpdateUser={handleUpdateUser} />
 		</Container>
 	)
 }
+
+export default Profile

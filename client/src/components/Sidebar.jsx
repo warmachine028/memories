@@ -1,5 +1,5 @@
 import logo from '@/assets/memories.png'
-import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, Drawer, Box } from '@mui/material'
+import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, SwipeableDrawer, Box } from '@mui/material'
 import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '@/actions/auth'
@@ -22,9 +22,9 @@ const SideBar = ({ open, setOpen }) => {
 	)
 
 	return (
-		<Drawer open={open} onClose={closeDrawer} position="sticky">
+		<SwipeableDrawer open={open} onClose={closeDrawer} position="sticky">
 			<Box role="presentation" maxWidth="500px" sx={{ width: { xs: '100vw' } }} bgcolor="background.paper">
-				<Box width="100%" display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
+				<Box  display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
 					<Button LinkComponent={Link} to="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
 						<img src="favicon.ico" alt="logo" width={40} />
 						<img src={logo} alt="logo" height={60} />
@@ -97,7 +97,7 @@ const SideBar = ({ open, setOpen }) => {
 					</List>
 				)}
 			</Box>
-		</Drawer>
+		</SwipeableDrawer>
 	)
 }
 

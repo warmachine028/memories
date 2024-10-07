@@ -24,8 +24,8 @@ const CreatePost = () => {
 	)
 
 	return (
-		<Paper sx={{ p: 3, display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column', gap: 5, width: { xs: '85vw', md: 'auto' } }}>
-			<Paper sx={{ width: '100%' }} component={'form'} onSubmit={handleSubmit}>
+		<Paper sx={{ p: 3, display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column', gap: 5, width: { md: 'auto' } }}>
+			<Box sx={{ width: '100%' }} component={'form'} onSubmit={handleSubmit}>
 				<Typography variant="h6" gutterBottom>
 					Create a Post
 				</Typography>
@@ -56,7 +56,7 @@ const CreatePost = () => {
 						Clear
 					</Button>
 				</ButtonGroup>
-			</Paper>
+			</Box>
 		</Paper>
 	)
 }
