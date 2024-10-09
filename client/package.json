@@ -11,7 +11,7 @@
 		"@mui/icons-material": "^6.1.2",
 		"@mui/lab": "^6.0.0-beta.10",
 		"@mui/material": "^6.1.2",
-		"@reduxjs/toolkit": "^2.2.7",
+		"@reduxjs/toolkit": "^2.2.8",
 		"@tabler/icons-react": "^3.19.0",
 		"axios": "^1.7.7",
 		"moment": "^2.30.1",
