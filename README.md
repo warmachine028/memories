@@ -3,7 +3,7 @@
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
-        <img width=200 src="https://github-production-user-asset-6210df.s3.amazonaws.com/75939390/244920666-33f03176-059a-43ed-b2a6-c9c492f75d14.png" alt="Memories">
+        <img width=200 src="./client/public/favicon.ico">
     </a>
     <p style="font-family: roboto, calibri; font-size:12pt; font-style:italic"> Cherishing the past with love </p>
     <a href="https://deepsource.io/gh/warmachine028/memories/?ref=repository-badge">

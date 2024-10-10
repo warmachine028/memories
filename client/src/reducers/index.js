@@ -1,6 +1,4 @@
-import { combineReducers } from "redux"
-
-import posts from "./posts"
-import auth from "./auth"
-
-export default combineReducers({ posts, auth })
+export { default as themeReducer } from './theme'
+export { default as notifReducer } from './notif'
+export { default as postReducer } from './post'
+export { default as authReducer } from './auth'

@@ -5,7 +5,7 @@
 <br/>
 
 - Check if your branch is behind the original branch.
-- Always update the branch with original branch `memories:main` before starting any new developement.
+- Always update the branch with original branch `memories:main` before starting any new development.
 - `Fork` the repo to your account.
 - Open Git bash in a folder.
 - Enter this command to clone the repo: 
@@ -15,8 +15,8 @@
 - Go inside `client` folder by using `cd client`.
 - Next to setup the react app `npm i` in the terminal inside your project directory.
 - Set Up Environment Variables, take reference from **[ENV_VARIABLES](./ENV_VARIABLES.md)** file.
-- Once the node modules and other stuffs are installed , `npm run dev` to start the app in `http://localhost:3000/`
-- You can acess the `server` folder to get the backend and start it with `npm start` in `http://localhost:5000/`
+- Once the node modules and other stuffs are installed , `npm run dev` to start the app in `http://localhost:5173/`
+- You can access the `server` folder to get the backend and start it with `npm start` in `http://localhost:5000/`
   - Currently since the server is already deployed, hence it uses the deployed server by default.
   - If you make changes in server files, then navigate to `client/src/api/`
   - Open `index.jsx` file. 
@@ -26,7 +26,7 @@
 - Maintain the folder structure , keep small components like **Navbar, Home** in `src\components` folder
 - We have used **Material UI & Styled Components** for styling, Styling files are available in `[component]\styles.js`.
 - You are also allowed to use GOOGLE FONTS for same fonts as of figma files.
-- Other extra **Pictures, icons , svgs** are to be kept in `src\images\`
+- Other extra **Pictures, icons , svg s** are to be kept in `src\images\`
 - Once you are done with the changes , `cd ..` to come to the root folder
 - Once all server related changes are done locally 
   - Reset the index of the array from `const API = axios.create({ baseURL: apiURL[1] })` to `...apiURL[0]...` to reuse the deployed server
@@ -36,7 +36,7 @@
 - **REMEMBER** --> YOU NEED TO PULL REQ ON `main` BRANCH !!
 - Once done create a Pull Request and wait for the repo-owner to review.
 - Attach proper **`Screenshots, Proper Description and Issue Number` in the Pull request**
-- Dont forget to ⭐ the repository on github
+- Don't forget to ⭐ the repository on github
 <br/>
 
 ## For moderators
