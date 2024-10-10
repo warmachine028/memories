@@ -28,7 +28,9 @@ const CreatePost = () => {
 				</Stack>
 				<ButtonGroup orientation="vertical" fullWidth variant="contained">
 					<Button type="submit">Create</Button>
-					<Button color="secondary" type="reset">Clear</Button>
+					<Button color="secondary" type="reset">
+						Clear
+					</Button>
 				</ButtonGroup>
 			</Stack>
 		</Paper>
