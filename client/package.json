@@ -9,7 +9,7 @@
 		"@emotion/react": "^11.13.3",
 		"@emotion/styled": "^11.13.0",
 		"@mui/icons-material": "^6.1.3",
-		"@mui/lab": "^6.0.0-beta.10",
+		"@mui/lab": "^6.0.0-beta.11",
 		"@mui/material": "^6.1.3",
 		"@reduxjs/toolkit": "^2.2.8",
 		"@tabler/icons-react": "^3.19.0",
