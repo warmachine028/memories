@@ -22,7 +22,7 @@ const SideBar = ({ open, setOpen }) => {
 	)
 
 	return (
-		<SwipeableDrawer open={open} onOpen={() => { }} onClose={closeDrawer} position="sticky">
+		<SwipeableDrawer open={open} onOpen={() => {}} onClose={closeDrawer} position="sticky">
 			<Box role="presentation" maxWidth="500px" sx={{ width: { xs: '100vw' } }} bgcolor="background.paper">
 				<Box display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
 					<Button LinkComponent={Link} to="/" sx={{ ':hover': { backgroundColor: 'transparent' } }}>
