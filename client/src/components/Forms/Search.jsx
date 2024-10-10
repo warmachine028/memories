@@ -3,21 +3,7 @@ import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, TextField } f
 import { useCallback } from 'react'
 
 const Search = () => {
-	const handleSearchInput = useCallback(
-		(params) => (
-			<TextField
-				{...params}
-				label="Search Tags"
-				slotProps={{
-					input: {
-						...params.InputProps,
-						type: 'search'
-					}
-				}}
-			/>
-		),
-		[]
-	)
+	const handleSearchInput = useCallback((params) => <TextField {...params} label="Search Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />, [])
 
 	const handleSubmit = useCallback((event) => {
 		event.preventDefault()

@@ -80,11 +80,9 @@ const PostCard = ({ post }) => {
 				</CardContent>
 			</CardActionArea>
 			<CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<Stack flexDirection="row" sx={{ gap: 0 }}>
-					<Button
+				<Stack flexDirection="row" sx={{ gap: 0 }} alignItems="center">
+					<IconButton
 						size="small"
-						color={currentReaction ? currentReaction?.color : 'textPrimary'}
-						startIcon={currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
 						title="react"
 						sx={{
 							display: 'flex',
@@ -94,7 +92,9 @@ const PostCard = ({ post }) => {
 						}}
 						onMouseEnter={handleReactionHover}
 						onClick={() => handleReactionClick(currentReaction)}
-					/>
+					>
+						{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
+					</IconButton>
 					<Popover open={Boolean(reactionAnchorEl)} anchorEl={reactionAnchorEl} onClose={handleReactionHoverClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} transformOrigin={{ vertical: 'bottom', horizontal: 'left' }} disableRestoreFocus>
 						<Paper sx={{ display: 'flex', p: 1 }}>
 							{reactions.map((reaction) =>
@@ -110,7 +110,7 @@ const PostCard = ({ post }) => {
 							)}
 						</Paper>
 					</Popover>
-					<AvatarGroup  max={4} total={34} sx={{ '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 12, cursor: 'pointer' } }}>
+					<AvatarGroup max={4} total={34} slotProps={{ additionalAvatar: { sx: { width: 24, height: 24, fontSize: 12, cursor: 'pointer' } } }} sx={{ '& .MuiAvatar-root': { width: 24, height: 24 } }}>
 						<Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
 						<Avatar alt="Travis Howard" src="https://mui.com/static/images/avatar/2.jpg" />
 						<Avatar alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />

@@ -16,11 +16,7 @@ const Posts = () => {
 							))
 						: posts.map((post) => (
 								<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={post}>
-									<PostCard
-										post={{
-											id: 1
-										}}
-									/>
+									<PostCard post={{ id: 1 }} />
 								</Grid>
 							))}
 				</Grid>
