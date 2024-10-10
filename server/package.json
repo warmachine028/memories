@@ -14,7 +14,7 @@
 		"express-rate-limit": "^7.4.1",
 		"jsonwebtoken": "^9.0.2",
 		"lodash": "^4.17.21",
-		"mongoose": "^8.7.0",
+		"mongoose": "^8.7.1",
 		"nodemailer": "^6.9.15"
 	},
 	"description": "This is the server for memories-client",
