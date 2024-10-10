@@ -33,7 +33,7 @@ const Navbar = () => {
 	const openDrawer = useCallback(() => setOpen(true), [])
 	const location = useLocation()
 	const inAuth = ['/login', '/signup', '/forgot-password', '/reset-password'].includes(location.pathname)
-	const inHome = location.pathname === '/post'
+	const inHome = location.pathname === '/posts'
 	const { user } = useSelector((state) => state.auth)
 	// const user = {}
 	return (
@@ -48,7 +48,7 @@ const Navbar = () => {
 					{!user && !inAuth && <LoggedOutOptions />}
 					{user && <AccountMenu />}
 				</Toolbar>
-				{inHome && <Searchbar />}
+				<Searchbar />
 			</Container>
 		</AppBar>
 	)

@@ -6,22 +6,22 @@ import { AppRouter, Navbar, PlaygroundFab, ScrollToTop, Snackbar } from '@/compo
 
 const MemoriesApp = () => {
 	return (
-		<BrowserRouter>
+		<ThemeProvider>
 			<Navbar />
 			<AppRouter />
 			<Snackbar />
 			<ScrollToTop />
 			<PlaygroundFab />
-		</BrowserRouter>
+		</ThemeProvider>
 	)
 }
 
 const App = () => {
 	return (
 		<Provider store={store}>
-			<ThemeProvider>
+			<BrowserRouter>
 				<MemoriesApp />
-			</ThemeProvider>
+			</BrowserRouter>
 		</Provider>
 	)
 }

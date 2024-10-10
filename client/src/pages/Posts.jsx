@@ -1,5 +1,5 @@
 import { Container, Grid2 as Grid } from '@mui/material'
-import { PostCard, SearchForm, CreatePostForm, Bottombar, PostSkeleton } from '@/components'
+import { PostCard, SearchForm, CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
 import { useSelector } from 'react-redux'
 
 const Posts = () => {
@@ -11,12 +11,16 @@ const Posts = () => {
 					{!loading
 						? [...Array(6).keys()].map((post) => (
 								<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={post}>
-									{post % 2 ? <PostCard /> : <PostSkeleton />}
+									{post % 2 ? <PostCard /> : <PostCardSkeleton />}
 								</Grid>
 							))
 						: posts.map((post) => (
 								<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={post}>
-									<PostCard />
+									<PostCard
+										post={{
+											id: 1
+										}}
+									/>
 								</Grid>
 							))}
 				</Grid>

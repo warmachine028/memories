@@ -3,6 +3,7 @@ import { Search as SearchIcon } from '@mui/icons-material'
 import { alpha, Box, InputBase, styled } from '@mui/material'
 import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const Search = styled(Box)(({ theme }) => ({
 	position: 'relative',
@@ -47,39 +48,39 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Searchbar = () => {
 	const dispatch = useDispatch()
 	const [search, setSearch] = useState('')
+	const { pathName } = useLocation()
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		if (!search) {
+			return
+		}
+		const securityLevels = ['info', 'warning', 'error', 'success']
 
-	const handleSubmit = useCallback(
-		(event) => {
-			event.preventDefault()
-			if (!search) {
-				return
-			}
-			const securityLevels = ['info', 'warning', 'error', 'success']
+		const lowerCaseSearch = search.toLowerCase()
+		const foundLevel = securityLevels.find((level) => lowerCaseSearch.includes(level))
 
-			const lowerCaseSearch = search.toLowerCase()
-			const foundLevel = securityLevels.find((level) => lowerCaseSearch.includes(level))
+		if (foundLevel) {
+			dispatch(
+				openSnackbar({
+					severity: foundLevel || 'success',
+					message: `Alert! You searched for a term containing "${foundLevel}".`
+				})
+			)
+		} else {
+			dispatch(
+				openSnackbar({
+					severity: 'success',
+					message: `Hurrray! 🎊🎊, You searched for "${search}"`
+				})
+			)
+		}
+		setSearch('')
+	}
 
-			if (foundLevel) {
-				dispatch(
-					openSnackbar({
-						severity: foundLevel || 'success',
-						message: `Alert! You searched for a term containing "${foundLevel}".`
-					})
-				)
-			} else {
-				dispatch(
-					openSnackbar({
-						severity: 'success',
-						message: `Hurrray! 🎊🎊, You searched for "${search}"`
-					})
-				)
-			}
-			setSearch('')
-		},
-		[dispatch, search]
-	)
-
-	const handleChange = useCallback((e) => setSearch(e.target.value), [])
+	const handleChange = (e) => setSearch(e.target.value)
+	if (pathName !== '/posts') {
+		return
+	}
 
 	return (
 		<Search display={{ xs: 'block', md: 'none' }} component={'form'} onSubmit={handleSubmit}>

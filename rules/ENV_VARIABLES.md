@@ -1,7 +1,7 @@
 # ENVIRONMENT VARIABLES
 
 -   This file contains setup rules for the environment variables of this Project.
--   All the environemnt variable are stored in `.env.local` file, which is not tracked by Git, **you need to manually create this file**.
+-   All the environment variable are stored in `.env.local` file, which is not tracked by Git, **you need to manually create this file**.
 -   The keys of those variables are stored in `.env.example` file, for referencing purpose.
 -   For working with the environment variables, you have to create your own by following the given steps.
 -   ⚠️ Never keep any environment variables inside `.env.example` since it's tracked by Git and the history stays forever in VCS, instead always use `env.local`.
@@ -50,8 +50,8 @@ All the references to the environment variables of Server is stored in _[server/
 
 -   ### USER
 
-    -   This Goolge email account will be used to send reset password links.
-    -   You can use your own email or create a new Email ID for this specific puropse.
+    -   This Google email account will be used to send reset password links.
+    -   You can use your own email or create a new Email ID for this specific purpose.
 
 -   ### PASS
 
@@ -59,7 +59,7 @@ All the references to the environment variables of Server is stored in _[server/
 
 -   ### BASE_URL
 
-    -   This variable is used to determine the domain of the client for appending it in the beginnning of the passwoed reset link.
+    -   This variable is used to determine the domain of the client for appending it in the beginning of the password reset link.
     -   The 2 possible options are already given in `.env.example`
 
 -   ### TOKEN_SECRET
