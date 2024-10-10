@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, ButtonGroup, FormControl, FormGroup, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Button, ButtonGroup, FormControl, FormGroup, Paper, Stack, TextField, Typography } from '@mui/material'
 import { useCallback } from 'react'
 import { movies } from '@/data'
 
@@ -28,7 +28,9 @@ const CreatePost = () => {
 				</Stack>
 				<ButtonGroup orientation="vertical" fullWidth variant="contained">
 					<Button type="submit">Create</Button>
-					<Button color="secondary" type="reset">Clear</Button>
+					<Button color="secondary" type="reset">
+						Clear
+					</Button>
 				</ButtonGroup>
 			</Stack>
 		</Paper>

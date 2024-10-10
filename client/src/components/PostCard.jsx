@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Box, Stack } from '@mui/material'
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
 
 const reactions = [
@@ -21,11 +21,18 @@ const PostCard = ({ post }) => {
 	const handleMenuClose = () => setAnchorEl(null)
 	const handleReactionHover = (event) => setReactionAnchorEl(event.currentTarget)
 	const handleReactionHoverClose = () => setReactionAnchorEl(null)
-	const handleReactionClick = (reaction) => {
-		setCurrentReaction(reaction)
-		handleReactionHoverClose()
+	const handleReactionClick = (event) => {
+		if (reactionAnchorEl) {
+			setReactionAnchorEl(null)
+		} else {
+			setReactionAnchorEl(event.currentTarget)
+		}
 	}
 
+	const handleReactionSelect = (reaction) => {
+		setCurrentReaction(reaction)
+		setReactionAnchorEl(null)
+	}
 	return (
 		<Card>
 			<CardHeader
@@ -62,16 +69,14 @@ const PostCard = ({ post }) => {
 				<CardMedia
 					sx={{
 						height: { md: 140, xs: 200 },
-						':hover': {
-							opacity: 0.6,
-							cursor: 'pointer'
-						}
+						cursor: 'pointer',
+						':hover': { opacity: 0.6 }
 					}}
 					image="/favicon.ico"
 					title="Post image"
 				/>
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="div">
+					<Typography gutterBottom variant="h5">
 						Lorem, ipsum.
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
@@ -79,31 +84,33 @@ const PostCard = ({ post }) => {
 					</Typography>
 				</CardContent>
 			</CardActionArea>
-			<CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<Stack flexDirection="row" sx={{ gap: 0 }} alignItems="center">
-					<IconButton
+			<CardActions sx={{ justifyContent: 'space-between' }}>
+				<Stack flexDirection="row" alignItems="center">
+					<IconButton //
 						size="small"
 						title="react"
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							color: currentReaction ? currentReaction?.color : 'textPrimary'
-						}}
+						sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}
 						onMouseEnter={handleReactionHover}
-						onClick={() => handleReactionClick(currentReaction)}
+						onClick={handleReactionClick}
 					>
 						{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
 					</IconButton>
-					<Popover open={Boolean(reactionAnchorEl)} anchorEl={reactionAnchorEl} onClose={handleReactionHoverClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} transformOrigin={{ vertical: 'bottom', horizontal: 'left' }} disableRestoreFocus>
+					<Popover //
+						open={Boolean(reactionAnchorEl)}
+						anchorEl={reactionAnchorEl}
+						onClose={() => setReactionAnchorEl(null)}
+						anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+						transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+						disableRestoreFocus
+					>
 						<Paper sx={{ display: 'flex', p: 1 }}>
 							{reactions.map((reaction) =>
 								reaction === currentReaction ? (
-									<IconButton key={reaction.label} onClick={() => handleReactionClick(currentReaction ? null : reaction)} sx={{ color: reaction.white, bgcolor: reaction.color }}>
+									<IconButton key={reaction.label} onClick={() => handleReactionSelect(currentReaction ? null : reaction)} sx={{ color: reaction.white, bgcolor: reaction.color }}>
 										<reaction.icon />
 									</IconButton>
 								) : (
-									<IconButton key={reaction.label} onClick={() => handleReactionClick(reaction)} sx={{ color: reaction.color }}>
+									<IconButton key={reaction.label} onClick={() => handleReactionSelect(reaction)} sx={{ color: reaction.color }}>
 										<reaction.icon />
 									</IconButton>
 								)
