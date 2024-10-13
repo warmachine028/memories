@@ -9,7 +9,7 @@ const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, 
 	NotFound: lazy(() => import('@/pages/NotFound')),
 	SignUp: lazy(() => import('@/pages/SignUp')),
 	ForgotPassword: lazy(() => import('@/pages/ForgotPassword')),
-	ResetPassword: lazy(() => import('@/pages/ResetPassword')),
+	VerifyEmail: lazy(() => import('@/pages/VerifyEmail')),
 	Profile: lazy(() => import('@/pages/Profile')),
 	Playground: lazy(() => import('@/pages/Playground')),
 	Post: lazy(() => import('@/pages/Post')),
@@ -18,6 +18,7 @@ const { Posts, LogIn, NotFound, SignUp, ForgotPassword, ResetPassword, Profile, 
 
 import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'
+import { VerifyEmail } from '@/pages'
 
 const AppRouter = () => {
 	const location = useLocation()
@@ -34,7 +35,7 @@ const AppRouter = () => {
 				<Route path="/login" element={<AuthRoute component={<LogIn />} />} />
 				<Route path="/signup" element={<AuthRoute component={<SignUp />} />} />
 				<Route path="/forgot-password" element={<AuthRoute component={<ForgotPassword />} />} />
-				<Route path="/reset-password" element={<AuthRoute component={<ResetPassword />} />} />
+				<Route path="/verify-email" element={<AuthRoute component={<VerifyEmail />} />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>

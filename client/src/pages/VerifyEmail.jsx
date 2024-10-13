@@ -7,7 +7,7 @@ const VerifyEmail = () => {
 		<Container maxWidth="xl">
 			{/* <SignUpForm /> */}
 			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
-				<VerifyEmailClerk path="/verify-email" routing="path" signInUrl="login" />
+				{/* <VerifyEmailClerk path="/verify-email" routing="path" signInUrl="login" /> */}
 			</Stack>
 		</Container>
 	)
