@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
+import axios from 'axios'
 
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
@@ -36,7 +37,7 @@ const PostCard = ({ post }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const [currentReaction, setCurrentReaction] = useState(null)
-
+	const [imageUrl, setImageUrl] = useState('')
 	const handleMenuClick = (event) => setAnchorEl(event.currentTarget)
 	const handleMenuClose = () => setAnchorEl(null)
 	const handleReactionHover = (event) => setReactionAnchorEl(event.currentTarget)
@@ -47,13 +48,52 @@ const PostCard = ({ post }) => {
 			setReactionAnchorEl(event.currentTarget)
 		}
 	}
+	useEffect(() => {
+		const fetchImage = async () => {
+			try {
+				const response = await axios.get('https://picsum.photos/800/600', { responseType: 'blob' })
+				const url = URL.createObjectURL(response.data)
+				setImageUrl(url)
+			} catch (error) {
+				console.error('Error fetching image:', error)
+			}
+		}
+
+		fetchImage()
+
+		// Clean up the object URL when the component unmounts
+		return () => {
+			if (imageUrl) {
+				URL.revokeObjectURL(imageUrl)
+			}
+		}
+	}, [])
 
 	const handleReactionSelect = (reaction) => {
 		setCurrentReaction(reaction)
 		setReactionAnchorEl(null)
 	}
+
+	const handleReactionIconEnter = (event) => {
+		clearTimeout(popoverTimeoutRef.current)
+		setReactionAnchorEl(event.currentTarget)
+	}
+
+	const handleReactionIconLeave = () => {
+		popoverTimeoutRef.current = setTimeout(() => {
+			setReactionAnchorEl(null)
+		}, 300) // Delay before closing to allow time to move to the popover
+	}
+
+	const handlePopoverEnter = () => {
+		clearTimeout(popoverTimeoutRef.current)
+	}
+
+	const handlePopoverLeave = () => {
+		setReactionAnchorEl(null)
+	}
 	return (
-		<Card sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+		<Card sx={{ height: { md: 400 }, display: 'flex', flexDirection: 'column' }}>
 			<CardHeader
 				avatar={
 					<Avatar
@@ -67,7 +107,7 @@ const PostCard = ({ post }) => {
 							}
 						}}
 					>
-						<img src="https://github.com/shadcn.png" alt="avatar" width="100%" />
+						<Box component="img" src="https://github.com/shadcn.png" alt="avatar" width="100%" />
 					</Avatar>
 				}
 				action={
@@ -85,15 +125,7 @@ const PostCard = ({ post }) => {
 				</MenuItem>
 			</Menu>
 			<CardActionArea component={Link} to="/post/sssadsa">
-				<CardMedia
-					sx={{
-						height: { md: 140, xs: 200 },
-						cursor: 'pointer',
-						':hover': { opacity: 0.6 }
-					}}
-					image="/favicon.ico"
-					title="Post image"
-				/>
+				<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={imageUrl} title="Post image" />
 				<CardContent>
 					<TruncatedText maxLength={50} variant="h5" gutterBottom>
 						{post.title}
@@ -103,25 +135,23 @@ const PostCard = ({ post }) => {
 							{post.body}
 						</TruncatedText>
 					</Box>
-					{/* <Typography gutterBottom variant="h5">
-						{post.title}
-					</Typography>
-					<Typography variant="body2" color="text.secondary">
-						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos nobis necessitatibus dolores ab quod,
-					</Typography> */}
 				</CardContent>
 			</CardActionArea>
 			<CardActions sx={{ justifyContent: 'space-between' }}>
 				<Stack flexDirection="row" alignItems="center">
-					<IconButton //
-						size="small"
-						title="react"
-						sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}
-						onMouseEnter={handleReactionHover}
-						onClick={handleReactionClick}
-					>
-						{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
-					</IconButton>
+					<Tooltip title="react" arrow>
+						<IconButton //
+							size="small"
+							title="react"
+							sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}
+							// onMouseEnter={handleReactionHover}
+							onMouseEnter={handleReactionIconEnter}
+							onMouseLeave={handleReactionIconLeave}
+							onClick={handleReactionClick}
+						>
+							{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
+						</IconButton>
+					</Tooltip>
 					<Popover //
 						open={Boolean(reactionAnchorEl)}
 						anchorEl={reactionAnchorEl}
@@ -129,6 +159,12 @@ const PostCard = ({ post }) => {
 						anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 						transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
 						disableRestoreFocus
+						slotProps={{
+							paper: {
+								onMouseEnter: handlePopoverEnter,
+								onMouseLeave: handlePopoverLeave
+							}
+						}}
 					>
 						<Paper sx={{ display: 'flex', p: 1 }}>
 							{reactions.map((reaction) =>
@@ -144,7 +180,7 @@ const PostCard = ({ post }) => {
 							)}
 						</Paper>
 					</Popover>
-					<AvatarGroup max={4} total={34} slotProps={{ additionalAvatar: { sx: { width: 24, height: 24, fontSize: 12, cursor: 'pointer' } } }} sx={{ '& .MuiAvatar-root': { width: 24, height: 24 } }}>
+					<AvatarGroup max={4} total={post.reactions.likes} slotProps={{ additionalAvatar: { sx: { width: 24, height: 24, fontSize: 10, cursor: 'pointer' } } }} sx={{ '& .MuiAvatar-root': { width: 24, height: 24 } }}>
 						<Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
 						<Avatar alt="Travis Howard" src="https://mui.com/static/images/avatar/2.jpg" />
 						<Avatar alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />

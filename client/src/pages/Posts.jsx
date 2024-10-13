@@ -8,7 +8,7 @@ const Posts = () => {
 	const dispatch = useDispatch()
 	const initialFetchDone = useRef(false)
 	const { posts, loading, hasMore } = useSelector((state) => state.posts)
-	console.log(hasMore)
+
 	const loadMorePosts = useCallback(() => {
 		if (!loading && hasMore) {
 			dispatch(getPosts())
