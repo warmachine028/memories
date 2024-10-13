@@ -76,7 +76,7 @@ const SignUp = () => {
 	return (
 		<Container maxWidth="xl">
 			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
-				<Paper sx={{ padding: 2, width: '100vw', maxWidth: 400, margin: 'auto' }}>
+				<Paper sx={{ p: 2, width: 'calc(100vw - 20px)', maxWidth: 400, m: { sm: 'auto' } }}>
 					<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>
 						<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
 							<LockOutlined />
