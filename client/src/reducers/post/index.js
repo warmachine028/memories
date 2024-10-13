@@ -1,22 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { fetchPosts } from '@/api'
-import { posts } from '@/data'
+import axios from 'axios'
 
 const initialState = {
+	posts: [],
+	error: null,
 	loading: false,
-	posts,
-	numberOfPages: null,
-	error: null
+	hasMore: true
 }
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const getPosts = createAsyncThunk(
 	'post/getPosts', // prefix
-	async (formData, thunkAPI) => {
+	async (_, { getState, rejectWithValue }) => {
 		try {
-			const { data } = await fetchPosts(formData)
-			return data
+			const { posts } = getState().posts
+			const skip = posts.length
+			await delay(2000)
+			const response = await axios.get(`https://dummyjson.com/posts?limit=10&skip=${skip}`)
+			return response.data
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error.message)
+			return rejectWithValue(error.message)
 		}
 	}
 )
@@ -24,6 +27,7 @@ export const getPosts = createAsyncThunk(
 export const slice = createSlice({
 	name: 'post',
 	initialState,
+
 	extraReducers: (builder) => {
 		builder
 			.addCase(getPosts.pending, (state) => {
@@ -31,14 +35,13 @@ export const slice = createSlice({
 			})
 			.addCase(getPosts.fulfilled, (state, action) => {
 				state.loading = false
-				state.posts = action.payload.data
-				state.numberOfPages = action.payload.numberOfPages
+				state.posts = [...state.posts, ...action.payload.posts]
+				state.hasMore = action.payload.posts.length === 10
 				state.error = null
 			})
 			.addCase(getPosts.rejected, (state, action) => {
 				state.loading = false
-				state.posts = []
-				state.error = action.payload
+				state.error = action.error.message || 'Something went wrong'
 			})
 	}
 })

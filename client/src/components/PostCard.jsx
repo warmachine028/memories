@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack } from '@mui/material'
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
 
 const reactions = [
@@ -12,6 +12,26 @@ const reactions = [
 	{ icon: SentimentDissatisfied, label: 'Angry', color: '#ff5722' }
 ]
 
+const TruncatedText = ({ children: text, maxLength, ...props }) => {
+	const truncated = text.length > maxLength ? text.slice(0, maxLength) + '...' : text
+	return (
+		<Tooltip title={text} arrow placement="top">
+			<Typography
+				sx={{
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+					display: '-webkit-box',
+					WebkitLineClamp: maxLength === 100 ? 3 : 1,
+					WebkitBoxOrient: 'vertical'
+				}}
+				{...props}
+			>
+				{truncated}
+			</Typography>
+		</Tooltip>
+	)
+}
+
 const PostCard = ({ post }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
@@ -20,7 +40,6 @@ const PostCard = ({ post }) => {
 	const handleMenuClick = (event) => setAnchorEl(event.currentTarget)
 	const handleMenuClose = () => setAnchorEl(null)
 	const handleReactionHover = (event) => setReactionAnchorEl(event.currentTarget)
-	const handleReactionHoverClose = () => setReactionAnchorEl(null)
 	const handleReactionClick = (event) => {
 		if (reactionAnchorEl) {
 			setReactionAnchorEl(null)
@@ -34,7 +53,7 @@ const PostCard = ({ post }) => {
 		setReactionAnchorEl(null)
 	}
 	return (
-		<Card>
+		<Card sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
 			<CardHeader
 				avatar={
 					<Avatar
@@ -76,12 +95,20 @@ const PostCard = ({ post }) => {
 					title="Post image"
 				/>
 				<CardContent>
-					<Typography gutterBottom variant="h5">
-						Lorem, ipsum.
+					<TruncatedText maxLength={50} variant="h5" gutterBottom>
+						{post.title}
+					</TruncatedText>
+					<Box marginTop={1}>
+						<TruncatedText maxLength={100} color="text.secondary">
+							{post.body}
+						</TruncatedText>
+					</Box>
+					{/* <Typography gutterBottom variant="h5">
+						{post.title}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos nobis necessitatibus dolores ab quod,
-					</Typography>
+					</Typography> */}
 				</CardContent>
 			</CardActionArea>
 			<CardActions sx={{ justifyContent: 'space-between' }}>

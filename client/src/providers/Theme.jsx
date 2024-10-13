@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from '@/contexts'
 import { setThemeAction } from '@/reducers/theme'
