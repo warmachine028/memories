@@ -5,7 +5,7 @@ import { user } from '@/data/users' // user,
 const initialState = {
 	user,
 	loading: false,
-	// user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+	user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
 	error: null
 }
 

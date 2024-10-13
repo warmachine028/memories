@@ -1,10 +1,14 @@
-import { Container } from '@mui/material'
-import { LogInForm } from '@/components'
+import { Container, Stack } from '@mui/material'
+import { SignIn } from '@clerk/clerk-react'
+// import { LogInForm } from '@/components'
 
 const LogIn = () => {
 	return (
-		<Container sx={{ height: '100vh', display: 'flex', alignItems: 'center', width: '100%' }} maxWidth="xl">
-			<LogInForm />
+		<Container maxWidth="xl">
+			{/* <LogInForm /> */}
+			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
+				<SignIn path="/login" routing="path" signUpUrl="signup" />
+			</Stack>
 		</Container>
 	)
 }
