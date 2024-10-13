@@ -7,3 +7,5 @@ export const handleApiCall = async (apiFunc, formData, thunkAPI) => {
 		return thunkAPI.rejectWithValue(error.response?.data?.message || error.message)
 	}
 }
+
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

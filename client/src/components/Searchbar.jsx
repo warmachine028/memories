@@ -1,7 +1,7 @@
 import { openSnackbar } from '@/reducers/notif'
 import { Search as SearchIcon } from '@mui/icons-material'
 import { alpha, Box, InputBase, styled } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
@@ -48,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Searchbar = () => {
 	const dispatch = useDispatch()
 	const [search, setSearch] = useState('')
-	const { pathName } = useLocation()
+	const { pathname } = useLocation()
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		if (!search) {
@@ -78,8 +78,9 @@ const Searchbar = () => {
 	}
 
 	const handleChange = (e) => setSearch(e.target.value)
-	if (pathName !== '/posts') {
-		return
+
+	if (pathname !== '/posts') {
+		return null
 	}
 
 	return (

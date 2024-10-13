@@ -2,6 +2,7 @@ import { Home } from '@mui/icons-material'
 import { Box, Fab, Fade, SvgIcon, Tooltip } from '@mui/material'
 import { Link, useLocation } from 'react-router-dom'
 import { IconBrandReact } from '@tabler/icons-react'
+
 const PlaygroundFab = () => {
 	const { pathname } = useLocation()
 	const destination = pathname === '/playground' ? '/' : '/playground'

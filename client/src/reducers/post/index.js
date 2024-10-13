@@ -5,9 +5,9 @@ const initialState = {
 	posts: [],
 	error: null,
 	loading: false,
-	hasMore: true
+	hasMore: true,
+	post: null
 }
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const getPosts = createAsyncThunk(
 	'post/getPosts', // prefix
@@ -37,6 +37,18 @@ export const getPosts = createAsyncThunk(
 	}
 )
 
+export const getPost = createAsyncThunk('post/getPost', async (id, { rejectWithValue }) => {
+	try {
+		const response = await axios.get(`https://dummyjson.com/posts/${id}`)
+		const imageResponse = await axios.get('https://picsum.photos/1600/800', {
+			responseType: 'blob'
+		})
+		const imageUrl = URL.createObjectURL(imageResponse.data)
+		return { ...response.data, imageUrl }
+	} catch (error) {
+		return rejectWithValue(error.message)
+	}
+})
 export const slice = createSlice({
 	name: 'post',
 	initialState,
@@ -53,6 +65,18 @@ export const slice = createSlice({
 				state.error = null
 			})
 			.addCase(getPosts.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.error.message || 'Something went wrong'
+			})
+			.addCase(getPost.pending, (state) => {
+				state.loading = true
+			})
+			.addCase(getPost.fulfilled, (state, action) => {
+				state.loading = false
+				state.post = action.payload
+				state.error = null
+			})
+			.addCase(getPost.rejected, (state, action) => {
 				state.loading = false
 				state.error = action.error.message || 'Something went wrong'
 			})

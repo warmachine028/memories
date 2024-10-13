@@ -1,19 +1,14 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 
 const SuspenseFallback = () => {
 	return (
-		<Box
+		<Stack
 			sx={{
 				position: 'fixed',
-				top: 0,
-				left: 0,
 				width: '100vw',
 				height: '100vh',
-				display: 'flex',
-				flexDirection: 'column',
 				alignItems: 'center',
 				justifyContent: 'center',
-				backgroundColor: 'background.default',
 				zIndex: 9999
 			}}
 		>
@@ -21,7 +16,7 @@ const SuspenseFallback = () => {
 			<Typography variant="h6" sx={{ mt: 2, fontWeight: 'medium' }}>
 				Loading...
 			</Typography>
-		</Box>
+		</Stack>
 	)
 }
 

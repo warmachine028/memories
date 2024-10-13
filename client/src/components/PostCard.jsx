@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
-import axios from 'axios'
 
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
@@ -98,8 +97,8 @@ const PostCard = ({ post }) => {
 					Share
 				</MenuItem>
 			</Menu>
-			<CardActionArea component={Link} to="/post/sssadsa">
-				<Tooltip title={post.title} arrow>
+			<CardActionArea component={Link} to={`/post/${post.id}`}>
+				<Tooltip title="Click to view post" arrow placement="right">
 					<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={post.imageUrl || 'https://placehold.co/800x600'} />
 				</Tooltip>
 				<CardContent>
