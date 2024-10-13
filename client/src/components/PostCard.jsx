@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
@@ -16,20 +16,18 @@ const reactions = [
 const TruncatedText = ({ children: text, maxLength, ...props }) => {
 	const truncated = text.length > maxLength ? text.slice(0, maxLength) + '...' : text
 	return (
-		<Tooltip title={text} arrow placement="top">
-			<Typography
-				sx={{
-					overflow: 'hidden',
-					textOverflow: 'ellipsis',
-					display: '-webkit-box',
-					WebkitLineClamp: maxLength === 100 ? 3 : 1,
-					WebkitBoxOrient: 'vertical'
-				}}
-				{...props}
-			>
-				{truncated}
-			</Typography>
-		</Tooltip>
+		<Typography
+			sx={{
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+				display: '-webkit-box',
+				WebkitLineClamp: maxLength === 100 ? 3 : 1,
+				WebkitBoxOrient: 'vertical'
+			}}
+			{...props}
+		>
+			{truncated}
+		</Typography>
 	)
 }
 
@@ -37,42 +35,11 @@ const PostCard = ({ post }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const [currentReaction, setCurrentReaction] = useState(null)
-	const [imageUrl, setImageUrl] = useState('')
+
+	const popoverTimeoutRef = useRef(null)
+
 	const handleMenuClick = (event) => setAnchorEl(event.currentTarget)
 	const handleMenuClose = () => setAnchorEl(null)
-	const handleReactionHover = (event) => setReactionAnchorEl(event.currentTarget)
-	const handleReactionClick = (event) => {
-		if (reactionAnchorEl) {
-			setReactionAnchorEl(null)
-		} else {
-			setReactionAnchorEl(event.currentTarget)
-		}
-	}
-	useEffect(() => {
-		const fetchImage = async () => {
-			try {
-				const response = await axios.get('https://picsum.photos/800/600', { responseType: 'blob' })
-				const url = URL.createObjectURL(response.data)
-				setImageUrl(url)
-			} catch (error) {
-				console.error('Error fetching image:', error)
-			}
-		}
-
-		fetchImage()
-
-		// Clean up the object URL when the component unmounts
-		return () => {
-			if (imageUrl) {
-				URL.revokeObjectURL(imageUrl)
-			}
-		}
-	}, [])
-
-	const handleReactionSelect = (reaction) => {
-		setCurrentReaction(reaction)
-		setReactionAnchorEl(null)
-	}
 
 	const handleReactionIconEnter = (event) => {
 		clearTimeout(popoverTimeoutRef.current)
@@ -82,7 +49,7 @@ const PostCard = ({ post }) => {
 	const handleReactionIconLeave = () => {
 		popoverTimeoutRef.current = setTimeout(() => {
 			setReactionAnchorEl(null)
-		}, 300) // Delay before closing to allow time to move to the popover
+		}, 1000)
 	}
 
 	const handlePopoverEnter = () => {
@@ -90,8 +57,15 @@ const PostCard = ({ post }) => {
 	}
 
 	const handlePopoverLeave = () => {
+		popoverTimeoutRef.current = setTimeout(() => {
+			setReactionAnchorEl(null)
+		}, 300)
+	}
+	const handleReactionSelect = (reaction) => {
+		setCurrentReaction(reaction === currentReaction ? null : reaction)
 		setReactionAnchorEl(null)
 	}
+
 	return (
 		<Card sx={{ height: { md: 400 }, display: 'flex', flexDirection: 'column' }}>
 			<CardHeader
@@ -125,7 +99,9 @@ const PostCard = ({ post }) => {
 				</MenuItem>
 			</Menu>
 			<CardActionArea component={Link} to="/post/sssadsa">
-				<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={imageUrl} title="Post image" />
+				<Tooltip title={post.title} arrow>
+					<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={post.imageUrl || 'https://placehold.co/800x600'} />
+				</Tooltip>
 				<CardContent>
 					<TruncatedText maxLength={50} variant="h5" gutterBottom>
 						{post.title}
@@ -139,19 +115,15 @@ const PostCard = ({ post }) => {
 			</CardActionArea>
 			<CardActions sx={{ justifyContent: 'space-between' }}>
 				<Stack flexDirection="row" alignItems="center">
-					<Tooltip title="react" arrow>
+					<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
 						<IconButton //
 							size="small"
 							title="react"
 							sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}
-							// onMouseEnter={handleReactionHover}
-							onMouseEnter={handleReactionIconEnter}
-							onMouseLeave={handleReactionIconLeave}
-							onClick={handleReactionClick}
 						>
 							{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
 						</IconButton>
-					</Tooltip>
+					</Box>
 					<Popover //
 						open={Boolean(reactionAnchorEl)}
 						anchorEl={reactionAnchorEl}
@@ -167,17 +139,18 @@ const PostCard = ({ post }) => {
 						}}
 					>
 						<Paper sx={{ display: 'flex', p: 1 }}>
-							{reactions.map((reaction) =>
-								reaction === currentReaction ? (
-									<IconButton key={reaction.label} onClick={() => handleReactionSelect(currentReaction ? null : reaction)} sx={{ color: reaction.white, bgcolor: reaction.color }}>
-										<reaction.icon />
-									</IconButton>
-								) : (
-									<IconButton key={reaction.label} onClick={() => handleReactionSelect(reaction)} sx={{ color: reaction.color }}>
-										<reaction.icon />
-									</IconButton>
-								)
-							)}
+							{reactions.map((reaction) => (
+								<IconButton
+									key={reaction.label}
+									onClick={() => handleReactionSelect(reaction)}
+									sx={{
+										color: reaction === currentReaction ? 'white' : reaction.color,
+										bgcolor: reaction === currentReaction ? reaction.color : 'transparent'
+									}}
+								>
+									<reaction.icon />
+								</IconButton>
+							))}
 						</Paper>
 					</Popover>
 					<AvatarGroup max={4} total={post.reactions.likes} slotProps={{ additionalAvatar: { sx: { width: 24, height: 24, fontSize: 10, cursor: 'pointer' } } }} sx={{ '& .MuiAvatar-root': { width: 24, height: 24 } }}>

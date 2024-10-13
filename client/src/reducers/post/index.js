@@ -15,9 +15,22 @@ export const getPosts = createAsyncThunk(
 		try {
 			const { posts } = getState().posts
 			const skip = posts.length
-			await delay(2000)
 			const response = await axios.get(`https://dummyjson.com/posts?limit=10&skip=${skip}`)
-			return response.data
+			const postsWithImages = await Promise.all(
+				response.data.posts.map(async (post) => {
+					try {
+						const imageResponse = await axios.get('https://picsum.photos/800/600', {
+							responseType: 'blob'
+						})
+						const imageUrl = URL.createObjectURL(imageResponse.data)
+						return { ...post, imageUrl }
+					} catch (error) {
+						console.error(`Failed to fetch image for post ${post.id}:`, error)
+						return post // Return the post without an image if fetching fails
+					}
+				})
+			)
+			return { posts: postsWithImages }
 		} catch (error) {
 			return rejectWithValue(error.message)
 		}
