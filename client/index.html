@@ -1,41 +1,52 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 	<head>
-		<base href="/" />
 		<meta charset="utf-8" />
-		<link rel="icon" href="/logo.png" />
-		<link rel="apple-touch-icon" href="/logo.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Memories | Your Social Media App</title>
+		<meta name="description" content="A sleek social media platform for sharing your memories with others." />
+		<link rel="canonical" href="https://memories-latest.vercel.app" />
+		<base href="/" />
+
+		<!-- Favicon -->
+		<link rel="icon" href="favicon.ico" />
+		<link rel="apple-touch-icon" href="favicon.ico" />
+
+		<!-- Theme Color -->
 		<meta name="theme-color" content="#000000" />
-		<meta name="description" content="A memo website to store your memories. Inspired by Your Name" />
 
-		<!-- Open Graph Meta Tags -->
-		<meta property="og:title" content="Memories" />
-		<meta property="og:description" content="A memo website to store your memories. Inspired by Your Name" />
-		<meta property="og:image" content="/logo.png" />
-		<meta property="og:url" content="https://memories.vercel.app" />
+		<!-- Open Graph / Facebook Meta Tags -->
 		<meta property="og:type" content="website" />
-
-		<!-- Twitter Card Meta Tags -->
-		<meta name="twitter:title" content="Memories" />
-		<meta name="twitter:description" content="A memo website to store your memories. Inspired by Your Name" />
-		<meta name="twitter:image" content="/logo.png" />
-		<meta name="twitter:card" content="summary_large_image" />
-
-		<!-- WhatsApp Meta Tags -->
+		<meta property="og:url" content="https://memories-latest.vercel.app" />
+		<meta property="og:title" content="Memories | Your Social Media App" />
+		<meta property="og:description" content="A sleek social media platform for sharing your memories with others." />
+		<meta property="og:image" content="https://fastly.picsum.photos/id/927/800/600.jpg?hmac=jmIL6-dpiZutqU2W-KGtgFPRg_R2mJuU-5QaFNdTu9E" />
+		<meta property="og:image:width" content="800" />
+		<meta property="og:image:height" content="600" />
+		<meta property="og:image:alt" content="Beautiful landscape representing memories" />
 		<meta property="og:site_name" content="Memories" />
-		<meta property="og:title" content="Memories" />
-		<meta property="og:description" content="A memo website to store your memories. Inspired by Your Name" />
-		<meta property="og:image" content="/logo.png" />
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content="Memories Logo" />
-		<title>Memories</title>
-	</head>
 
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="https://fastly.picsum.photos/id/671/1600/900.jpg?hmac=jyvduviDu4JnztyaFHTiefCkT406k3lbLFEbkT6JUCM" />
+		<meta name="twitter:site" content="@pritamkundu771" />
+		<meta name="twitter:title" content="Memories | Your Social Media App" />
+		<meta name="twitter:description" content="A sleek social media platform for sharing your memories with others." />
+		<meta name="twitter:image" content="https://fastly.picsum.photos/id/927/800/600.jpg?hmac=jmIL6-dpiZutqU2W-KGtgFPRg_R2mJuU-5QaFNdTu9E" />
+
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "Memories",
+				"url": "https://memories-latest.vercel.app",
+				"description": "A sleek social media platform for sharing your memories with others."
+			}
+		</script>
+	</head>
 	<body>
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root"></div>
-		<script type="module" src="./src/main.jsx"></script>
+		<script type="module" src="/src/main.jsx"></script>
 	</body>
 </html>
