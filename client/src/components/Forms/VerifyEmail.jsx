@@ -29,9 +29,8 @@ const VerifyEmail = () => {
 				await setActive({ session: completeSignUp.createdSessionId })
 				navigate('/') // Redirect to dashboard or home page
 			}
-		} catch (err) {
-			console.error('Error verifying email', err)
-			setError(err.message || 'An error occurred during verification')
+		} catch (error) {
+			setError(error.errors[0].longMessage || 'An error occurred during verification')
 		}
 	}
 

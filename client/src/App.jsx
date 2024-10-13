@@ -1,9 +1,9 @@
-import { Provider } from 'react-redux'
-import { ThemeProvider } from '@/providers'
-import { store } from '@/store'
-import { BrowserRouter } from 'react-router-dom'
 import { AppRouter, Navbar, PlaygroundFab, ScrollToTop, Snackbar } from '@/components'
 import { ClerkProvider } from '@clerk/clerk-react'
+import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from '@/providers'
+import { Provider } from 'react-redux'
+import { store } from '@/store'
 
 const MemoriesApp = () => {
 	return (

@@ -18,9 +18,8 @@ export {
 	CreateComment as CreateCommentForm,
 	CreatePost as CreatePostForm,
 	ForgotPassword as ForgotPasswordForm,
-	LogIn as LogInForm,
 	ResetPassword as ResetPasswordForm,
 	Search as SearchForm,
-	SignUp as SignUpForm,
-	VerifyEmail as VerifyEmailForm
+	VerifyEmail as VerifyEmailForm,
+	UpdateProfile as UpdateProfileForm
 } from './Forms'

@@ -1,15 +1,12 @@
+import { useUser } from '@clerk/clerk-react'
 import { List, ListItem, DialogTitle, Dialog, TextField, Button } from '@mui/material'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 
 const UpdateProfile = ({ open, onClose, onUpdateUser }) => {
-	const { user } = useSelector((state) => state.auth)
+	const { user } = useUser()
 	const [editedUser, setEditedUser] = useState(user)
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target
-		setEditedUser((prevUser) => ({ ...prevUser, [name]: value }))
-	}
+	const handleInputChange = (e) => setEditedUser((prevUser) => ({ ...prevUser, [e.target.name]: e.target.value }))
 
 	const handleSubmit = () => {
 		onUpdateUser(editedUser)
@@ -19,7 +16,7 @@ const UpdateProfile = ({ open, onClose, onUpdateUser }) => {
 	return (
 		<Dialog onClose={onClose} open={open} fullWidth>
 			<DialogTitle>Edit Profile</DialogTitle>
-			<List sx={{ pt: 0, px: 2, pb: 2 }}>
+			<List sx={{ p: 2 }}>
 				<ListItem>
 					<TextField fullWidth label="First Name" name="firstName" value={editedUser.firstName} onChange={handleInputChange} />
 				</ListItem>
@@ -27,7 +24,7 @@ const UpdateProfile = ({ open, onClose, onUpdateUser }) => {
 					<TextField fullWidth label="Last Name" name="lastName" value={editedUser.lastName} onChange={handleInputChange} />
 				</ListItem>
 				<ListItem>
-					<TextField fullWidth label="Email" name="email" type="email" value={editedUser.email} onChange={handleInputChange} />
+					<TextField fullWidth label="Email" name="email" type="email" value={editedUser.emailAddresses[0].emailAddress} onChange={handleInputChange} />
 				</ListItem>
 				<ListItem>
 					<TextField fullWidth label="Bio" name="bio" multiline rows={3} value={editedUser.bio} onChange={handleInputChange} />

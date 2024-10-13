@@ -1,10 +1,9 @@
-import { useCallback, useState } from 'react'
-import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from '@mui/material'
+import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip, CircularProgress } from '@mui/material'
 import { Settings, ChevronRight, Computer, DarkMode, Done, LightMode, Logout } from '@mui/icons-material'
-import { useTheme } from '@/hooks'
+import { useAuth, useUser } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
-import { logOut } from '@/actions/auth'
-import { useDispatch, useSelector } from 'react-redux'
+import { useTheme } from '@/hooks'
+import { useState } from 'react'
 
 const AccountIcon = ({ handleClick, open }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -19,21 +18,13 @@ const AccountIcon = ({ handleClick, open }) => (
 )
 
 const AccountMenuItems = ({ handleClose, handleClick, open }) => {
-	const { user } = useSelector((state) => state.auth)
-	const { firstName, lastName } = user
-	const dispatch = useDispatch()
+	const { user } = useUser()
+	const { signOut } = useAuth()
 
-	const handleLogout = useCallback(
-		(event) => {
-			event.preventDefault()
-			dispatch(logOut())
-		},
-		[dispatch]
-	)
 	return (
 		<>
 			<MenuItem component={Link} to="/user" onClick={handleClose}>
-				<Avatar src="https://mui.com/static/images/avatar/3.jpg" /> {firstName} {lastName}
+				<Avatar src={user.imageUrl} /> {user.fullName}
 			</MenuItem>
 			<Divider />
 
@@ -54,7 +45,7 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 					<ChevronRight fontSize="small" />
 				</ListItemIcon>
 			</MenuItem>
-			<MenuItem onClick={handleLogout}>
+			<MenuItem onClick={signOut}>
 				<ListItemIcon>
 					<Logout fontSize="small" />
 				</ListItemIcon>
@@ -66,12 +57,8 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 
 const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 	const { theme, setTheme } = useTheme()
-	const handleClick = useCallback(
-		(newTheme) => {
-			setTheme(newTheme)
-		},
-		[setTheme]
-	)
+	const handleClick = (newTheme) => setTheme(newTheme)
+
 	return (
 		<Menu
 			anchorEl={anchorEl}
@@ -147,21 +134,21 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 }
 
 const AccountMenu = () => {
+	const { isLoaded, isSignedIn } = useUser()
+	const [anchorEl2, setAnchorEl2] = useState(null)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
-	const handleClick = useCallback((event) => {
-		setAnchorEl(event.currentTarget)
-	}, [])
-	const handleClose = useCallback(() => {
-		setAnchorEl(null)
-	}, [])
-	const [anchorEl2, setAnchorEl2] = useState(null)
-	const handleClickTheme = useCallback((event) => {
-		setAnchorEl2(event.currentTarget)
-	}, [])
-	const handleCloseTheme = useCallback(() => {
-		setAnchorEl2(null)
-	}, [])
+	const handleClick = (event) => setAnchorEl(event.currentTarget)
+	const handleClose = () => setAnchorEl(null)
+	const handleClickTheme = (event) => setAnchorEl2(event.currentTarget)
+
+	const handleCloseTheme = () => setAnchorEl2(null)
+	if (!isLoaded) {
+		return <CircularProgress size={45} />
+	}
+	if (!isSignedIn) {
+		return null
+	}
 	return (
 		<>
 			<AccountIcon handleClick={handleClick} open={open} />

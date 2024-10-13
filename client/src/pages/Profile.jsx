@@ -1,28 +1,16 @@
 import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
-import { useCallback, useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { UpdateProfile } from '@/components/Forms'
+import { UpdateProfileForm } from '@/components'
 import { openSnackbar } from '@/reducers/notif'
-
-// Mock user data (replace with actual data fetching logic)
-const user = {
-	metrics: {
-		postsCount: 42,
-		longestPostWords: 1500,
-		longestPostId: 'abc123',
-		likesReceived: 256,
-		commentsReceived: 128,
-		privatePostsCount: 5
-	}
-}
+import { useCallback, useState } from 'react'
+import { useUser } from '@clerk/clerk-react'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 const Profile = () => {
 	const dispatch = useDispatch()
-	const { user: currentUser } = useSelector((state) => state.auth)
-	const { image, email, firstName, lastName, bio, created_at } = currentUser
+	const { user } = useUser()
 	const [value, setValue] = useState('liked-posts')
 	const handleChange = (_, newValue) => setValue(newValue)
 	const [open, setOpen] = useState(false)
@@ -48,20 +36,20 @@ const Profile = () => {
 									</Typography>
 								</ListItem>
 								<ListItem sx={{ flexDirection: 'column' }}>
-									<Avatar src={image} alt={`${firstName} ${lastName}`} sx={{ width: 100, height: 100, mb: 2 }} />
+									<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
 									<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
-										{firstName} {lastName}
+										{user.fullName}
 									</Typography>
-									<Typography color="textSecondary">{email}</Typography>
+									<Typography color="textSecondary">{user.emailAddresses[0].emailAddress}</Typography>
 								</ListItem>
 								<ListItem sx={{ flexDirection: 'column' }}>
 									<Typography variant="body2" component="p">
-										{bio}
+										{user.bio}
 									</Typography>
 								</ListItem>
 								<ListItem sx={{ flexDirection: 'column' }}>
 									<Typography variant="body2" color="textSecondary">
-										Joined: {moment(created_at).format('MMMM Do YYYY')}
+										Joined: {moment(user.createdAt).format('MMMM Do YYYY')}
 									</Typography>
 								</ListItem>
 								<ListItem sx={{ flexDirection: 'column' }}>
@@ -87,32 +75,32 @@ const Profile = () => {
 										<Grid size={6}>
 											<Typography gutterBottom>Posts Created</Typography>
 											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics.postsCount}
+												{user.metrics?.postsCount || 0}
 											</Typography>
 										</Grid>
 										<Grid size={6}>
 											<Typography gutterBottom>Private Posts</Typography>
 											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics.privatePostsCount}
+												{user.metrics?.privatePostsCount || 0}
 											</Typography>
 										</Grid>
 
 										<Grid size={6}>
 											<Typography gutterBottom>Likes Received</Typography>
 											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics.likesReceived}
+												{user.metrics?.likesReceived || 0}
 											</Typography>
 										</Grid>
 										<Grid size={6}>
 											<Typography gutterBottom>Comments Received</Typography>
 											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics.commentsReceived}
+												{user.metrics?.commentsReceived || 0}
 											</Typography>
 										</Grid>
 										<Grid size={6}>
 											<Typography gutterBottom>Longest Post</Typography>
-											<Typography variant="h5" component={Link} to={`/post/${user.metrics.longestPostId}`} fontWeight="bold" sx={{ textDecoration: 'none' }} color="textPrimary">
-												{user.metrics.longestPostWords} words
+											<Typography variant="h5" component={Link} to={`/post/${user.metrics?.longestPostId}`} fontWeight="bold" sx={{ textDecoration: 'none' }} color="textPrimary">
+												{user.metrics?.longestPostWords || 0} words
 											</Typography>
 										</Grid>
 									</Grid>
@@ -147,7 +135,7 @@ const Profile = () => {
 					</Grid>
 				</Grid>
 			</Box>
-			<UpdateProfile open={open} onClose={handleClose} onUpdateUser={handleUpdateUser} />
+			<UpdateProfileForm open={open} onClose={handleClose} onUpdateUser={handleUpdateUser} />
 		</Container>
 	)
 }
