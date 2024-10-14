@@ -13,8 +13,8 @@ const OAuthButtons = () => {
 		}
 		try {
 			await signIn.authenticateWithRedirect({ strategy, redirectUrl: '/callback', redirectUrlComplete: '/' })
-		} catch (error) {
-			setError(error.errors[0].longMessage || 'An error occurred during OAuth sign-in')
+		} catch (err) {
+			setError(err.errors[0].longMessage || 'An error occurred during OAuth sign-in')
 		}
 	}
 

@@ -26,9 +26,9 @@ const VerifyEmail = () => {
 				console.error(JSON.stringify(result, null, 2))
 				setError('Sign-up failed. Please try again.')
 			}
-		} catch (error) {
-			console.error('Verification error:', error)
-			setError(error.errors[0].longMessage || 'An error occurred during verification')
+		} catch (err) {
+			console.error('Verification error:', err)
+			setError(err.errors[0].longMessage || 'An error occurred during verification')
 		}
 	}
 
