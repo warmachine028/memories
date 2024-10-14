@@ -21,10 +21,11 @@ const VerifyEmail = () => {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
-				return navigate('/')
+				navigate('/')
+			} else {
+				console.error(JSON.stringify(result, null, 2))
+				setError('Sign-up failed. Please try again.')
 			}
-			console.error(JSON.stringify(result, null, 2))
-			setError('Sign-up failed. Please try again.')
 		} catch (error) {
 			console.error('Verification error:', error)
 			setError(error.errors[0].longMessage || 'An error occurred during verification')

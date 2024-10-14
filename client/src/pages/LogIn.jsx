@@ -28,10 +28,11 @@ const LogIn = () => {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
-				return navigate('/')
+				navigate('/')
+			} else {
+				console.error('Sign-in failed', result)
+				setError('Sign-in failed. Please try again.')
 			}
-			console.error('Sign-in failed', result)
-			setError('Sign-in failed. Please try again.')
 		} catch (error) {
 			setError(error.errors[0].longMessage || 'An error occurred during sign-in')
 		}
