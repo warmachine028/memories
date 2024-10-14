@@ -14,6 +14,7 @@ export { default as Sidebar } from './Sidebar'
 export { default as UserAvatar } from './UserAvatar'
 export { default as PostCardSkeleton } from './PostCardSkeleton'
 export { default as PostSkeleton } from './PostSkeleton'
+export { default as OAuthButtons } from './OAuthButtons'
 export {
 	//
 	CreateComment as CreateCommentForm,

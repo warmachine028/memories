@@ -1,43 +1,33 @@
-import { useState } from 'react'
+import { Button, TextField, Typography, Paper, Stack, FormControl, FormHelperText, Avatar, Container } from '@mui/material'
+import { MailOutlined } from '@mui/icons-material'
 import { useSignUp } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { Mail } from '@mui/icons-material'
-import { Button, TextField, Typography, Paper, Stack, FormControl, FormHelperText, Avatar, Container } from '@mui/material'
+import { useState } from 'react'
 
 const VerifyEmail = () => {
 	const { isLoaded, signUp, setActive } = useSignUp()
-	const [verificationCode, setVerificationCode] = useState('')
+	const [code, setCode] = useState('')
 	const [error, setError] = useState('')
 	const navigate = useNavigate()
 
-	if (!isLoaded || !signUp) {
-		return null
-	}
-
 	const handleSubmit = async (event) => {
 		event.preventDefault()
+		setError('')
 		if (!isLoaded) {
 			return
 		}
-		setError('')
-		if (!verificationCode) {
-			return setError('Please enter the verification code')
-		}
-
 		try {
-			const result = await signUp.attemptEmailAddressVerification({
-				code: verificationCode
-			})
+			const result = await signUp.attemptEmailAddressVerification({ code })
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
-				return navigate('/') // Redirect to home page after successful sign-in
+				return navigate('/')
 			}
 			console.error(JSON.stringify(result, null, 2))
 			setError('Sign-up failed. Please try again.')
 		} catch (error) {
 			console.error('Verification error:', error)
-			setError(error.errors?.[0]?.longMessage || 'An error occurred during verification')
+			setError(error.errors[0].longMessage || 'An error occurred during verification')
 		}
 	}
 
@@ -47,14 +37,16 @@ const VerifyEmail = () => {
 				<Paper sx={{ p: 2, width: 'calc(100vw - 20px)', maxWidth: 400, m: { sm: 'auto' } }}>
 					<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>
 						<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
-							<Mail />
+							<MailOutlined />
 						</Avatar>
-						<Typography variant="h5">Verify Your Email</Typography>
-						<Typography variant="body1">Please enter the verification code sent to your email.</Typography>
-						<FormControl fullWidth error={Boolean(error)}>
-							<TextField label="Verification Code" variant="outlined" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} fullWidth required />
-							<FormHelperText>{error}</FormHelperText>
+						<Typography variant="h5">Verify Email</Typography>
+						<Typography variant="body1">Enter the verification code sent to your email.</Typography>
+						<FormControl fullWidth>
+							<TextField label="Verification Code" variant="outlined" value={code} onChange={(e) => setCode(e.target.value)} required error={Boolean(error)} />
 						</FormControl>
+						<FormHelperText sx={{ m: 0 }} error>
+							{error}
+						</FormHelperText>
 						<Button type="submit" variant="contained" fullWidth>
 							Verify Email
 						</Button>

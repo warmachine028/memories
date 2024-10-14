@@ -1,76 +1,76 @@
-import { Google, LockOutlined, GitHub } from '@mui/icons-material'
-import { Container, Button, ButtonGroup, Paper, TextField, Typography, Avatar, Grid2 as Grid, Stack, Divider, FormControl, FormHelperText } from '@mui/material'
-import { useState } from 'react'
+import { Container, Button, Paper, TextField, Typography, Avatar, Grid2 as Grid, Stack, Divider, FormControl, FormHelperText } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSignUp, useSignIn } from '@clerk/clerk-react'
+import { LockOutlined } from '@mui/icons-material'
+import { useSignUp } from '@clerk/clerk-react'
+import { OAuthButtons } from '@/components'
+import { useState } from 'react'
 
 const SignUp = () => {
 	const initialState = { firstName: '', lastName: '', email: '', password: '', repeatPassword: '' }
 	const initialErrorState = { firstName: '', lastName: '', email: '', password: '', repeatPassword: '', clerkError: '' }
 	const { isLoaded, signUp } = useSignUp()
-	const { signIn } = useSignIn()
 	const [formData, setFormData] = useState(initialState)
 	const [errors, setErrors] = useState(initialErrorState)
 	const navigate = useNavigate()
 
 	const handleChange = (event) => setFormData({ ...formData, [event.target.name]: event.target.value })
 
-	const attemptSignUp = async (data) => {
+	const validateInputs = () => {
+		const newErrors = { ...initialErrorState }
+		let valid = true
+
+		// Name validation
+		const nameRegex = /^[A-Za-z]+$/
+		if (!nameRegex.test(formData.firstName)) {
+			newErrors.firstName = 'Name must contain only letters'
+			valid = false
+		}
+		if (formData.firstName.length < 1) {
+			newErrors.firstName = 'Name must be at least 1 character'
+			valid = false
+		}
+		if (!nameRegex.test(formData.lastName)) {
+			newErrors.lastName = 'Name must contain only letters'
+			valid = false
+		}
+
+		// Password validation
+		if (formData.password.length < 8) {
+			newErrors.password = 'Password must be at least 8 characters long'
+			valid = false
+		}
+		if (formData.password !== formData.repeatPassword) {
+			newErrors.repeatPassword = 'Passwords do not match'
+			valid = false
+		}
+
+		setErrors(newErrors)
+		return valid
+	}
+
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		setErrors(initialErrorState)
+		if (!validateInputs()) {
+			return
+		}
 		if (!isLoaded) {
 			return
 		}
 		try {
 			await signUp.create({
-				firstName: data.firstName,
-				lastName: data.lastName,
-				emailAddress: data.email,
-				password: data.password
+				firstName: formData.firstName,
+				lastName: formData.lastName,
+				emailAddress: formData.email,
+				password: formData.password
 			})
 			await signUp.prepareVerification({ strategy: 'email_code' })
 			navigate('/verify-email')
 		} catch (error) {
-			setErrors({ ...errors, clerkError: error.errors[0].longMessage })
+			setErrors({ ...initialErrorState, clerkError: error.errors[0].longMessage })
 		}
-	}
-	const handleSubmit = (event) => {
-		setErrors(initialErrorState)
-		event.preventDefault()
-		if (!/^[A-Za-z]+$/.test(formData.firstName)) {
-			return setErrors({ ...errors, firstName: 'Name must contain only letters' })
-		}
-		if (!/^[A-Za-z]+$/.test(formData.lastName)) {
-			return setErrors({ ...errors, lastName: 'Name must contain only letters' })
-		}
-		if (formData.firstName.length < 2) {
-			return setErrors({ ...errors, firstName: 'Name must be at least 2 characters long' })
-		}
-		if (formData.lastName.length < 2) {
-			return setErrors({ ...errors, lastName: 'Name must be at least 2 characters long' })
-		}
-		if (formData.password.length < 8) {
-			return setErrors({ ...errors, password: 'Password must be at least 8 characters long' })
-		}
-		if (formData.password !== formData.repeatPassword) {
-			return setErrors({ ...errors, repeatPassword: 'Passwords do not match' })
-		}
-		attemptSignUp(formData)
 	}
 
-	const handleOAuthSignIn = async (strategy) => {
-		if (!isLoaded) {
-			return
-		}
-
-		try {
-			await signIn.authenticateWithRedirect({
-				strategy,
-				redirectUrl: '/callback',
-				redirectUrlComplete: '/'
-			})
-		} catch (error) {
-			setErrors({ ...errors, clerkError: error.errors[0].longMessage })
-		}
-	}
 	return (
 		<Container maxWidth="xl">
 			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
@@ -80,51 +80,44 @@ const SignUp = () => {
 							<LockOutlined />
 						</Avatar>
 						<Typography variant="h5">JOIN US NOW</Typography>
-						<Stack width="100%" spacing={1} marginBottom="9px">
-							<Grid container size={{ xs: 12, md: 12, xl: 3 }} spacing={1}>
-								<Grid size={{ xs: 12, md: 6 }}>
-									<FormControl className="mb-3" error={Boolean(errors.firstName)} fullWidth>
-										<TextField id="first-name" label="First Name" variant="outlined" name="firstName" type="text" autoComplete="given-name" required value={formData.firstName} onChange={handleChange} />
-										<FormHelperText>{errors.firstName}</FormHelperText>
-									</FormControl>
-								</Grid>
-								<Grid size={{ xs: 12, md: 6 }}>
-									<FormControl className="mb-3" error={Boolean(errors.lastName)} fullWidth>
-										<TextField id="last-name" label="Last Name" variant="outlined" name="lastName" type="text" autoComplete="family-name" required value={formData.lastName} onChange={handleChange} />
-										<FormHelperText>{errors.lastName}</FormHelperText>
-									</FormControl>
-								</Grid>
+						<Grid container size={{ xs: 12, md: 12, xl: 3 }} spacing={1}>
+							<Grid size={{ xs: 12, md: 6 }}>
+								<FormControl error={Boolean(errors.firstName)} fullWidth>
+									<TextField label="First Name" variant="outlined" name="firstName" type="text" autoComplete="given-name" required value={formData.firstName} onChange={handleChange} error={Boolean(errors.firstName)} />
+									<FormHelperText sx={{ m: 0 }}>{errors.firstName}</FormHelperText>
+								</FormControl>
 							</Grid>
-							<FormControl error={Boolean(errors.email)}>
-								<TextField id="email" label="Email" variant="outlined" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} />
-								<FormHelperText>{errors.email}</FormHelperText>
-							</FormControl>
-							<FormControl error={Boolean(errors.password)}>
-								<TextField id="password" label="Password" variant="outlined" name="password" type="password" autoComplete="password" required value={formData.password} onChange={handleChange} />
-								<FormHelperText>{errors.password}</FormHelperText>
-							</FormControl>
-							<FormControl error={Boolean(errors.repeatPassword)}>
-								<TextField id="repeat-password" label="Repeat Password" variant="outlined" name="repeatPassword" type="password" autoComplete="off" required value={formData.repeatPassword} onChange={handleChange} />
-								<FormHelperText>{errors.repeatPassword}</FormHelperText>
-							</FormControl>
-						</Stack>
-						<FormHelperText error>{errors.clerkError}</FormHelperText>
+							<Grid size={{ xs: 12, md: 6 }}>
+								<FormControl error={Boolean(errors.lastName)} fullWidth>
+									<TextField label="Last Name" variant="outlined" name="lastName" type="text" autoComplete="family-name" value={formData.lastName} onChange={handleChange} error={Boolean(errors.lastName)} />
+									<FormHelperText sx={{ m: 0 }}>{errors.lastName}</FormHelperText>
+								</FormControl>
+							</Grid>
+						</Grid>
+						<FormControl error={Boolean(errors.email)} fullWidth>
+							<TextField label="Email" variant="outlined" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} error={Boolean(errors.email)} />
+							<FormHelperText sx={{ m: 0 }}>{errors.email}</FormHelperText>
+						</FormControl>
+						<FormControl error={Boolean(errors.password)} fullWidth>
+							<TextField label="Password" variant="outlined" name="password" type="password" autoComplete="password" required value={formData.password} onChange={handleChange} error={Boolean(errors.password)} />
+							<FormHelperText sx={{ m: 0 }}>{errors.password}</FormHelperText>
+						</FormControl>
+						<FormControl error={Boolean(errors.repeatPassword)} fullWidth>
+							<TextField id="repeat-password" label="Repeat Password" variant="outlined" name="repeatPassword" type="password" autoComplete="off" required value={formData.repeatPassword} onChange={handleChange} error={Boolean(errors.repeatPassword)} />
+							<FormHelperText sx={{ m: 0 }}>{errors.repeatPassword}</FormHelperText>
+						</FormControl>
+						<FormHelperText error sx={{ m: 0 }}>
+							{errors.clerkError}
+						</FormHelperText>
 						<Button variant="contained" type="submit" fullWidth>
-							CREATE ACCOUNT
+							SIGN UP
 						</Button>
-						<Divider textAlign="center">OR</Divider>
-						<ButtonGroup fullWidth orientation="vertical" aria-label="Vertical button group">
-							<Button variant="contained" color="secondary" startIcon={<Google />} onClick={() => handleOAuthSignIn('oauth_google')}>
-								Sign in with Google
-							</Button>
-							<Button variant="outlined" startIcon={<GitHub />} onClick={() => handleOAuthSignIn('oauth_github')}>
-								Sign in with GitHub
-							</Button>
-						</ButtonGroup>
-						<Button fullWidth to="/login" LinkComponent={Link} sx={{ ':hover': { backgroundColor: 'transparent' } }}>
-							<Typography variant="subtitle2" sx={{ fontWeight: { xs: '12px' } }}>
-								Already have an account? Log In
-							</Typography>
+						<Divider textAlign="center" sx={{ width: '100%' }}>
+							OR
+						</Divider>
+						<OAuthButtons />
+						<Button fullWidth to="/login" LinkComponent={Link}>
+							<Typography variant="subtitle2">Already have an account? Log In</Typography>
 						</Button>
 					</Stack>
 				</Paper>
