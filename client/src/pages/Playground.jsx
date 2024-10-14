@@ -3,7 +3,6 @@ import { openSnackbar } from '@/reducers/notif'
 import { SuspenseFallback, ThemeSwitch } from '@/components'
 import { Suspense, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import Post from '@/components/TestPost'
 
 const Playground = () => {
 	const dispatch = useDispatch()
@@ -26,7 +25,6 @@ const Playground = () => {
 						<ThemeSwitch />
 					</Box>
 				</Paper>
-				<Post />
 			</Container>
 		</Suspense>
 	)

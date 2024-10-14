@@ -15,6 +15,23 @@ const SignUp = () => {
 
 	const handleChange = (event) => setFormData({ ...formData, [event.target.name]: event.target.value })
 
+	const attemptSignUp = async (formData) => {
+		if (!isLoaded) {
+			return
+		}
+		try {
+			await signUp.create({
+				firstName: formData.firstName,
+				lastName: formData.lastName,
+				emailAddress: formData.email,
+				password: formData.password
+			})
+			await signUp.prepareVerification({ strategy: 'email_code' })
+			navigate('/verify-email')
+		} catch (error) {
+			setErrors({ ...errors, clerkError: error.errors[0].longMessage })
+		}
+	}
 	const handleSubmit = (event) => {
 		setErrors(initialErrorState)
 		event.preventDefault()
@@ -37,24 +54,6 @@ const SignUp = () => {
 			return setErrors({ ...errors, repeatPassword: 'Passwords do not match' })
 		}
 		attemptSignUp(formData)
-	}
-
-	const attemptSignUp = async (formData) => {
-		if (!isLoaded) {
-			return
-		}
-		try {
-			await signUp.create({
-				firstName: formData.firstName,
-				lastName: formData.lastName,
-				emailAddress: formData.email,
-				password: formData.password
-			})
-			await signUp.prepareVerification({ strategy: 'email_code' })
-			navigate('/verify-email')
-		} catch (error) {
-			setErrors({ ...errors, clerkError: error.errors[0].longMessage })
-		}
 	}
 
 	const handleOAuthSignIn = async (strategy) => {

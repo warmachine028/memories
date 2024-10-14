@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack, CircularProgress } from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
 import { AccountMenu, ThemeSwitch, Sidebar, Searchbar } from '@/components'

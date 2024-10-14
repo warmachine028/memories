@@ -1,5 +1,4 @@
-import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Stack } from '@mui/material'
-import { Skeleton } from '@mui/material'
+import { Skeleton, Box, Card, CardActions, CardContent, CardHeader, Divider, Stack } from '@mui/material'
 
 const AuthorInfoSkeleton = () => (
 	<Stack direction="row" alignItems="center" mb={2} width="100%" minWidth={250} spacing={1}>

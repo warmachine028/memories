@@ -1,4 +1,4 @@
-import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip, CircularProgress } from '@mui/material'
+import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, CircularProgress } from '@mui/material'
 import { Settings, ChevronRight, Computer, DarkMode, Done, LightMode, Logout } from '@mui/icons-material'
 import { useAuth, useUser } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'

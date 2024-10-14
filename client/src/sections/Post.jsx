@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { AddReactionSharp, Comment, Share } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Divider, IconButton, Stack, Typography } from '@mui/material'
 import moment from 'moment'
