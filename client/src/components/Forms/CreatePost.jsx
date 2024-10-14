@@ -4,7 +4,6 @@ import { movies } from '@/data'
 const CreatePost = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault()
-
 	}
 	const handleSearchInput = (params) => <TextField {...params} label="Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
 
