@@ -12,15 +12,15 @@ const Profile = () => {
 	const dispatch = useDispatch()
 	const { user } = useUser()
 	const [value, setValue] = useState('liked-posts')
-	const handleChange = (_, newValue) => setValue(newValue)
+	const handleChange = useCallback((_, newValue) => setValue(newValue), [])
 	const [open, setOpen] = useState(false)
-	const handleClickOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
+	const handleClickOpen = useCallback(() => setOpen(true), [])
+	const handleClose = useCallback(() => setOpen(false), [])
 
 	const handleUpdateUser = useCallback(() => {
 		handleClose()
 		dispatch(openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' }))
-	}, [dispatch])
+	}, [dispatch, handleClose])
 
 	return (
 		<Container maxWidth="xl">
@@ -28,110 +28,17 @@ const Profile = () => {
 				<Grid container spacing={3}>
 					{/* User Profile Card */}
 					<Grid size={{ xs: 12, md: 4 }}>
-						<Paper elevation={1}>
-							<List sx={{ p: 2 }}>
-								<ListItem>
-									<Typography variant="h5" component="h2" fontWeight="bold">
-										Profile
-									</Typography>
-								</ListItem>
-								<ListItem sx={{ flexDirection: 'column' }}>
-									<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
-									<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
-										{user.fullName}
-									</Typography>
-									<Typography color="textSecondary">{user.emailAddresses[0].emailAddress}</Typography>
-								</ListItem>
-								<ListItem sx={{ flexDirection: 'column' }}>
-									<Typography variant="body2" component="p">
-										{user.bio}
-									</Typography>
-								</ListItem>
-								<ListItem sx={{ flexDirection: 'column' }}>
-									<Typography variant="body2" color="textSecondary">
-										Joined: {moment(user.createdAt).format('MMMM Do YYYY')}
-									</Typography>
-								</ListItem>
-								<ListItem sx={{ flexDirection: 'column' }}>
-									<Button variant="contained" onClick={handleClickOpen}>
-										Edit Profile
-									</Button>
-								</ListItem>
-							</List>
-						</Paper>
+						<UserProfileCard user={user} handleClickOpen={handleClickOpen} />
 					</Grid>
 
 					{/* Metrics */}
 					<Grid size={{ xs: 12, md: 8 }}>
-						<Paper elevation={1} sx={{ height: '100%' }}>
-							<List sx={{ p: 2 }}>
-								<ListItem>
-									<Typography variant="h5" component="h2" fontWeight="bold">
-										Metrics
-									</Typography>
-								</ListItem>
-								<ListItem>
-									<Grid container size={12} spacing={4}>
-										<Grid size={6}>
-											<Typography gutterBottom>Posts Created</Typography>
-											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics?.postsCount || 0}
-											</Typography>
-										</Grid>
-										<Grid size={6}>
-											<Typography gutterBottom>Private Posts</Typography>
-											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics?.privatePostsCount || 0}
-											</Typography>
-										</Grid>
-
-										<Grid size={6}>
-											<Typography gutterBottom>Likes Received</Typography>
-											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics?.likesReceived || 0}
-											</Typography>
-										</Grid>
-										<Grid size={6}>
-											<Typography gutterBottom>Comments Received</Typography>
-											<Typography variant="h5" component="h2" fontWeight="bold">
-												{user.metrics?.commentsReceived || 0}
-											</Typography>
-										</Grid>
-										<Grid size={6}>
-											<Typography gutterBottom>Longest Post</Typography>
-											<Typography variant="h5" component={Link} to={`/post/${user.metrics?.longestPostId}`} fontWeight="bold" sx={{ textDecoration: 'none' }} color="textPrimary">
-												{user.metrics?.longestPostWords || 0} words
-											</Typography>
-										</Grid>
-									</Grid>
-								</ListItem>
-							</List>
-						</Paper>
+						<UserMetrics metrics={user.metrics} />
 					</Grid>
 
 					{/* Posts */}
 					<Grid size={12}>
-						<Paper elevation={1} sx={{ height: '100%' }}>
-							<List sx={{ p: 2 }}>
-								<ListItem>
-									<Typography variant="h5" component="h2" fontWeight="bold">
-										Your Posts
-									</Typography>
-								</ListItem>
-								<ListItem sx={{ flexDirection: 'column' }}>
-									<TabContext value={value}>
-										<TabList value={value} sx={{ width: '100%' }} onChange={handleChange} variant="scrollable" aria-label="your posts" scrollButtons="auto">
-											<Tab label="Liked Posts" value="liked-posts" />
-											<Tab label="Private Posts" value="private-posts" />
-											<Tab label="Commented Posts" value="commented-posts" />
-										</TabList>
-										<TabPanel value="liked-posts"> No Posts Available</TabPanel>
-										<TabPanel value="private-posts"> No Posts Available</TabPanel>
-										<TabPanel value="commented-posts"> No Posts Available</TabPanel>
-									</TabContext>
-								</ListItem>
-							</List>
-						</Paper>
+						<UserPosts value={value} handleChange={handleChange} />
 					</Grid>
 				</Grid>
 			</Box>
@@ -139,5 +46,111 @@ const Profile = () => {
 		</Container>
 	)
 }
+
+const UserProfileCard = ({ user, handleClickOpen }) => (
+	<Paper elevation={1}>
+		<List sx={{ p: 2 }}>
+			<ListItem>
+				<Typography variant="h5" component="h2" fontWeight="bold">
+					Profile
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
+				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
+					{user.fullName}
+				</Typography>
+				<Typography color="textSecondary">{user.emailAddresses[0].emailAddress}</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Typography variant="body2" component="p">
+					{user.bio}
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Typography variant="body2" color="textSecondary">
+					Joined: {moment(user.createdAt).format('MMMM Do YYYY')}
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Button variant="contained" onClick={handleClickOpen}>
+					Edit Profile
+				</Button>
+			</ListItem>
+		</List>
+	</Paper>
+)
+
+const MetricsHeader = () => (
+	<ListItem>
+		<Typography variant="h5" component="h2" fontWeight="bold">
+			Metrics
+		</Typography>
+	</ListItem>
+)
+
+const MetricItem = ({ title, value, isLink, linkTo }) => (
+	<Grid size={6}>
+		<Typography gutterBottom>{title}</Typography>
+		{isLink ? (
+			<Typography variant="h5" component={Link} to={linkTo} fontWeight="bold" sx={{ textDecoration: 'none' }} color="textPrimary">
+				{value}
+			</Typography>
+		) : (
+			<Typography variant="h5" component="h2" fontWeight="bold">
+				{value}
+			</Typography>
+		)}
+	</Grid>
+)
+
+const MetricsList = ({ metrics }) => (
+	<ListItem>
+		<Grid container size={12} spacing={4}>
+			<MetricItem title="Posts Created" value={metrics?.postsCount || 0} />
+			<MetricItem title="Private Posts" value={metrics?.privatePostsCount || 0} />
+			<MetricItem title="Likes Received" value={metrics?.likesReceived || 0} />
+			<MetricItem title="Comments Received" value={metrics?.commentsReceived || 0} />
+			<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/post/${metrics?.longestPostId}`} />
+		</Grid>
+	</ListItem>
+)
+
+const UserMetrics = ({ metrics }) => (
+	<Paper elevation={1} sx={{ height: '100%' }}>
+		<List sx={{ p: 2 }}>
+			<MetricsHeader />
+			<MetricsList metrics={metrics} />
+		</List>
+	</Paper>
+)
+
+const TabNavigation = ({ value, handleChange }) => (
+	<TabContext value={value}>
+		<TabList value={value} sx={{ width: '100%' }} onChange={handleChange} variant="scrollable" aria-label="your posts" scrollButtons="auto">
+			<Tab label="Liked Posts" value="liked-posts" />
+			<Tab label="Private Posts" value="private-posts" />
+			<Tab label="Commented Posts" value="commented-posts" />
+		</TabList>
+		<TabPanel value="liked-posts"> No Posts Available</TabPanel>
+		<TabPanel value="private-posts"> No Posts Available</TabPanel>
+		<TabPanel value="commented-posts"> No Posts Available</TabPanel>
+	</TabContext>
+)
+
+const UserPosts = ({ value, handleChange }) => (
+	<Paper elevation={1} sx={{ height: '100%' }}>
+		<List sx={{ p: 2 }}>
+			<ListItem>
+				<Typography variant="h5" component="h2" fontWeight="bold">
+					Your Posts
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<TabNavigation value={value} handleChange={handleChange} />
+			</ListItem>
+		</List>
+	</Paper>
+)
 
 export default Profile

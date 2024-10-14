@@ -44,7 +44,7 @@ const Posts = () => {
 					{loading &&
 						hasMore &&
 						Array.from({ length: posts.length ? 3 : 6 }).map((_, i) => (
-							<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={i}>
+							<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={posts[i]?.id || i}>
 								<PostCardSkeleton />
 							</Grid>
 						))}

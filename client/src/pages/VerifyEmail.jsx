@@ -2,9 +2,9 @@ import { Button, TextField, Typography, Paper, Stack, FormControl, FormHelperTex
 import { MailOutlined } from '@mui/icons-material'
 import { useSignUp } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useNavigate, useCallback } from 'react'
 
-const VerifyEmail = () => {
+const Form = () => {
 	const { isLoaded, signUp, setActive } = useSignUp()
 	const [code, setCode] = useState('')
 	const [error, setError] = useState('')
@@ -32,26 +32,34 @@ const VerifyEmail = () => {
 		}
 	}
 
+	const handleChange = useCallback((e) => setCode(e.target.value), [])
+
+	return (
+		<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>
+			<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
+				<MailOutlined />
+			</Avatar>
+			<Typography variant="h5">Verify Email</Typography>
+			<Typography variant="body1">Enter the verification code sent to your email.</Typography>
+			<FormControl fullWidth>
+				<TextField label="Verification Code" variant="outlined" value={code} onChange={handleChange} required error={Boolean(error)} />
+			</FormControl>
+			<FormHelperText sx={{ m: 0 }} error>
+				{error}
+			</FormHelperText>
+			<Button type="submit" variant="contained" fullWidth>
+				Verify Email
+			</Button>
+		</Stack>
+	)
+}
+
+const VerifyEmail = () => {
 	return (
 		<Container maxWidth="xl">
 			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
 				<Paper sx={{ p: 2, width: 'calc(100vw - 20px)', maxWidth: 400, m: { sm: 'auto' } }}>
-					<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>
-						<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
-							<MailOutlined />
-						</Avatar>
-						<Typography variant="h5">Verify Email</Typography>
-						<Typography variant="body1">Enter the verification code sent to your email.</Typography>
-						<FormControl fullWidth>
-							<TextField label="Verification Code" variant="outlined" value={code} onChange={(e) => setCode(e.target.value)} required error={Boolean(error)} />
-						</FormControl>
-						<FormHelperText sx={{ m: 0 }} error>
-							{error}
-						</FormHelperText>
-						<Button type="submit" variant="contained" fullWidth>
-							Verify Email
-						</Button>
-					</Stack>
+					<Form />
 				</Paper>
 			</Stack>
 		</Container>

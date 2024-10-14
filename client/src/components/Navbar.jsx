@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack } from '@mui/material'
-import { Menu } from '@mui/icons-material'
-import { Link, useLocation } from 'react-router-dom'
 import { AccountMenu, ThemeSwitch, Sidebar, Searchbar } from '@/components'
-import { brand } from '@/assets'
+import { Link, useLocation } from 'react-router-dom'
+import { useState, useCallback } from 'react'
 import { useAuth } from '@clerk/clerk-react'
+import { Menu } from '@mui/icons-material'
+import { brand } from '@/assets'
 
 const Branding = () => {
 	return (
@@ -38,26 +38,30 @@ const LoggedOutOptions = () => {
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
-	const handleOpen = () => setOpen(true)
+	const handleOpen = useCallback(() => setOpen(true), [])
 
 	return (
 		<AppBar position="sticky">
 			<Container maxWidth="xl" sx={{ pb: { xs: 2, md: 0 } }}>
 				<Sidebar open={open} setOpen={setOpen} />
-				<Toolbar disableGutters>
-					<Stack py={2} justifyContent="space-between" direction="row" width="100%" alignItems="center">
-						<IconButton size="large" aria-label="current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpen} edge="start" color="inherit" sx={{ width: '50px', height: '50px', display: { xs: 'block', md: 'none' }, marginRight: 2 }}>
-							<Menu />
-						</IconButton>
-						<Branding />
-						<LoggedOutOptions />
-						<AccountMenu />
-					</Stack>
-				</Toolbar>
+				<ToolbarContent handleOpen={handleOpen} />
 				<Searchbar />
 			</Container>
 		</AppBar>
 	)
 }
+
+const ToolbarContent = ({ handleOpen }) => (
+	<Toolbar disableGutters>
+		<Stack py={2} justifyContent="space-between" direction="row" width="100%" alignItems="center">
+			<IconButton size="large" aria-label="current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpen} edge="start" color="inherit" sx={{ width: '50px', height: '50px', display: { xs: 'block', md: 'none' }, marginRight: 2 }}>
+				<Menu />
+			</IconButton>
+			<Branding />
+			<LoggedOutOptions />
+			<AccountMenu />
+		</Stack>
+	</Toolbar>
+)
 
 export default Navbar
