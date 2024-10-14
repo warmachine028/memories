@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
+import { UserAvatar } from '.'
 
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
@@ -64,25 +65,11 @@ const PostCard = ({ post }) => {
 		setCurrentReaction(reaction === currentReaction ? null : reaction)
 		setReactionAnchorEl(null)
 	}
-
+	const navigate = useNavigate()
 	return (
 		<Card sx={{ height: { md: 400 }, display: 'flex', flexDirection: 'column' }}>
 			<CardHeader
-				avatar={
-					<Avatar
-						component={Link}
-						to={`/user/${'dynamic-user-id'}`}
-						sx={{
-							':hover': {
-								outline: '2px solid',
-								outlineOffset: '1px',
-								outlineColor: 'primary.main'
-							}
-						}}
-					>
-						<Box component="img" src="https://github.com/shadcn.png" alt="avatar" width="100%" />
-					</Avatar>
-				}
+				avatar={<UserAvatar handleClick={() => navigate(`/user/${'dynamic-user-id'}`)} user={{ imageUrl: 'https://github.com/shadcn.png', fullName: 'Saul Goodman' }} />}
 				action={
 					<IconButton id="post-menu" aria-controls={anchorEl ? 'settings' : undefined} aria-haspopup="true" aria-expanded={Boolean(anchorEl)} aria-label="settings" onClick={handleMenuClick}>
 						<MoreVert />

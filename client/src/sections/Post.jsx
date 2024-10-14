@@ -7,9 +7,9 @@ import { Link, useParams } from 'react-router-dom'
 import { getPost } from '@/reducers/post'
 import { PostSkeleton } from '@/components'
 
-const AuthorInfo = ({ avatarUrl, name, email, timestamp, id }) => (
-	<Box display="flex" alignItems="center" mb={2}>
-		<Avatar src={avatarUrl} alt={name} sx={{ width: 60, height: 60, mr: 2 }} component={Link} to={`/user/${id}`} />
+const AuthorInfo = ({ imageUrl, name, email, timestamp, id }) => (
+	<Stack direction="row">
+		<Avatar src={imageUrl} alt={name} sx={{ width: 60, height: 60, mr: 2 }} component={Link} to={`/user/${id}`} />
 		<Stack>
 			<Typography variant="h6">{name}</Typography>
 			<Typography component={Link} variant="body2" color="textSecondary" to={`mailto:${email}`} sx={{ textDecoration: 'none' }}>
@@ -19,7 +19,7 @@ const AuthorInfo = ({ avatarUrl, name, email, timestamp, id }) => (
 				{moment(timestamp).fromNow()}
 			</Typography>
 		</Stack>
-	</Box>
+	</Stack>
 )
 
 const PostActions = ({ shareCount, commentCount, likeCount }) => {
@@ -47,12 +47,17 @@ const PostActions = ({ shareCount, commentCount, likeCount }) => {
 	)
 }
 
+const user = {
+	imageUrl: 'https://github.com/shadcn.png',
+	id: '123',
+	name: 'Saul Goodman',
+	email: 'saul.goodman@example.com'
+}
+
 const Post = () => {
 	const { id } = useParams()
 	const dispatch = useDispatch()
 	const { post } = useSelector((state) => state.posts)
-	const { user } = useSelector((state) => state.auth)
-
 	useEffect(() => {
 		dispatch(getPost(id))
 	}, [dispatch, id])
@@ -67,7 +72,7 @@ const Post = () => {
 				<CardHeader
 					avatar={
 						<AuthorInfo //
-							avatarUrl={user.image}
+							imageUrl={user.imageUrl}
 							id={user.id}
 							name={user.name}
 							email={user.email}

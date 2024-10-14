@@ -4,18 +4,7 @@ import { useAuth, useUser } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '@/hooks'
 import { useState } from 'react'
-
-const AccountIcon = ({ handleClick, open }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-		<Tooltip title="Account settings" arrow>
-			<IconButton onClick={handleClick} size="large" sx={{ ml: 2 }} aria-controls={open ? 'account-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
-				<Avatar sx={{ width: 40, height: 40, ':hover': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 3 } }} src="https://mui.com/static/images/avatar/3.jpg">
-					M
-				</Avatar>
-			</IconButton>
-		</Tooltip>
-	</Box>
-)
+import { UserAvatar } from '.'
 
 const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 	const { user } = useUser()
@@ -141,6 +130,7 @@ const AccountMenu = () => {
 	const handleClick = (event) => setAnchorEl(event.currentTarget)
 	const handleClose = () => setAnchorEl(null)
 	const handleClickTheme = (event) => setAnchorEl2(event.currentTarget)
+	const { user } = useUser()
 
 	const handleCloseTheme = () => setAnchorEl2(null)
 	if (!isLoaded) {
@@ -151,7 +141,7 @@ const AccountMenu = () => {
 	}
 	return (
 		<>
-			<AccountIcon handleClick={handleClick} open={open} />
+			<UserAvatar handleClick={handleClick} open={open} user={user} />
 			<Menu
 				anchorEl={anchorEl}
 				id="account-menu"

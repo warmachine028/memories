@@ -11,6 +11,7 @@ export { default as PlaygroundFab } from './PlaygroundFab'
 export { default as CreatePostDialog } from './CreatePostDialog'
 export { default as Searchbar } from './Searchbar'
 export { default as Sidebar } from './Sidebar'
+export { default as UserAvatar } from './UserAvatar'
 export { default as PostCardSkeleton } from './PostCardSkeleton'
 export { default as PostSkeleton } from './PostSkeleton'
 export {
