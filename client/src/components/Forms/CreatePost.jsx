@@ -1,12 +1,11 @@
 import { Autocomplete, Button, ButtonGroup, FormControl, FormGroup, Paper, Stack, TextField, Typography } from '@mui/material'
-import { useCallback } from 'react'
 import { movies } from '@/data'
 
 const CreatePost = () => {
-	const handleSubmit = useCallback((event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault()
-		console.log('Submitted')
-	}, [])
+
+	}
 	const handleSearchInput = (params) => <TextField {...params} label="Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
 
 	return (

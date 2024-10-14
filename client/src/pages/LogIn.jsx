@@ -64,7 +64,7 @@ const LogIn = () => {
 						</Divider>
 						<OAuthButtons />
 						<Button fullWidth to="/signup" LinkComponent={Link}>
-							<Typography variant="subtitle2">Don't have an account? Sign Up</Typography>
+							<Typography variant="subtitle2">Don&apos;t have an account? Sign Up</Typography>
 						</Button>
 					</Stack>
 				</Paper>

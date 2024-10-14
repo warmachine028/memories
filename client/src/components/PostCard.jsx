@@ -14,7 +14,7 @@ const reactions = [
 ]
 
 const TruncatedText = ({ children: text, maxLength, ...props }) => {
-	const truncated = text.length > maxLength ? text.slice(0, maxLength) + '...' : text
+	const truncated = text.length > maxLength ? `${text.slice(0, maxLength)}...` : text
 	return (
 		<Typography
 			sx={{

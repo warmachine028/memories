@@ -1,6 +1,6 @@
 import { useSignIn } from '@clerk/clerk-react'
 import { GitHub, Google } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, FormHelperText } from '@mui/material'
+import { Button, ButtonGroup, FormHelperText } from '@mui/material'
 import { useState } from 'react'
 
 const OAuthButtons = () => {

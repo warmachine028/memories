@@ -34,7 +34,7 @@
 		"eslint-plugin-react-refresh": "^0.4.12",
 		"globals": "^15.11.0",
 		"prettier": "^3.3.3",
-		"vite": "^5.4.8"
+		"vite": "^5.4.9"
 	},
 	"name": "memories-client",
 	"private": true,
