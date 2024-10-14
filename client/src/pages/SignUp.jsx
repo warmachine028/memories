@@ -15,16 +15,16 @@ const SignUp = () => {
 
 	const handleChange = (event) => setFormData({ ...formData, [event.target.name]: event.target.value })
 
-	const attemptSignUp = async (formData) => {
+	const attemptSignUp = async (data) => {
 		if (!isLoaded) {
 			return
 		}
 		try {
 			await signUp.create({
-				firstName: formData.firstName,
-				lastName: formData.lastName,
-				emailAddress: formData.email,
-				password: formData.password
+				firstName: data.firstName,
+				lastName: data.lastName,
+				emailAddress: data.email,
+				password: data.password
 			})
 			await signUp.prepareVerification({ strategy: 'email_code' })
 			navigate('/verify-email')
