@@ -34,7 +34,6 @@ const SignUp = () => {
 			return setErrors({ ...errors, password: 'Password must be at least 8 characters long' })
 		}
 		if (formData.password !== formData.repeatPassword) {
-			console.log(formData.password, formData.repeatPassword)
 			return setErrors({ ...errors, repeatPassword: 'Passwords do not match' })
 		}
 		attemptSignUp(formData)
