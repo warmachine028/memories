@@ -1,13 +1,27 @@
+# DeepSource configuration file
+# Learn how to configure: https://docs.deepsource.com/docs/configuration
 version = 1
 
-exclude_patterns = ["old/**"]
+test_patterns = ["*/test/**"]
+
+exclude_patterns = [
+    "public/**",
+    "dist/**"
+    "node_modules/**"
+]
+
+[[analyzers]]
+name = "shell"
+enabled = true
 
 [[analyzers]]
 name = "javascript"
+enabled = true
 
   [analyzers.meta]
   plugins = ["react"]
   environment = ["browser"]
+  module_system = "es-modules"
 
 [[transformers]]
 name = "prettier"

@@ -13,7 +13,7 @@ const SideBar = ({ open, setOpen }) => {
 	const { signOut } = useAuth()
 
 	return (
-		<SwipeableDrawer open={open} onOpen={() => {}} onClose={closeDrawer} position="sticky">
+		<SwipeableDrawer open={open} onOpen={setOpen} onClose={closeDrawer} position="sticky">
 			<Box role="presentation" maxWidth={500} sx={{ width: { xs: '100vw' } }} bgcolor="background.paper" minHeight="100vh">
 				<Box display="flex" justifyContent="space-between" m={1} alignItems="center" top={0} zIndex={4} bgcolor="background.paper" position="sticky">
 					<Button LinkComponent={Link} to="/" sx={{ ':hover': { bgcolor: 'transparent' } }}>

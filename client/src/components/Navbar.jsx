@@ -38,13 +38,15 @@ const LoggedOutOptions = () => {
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
+	const handleOpen = () => setOpen(true)
+
 	return (
 		<AppBar position="sticky">
 			<Container maxWidth="xl" sx={{ pb: { xs: 2, md: 0 } }}>
 				<Sidebar open={open} setOpen={setOpen} />
 				<Toolbar disableGutters>
 					<Stack py={2} justifyContent="space-between" direction="row" width="100%" alignItems="center">
-						<IconButton size="large" aria-label="current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={() => setOpen(true)} edge="start" color="inherit" sx={{ width: '50px', height: '50px', display: { xs: 'block', md: 'none' }, marginRight: 2 }}>
+						<IconButton size="large" aria-label="current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpen} edge="start" color="inherit" sx={{ width: '50px', height: '50px', display: { xs: 'block', md: 'none' }, marginRight: 2 }}>
 							<Menu />
 						</IconButton>
 						<Branding />
