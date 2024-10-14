@@ -70,11 +70,11 @@ const LogIn = () => {
 							<LockOutlined />
 						</Avatar>
 						<Typography variant="h5">WELCOME BACK</Typography>
-						<FormControl error={!!errors.email} fullWidth>
+						<FormControl error={Boolean(errors.email)} fullWidth>
 							<TextField id="email" label="Email" variant="outlined" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} />
 							<FormHelperText>{errors.email}</FormHelperText>
 						</FormControl>
-						<FormControl error={!!errors.password} fullWidth>
+						<FormControl error={Boolean(errors.password)} fullWidth>
 							<TextField id="password" label="Password" variant="outlined" name="password" type="password" autoComplete="current-password" required value={formData.password} onChange={handleChange} />
 							<FormHelperText>{errors.password}</FormHelperText>
 						</FormControl>

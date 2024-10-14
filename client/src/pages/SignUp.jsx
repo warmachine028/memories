@@ -83,27 +83,27 @@ const SignUp = () => {
 						<Stack width="100%" spacing={1} marginBottom="9px">
 							<Grid container size={{ xs: 12, md: 12, xl: 3 }} spacing={1}>
 								<Grid size={{ xs: 12, md: 6 }}>
-									<FormControl className="mb-3" error={!!errors.firstName} fullWidth>
+									<FormControl className="mb-3" error={Boolean(errors.firstName)} fullWidth>
 										<TextField id="first-name" label="First Name" variant="outlined" name="firstName" type="text" autoComplete="given-name" required value={formData.firstName} onChange={handleChange} />
 										<FormHelperText>{errors.firstName}</FormHelperText>
 									</FormControl>
 								</Grid>
 								<Grid size={{ xs: 12, md: 6 }}>
-									<FormControl className="mb-3" error={!!errors.lastName} fullWidth>
+									<FormControl className="mb-3" error={Boolean(errors.lastName)} fullWidth>
 										<TextField id="last-name" label="Last Name" variant="outlined" name="lastName" type="text" autoComplete="family-name" required value={formData.lastName} onChange={handleChange} />
 										<FormHelperText>{errors.lastName}</FormHelperText>
 									</FormControl>
 								</Grid>
 							</Grid>
-							<FormControl error={!!errors.email}>
+							<FormControl error={Boolean(errors.email)}>
 								<TextField id="email" label="Email" variant="outlined" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} />
 								<FormHelperText>{errors.email}</FormHelperText>
 							</FormControl>
-							<FormControl error={!!errors.password}>
+							<FormControl error={Boolean(errors.password)}>
 								<TextField id="password" label="Password" variant="outlined" name="password" type="password" autoComplete="password" required value={formData.password} onChange={handleChange} />
 								<FormHelperText>{errors.password}</FormHelperText>
 							</FormControl>
-							<FormControl error={!!errors.repeatPassword}>
+							<FormControl error={Boolean(errors.repeatPassword)}>
 								<TextField id="repeat-password" label="Repeat Password" variant="outlined" name="repeatPassword" type="password" autoComplete="off" required value={formData.repeatPassword} onChange={handleChange} />
 								<FormHelperText>{errors.repeatPassword}</FormHelperText>
 							</FormControl>

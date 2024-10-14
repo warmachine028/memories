@@ -51,7 +51,7 @@ const VerifyEmail = () => {
 						</Avatar>
 						<Typography variant="h5">Verify Your Email</Typography>
 						<Typography variant="body1">Please enter the verification code sent to your email.</Typography>
-						<FormControl fullWidth error={!!error}>
+						<FormControl fullWidth error={Boolean(error)}>
 							<TextField label="Verification Code" variant="outlined" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} fullWidth required />
 							<FormHelperText>{error}</FormHelperText>
 						</FormControl>
