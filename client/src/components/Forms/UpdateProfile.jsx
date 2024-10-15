@@ -17,7 +17,7 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 	const handleInputChange = (e) => setEditedUser({ ...editedUser, [e.target.name]: e.target.value })
 
 	const handleImageChange = (e) => {
-		if (e.target.files && e.target.files[0]) {
+		if (e.target.files?.[0]) {
 			const file = e.target.files[0]
 			setNewImage(file)
 			setEditedUser({ ...editedUser, imageUrl: URL.createObjectURL(file) })

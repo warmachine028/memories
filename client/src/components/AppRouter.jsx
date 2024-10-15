@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { AuthenticateWithRedirectCallback } from '@clerk/clerk-react'
-const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Playground, Post, UpdateUser } = {
+const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Playground, Post } = {
 	Posts: lazy(() => import('@/pages/Posts')),
 	LogIn: lazy(() => import('@/pages/LogIn')),
 	NotFound: lazy(() => import('@/pages/NotFound')),
@@ -10,7 +10,6 @@ const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Playground, Post, 
 	Profile: lazy(() => import('@/pages/Profile')),
 	Playground: lazy(() => import('@/pages/Playground')),
 	Post: lazy(() => import('@/pages/Post')),
-	UpdateUser: lazy(() => import('@/pages/UpdateUser'))
 }
 import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'

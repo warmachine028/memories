@@ -2,10 +2,8 @@ import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListIte
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { UpdateProfileForm } from '@/components'
-import { openSnackbar } from '@/reducers/notif'
 import { useCallback, useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
-import { useDispatch } from 'react-redux'
 import moment from 'moment'
 
 const UserProfileCard = () => {
