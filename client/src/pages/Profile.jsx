@@ -90,7 +90,7 @@ const OtherUserProfile = ({ userId }) => {
 	useEffect(() => {
 		// Fetch user data based on userId
 		// This is a placeholder for actual API call
-		const fetchUser = async () => {
+		const fetchUser = () => {
 			try {
 				// Replace this with your actual API call
 				setUser({
