@@ -119,7 +119,7 @@ const Form = () => {
 			<Typography variant="h6" gutterBottom textAlign="center">
 				Create a Post
 			</Typography>
-			<Stack gap={1}>
+			<Stack spacing={1}>
 				<Collapse timeout={300} in={Boolean(preview)} unmountOnExit>
 					<Box position="relative" pt="50%">
 						<IconButton

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LockOutlined } from '@mui/icons-material'
 import { useSignUp } from '@clerk/clerk-react'
 import { OAuthButtons } from '@/components'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 const NameFields = ({ formData, errors, handleChange }) => (
 	<Grid container size={{ xs: 12, md: 12, xl: 3 }} spacing={1}>
@@ -24,7 +24,7 @@ const NameFields = ({ formData, errors, handleChange }) => (
 
 const Form = () => {
 	const initialState = { firstName: '', lastName: '', email: '', password: '', repeatPassword: '' }
-	const initialErrorState = { firstName: '', lastName: '', email: '', password: '', repeatPassword: '', clerkError: '' }
+	const initialErrorState = useMemo(() => ({ firstName: '', lastName: '', email: '', password: '', repeatPassword: '', clerkError: '' }), [])
 	const { isLoaded, signUp } = useSignUp()
 	const [formData, setFormData] = useState(initialState)
 	const [errors, setErrors] = useState(initialErrorState)
@@ -32,7 +32,7 @@ const Form = () => {
 
 	const handleChange = useCallback((e) => setFormData({ ...formData, [e.target.name]: e.target.value }), [formData])
 
-	const validateInputs = () => {
+	const validateInputs = useCallback(() => {
 		const newErrors = { ...initialErrorState }
 		let valid = true
 
@@ -63,7 +63,7 @@ const Form = () => {
 
 		setErrors(newErrors)
 		return valid
-	}
+	}, [formData, initialErrorState])
 
 	const handleSubmit = useCallback(
 		async (event) => {
@@ -88,7 +88,7 @@ const Form = () => {
 				setErrors({ ...initialErrorState, clerkError: error.errors[0].longMessage })
 			}
 		},
-		[formData, isLoaded, signUp, navigate]
+		[formData, isLoaded, signUp, navigate, initialErrorState, validateInputs]
 	)
 
 	return (

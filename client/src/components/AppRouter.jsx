@@ -25,7 +25,6 @@ const AppRouter = () => {
 				<Route path="/post/:id" element={<Post />} />
 				<Route path="/playground" element={<Playground />} />
 				<Route path="/user" element={<PrivateRoute component={<Profile />} />} />
-				<Route path="/user/update" element={<PrivateRoute component={<UpdateUser />} />} />
 				<Route path="/user/:id" element={<Profile />} />
 				<Route path="/login" element={<AuthRoute component={<LogIn />} />} />
 				<Route path="/signup" element={<AuthRoute component={<SignUp />} />} />

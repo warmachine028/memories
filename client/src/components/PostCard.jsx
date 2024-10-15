@@ -69,13 +69,13 @@ const PostCard = ({ post }) => {
 	return (
 		<Card sx={{ height: { md: 400 }, display: 'flex', flexDirection: 'column' }}>
 			<CardHeader
-				avatar={<UserAvatar handleClick={() => navigate(`/user/${'dynamic-user-id'}`)} user={{ imageUrl: 'https://github.com/shadcn.png', fullName: 'Saul Goodman' }} />}
+				avatar={<UserAvatar handleClick={() => navigate(`/user/${'dynamic-user-id'}`)} user={{ imageUrl: 'https://github.com/shadcn.png', fullName: 'Morty Smith' }} />}
 				action={
 					<IconButton id="post-menu" aria-controls={anchorEl ? 'settings' : undefined} aria-haspopup="true" aria-expanded={Boolean(anchorEl)} aria-label="settings" onClick={handleMenuClick}>
 						<MoreVert />
 					</IconButton>
 				}
-				title="Saul Goodman"
+				title="Morty Smith"
 				subheader="September 14, 2016"
 			/>
 			<Menu id="post-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>

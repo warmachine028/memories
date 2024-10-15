@@ -1,66 +1,140 @@
-import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab } from '@mui/material'
+import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab, CircularProgress } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { Link, useParams, Navigate } from 'react-router-dom'
 import { UpdateProfileForm } from '@/components'
 import { openSnackbar } from '@/reducers/notif'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import moment from 'moment'
 
-const Profile = () => {
-	const dispatch = useDispatch()
-	const { user } = useUser()
-	const [value, setValue] = useState('liked-posts')
-	const handleChange = useCallback((_, newValue) => setValue(newValue), [])
-	const [open, setOpen] = useState(false)
-	const handleClickOpen = useCallback(() => setOpen(true), [])
-	const handleClose = useCallback(() => setOpen(false), [])
+const UserProfileCard = () => {
+	/**
+	 * TODO:
+	 * - user is not logged in:
+	 *   - route is /user -> redirect to /login [handled by AppRouter in PrivateRoute]
+	 *   - route is /user/:id -> render other user profile [handled by AppRouter in PrivateRoute]
+	 * - user is logged in:
+	 *   - route is /user -> render current user profile
+	 *   - route is /user/:id -> render other user profile
+	 *     - id is same as user.id -> redirect to /user
+	 *     - id is different from user.id -> render other user profile
+	 */
+	const { id } = useParams()
+	const { user, isLoaded, isSignedIn } = useUser()
 
-	const handleUpdateUser = useCallback(() => {
-		handleClose()
-		dispatch(openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' }))
-	}, [dispatch, handleClose])
+	// If the user is signed in and the id in the route is the same as the current user's id,
+	// redirect to /user
+	if (isSignedIn && id === user.id) {
+		return <Navigate to="/user" replace />
+	}
 
 	return (
-		<Container maxWidth="xl">
-			<Box marginY={4}>
-				<Grid container spacing={3}>
-					{/* User Profile Card */}
-					<Grid size={{ xs: 12, md: 4 }}>
-						<UserProfileCard user={user} handleClickOpen={handleClickOpen} />
-					</Grid>
+		<Grid size={{ xs: 12, md: 4 }}>
+			<Paper elevation={1} sx={{ height: '100%' }}>
+				<List sx={{ p: 2 }}>
+					<ListItem>
+						<Typography variant="h5" component="h2" fontWeight="bold">
+							Profile
+						</Typography>
+					</ListItem>
 
-					{/* Metrics */}
-					<Grid size={{ xs: 12, md: 8 }}>
-						<UserMetrics metrics={user.metrics} />
-					</Grid>
-
-					{/* Posts */}
-					<Grid size={12}>
-						<UserPosts value={value} handleChange={handleChange} />
-					</Grid>
-				</Grid>
-			</Box>
-			<UpdateProfileForm open={open} onClose={handleClose} onUpdateUser={handleUpdateUser} />
-		</Container>
+					{!isLoaded ? <CircularProgress /> : (!id && isSignedIn) || id === user?.id ? <CurrentUserProfile /> : <OtherUserProfile userId={id} />}
+				</List>
+			</Paper>
+		</Grid>
 	)
 }
 
-const UserProfileCard = ({ user, handleClickOpen }) => (
-	<Paper elevation={1}>
-		<List sx={{ p: 2 }}>
-			<ListItem>
-				<Typography variant="h5" component="h2" fontWeight="bold">
-					Profile
-				</Typography>
-			</ListItem>
+const CurrentUserProfile = () => {
+	const { user, isLoaded } = useUser()
+	const [open, setOpen] = useState(false)
+
+	const handleClose = useCallback(() => setOpen(false), [])
+
+	if (!isLoaded) {
+		return <CircularProgress />
+	}
+
+	return (
+		<>
 			<ListItem sx={{ flexDirection: 'column' }}>
 				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
 				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
 					{user.fullName}
 				</Typography>
 				<Typography color="textSecondary">{user.emailAddresses[0].emailAddress}</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Typography variant="body2" component="p">
+					{user.unsafeMetadata.bio}
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Typography variant="body2" color="textSecondary">
+					Joined: {moment(user.createdAt).format('MMMM Do YYYY')}
+				</Typography>
+			</ListItem>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Button variant="contained" onClick={() => setOpen(true)}>
+					Edit Profile
+				</Button>
+			</ListItem>
+			<UpdateProfileForm open={open} onClose={handleClose} />
+		</>
+	)
+}
+
+const OtherUserProfile = ({ userId }) => {
+	const [user, setUser] = useState(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		// Fetch user data based on userId
+		// This is a placeholder for actual API call
+		const fetchUser = async () => {
+			try {
+				// Replace this with your actual API call
+				setUser({
+					fullName: 'Morty Smith',
+					email: 'morty.smith@example.com',
+					bio: 'Aww Jeez, I am so cool!',
+					imageUrl: 'https://github.com/shadcn.png',
+					createdAt: new Date('2024-02-14')
+				})
+				// const response = await fetch(`/api/users/${userId}`)
+				// const data = await response.json()
+				// setUser(data)
+			} catch (error) {
+				console.error('Error fetching user data:', error)
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		fetchUser()
+	}, [userId])
+
+	if (loading) {
+		return <CircularProgress />
+	}
+
+	if (!user) {
+		return (
+			<ListItem>
+				<Typography>User not found</Typography>
+			</ListItem>
+		)
+	}
+
+	return (
+		<>
+			<ListItem sx={{ flexDirection: 'column' }}>
+				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
+				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
+					{user.fullName}
+				</Typography>
+				<Typography color="textSecondary">{user.email}</Typography>
 			</ListItem>
 			<ListItem sx={{ flexDirection: 'column' }}>
 				<Typography variant="body2" component="p">
@@ -72,22 +146,9 @@ const UserProfileCard = ({ user, handleClickOpen }) => (
 					Joined: {moment(user.createdAt).format('MMMM Do YYYY')}
 				</Typography>
 			</ListItem>
-			<ListItem sx={{ flexDirection: 'column' }}>
-				<Button variant="contained" onClick={handleClickOpen}>
-					Edit Profile
-				</Button>
-			</ListItem>
-		</List>
-	</Paper>
-)
-
-const MetricsHeader = () => (
-	<ListItem>
-		<Typography variant="h5" component="h2" fontWeight="bold">
-			Metrics
-		</Typography>
-	</ListItem>
-)
+		</>
+	)
+}
 
 const MetricItem = ({ title, value, isLink, linkTo }) => (
 	<Grid size={6}>
@@ -104,25 +165,27 @@ const MetricItem = ({ title, value, isLink, linkTo }) => (
 	</Grid>
 )
 
-const MetricsList = ({ metrics }) => (
-	<ListItem>
-		<Grid container size={12} spacing={4}>
-			<MetricItem title="Posts Created" value={metrics?.postsCount || 0} />
-			<MetricItem title="Private Posts" value={metrics?.privatePostsCount || 0} />
-			<MetricItem title="Likes Received" value={metrics?.likesReceived || 0} />
-			<MetricItem title="Comments Received" value={metrics?.commentsReceived || 0} />
-			<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/post/${metrics?.longestPostId}`} />
-		</Grid>
-	</ListItem>
-)
-
 const UserMetrics = ({ metrics }) => (
-	<Paper elevation={1} sx={{ height: '100%' }}>
-		<List sx={{ p: 2 }}>
-			<MetricsHeader />
-			<MetricsList metrics={metrics} />
-		</List>
-	</Paper>
+	<Grid size={{ xs: 12, md: 8 }}>
+		<Paper elevation={1} sx={{ height: '100%' }}>
+			<List sx={{ p: 2 }}>
+				<ListItem>
+					<Typography variant="h5" component="h2" fontWeight="bold">
+						Metrics
+					</Typography>
+				</ListItem>
+				<ListItem>
+					<Grid container size={12} spacing={4}>
+						<MetricItem title="Posts Created" value={metrics?.postsCount || 0} />
+						<MetricItem title="Private Posts" value={metrics?.privatePostsCount || 0} />
+						<MetricItem title="Likes Received" value={metrics?.likesReceived || 0} />
+						<MetricItem title="Comments Received" value={metrics?.commentsReceived || 0} />
+						<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/post/${metrics?.longestPostId}`} />
+					</Grid>
+				</ListItem>
+			</List>
+		</Paper>
+	</Grid>
 )
 
 const TabNavigation = ({ value, handleChange }) => (
@@ -138,19 +201,49 @@ const TabNavigation = ({ value, handleChange }) => (
 	</TabContext>
 )
 
-const UserPosts = ({ value, handleChange }) => (
-	<Paper elevation={1} sx={{ height: '100%' }}>
-		<List sx={{ p: 2 }}>
-			<ListItem>
-				<Typography variant="h5" component="h2" fontWeight="bold">
-					Your Posts
-				</Typography>
-			</ListItem>
-			<ListItem sx={{ flexDirection: 'column' }}>
-				<TabNavigation value={value} handleChange={handleChange} />
-			</ListItem>
-		</List>
-	</Paper>
-)
+const UserPosts = () => {
+	const [value, setValue] = useState('liked-posts')
+	const handleChange = useCallback((_, newValue) => setValue(newValue), [])
+
+	return (
+		<Grid size={12}>
+			<Paper elevation={1}>
+				<List sx={{ p: 2 }}>
+					<ListItem>
+						<Typography variant="h5" component="h2" fontWeight="bold">
+							Your Posts
+						</Typography>
+					</ListItem>
+					<ListItem sx={{ flexDirection: 'column' }}>
+						<TabNavigation value={value} handleChange={handleChange} />
+					</ListItem>
+				</List>
+			</Paper>
+		</Grid>
+	)
+}
+
+const Profile = () => {
+	const user = {
+		name: 'John Doe'
+	}
+
+	return (
+		<Container maxWidth="xl">
+			<Box marginY={4}>
+				<Grid container spacing={3}>
+					{/* User Profile Card */}
+					<UserProfileCard />
+
+					{/* Metrics */}
+					<UserMetrics metrics={user.metrics} />
+
+					{/* Posts */}
+					<UserPosts />
+				</Grid>
+			</Box>
+		</Container>
+	)
+}
 
 export default Profile
