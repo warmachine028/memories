@@ -85,7 +85,7 @@ const PostCard = ({ post }) => {
 				</MenuItem>
 			</Menu>
 			<CardActionArea component={Link} to={`/post/${post.id}`}>
-				<Tooltip title="Click to view post" arrow placement="right">
+				<Tooltip title="Click to view post" arrow placement="top-end" >
 					<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={post.imageUrl || 'https://placehold.co/800x600'} />
 				</Tooltip>
 				<CardContent>

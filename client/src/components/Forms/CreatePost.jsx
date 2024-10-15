@@ -1,36 +1,214 @@
-import { Autocomplete, Button, ButtonGroup, FormControl, FormGroup, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, ButtonGroup, CircularProgress, Collapse, FormControl, FormHelperText, IconButton, Input, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { movies } from '@/data'
+import { AddAPhotoOutlined, AutoAwesome, Visibility, VisibilityOff } from '@mui/icons-material'
+import { useState } from 'react'
+import { useAuth } from '@clerk/clerk-react'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { openSnackbar } from '@/reducers/notif'
 
-const CreatePost = () => {
+const Form = () => {
+	const initialData = { title: '', description: '', tags: [], visibility: 'public', media: null }
+	const initialErrorState = { title: '', description: '', tags: '', media: '' }
+	const dispatch = useDispatch()
+	const [formData, setFormData] = useState(initialData)
+	const [errors, setErrors] = useState(initialErrorState)
+	const [preview, setPreview] = useState(null)
+
+	const handleChange = (event) => {
+		setErrors(initialErrorState)
+		const { name, value, files } = event.target
+		if (name === 'title' && value.length > 30) {
+			setErrors({ ...errors, title: 'Title must be less than 30 characters' })
+		} else if (name === 'description' && value.length > 150) {
+			setErrors({ ...errors, description: 'Description must be less than 150 characters' })
+		} else if (name === 'media' && files && files[0]) {
+			const file = files[0]
+			setFormData({ ...formData, [name]: file })
+			const reader = new FileReader()
+			reader.onloadend = () => {
+				setPreview(reader.result)
+			}
+			reader.readAsDataURL(file)
+		} else if (name === 'tags') {
+			setFormData({ ...formData, [name]: value.split(',') })
+		} else {
+			setFormData({ ...formData, [name]: value })
+		}
+	}
+
+	const validateInputs = () => {
+		const newErrors = { ...initialErrorState }
+		let valid = true
+
+		if (formData.title.trim() === '') {
+			newErrors.title = 'Title is required'
+			valid = false
+		}
+		if (formData.description.trim() === '') {
+			newErrors.description = 'Description is required'
+			valid = false
+		}
+		if (formData.tags.length === 0) {
+			newErrors.tags = 'At least one tag is required'
+			valid = false
+		}
+		if (!formData.media) {
+			newErrors.media = 'Please pick an image'
+			valid = false
+		}
+		setErrors(newErrors)
+		return valid
+	}
+
 	const handleSubmit = (event) => {
 		event.preventDefault()
+		setErrors(initialErrorState)
+		if (!validateInputs()) {
+			return
+		}
+		console.table(formData)
+		dispatch(
+			openSnackbar({
+				severity: 'success',
+				message: 'Post created successfully'
+			})
+		)
+		handleClear()
 	}
-	const handleSearchInput = (params) => <TextField {...params} label="Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
+
+	const handleSearchInput = (params) => {
+		return (
+			<TextField
+				{...params}
+				label="Tags"
+				error={Boolean(errors.tags)}
+				name="tags"
+				value={formData.tags}
+				onChange={(e) => handleChange({ target: { name: 'tags', value: e.target.value } })}
+				slotProps={{
+					input: {
+						...params.InputProps,
+						type: 'search',
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton onClick={generateTags} disabled={formData.tags.length >= 8} edge="end" size="small">
+									<AutoAwesome />
+								</IconButton>
+							</InputAdornment>
+						)
+					}
+				}}
+			/>
+		)
+	}
+	const generateTags = () => {
+		const aIGenerateTags = ['social', 'media', 'post']
+		setFormData({ ...formData, tags: [...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))] })
+	}
+	const toggleVisibility = () => {
+		setFormData((prevData) => ({
+			...prevData,
+			visibility: prevData.visibility === 'public' ? 'private' : 'public'
+		}))
+	}
+
+	const handleClear = () => {
+		setFormData(initialData)
+		setPreview(null)
+	}
+	return (
+		<Stack component="form" onSubmit={handleSubmit} spacing={1} p={2}>
+			<Typography variant="h6" gutterBottom textAlign="center">
+				Create a Post
+			</Typography>
+			<Stack gap={1}>
+				<Collapse timeout={300} in={Boolean(preview)} unmountOnExit>
+					<Box position="relative" pt="50%">
+						<Box component="img" width="100%" height="100%" sx={{ objectFit: 'cover' }} borderRadius={1} src={preview} alt="preview" position="absolute" top={0} left={0} right={0} bottom={0} overflow="hidden" />
+					</Box>
+				</Collapse>
+				<Stack direction="row" justifyContent="space-between">
+					<Tooltip title="Add a photo" arrow>
+						<IconButton component="label" size="small">
+							<Input //
+								type="file"
+								slotProps={{ input: { accept: 'image/*' } }}
+								onChange={handleChange}
+								sx={{ display: 'none' }}
+								name="media"
+							/>
+							<AddAPhotoOutlined />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title={formData.visibility} arrow>
+						<IconButton size="small" onClick={toggleVisibility}>
+							{formData.visibility === 'public' ? <Visibility /> : <VisibilityOff />}
+						</IconButton>
+					</Tooltip>
+				</Stack>
+				<FormControl fullWidth error={Boolean(errors.title)}>
+					<TextField label="Title" variant="outlined" name="title" value={formData.title} onChange={handleChange} required error={Boolean(errors.title)} />
+					<FormHelperText sx={{ m: 0 }}>{errors.title}</FormHelperText>
+				</FormControl>
+				<FormControl fullWidth error={Boolean(errors.description)}>
+					<TextField label="Description" variant="outlined" rows={4} multiline name="description" value={formData.description} onChange={handleChange} required error={Boolean(errors.description)} />
+					<FormHelperText sx={{ m: 0 }}>{errors.description}</FormHelperText>
+				</FormControl>
+				<FormControl fullWidth error={Boolean(errors.tags)}>
+					<Autocomplete //
+						multiple
+						freeSolo
+						options={movies.map((option) => option.title)}
+						renderInput={handleSearchInput}
+						value={formData.tags}
+						onChange={(_, value) => {
+							setFormData((prevData) => ({
+								...prevData,
+								tags: value.length > 8 ? value.slice(-8) : value
+							}))
+							setErrors({ ...errors, tags: '' })
+						}}
+						disableClearable
+						// onInputChange={(_, value) => (formData.tags.length < 8 ? value : '')}
+					/>
+					<FormHelperText sx={{ m: 0 }}>{errors.tags}</FormHelperText>
+				</FormControl>
+				<FormControl fullWidth error={Boolean(errors.media)}>
+					<FormHelperText sx={{ m: 0 }}>{errors.media}</FormHelperText>
+				</FormControl>
+			</Stack>
+			<ButtonGroup orientation="vertical" fullWidth variant="contained">
+				<Button type="submit">Create</Button>
+				<Button color="secondary" type="reset" onClick={handleClear}>
+					Clear
+				</Button>
+			</ButtonGroup>
+		</Stack>
+	)
+}
+
+const CreatePost = () => {
+	const { isSignedIn, isLoaded } = useAuth()
 
 	return (
-		<Paper sx={{ p: 3, display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column', gap: 5, width: { md: 'auto' } }}>
-			<Stack width="100%" component={'form'} onSubmit={handleSubmit} gap={1}>
-				<Typography variant="h6" gutterBottom>
-					Create a Post
-				</Typography>
-				<Stack gap={1} width="100%">
-					<FormGroup>
-						<TextField label="Title" variant="outlined" />
-					</FormGroup>
-					<FormGroup>
-						<TextField label="Description" variant="outlined" rows={4} multiline />
-					</FormGroup>
-					<FormControl>
-						<Autocomplete freeSolo multiple options={movies.map((option) => option.title)} renderInput={handleSearchInput} />
-					</FormControl>
+		<Paper>
+			{!isLoaded ? (
+				<Stack p={2} spacing={2} alignItems="center">
+					<CircularProgress />
 				</Stack>
-				<ButtonGroup orientation="vertical" fullWidth variant="contained">
-					<Button type="submit">Create</Button>
-					<Button color="secondary" type="reset">
-						Clear
+			) : isSignedIn ? (
+				<Form />
+			) : (
+				<Stack p={2} spacing={2} alignItems="center">
+					<Typography component="h1" variant="body1" textAlign="center">
+						Please Sign in to create a post
+					</Typography>
+					<Button component={Link} to="/login" variant="contained" color="secondary" fullWidth>
+						Sign in
 					</Button>
-				</ButtonGroup>
-			</Stack>
+				</Stack>
+			)}
 		</Paper>
 	)
 }
