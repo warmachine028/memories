@@ -1,6 +1,6 @@
 import { Autocomplete, Box, Button, ButtonGroup, CircularProgress, Collapse, FormControl, FormHelperText, IconButton, Input, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { movies } from '@/data'
-import { AddAPhotoOutlined, AutoAwesome, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AddAPhotoOutlined, AutoAwesome, Close, Visibility, VisibilityOff } from '@mui/icons-material'
 import { useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
@@ -125,7 +125,23 @@ const Form = () => {
 			<Stack gap={1}>
 				<Collapse timeout={300} in={Boolean(preview)} unmountOnExit>
 					<Box position="relative" pt="50%">
-						<Box component="img" width="100%" height="100%" sx={{ objectFit: 'cover' }} borderRadius={1} src={preview} alt="preview" position="absolute" top={0} left={0} right={0} bottom={0} overflow="hidden" />
+						<IconButton
+							size="small"
+							onClick={() => {
+								setFormData({ ...formData, media: null })
+								setPreview(null)
+							}}
+							sx={{
+								position: 'absolute',
+								top: 8,
+								right: 8,
+								zIndex: 1,
+								'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' }
+							}}
+						>
+							<Close fontSize="small" sx={{ color: 'white' }} />
+						</IconButton>
+						<Box component="img" width="100%" height="100%" sx={{ objectFit: 'cover' }} borderRadius={1} src={preview || 'https://via.placeholder.com/300'} alt="preview" position="absolute" top={0} left={0} right={0} bottom={0} overflow="hidden" />
 					</Box>
 				</Collapse>
 				<Stack direction="row" justifyContent="space-between">
