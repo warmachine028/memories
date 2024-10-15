@@ -38,7 +38,7 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 			newErrors.firstName = 'Name must be at least 1 character'
 			valid = false
 		}
-		if (!nameRegex.test(editedUser.lastName)) {
+		if (editedUser.lastName && !nameRegex.test(editedUser.lastName)) {
 			newErrors.lastName = 'Name must contain only letters'
 			valid = false
 		}
