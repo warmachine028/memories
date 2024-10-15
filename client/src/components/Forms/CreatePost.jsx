@@ -14,7 +14,6 @@ const Form = () => {
 	const [formData, setFormData] = useState(initialData)
 	const [errors, setErrors] = useState(initialErrorState)
 	const [preview, setPreview] = useState(null)
-
 	const handleChange = (event) => {
 		setErrors(initialErrorState)
 		const { name, value, files } = event.target
@@ -84,8 +83,6 @@ const Form = () => {
 				label="Tags"
 				error={Boolean(errors.tags)}
 				name="tags"
-				value={formData.tags}
-				onChange={(e) => handleChange({ target: { name: 'tags', value: e.target.value } })}
 				slotProps={{
 					input: {
 						...params.InputProps,
@@ -185,8 +182,8 @@ const Form = () => {
 							}))
 							setErrors({ ...errors, tags: '' })
 						}}
+						onInputChange={(_, value) => (formData.tags.length < 8 ? value : '')}
 						disableClearable
-						// onInputChange={(_, value) => (formData.tags.length < 8 ? value : '')}
 					/>
 					<FormHelperText sx={{ m: 0 }}>{errors.tags}</FormHelperText>
 				</FormControl>
