@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
+import { AuthenticateWithRedirectCallback } from '@clerk/clerk-react'
 const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Playground, Post, UpdateUser } = {
 	Posts: lazy(() => import('@/pages/Posts')),
 	LogIn: lazy(() => import('@/pages/LogIn')),
@@ -29,6 +30,7 @@ const AppRouter = () => {
 				<Route path="/login" element={<AuthRoute component={<LogIn />} />} />
 				<Route path="/signup" element={<AuthRoute component={<SignUp />} />} />
 				<Route path="/verify-email" element={<AuthRoute component={<VerifyEmail />} />} />
+				<Route path="/callback" element={<AuthRoute component={<AuthenticateWithRedirectCallback />} />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>
