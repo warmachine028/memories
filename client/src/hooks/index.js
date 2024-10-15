@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import { ModeContext, SnackbarContext, ThemeContext } from '@/contexts'
+import { ModeContext, ThemeContext } from '@/contexts'
 
-export const useSnackbar = () => useContext(SnackbarContext)
 export const useMode = () => useContext(ModeContext)
 // export { useTheme } from './theme'
 export const useTheme = () => {

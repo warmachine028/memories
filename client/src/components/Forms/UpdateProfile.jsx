@@ -68,7 +68,7 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 			dispatch(openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' }))
 		} catch (error) {
 			console.error('Error updating user:', error.errors[0]?.longMessage || error.message)
-			dispatch(openSnackbar({ message: 'Error updating user', severity: 'error' }))
+			dispatch(openSnackbar({ message: error.errors[0]?.longMessage || error.message, severity: 'error' }))
 		} finally {
 			handleClose()
 			setLoading(false)
