@@ -59,7 +59,14 @@ const Form = () => {
 		setErrors(newErrors)
 		return valid
 	}
-
+	const generateTags = () => {
+		const aIGenerateTags = ['social', 'media', 'post']
+		setFormData({ ...formData, tags: [...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))] })
+	}
+	const handleClear = () => {
+		setFormData(initialData)
+		setPreview(null)
+	}
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		setErrors(initialErrorState)
@@ -99,10 +106,7 @@ const Form = () => {
 			/>
 		)
 	}
-	const generateTags = () => {
-		const aIGenerateTags = ['social', 'media', 'post']
-		setFormData({ ...formData, tags: [...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))] })
-	}
+
 	const toggleVisibility = () => {
 		setFormData((prevData) => ({
 			...prevData,
@@ -110,10 +114,6 @@ const Form = () => {
 		}))
 	}
 
-	const handleClear = () => {
-		setFormData(initialData)
-		setPreview(null)
-	}
 	return (
 		<Stack component="form" onSubmit={handleSubmit} spacing={1} p={2}>
 			<Typography variant="h6" gutterBottom textAlign="center">
