@@ -9,7 +9,7 @@ const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Playground, Post }
 	VerifyEmail: lazy(() => import('@/pages/VerifyEmail')),
 	Profile: lazy(() => import('@/pages/Profile')),
 	Playground: lazy(() => import('@/pages/Playground')),
-	Post: lazy(() => import('@/pages/Post')),
+	Post: lazy(() => import('@/pages/Post'))
 }
 import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'
