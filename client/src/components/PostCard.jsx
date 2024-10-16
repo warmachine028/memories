@@ -85,7 +85,7 @@ const PostCard = ({ post }) => {
 							left: 0,
 							width: '100%',
 							height: '100%',
-							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							bgcolor: 'rgba(0, 0, 0, 0.5)',
 							zIndex: 1
 						}
 					}}
