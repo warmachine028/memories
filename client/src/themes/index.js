@@ -30,7 +30,7 @@ const Dark = createTheme({
 			main: '#5f57ff'
 		},
 		secondary: {
-			main: '#ffffff',
+			main: '#ffffff'
 		},
 		text: {
 			secondary: {

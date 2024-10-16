@@ -110,11 +110,7 @@ const PostCard = ({ post }) => {
 					</CardMedia>
 				</Tooltip>
 				<CardContent>
-					<TruncatedText
-						maxLength={50}
-						variant="h5"
-						gutterBottom
-					>
+					<TruncatedText maxLength={50} variant="h5" gutterBottom>
 						{post.title}
 					</TruncatedText>
 					<Typography variant="body2" color="text.secondary.muted">
