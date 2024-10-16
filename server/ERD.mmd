@@ -1,28 +1,3 @@
-# Elysia with Bun runtime
-
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
-
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
-
-Open http://localhost:5000/ with your browser to see the result.
-
-### Prisma
-To start the Prisma studio run:
-```bash
-bun run prisma studio
-```
-
-### ERD
-
-```mermaid
 ---
 config:
   theme: neo-dark
@@ -86,5 +61,3 @@ erDiagram
     Post ||--o{ PostTag : "has"
     Tag ||--o{ PostTag : "belongs to"
     Comment ||--o{ CommentLike : "receives"
-
-```

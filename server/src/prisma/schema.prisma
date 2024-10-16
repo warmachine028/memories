@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "driverAdapters", "tracing"] //? https://github.com/prisma/prisma/discussions/23533#discussioncomment-8838160
+    //* https://www.prisma.io/blog/prisma-optimize-early-access?utm_source=cli&utm_medium=promo-generate-v5-17&utm_campaign=--optimize
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL") // env("POSTGRES_PRISMA_URL") uses connection pooling
+    directUrl = env("DATABASE_URL_UNPOOLED") // env("POSTGRES_URL_NON_POOLING")  uses a direct connection
+}
+
+enum Visibility {
+    PUBLIC
+    PRIVATE
+}
+
+model User {
+    id        String  @id @default(uuid())
+    firstName String
+    lastName  String?
+    email     String  @unique
+    bio       String?
+    imageUrl  String?
+
+    posts         Post[]
+    comments      Comment[]
+    postReactions PostReaction[]
+    commentLikes  CommentLike[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("users")
+}
+
+model Post {
+    id             String     @id @default(uuid())
+    title          String
+    description    String
+    imageUrl       String
+    visibility     Visibility @default(PUBLIC)
+    authorId       String
+    reactionCounts Json?
+
+    tags      PostTag[]
+    comments  Comment[]
+    reactions PostReaction[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    @@map("posts")
+}
+
+model Tag {
+    id   String @id @default(uuid())
+    name String @unique
+
+    posts PostTag[]
+
+    @@map("tags")
+}
+
+model PostTag {
+    postId String
+    tagId  String
+
+    post Post @relation(fields: [postId], references: [id])
+    tag  Tag  @relation(fields: [tagId], references: [id])
+
+    @@id(name: "postTagId", [postId, tagId])
+    @@unique([postId, tagId])
+    @@map("post_tags")
+}
+
+model Comment {
+    id        String @id @default(uuid())
+    content   String
+    likeCount Int    @default(0)
+    postId    String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    post     Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+    author   User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId String
+    likes    CommentLike[]
+
+    @@map("comments")
+}
+
+model PostReaction {
+    userId       String
+    postId       String
+    reactionType ReactionType
+    user         User         @relation(fields: [userId], references: [id])
+    post         Post         @relation(fields: [postId], references: [id])
+    createdAt    DateTime     @default(now())
+
+    @@id(name: "postReactionId", [userId, postId])
+    @@unique([userId, postId])
+    @@map("post_reactions")
+}
+
+model CommentLike {
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    comment   Comment  @relation(fields: [commentId], references: [id])
+    commentId String
+    createdAt DateTime @default(now())
+
+    @@id(name: "commentLikeId", [userId, commentId])
+    @@unique([userId, commentId])
+    @@map("comment_likes")
+}
+
+enum ReactionType {
+    LIKE
+    LOVE
+    HAHA
+    WOW
+    SAD
+    ANGRY
+}

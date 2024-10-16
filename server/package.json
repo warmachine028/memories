@@ -1,20 +1,46 @@
 {
-	"name": "memories",
-	"module": "src/index.ts",
-	"type": "module",
-	"scripts": {
-		"dev": "bun --watch src/index.ts",
-		"start": "bun run src/index.ts"
-	},
-	"devDependencies": {
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	},
-	"dependencies": {
-		"@types/express": "^5.0.0",
-		"cron": "^3.1.7",
-		"express": "^4.21.1"
-	}
+    "$schema": "https://json.schemastore.org/package",
+    "name": "memories",
+    "type": "module",
+    "homepage": "https://github.com/warmachine028/memories#readme",
+    "version": "1.0.0",
+    "author": {
+        "name": "Pritam Kundu",
+        "email": "pritamkundu771@gmail.com",
+        "url": "https://github.com/warmachine028"
+    },
+    "description": "A simple server to keep track of memories",
+    "bugs": {
+        "url": "https://github.com/warmachine028/memories/issues"
+    },
+    "license": "MIT",
+    "scripts": {
+        "test": "bun test --watch",
+        "dev": "bun run --watch src/index.ts",
+        "start": "bun run src/index.ts"
+    },
+    "dependencies": {
+        "@elysiajs/cors": "^1.1.1",
+        "@elysiajs/cron": "^1.1.1",
+        "@elysiajs/swagger": "^1.1.5",
+        "elysia": "latest",
+        "elysia-rate-limit": "^4.1.0"
+    },
+    "devDependencies": {
+        "bun-types": "latest"
+    },
+    "module": "src/index.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/warmachine028/memories.git"
+    },
+    "keywords": [
+        "memories",
+        "server",
+        "bun",
+        "typescript",
+        "elysia",
+        "cron",
+        "render"
+    ]
 }
