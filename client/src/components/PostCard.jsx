@@ -66,12 +66,6 @@ const PostCard = ({ post }) => {
 	const navigate = useNavigate()
 	return (
 		<Card sx={{ height: { md: 370 }, border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` }, position: 'relative' }} elevation={1}>
-			<Menu id="post-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
-				<MenuItem onClick={handleMenuClose}>
-					<Share sx={{ mr: 1 }} />
-					Share
-				</MenuItem>
-			</Menu>
 			<CardActionArea component={Link} to={`/post/${post.id}`}>
 				<CardMedia
 					sx={{
@@ -114,7 +108,7 @@ const PostCard = ({ post }) => {
 					position: 'absolute',
 					top: 0,
 					left: 0,
-					zIndex: 9,
+					zIndex: 2,
 					color: 'white',
 					'& .MuiCardHeader-title': { color: 'white' },
 					'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
@@ -168,7 +162,7 @@ const PostCard = ({ post }) => {
 						<Avatar alt="Trevor Henderson" src="https://mui.com/static/images/avatar/5.jpg" />
 					</AvatarGroup>
 				</Stack>
-				<Button size="small" color="error" startIcon={<Delete />} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Button size="small" color="error" startIcon={<Delete />}>
 					Delete
 				</Button>
 			</CardActions>
