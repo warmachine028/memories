@@ -1,0 +1,44 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"author": {
+		"name": "Pritam Kundu",
+		"email": "pritamkundu771@gmail.com",
+		"url": "https://github.com/warmachine028"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.20.3",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"express-rate-limit": "^7.4.1",
+		"jsonwebtoken": "^9.0.2",
+		"lodash": "^4.17.21",
+		"mongoose": "^8.7.1",
+		"nodemailer": "^6.9.15"
+	},
+	"description": "This is the server for memories-client",
+	"devDependencies": {
+		"nodemon": "^3.1.7"
+	},
+	"keywords": [
+		"mongoDB",
+		"express",
+		"node",
+		"express-rate-limit",
+		"jsonwebtoken",
+		"nodemailer"
+	],
+	"license": "ISC",
+	"main": "index.js",
+	"name": "memories-server",
+	"private": true,
+	"schema": "https://json.schemastore.org/package",
+	"scripts": {
+		"dev": "nodemon index.js",
+		"start": "node index.js",
+		"test": ""
+	},
+	"type": "module",
+	"version": "1.0.0"
+}
