@@ -1,10 +1,36 @@
-import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab, CircularProgress } from '@mui/material'
+import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab, CircularProgress, Dialog, IconButton, Stack } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { UpdateProfileForm } from '@/components'
 import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import moment from 'moment'
+import { Close } from '@mui/icons-material'
+
+const UserAvatar = ({ user }) => {
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => setOpen(false)
+	return (
+		<>
+			<IconButton onClick={handleOpen} sx={{ p: 0.5, position: 'relative', mb: 2 }}>
+				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100 }} />
+			</IconButton>
+			<Dialog open={open} onClose={handleClose} maxWidth="xs" PaperProps={{ sx: { overflow: 'visible', borderRadius: 2 } }}>
+				<Paper elevation={1}>
+					<Stack p={2} alignItems="center">
+						<Avatar src={user.imageUrl} alt={user.fullName} variant="square" sx={{ width: 300, height: 300 }} />
+					</Stack>
+				</Paper>
+				<Paper sx={{ position: 'absolute', top: 0, right: -48 }} elevation={1}>
+					<IconButton onClick={handleClose} sx={{ borderRadius: 1 }}>
+						<Close />
+					</IconButton>
+				</Paper>
+			</Dialog>
+		</>
+	)
+}
 
 const UserProfileCard = () => {
 	/**
@@ -57,11 +83,13 @@ const CurrentUserProfile = () => {
 	return (
 		<>
 			<ListItem sx={{ flexDirection: 'column' }}>
-				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
+				<UserAvatar user={user} />
 				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
 					{user.fullName}
 				</Typography>
-				<Typography color="textSecondary">{user.emailAddresses[0].emailAddress}</Typography>
+				<Typography color="text.secondary.muted" variant="body2">
+					{user.emailAddresses[0].emailAddress}
+				</Typography>
 			</ListItem>
 			<ListItem sx={{ flexDirection: 'column' }}>
 				<Typography variant="body2" component="p">
@@ -128,7 +156,7 @@ const OtherUserProfile = ({ userId }) => {
 	return (
 		<>
 			<ListItem sx={{ flexDirection: 'column' }}>
-				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100, mb: 2 }} />
+				<UserAvatar user={user} />
 				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
 					{user.fullName}
 				</Typography>

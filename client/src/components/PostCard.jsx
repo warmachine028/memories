@@ -85,7 +85,6 @@ const PostCard = ({ post }) => {
 					}}
 					image={post.imageUrl}
 				/>
-
 				<CardContent>
 					<TruncatedText maxLength={50} variant="h5" gutterBottom>
 						{post.title}
@@ -117,15 +116,11 @@ const PostCard = ({ post }) => {
 			<CardActions sx={{ justifyContent: 'space-between' }}>
 				<Stack flexDirection="row" alignItems="center">
 					<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
-						<IconButton //
-							size="small"
-							title="react"
-							sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}
-						>
+						<IconButton size="small" title="react" sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}>
 							{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
 						</IconButton>
 					</Box>
-					<Popover //
+					<Popover
 						open={Boolean(reactionAnchorEl)}
 						anchorEl={reactionAnchorEl}
 						onClose={() => setReactionAnchorEl(null)}
