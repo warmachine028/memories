@@ -17,7 +17,7 @@ export const getPosts = createAsyncThunk('post/getPosts', async (_, { getState, 
 		// Fetch posts and random users in parallel
 		const [postsResponse, usersResponse] = await Promise.all([
 			axios.get(`https://dummyjson.com/posts?limit=10&skip=${skip}`), //
-			axios.get(`https://randomuser.me/api/?results=10`)
+			axios.get('https://randomuser.me/api/?results=10')
 		])
 
 		const postsWithImages = postsResponse.data.posts.map((post, index) => {

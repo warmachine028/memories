@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
-import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Popover, Paper, CardActionArea, AvatarGroup, Stack, Box } from '@mui/material'
+import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
 import { UserAvatar } from '.'
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
@@ -31,13 +31,10 @@ const TruncatedText = ({ children: text, maxLength, ...props }) => {
 }
 
 const PostCard = ({ post }) => {
-	const [anchorEl, setAnchorEl] = useState(null)
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const [currentReaction, setCurrentReaction] = useState(null)
 
 	const popoverTimeoutRef = useRef(null)
-
-	const handleMenuClose = () => setAnchorEl(null)
 
 	const handleReactionIconEnter = (event) => {
 		clearTimeout(popoverTimeoutRef.current)

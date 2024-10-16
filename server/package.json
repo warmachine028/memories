@@ -3,7 +3,7 @@
 	"module": "src/index.ts",
 	"type": "module",
 	"scripts": {
-		"dev": "bun run src/index.ts",
+		"dev": "bun --watch src/index.ts",
 		"start": "bun run src/index.ts"
 	},
 	"devDependencies": {
