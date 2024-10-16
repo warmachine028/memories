@@ -11,9 +11,8 @@ generator client {
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_URL") // env("POSTGRES_PRISMA_URL") uses connection pooling
-    directUrl = env("DATABASE_URL_UNPOOLED") // env("POSTGRES_URL_NON_POOLING")  uses a direct connection
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Visibility {

@@ -24,7 +24,8 @@
         "@elysiajs/cron": "^1.1.1",
         "@elysiajs/swagger": "^1.1.5",
         "elysia": "latest",
-        "elysia-rate-limit": "^4.1.0"
+        "elysia-rate-limit": "^4.1.0",
+        "prisma": "^5.21.0"
     },
     "devDependencies": {
         "bun-types": "latest"
