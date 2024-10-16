@@ -1,6 +1,6 @@
 import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
 import { Button, ButtonGroup, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTheme } from '@/hooks'
 
 const ThemeMenu = ({ anchorEl, handleClose, handleClick, theme }) => {
@@ -39,21 +39,18 @@ const ThemeSwitch = () => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const { theme, setTheme } = useTheme()
 
-	const handleOpen = useCallback((event) => {
+	const handleOpen = (event) => {
 		setAnchorEl(event.currentTarget)
-	}, [])
+	}
 
-	const handleClose = useCallback(() => {
+	const handleClose = () => {
 		setAnchorEl(null)
-	}, [])
+	}
 
-	const handleClick = useCallback(
-		(newTheme) => {
-			setTheme(newTheme)
-			handleClose()
-		},
-		[setTheme, handleClose]
-	)
+	const handleClick = (newTheme) => {
+		setTheme(newTheme)
+		handleClose()
+	}
 
 	return (
 		<>

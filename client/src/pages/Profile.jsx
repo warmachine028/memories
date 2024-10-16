@@ -2,7 +2,7 @@ import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListIte
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { UpdateProfileForm } from '@/components'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import moment from 'moment'
 
@@ -48,7 +48,7 @@ const CurrentUserProfile = () => {
 	const { user, isLoaded } = useUser()
 	const [open, setOpen] = useState(false)
 
-	const handleClose = useCallback(() => setOpen(false), [])
+	const handleClose = () => setOpen(false)
 
 	if (!isLoaded) {
 		return <CircularProgress />
@@ -201,7 +201,7 @@ const TabNavigation = ({ value, handleChange }) => (
 
 const UserPosts = () => {
 	const [value, setValue] = useState('liked-posts')
-	const handleChange = useCallback((_, newValue) => setValue(newValue), [])
+	const handleChange = (_, newValue) => setValue(newValue)
 
 	return (
 		<Grid size={12}>

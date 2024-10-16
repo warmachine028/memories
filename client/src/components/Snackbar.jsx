@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Alert, Snackbar as MUISnackbar, Slide } from '@mui/material'
 import { closeSnackbar } from '@/reducers/notif'
-import { useCallback } from 'react'
 
 const Snackbar = () => {
 	const dispatch = useDispatch()
 	const reducer = useSelector((state) => state.notification)
 	const { message, open, severity } = reducer
-	const handleClose = useCallback(() => {
+	const handleClose = () => {
 		dispatch(closeSnackbar())
-	}, [dispatch])
+	}
 
 	return (
 		<MUISnackbar

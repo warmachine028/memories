@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LockOutlined } from '@mui/icons-material'
 import { useSignIn } from '@clerk/clerk-react'
 import { OAuthButtons } from '@/components'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 
 const Form = () => {
 	const initialState = { email: '', password: '' }
@@ -12,34 +12,31 @@ const Form = () => {
 	const [error, setError] = useState('')
 	const navigate = useNavigate()
 
-	const handleChange = useCallback((e) => setFormData({ ...formData, [e.target.name]: e.target.value }), [formData])
+	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-	const handleSubmit = useCallback(
-		async (event) => {
-			event.preventDefault()
-			setError('')
-			if (!isLoaded) {
-				return
-			}
-			try {
-				const result = await signIn.create({
-					identifier: formData.email,
-					password: formData.password
-				})
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		setError('')
+		if (!isLoaded) {
+			return
+		}
+		try {
+			const result = await signIn.create({
+				identifier: formData.email,
+				password: formData.password
+			})
 
-				if (result.status === 'complete') {
-					await setActive({ session: result.createdSessionId })
-					navigate('/')
-				} else {
-					console.error('Sign-in failed', result)
-					setError('Sign-in failed. Please try again.')
-				}
-			} catch (err) {
-				setError(err.errors[0].longMessage || 'An error occurred during sign-in')
+			if (result.status === 'complete') {
+				await setActive({ session: result.createdSessionId })
+				navigate('/')
+			} else {
+				console.error('Sign-in failed', result)
+				setError('Sign-in failed. Please try again.')
 			}
-		},
-		[formData, isLoaded, signIn, setActive, navigate]
-	)
+		} catch (err) {
+			setError(err.errors[0].longMessage || 'An error occurred during sign-in')
+		}
+	}
 
 	return (
 		<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>

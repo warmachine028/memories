@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack } from '@mui/material'
 import { AccountMenu, ThemeSwitch, Sidebar, Searchbar } from '@/components'
 import { Link, useLocation } from 'react-router-dom'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { Menu } from '@mui/icons-material'
 import { brand } from '@/assets'
@@ -38,7 +38,7 @@ const LoggedOutOptions = () => {
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
-	const handleOpen = useCallback(() => setOpen(true), [])
+	const handleOpen = () => setOpen(true)
 
 	return (
 		<AppBar position="sticky">

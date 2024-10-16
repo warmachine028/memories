@@ -9,33 +9,38 @@ const initialState = {
 	post: null
 }
 
-export const getPosts = createAsyncThunk(
-	'post/getPosts', // prefix
-	async (_, { getState, rejectWithValue }) => {
-		try {
-			const { posts } = getState().posts
-			const skip = posts.length
-			const response = await axios.get(`https://dummyjson.com/posts?limit=10&skip=${skip}`)
-			const postsWithImages = await Promise.all(
-				response.data.posts.map(async (post) => {
-					try {
-						const imageResponse = await axios.get('https://picsum.photos/800/600', {
-							responseType: 'blob'
-						})
-						const imageUrl = URL.createObjectURL(imageResponse.data)
-						return { ...post, imageUrl }
-					} catch (error) {
-						console.error(`Failed to fetch image for post ${post.id}:`, error)
-						return post // Return the post without an image if fetching fails
-					}
-				})
-			)
-			return { posts: postsWithImages }
-		} catch (error) {
+export const getPosts = createAsyncThunk('post/getPosts', async (_, { getState, rejectWithValue }) => {
+	try {
+		const { posts } = getState().posts
+		const skip = posts.length
+
+		// Fetch posts and random users in parallel
+		const [postsResponse, usersResponse] = await Promise.all([
+			axios.get(`https://dummyjson.com/posts?limit=10&skip=${skip}`), //
+			axios.get(`https://randomuser.me/api/?results=10`)
+		])
+
+		const postsWithImages = postsResponse.data.posts.map((post, index) => {
+			const authorData = usersResponse.data.results[index]
+			return {
+				...post,
+				imageUrl: `https://picsum.photos/seed/${post.id}/800/600`,
+				author: {
+					id: authorData.login.uuid,
+					fullName: `${authorData.name.first} ${authorData.name.last}`,
+					imageUrl: `https://i.pravatar.cc/150?u=${post.id}`
+				}
+			}
+		})
+
+		return { posts: postsWithImages }
+	} catch (error) {
+		if (axios.isAxiosError(error)) {
 			return rejectWithValue(error.message)
 		}
+		return rejectWithValue('An unknown error occurred')
 	}
-)
+})
 
 export const getPost = createAsyncThunk('post/getPost', async (id, { rejectWithValue }) => {
 	try {

@@ -2,18 +2,19 @@ import { Container, Grid2 as Grid } from '@mui/material'
 import { PostCard, SearchForm, CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosts } from '@/reducers/post'
-import { useCallback, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 const Posts = () => {
 	const dispatch = useDispatch()
 	const initialFetchDone = useRef(false)
 	const { posts, loading, hasMore } = useSelector((state) => state.posts)
 
-	const loadMorePosts = useCallback(() => {
+	const loadMorePosts = () => {
 		if (!loading && hasMore) {
 			dispatch(getPosts())
 		}
-	}, [dispatch, loading, hasMore])
+	}
+
 	useEffect(() => {
 		if (!initialFetchDone.current) {
 			loadMorePosts()
@@ -21,11 +22,11 @@ const Posts = () => {
 		}
 	}, [loadMorePosts])
 
-	const handleScroll = useCallback(() => {
+	const handleScroll = () => {
 		if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
 			loadMorePosts()
 		}
-	}, [loadMorePosts])
+	}
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll)

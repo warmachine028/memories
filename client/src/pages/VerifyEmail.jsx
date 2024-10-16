@@ -2,7 +2,7 @@ import { Button, TextField, Typography, Paper, Stack, FormControl, FormHelperTex
 import { MailOutlined } from '@mui/icons-material'
 import { useSignUp } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 
 const Form = () => {
 	const { isLoaded, signUp, setActive } = useSignUp()
@@ -10,32 +10,29 @@ const Form = () => {
 	const [error, setError] = useState('')
 	const navigate = useNavigate()
 
-	const handleSubmit = useCallback(
-		async (event) => {
-			event.preventDefault()
-			setError('')
-			if (!isLoaded) {
-				return
-			}
-			try {
-				const result = await signUp.attemptEmailAddressVerification({ code })
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		setError('')
+		if (!isLoaded) {
+			return
+		}
+		try {
+			const result = await signUp.attemptEmailAddressVerification({ code })
 
-				if (result.status === 'complete') {
-					await setActive({ session: result.createdSessionId })
-					navigate('/')
-				} else {
-					console.error(JSON.stringify(result, null, 2))
-					setError('Sign-up failed. Please try again.')
-				}
-			} catch (err) {
-				console.error('Verification error:', err)
-				setError(err.errors[0].longMessage || 'An error occurred during verification')
+			if (result.status === 'complete') {
+				await setActive({ session: result.createdSessionId })
+				navigate('/')
+			} else {
+				console.error(JSON.stringify(result, null, 2))
+				setError('Sign-up failed. Please try again.')
 			}
-		},
-		[isLoaded, signUp, setActive, navigate, code]
-	)
+		} catch (err) {
+			console.error('Verification error:', err)
+			setError(err.errors[0].longMessage || 'An error occurred during verification')
+		}
+	}
 
-	const handleChange = useCallback((e) => setCode(e.target.value), [])
+	const handleChange = (e) => setCode(e.target.value)
 
 	return (
 		<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>

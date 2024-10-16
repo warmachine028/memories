@@ -1,14 +1,14 @@
 import { Add, Favorite, MessageSharp } from '@mui/icons-material'
 import { Avatar, BottomNavigation, BottomNavigationAction } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { CreatePostDialog } from '@/components'
 
 const Bottombar = () => {
 	const [open, setOpen] = useState(false)
 
-	const handleClickOpen = useCallback(() => {
+	const handleClickOpen = () => {
 		setOpen(true)
-	}, [])
+	}
 	return (
 		<>
 			<CreatePostDialog open={open} setOpen={setOpen} />

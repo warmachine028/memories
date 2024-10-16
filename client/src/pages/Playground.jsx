@@ -1,7 +1,7 @@
 import { Button, Container, Paper, Stack, Typography } from '@mui/material'
 import { openSnackbar } from '@/reducers/notif'
 import { SuspenseFallback, ThemeSwitch } from '@/components'
-import { Suspense, useCallback } from 'react'
+import { Suspense } from 'react'
 import { useDispatch } from 'react-redux'
 
 const Content = ({ onClick: handleClick }) => (
@@ -21,9 +21,9 @@ const Content = ({ onClick: handleClick }) => (
 const Playground = () => {
 	const dispatch = useDispatch()
 
-	const handleClick = useCallback(() => {
+	const handleClick = () => {
 		dispatch(openSnackbar({ message: 'This is a snackbar message', severity: 'success' }))
-	}, [dispatch])
+	}
 
 	return (
 		<Suspense fallback={<SuspenseFallback />}>

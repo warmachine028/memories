@@ -3,12 +3,11 @@ import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListIte
 import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
 
 import ThemeSwitch from './ThemeSwitch'
-import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth, useUser } from '@clerk/clerk-react'
 
 const SideBar = ({ open, setOpen }) => {
-	const closeDrawer = useCallback(() => setOpen(false), [setOpen])
+	const closeDrawer = () => setOpen(false)
 	const { user } = useUser()
 	const { signOut } = useAuth()
 

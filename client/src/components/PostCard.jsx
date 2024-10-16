@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
 import { UserAvatar } from '.'
-
+const user = { imageUrl: 'https://github.com/shadcn.png', fullName: 'Morty Smith' }
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
 	{ icon: Favorite, label: 'Love', color: '#e91e63' },
@@ -14,14 +14,14 @@ const reactions = [
 ]
 
 const TruncatedText = ({ children: text, maxLength, ...props }) => {
-	const truncated = text.length > maxLength ? `${text.slice(0, maxLength)}...` : text
+	const truncated = text.length > maxLength ? text.slice(maxLength) : text
 	return (
 		<Typography
 			sx={{
 				overflow: 'hidden',
 				textOverflow: 'ellipsis',
 				display: '-webkit-box',
-				WebkitLineClamp: maxLength === 100 ? 3 : 1,
+				WebkitLineClamp: maxLength === 100 ? 2 : 1,
 				WebkitBoxOrient: 'vertical'
 			}}
 			{...props}
@@ -38,7 +38,6 @@ const PostCard = ({ post }) => {
 
 	const popoverTimeoutRef = useRef(null)
 
-	const handleMenuClick = (event) => setAnchorEl(event.currentTarget)
 	const handleMenuClose = () => setAnchorEl(null)
 
 	const handleReactionIconEnter = (event) => {
@@ -67,31 +66,60 @@ const PostCard = ({ post }) => {
 	}
 	const navigate = useNavigate()
 	return (
-		<Card sx={{ height: { md: 400 }, display: 'flex', flexDirection: 'column' }}>
-			<CardHeader
-				avatar={<UserAvatar handleClick={() => navigate(`/user/${'dynamic-user-id'}`)} user={{ imageUrl: 'https://github.com/shadcn.png', fullName: 'Morty Smith' }} />}
-				action={
-					<IconButton id="post-menu" aria-controls={anchorEl ? 'settings' : undefined} aria-haspopup="true" aria-expanded={Boolean(anchorEl)} aria-label="settings" onClick={handleMenuClick}>
-						<MoreVert />
-					</IconButton>
-				}
-				title="Morty Smith"
-				subheader="September 14, 2016"
-			/>
+		<Card sx={{ height: { md: 370 }, border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` } }} elevation={1}>
 			<Menu id="post-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
 				<MenuItem onClick={handleMenuClose}>
 					<Share sx={{ mr: 1 }} />
 					Share
 				</MenuItem>
 			</Menu>
-			<CardActionArea component={Link} to={`/post/${post.id}`}>
+			<CardActionArea component={Link} to={`/post/${post.id}`} sx={{ position: 'relative' }}>
 				<Tooltip title="Click to view post" arrow placement="top-end">
-					<CardMedia sx={{ height: { md: 140, xs: 200 } }} image={post.imageUrl || 'https://placehold.co/800x600'} />
+					<CardMedia
+						sx={{
+							height: { md: 160, xs: 200 },
+							bgcolor: 'rgba(0, 0, 0, 0.5)',
+							position: 'relative',
+							'&::after': {
+								content: '""',
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								width: '100%',
+								height: '100%',
+								backgroundColor: 'rgba(0, 0, 0, 0.5)',
+								zIndex: 1
+							}
+						}}
+						image={post.imageUrl}
+					>
+						<CardHeader
+							avatar={<UserAvatar handleClick={() => navigate(`/user/${post.author.id}`)} user={post.author} />}
+							title={post.author.fullName}
+							subheader="September 14, 2016"
+							sx={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								zIndex: 2,
+								color: 'white',
+								'& .MuiCardHeader-title': { color: 'white' },
+								'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
+							}}
+						/>
+					</CardMedia>
 				</Tooltip>
 				<CardContent>
-					<TruncatedText maxLength={50} variant="h5" gutterBottom>
+					<TruncatedText
+						maxLength={50}
+						variant="h5"
+						gutterBottom
+					>
 						{post.title}
 					</TruncatedText>
+					<Typography variant="body2" color="text.secondary.muted">
+						{post.tags.map((tag) => `#${tag} `)}
+					</Typography>
 					<Box marginTop={1}>
 						<TruncatedText maxLength={100} color="text.secondary">
 							{post.body}

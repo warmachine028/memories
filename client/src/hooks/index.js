@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { ModeContext, ThemeContext } from '@/contexts'
 
 export const useMode = () => useContext(ModeContext)
@@ -40,16 +40,16 @@ const sleep = (ms) => {
  */
 export const useSwipe = (swipeableViewsRef, idx) => {
 	const prevIdx = usePrevious(idx)
-	const swipeForward = useCallback(() => {
+	const swipeForward = () => {
 		swipeableViewsRef.current.swipeForward()
-	}, [swipeableViewsRef])
+	}
 
-	const swipeBackward = useCallback(() => {
+	const swipeBackward = () => {
 		swipeableViewsRef.current.swipeBackward()
-	}, [swipeableViewsRef])
+	}
 
 	useEffect(() => {
-		;(async function () {
+		const animate = async () => {
 			if (prevIdx < idx) {
 				for (let i = 0; i < idx - prevIdx; i++) {
 					swipeForward()
@@ -61,6 +61,7 @@ export const useSwipe = (swipeableViewsRef, idx) => {
 					await sleep(300)
 				}
 			}
-		})()
+		}
+		animate()
 	}, [idx, prevIdx, swipeBackward, swipeForward])
 }
