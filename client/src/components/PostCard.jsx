@@ -145,7 +145,7 @@ const PostCard = ({ post }) => {
 							}
 						}}
 					>
-						<Paper sx={{ display: 'flex', p: 1 }}>
+						<Paper sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.divider}` }}>
 							{reactions.map((reaction) => (
 								<IconButton
 									key={reaction.label}
