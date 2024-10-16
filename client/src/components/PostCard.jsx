@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Menu, MenuItem, Popover, Paper, CardActionArea, AvatarGroup, Stack, Tooltip, Box } from '@mui/material'
 import { MoreVert, Share, ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
 import { UserAvatar } from '.'
-const user = { imageUrl: 'https://github.com/shadcn.png', fullName: 'Morty Smith' }
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
 	{ icon: Favorite, label: 'Love', color: '#e91e63' },
@@ -66,55 +65,35 @@ const PostCard = ({ post }) => {
 	}
 	const navigate = useNavigate()
 	return (
-		<Card sx={{ height: { md: 370 }, border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` } }} elevation={1}>
+		<Card sx={{ height: { md: 370 }, border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` }, position: 'relative' }} elevation={1}>
 			<Menu id="post-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
 				<MenuItem onClick={handleMenuClose}>
 					<Share sx={{ mr: 1 }} />
 					Share
 				</MenuItem>
 			</Menu>
-			<CardActionArea component={Link} to={`/post/${post.id}`} sx={{ position: 'relative' }}>
-				<Tooltip title="Click to view post" arrow placement="top-end">
-					<CardMedia
-						sx={{
-							height: { md: 160, xs: 200 },
-							bgcolor: 'rgba(0, 0, 0, 0.5)',
-							position: 'relative',
-							'&::after': {
-								content: '""',
-								position: 'absolute',
-								top: 0,
-								left: 0,
-								width: '100%',
-								height: '100%',
-								backgroundColor: 'rgba(0, 0, 0, 0.5)',
-								zIndex: 1
-							}
-						}}
-						image={post.imageUrl}
-					>
-						<CardHeader
-							avatar={<UserAvatar handleClick={() => navigate(`/user/${post.author.id}`)} user={post.author} />}
-							title={post.author.fullName}
-							subheader="September 14, 2016"
-							sx={{
-								position: 'absolute',
-								top: 0,
-								left: 0,
-								zIndex: 2,
-								color: 'white',
-								'& .MuiCardHeader-title': { color: 'white' },
-								'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
-							}}
-						/>
-					</CardMedia>
-				</Tooltip>
+			<CardActionArea component={Link} to={`/post/${post.id}`}>
+				<CardMedia
+					sx={{
+						height: { md: 160, xs: 200 },
+						bgcolor: 'rgba(0, 0, 0, 0.5)',
+						position: 'relative',
+						'&::after': {
+							content: '""',
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							width: '100%',
+							height: '100%',
+							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							zIndex: 1
+						}
+					}}
+					image={post.imageUrl}
+				/>
+
 				<CardContent>
-					<TruncatedText
-						maxLength={50}
-						variant="h5"
-						gutterBottom
-					>
+					<TruncatedText maxLength={50} variant="h5" gutterBottom>
 						{post.title}
 					</TruncatedText>
 					<Typography variant="body2" color="text.secondary.muted">
@@ -127,6 +106,20 @@ const PostCard = ({ post }) => {
 					</Box>
 				</CardContent>
 			</CardActionArea>
+			<CardHeader
+				avatar={<UserAvatar handleClick={() => navigate(`/user/${post.author.id}`)} user={post.author} />}
+				title={post.author.fullName}
+				subheader="September 14, 2016"
+				sx={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					zIndex: 9,
+					color: 'white',
+					'& .MuiCardHeader-title': { color: 'white' },
+					'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
+				}}
+			/>
 			<CardActions sx={{ justifyContent: 'space-between' }}>
 				<Stack flexDirection="row" alignItems="center">
 					<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
