@@ -17,8 +17,7 @@
     "scripts": {
         "test": "bun --watch test",
         "dev": "bun --watch src/index.ts",
-        "start": "bun run src/index.ts",
-        "build": "bun-vercel src/index.ts"
+        "start": "bun run src/index.ts"
     },
     "dependencies": {
         "@elysiajs/cors": "^1.1.1",
@@ -33,8 +32,7 @@
     },
     "devDependencies": {
         "prisma": "^5.21.0",
-        "bun-types": "latest",
-        "bun-vercel": "^1.0.0-alpha.4"
+        "bun-types": "latest"
     },
     "module": "src/index.ts",
     "repository": {
