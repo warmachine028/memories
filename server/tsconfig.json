@@ -104,6 +104,6 @@
 			"@/*": ["src/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "types.d.ts"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules", "dist"]
 }

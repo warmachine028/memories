@@ -3,7 +3,7 @@ import { rateLimit } from 'elysia-rate-limit'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { cron } from '@elysiajs/cron'
-import { postRoutes, commentRoutes, webhookRoutes } from '@/routes'
+import { postRoutes, commentRoutes, userRoutes } from '@/routes'
 
 const port = Bun.env.PORT || 5000
 const RATE_LIMIT = 1000
@@ -51,5 +51,5 @@ new Elysia()
 	.get('/', () => '💾 Hello from memories server')
 	.use(postRoutes)
 	.use(commentRoutes)
-	.use(webhookRoutes)
+	.use(userRoutes)
 	.listen(port, () => console.log(`🦊 Elysia is running at http://localhost:${port}`))

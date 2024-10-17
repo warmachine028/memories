@@ -1,3 +1,5 @@
+import type { Post } from '@/types'
+
 const posts: Post[] = [
 	{
 		id: '1',
