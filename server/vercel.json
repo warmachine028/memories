@@ -11,6 +11,5 @@
             "src": "/(.*)",
             "dest": "src/index.ts"
         }
-    ],
-    "buildCommand": "bun run build"
+    ]
 }
