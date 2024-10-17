@@ -1,63 +1,62 @@
----
-config:
-  theme: neo-dark
----
 erDiagram
-    User {
-        String id PK
-        String firstName
-        String lastName
-        String email
-        String bio
-        String imageUrl
-        DateTime createdAt
-        DateTime updatedAt
+    USERS {
+        uuid id PK
+        varchar first_name
+        varchar last_name
+        varchar email UK
+        varchar password_hash
+        text bio
+        varchar profile_image_url
+        timestamp created_at
+        timestamp updated_at
     }
-    Post {
-        String id PK
-        String title
-        String description
-        String imageUrl
-        Visibility visibility
-        String authorId FK
-        Json reactionCounts
-        DateTime createdAt
-        DateTime updatedAt
+    POSTS {
+        uuid id PK
+        uuid author_id FK
+        varchar title
+        text description
+        varchar image_url
+        enum visibility
+        integer reaction_count
+        timestamp created_at
+        timestamp updated_at
     }
-    Tag {
-        String id PK
-        String name
+    TAGS {
+        uuid id PK
+        varchar name UK
     }
-    PostTag {
-        String postId PK,FK
-        String tagId PK,FK
+    COMMENTS {
+        uuid id PK
+        uuid post_id FK
+        uuid author_id FK
+        text content
+        integer like_count
+        timestamp created_at
+        timestamp updated_at
     }
-    Comment {
-        String id PK
-        String content
-        Int likeCount
-        String postId FK
-        String authorId FK
-        DateTime createdAt
-        DateTime updatedAt
+    POST_TAGS {
+        uuid post_id FK
+        uuid tag_id FK
     }
-    PostReaction {
-        String userId PK,FK
-        String postId PK,FK
-        ReactionType reactionType
-        DateTime createdAt
+    POST_REACTIONS {
+        uuid id PK
+        uuid post_id FK
+        uuid user_id FK
+        enum reaction_type
+        timestamp created_at
     }
-    CommentLike {
-        String userId PK,FK
-        String commentId PK,FK
-        DateTime createdAt
+    COMMENT_LIKES {
+        uuid comment_id FK
+        uuid user_id FK
+        timestamp created_at
     }
-    User ||--o{ Post : "authors"
-    User ||--o{ Comment : "writes"
-    User ||--o{ PostReaction : "reacts to"
-    User ||--o{ CommentLike : "likes"
-    Post ||--o{ Comment : "has"
-    Post ||--o{ PostReaction : "receives"
-    Post ||--o{ PostTag : "has"
-    Tag ||--o{ PostTag : "belongs to"
-    Comment ||--o{ CommentLike : "receives"
+
+    USERS ||--o{ POSTS : creates
+    USERS ||--o{ COMMENTS : writes
+    POSTS ||--o{ COMMENTS : has
+    POSTS ||--o{ POST_TAGS : has
+    TAGS ||--o{ POST_TAGS : belongs_to
+    USERS ||--o{ POST_REACTIONS : makes
+    POSTS ||--o{ POST_REACTIONS : receives
+    USERS ||--o{ COMMENT_LIKES : gives
+    COMMENTS ||--o{ COMMENT_LIKES : receives

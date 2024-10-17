@@ -40,13 +40,13 @@ model User {
 }
 
 model Post {
-    id             String     @id @default(uuid())
-    title          String
-    description    String
-    imageUrl       String
-    visibility     Visibility @default(PUBLIC)
-    authorId       String
-    reactionCounts Json?
+    id            String     @id @default(uuid())
+    authorId      String
+    title         String
+    description   String
+    imageUrl      String
+    visibility    Visibility @default(PUBLIC)
+    reactionCount Int        @default(0)
 
     tags      PostTag[]
     comments  Comment[]
@@ -73,7 +73,7 @@ model PostTag {
     postId String
     tagId  String
 
-    post Post @relation(fields: [postId], references: [id])
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
     tag  Tag  @relation(fields: [tagId], references: [id])
 
     @@id(name: "postTagId", [postId, tagId])
@@ -82,40 +82,44 @@ model PostTag {
 }
 
 model Comment {
-    id        String @id @default(uuid())
-    content   String
-    likeCount Int    @default(0)
+    id        String        @id @default(uuid())
     postId    String
+    authorId  String
+    content   String
+    likeCount Int           @default(0)
+    likes     CommentLike[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    post     Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
-    author   User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
-    authorId String
-    likes    CommentLike[]
+    post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+    author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
     @@map("comments")
 }
 
 model PostReaction {
+    id           String       @id @default(uuid())
     userId       String
     postId       String
     reactionType ReactionType
-    user         User         @relation(fields: [userId], references: [id])
-    post         Post         @relation(fields: [postId], references: [id])
-    createdAt    DateTime     @default(now())
 
-    @@id(name: "postReactionId", [userId, postId])
+    user User @relation(fields: [userId], references: [id])
+    post Post @relation(fields: [postId], references: [id])
+
+    createdAt DateTime @default(now())
+
     @@unique([userId, postId])
     @@map("post_reactions")
 }
 
 model CommentLike {
-    user      User     @relation(fields: [userId], references: [id])
     userId    String
-    comment   Comment  @relation(fields: [commentId], references: [id])
     commentId String
+
+    comment Comment @relation(fields: [commentId], references: [id])
+    user    User    @relation(fields: [userId], references: [id])
+
     createdAt DateTime @default(now())
 
     @@id(name: "commentLikeId", [userId, commentId])

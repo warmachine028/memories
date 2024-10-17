@@ -1,5 +1,3 @@
-import { Elysia } from 'elysia'
-
 const posts: Post[] = [
 	{
 		id: '1',
