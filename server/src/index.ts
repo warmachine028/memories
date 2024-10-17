@@ -17,10 +17,10 @@ new Elysia()
 	// 	})
 	// )
 	.use(
-		// Create a cron job to ping the server every 10 minutes
+		// Create a cron job to ping the server every 14 minutes
 		cron({
 			name: 'Ping Server',
-			pattern: '*/10 * * * *',
+			pattern: '*/14 * * * *',
 			async run() {
 				try {
 					const response = await fetch('https://memories-omm3.onrender.com')
