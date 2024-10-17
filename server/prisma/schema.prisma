@@ -87,6 +87,7 @@ model Comment {
     authorId  String
     content   String
     likeCount Int           @default(0)
+    
     likes     CommentLike[]
 
     createdAt DateTime @default(now())

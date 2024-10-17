@@ -3,19 +3,19 @@ import { rateLimit } from 'elysia-rate-limit'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { cron } from '@elysiajs/cron'
-import { postRoutes } from './routes'
+import { postRoutes, commentRoutes } from '@/routes'
 
 const port = Bun.env.PORT || 5000
 const RATE_LIMIT = 1000
 const RATE_LIMIT_WINDOW = 1000 * 60 // 1 minute in milliseconds
 
 new Elysia()
-	// .use(
-	// 	rateLimit({
-	// 		max: RATE_LIMIT,
-	// 		duration: RATE_LIMIT_WINDOW,
-	// 	})
-	// )
+	.use(
+		rateLimit({
+			max: RATE_LIMIT,
+			duration: RATE_LIMIT_WINDOW,
+		})
+	)
 	.use(
 		cron({
 			name: 'Ping Server',
@@ -35,9 +35,10 @@ new Elysia()
 			},
 		})
 	)
-	.use(swagger())
 	.use(cors())
-	.get('/', '💾 Hello from memories server')
+	.use(swagger())
 	.get('/favicon.ico', () => Bun.file('public/favicon.ico'))
-	.group('/posts', (app) => app.use(postRoutes))
+	.get('/', () => '💾 Hello from memories server')
+	.use(postRoutes)
+	.use(commentRoutes)
 	.listen(port, () => console.log(`🦊 Elysia is running at http://localhost:${port}`))

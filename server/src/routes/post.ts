@@ -1,8 +1,8 @@
-import { type Elysia } from 'elysia'
-import { getPosts, getPostById, createPost } from '../controllers'
+import { Elysia } from 'elysia'
+import { getPosts, getPostById, createPost } from '@/controllers'
 
-export const postRoutes = (app: Elysia) =>
-	app
-		.get('/', getPosts)
-		.post('/', createPost)
-		.get('/:id', getPostById)
+export const postRoutes = new Elysia({ prefix: '/posts' })
+	.get('/', getPosts)
+	.post('/', createPost)
+	.get('/:id', getPostById)
+

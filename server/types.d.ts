@@ -14,21 +14,22 @@ type User = {
 
 type Post = {
 	id: string
+	authorId: string
 	title: string
 	description: string
 	imageUrl: string
 	visibility: Visibility
-	authorId: string
-	reactionCounts: ReactionCounts
+	reactionCount: number
 	createdAt: Date
 	updatedAt: Date
 }
 
 type Comment = {
 	id: string
-	content: string
-	authorId: string
 	postId: string
+	authorId: string
+	content: string
+	likeCount: number
 	createdAt: Date
 	updatedAt: Date
 }
@@ -67,4 +68,3 @@ type Tag = {
 	id: string
 	name: string
 }
-

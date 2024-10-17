@@ -15,8 +15,8 @@
     },
     "license": "MIT",
     "scripts": {
-        "test": "bun test --watch",
-        "dev": "bun run --watch src/index.ts",
+        "test": "bun --watch test",
+        "dev": "bun --watch src/index.ts",
         "start": "bun run src/index.ts"
     },
     "dependencies": {
@@ -25,13 +25,13 @@
         "@elysiajs/swagger": "^1.1.5",
         "@prisma/client": "5.21.0",
         "elysia": "latest",
-        "elysia-rate-limit": "^4.1.0",
-        "prisma": "^5.21.0"
+        "elysia-rate-limit": "^4.1.0"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"
     },
     "devDependencies": {
+        "prisma": "^5.21.0",
         "bun-types": "latest"
     },
     "module": "src/index.ts",
