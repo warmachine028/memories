@@ -1,6 +1,5 @@
 {
-    "buildCommand": "bun build ./src/index.ts",
-    "outputDirectory": "dist",
-    "devCommand": "bun run --hot src/index.ts",
-    "cleanUrls": true
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "installCommand": "curl -fsSL https://bun.sh/install | bash && ~/.bun/bin/bun install --frozen-lockfile",
+    "buildCommand": "~/.bun/bin/bun run build"
 }
