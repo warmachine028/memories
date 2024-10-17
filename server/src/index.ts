@@ -36,7 +36,17 @@ new Elysia()
 		})
 	)
 	.use(cors())
-	.use(swagger())
+	.use(
+		swagger({
+			path: '/docs',
+			documentation: {
+				info: {
+					title: 'Memories Documentation',
+					version: '1.0.0',
+				},
+			},
+		})
+	)
 	.get('/favicon.ico', () => Bun.file('public/favicon.ico'))
 	.get('/', () => '💾 Hello from memories server')
 	.use(postRoutes)
