@@ -1,24 +1,18 @@
 name: 🔖 Add Labels to PRs
 
-on:
-  pull_request_target:
-    types:
-      - opened
-      - reopened
+on: pull_request_target
 
 jobs:
-  main:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
-
-    steps:
-      - name: Run PR Labeler
-        uses: hoho4190/issue-pr-labeler@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # disable-bot: false
-          config-file-name: labels.yml
+    main:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            issues: write
+            pull-requests: write
+        steps:
+            - name: Run PR Labeler
+              uses: hoho4190/issue-pr-labeler@v2.0.0
+              with:
+                  token: ${{ github.token }}
+                  disable-bot: false
+                  config-file-name: labels.yml
