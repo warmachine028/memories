@@ -3,7 +3,7 @@ import { rateLimit } from 'elysia-rate-limit'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { cron } from '@elysiajs/cron'
-import { postRoutes, commentRoutes } from '@/routes'
+import { postRoutes, commentRoutes, webhookRoutes } from '@/routes'
 
 const port = Bun.env.PORT || 5000
 const RATE_LIMIT = 1000
@@ -17,10 +17,10 @@ new Elysia()
 		})
 	)
 	.use(
+		// Create a cron job to ping the server every 10 minutes
 		cron({
 			name: 'Ping Server',
 			pattern: '*/10 * * * *',
-			// Create a cron job to ping the server every 20 minutes
 			async run() {
 				try {
 					const response = await fetch('https://memories-omm3.onrender.com')
@@ -51,4 +51,5 @@ new Elysia()
 	.get('/', () => '💾 Hello from memories server')
 	.use(postRoutes)
 	.use(commentRoutes)
+	.use(webhookRoutes)
 	.listen(port, () => console.log(`🦊 Elysia is running at http://localhost:${port}`))

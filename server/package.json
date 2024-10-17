@@ -17,7 +17,13 @@
     "scripts": {
         "test": "bun --watch test",
         "dev": "bun --watch src/index.ts",
-        "start": "bun run src/index.ts"
+        "start": "bun run src/index.ts",
+        "postinstall": "prisma generate",
+        "prisma:generate": "prisma generate",
+        "prisma:push": "prisma db push",
+        "prisma:studio": "prisma studio",
+        "prisma:migrate": "prisma migrate dev --name init",
+        "prisma:deploy": "prisma migrate deploy"
     },
     "dependencies": {
         "@elysiajs/cors": "^1.1.1",
@@ -25,7 +31,8 @@
         "@elysiajs/swagger": "^1.1.5",
         "@prisma/client": "5.21.0",
         "elysia": "latest",
-        "elysia-rate-limit": "^4.1.0"
+        "elysia-rate-limit": "^4.1.0",
+        "svix": "^1.37.0"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"
