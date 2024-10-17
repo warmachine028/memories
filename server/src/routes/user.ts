@@ -1,6 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { createUser } from '@/controllers'
-import prisma from '@/lib/prisma'
+import { prisma } from '@/lib'
 
 const webhookRoutes = new Elysia({ prefix: '/webhook' })
 	.get('/', createUser, {
