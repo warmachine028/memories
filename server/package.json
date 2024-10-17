@@ -30,7 +30,7 @@
         "@elysiajs/cron": "^1.1.1",
         "@elysiajs/swagger": "^1.1.5",
         "@prisma/adapter-neon": "^5.21.1",
-        "@prisma/client": "5.21.0",
+        "@prisma/client": "5.21.1",
         "elysia": "latest",
         "elysia-rate-limit": "^4.1.0",
         "svix": "^1.37.0"
