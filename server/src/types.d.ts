@@ -14,6 +14,14 @@ type EventEmailAddress = {
 		strategy: 'admin' | string
 	}
 }
+export type RequestParams = {
+	headers: Record<string, string>
+	request: Request
+	set: { status: number }
+	params: { id: string }
+	body: Record
+	userId: string | null
+}
 export type EventType = 'user.created' | 'user.updated' | 'user.deleted' | 'user.createdAtEdge'
 export type Event = {
 	data: {

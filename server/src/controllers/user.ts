@@ -1,16 +1,10 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix'
-import type { Event, EventType, User } from '@/types'
+import type { Event, EventType, User, RequestParams } from '@/types'
 import { prisma } from '@/lib'
 
 const webhookSecret = Bun.env.WEBHOOK_SECRET || ''
 
-type HandleWebhookParams = {
-	headers: Record<string, string>
-	request: Request
-	set: { status: number }
-}
-
-export const handleWebhook = async ({ headers, request, set }: HandleWebhookParams) => {
+export const handleWebhook = async ({ headers, request, set }: RequestParams) => {
 	const payload = await request.json()
 	const heads = {
 		'svix-id': headers['svix-id'],
@@ -76,3 +70,6 @@ async function handleUserDeleted(event: Event) {
 	await prisma.user.delete({ where: { id: userId } })
 	console.log('User deleted:', userId)
 }
+
+export const getUsers = async () => prisma.user.findMany()
+export const getUser = ({ params: { id } }: RequestParams) => prisma.user.findUnique({ where: { id } })

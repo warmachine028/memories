@@ -1,6 +1,5 @@
 import { Elysia, t } from 'elysia'
-import { handleWebhook } from '@/controllers'
-import { prisma } from '@/lib'
+import { handleWebhook, getUsers, getUser } from '@/controllers'
 
 const webhookRoutes = new Elysia({ prefix: '/webhook' })
 	.get('/', handleWebhook, {
@@ -25,7 +24,7 @@ const webhookRoutes = new Elysia({ prefix: '/webhook' })
 		}),
 	})
 
-export const userRoutes = new Elysia({ prefix: '/users' })
+export const userRoutes = new Elysia({ prefix: '/users' }) //
 	.use(webhookRoutes)
-	.get('/', () => prisma.user.findMany())
-	.get('/:id', ({ params }) => prisma.user.findUnique({ where: { id: params.id } }))
+	.get('/', getUsers)
+	.get('/:id', getUser)

@@ -1,2 +1,3 @@
 export { getPosts, getPostById, createPost } from './post'
-export { handleWebhook } from './user'
+export { handleWebhook, getUsers, getUser } from './user'
+
