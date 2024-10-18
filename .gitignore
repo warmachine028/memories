@@ -4,3 +4,4 @@ build
 temp.js
 .idea
 .vercel
+.vscode
