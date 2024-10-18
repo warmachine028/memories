@@ -25,14 +25,9 @@ body {
 
 ::-webkit-scrollbar-thumb {
 	background: slategrey;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
 	background: skyblue;
-}
-
-/* remove pagination from all swipable containers */
-.swipeable-container .pagination {
-	display: none;
 }

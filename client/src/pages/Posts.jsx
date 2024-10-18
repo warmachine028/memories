@@ -50,7 +50,7 @@ const Posts = () => {
 							</Grid>
 						))}
 				</Grid>
-				<Grid container size={{ xs: 12, md: 4, xl: 3 }} position="sticky" display={{ xs: 'none', md: 'flex' }} top={130} height={1}>
+				<Grid container size={{ xs: 12, md: 4, xl: 3 }} position="sticky" display={{ xs: 'none', md: 'flex' }} height={1} top={95}>
 					<Grid size={12}>
 						<CreatePostForm />
 					</Grid>

@@ -1,18 +1,46 @@
-import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack } from '@mui/material'
-import { AccountMenu, ThemeSwitch, Sidebar, Searchbar } from '@/components'
-import { Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack, useTheme, useMediaQuery, Dialog, DialogContent, TextField, Autocomplete, InputAdornment, Paper } from '@mui/material'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
-import { Menu } from '@mui/icons-material'
+import { Menu, Close, Search, LoginOutlined } from '@mui/icons-material'
+import { AccountMenu, ThemeSwitch, Sidebar } from '@/components'
 import { brand } from '@/assets'
+
+// Mock data for search suggestions
+const searchSuggestions = [
+	{ title: 'Home', url: '/' },
+	{ title: 'About', url: '/about' },
+	{ title: 'Products', url: '/products' },
+	{ title: 'Contact', url: '/contact' }
+	// Add more suggestions as needed
+]
 
 const Branding = () => {
 	return (
-		<Stack justifyContent="center" alignItems="center" position={{ xs: 'absolute', md: 'revert' }} left="50%" right="50%">
-			<Box component={Link} to="/" alignItems="center" justifyContent="center" display="flex" gap={1}>
-				<Box component="img" src="favicon.ico" width={40} alt="logo" />
-				<Box component="img" src={brand} width={200} alt="brand" />
-			</Box>
+		<Stack
+			direction="row"
+			spacing={2}
+			alignItems="center"
+			component={Link}
+			to="/"
+			sx={{
+				textDecoration: 'none',
+				color: 'inherit',
+				'&:hover': { opacity: 0.8 },
+				transition: 'opacity 0.3s'
+			}}
+		>
+			<Box component="img" src="/favicon.ico" width={40} height={40} alt="logo" />
+			<Box
+				component="img"
+				src={brand}
+				alt="brand"
+				sx={{
+					height: 40,
+					width: 'auto',
+					display: { xs: 'none', sm: 'block' }
+				}}
+			/>
 		</Stack>
 	)
 }
@@ -27,41 +55,188 @@ const LoggedOutOptions = () => {
 	}
 
 	return (
-		<ButtonGroup sx={{ display: { xs: 'none', md: 'flex' } }}>
+		<ButtonGroup>
 			<ThemeSwitch />
-			<Button LinkComponent={Link} variant="contained" color="secondary" to="/login">
-				LOGIN
-			</Button>
+			<IconButton
+				component={Link}
+				variant="contained"
+				to="/login"
+				sx={{
+					display: {
+						xs: 'none',
+						md: 'flex'
+					},
+					borderRadius: '10%',
+					border: '1px solid',
+					borderColor: 'divider',
+					color: 'white',
+					bgcolor: (theme) => theme.palette.primary.main
+				}}
+			>
+				<LoginOutlined />
+			</IconButton>
 		</ButtonGroup>
+	)
+}
+
+const SearchBar = ({ onFocus: handleFocus }) => {
+	return (
+		<TextField
+			placeholder="Search"
+			size="small"
+			slotProps={{
+				input: {
+					startAdornment: (
+						<InputAdornment position="start">
+							<Search />
+						</InputAdornment>
+					),
+					endAdornment: (
+						<InputAdornment position="end">
+							<Button variant="outlined" size="small" onClick={handleFocus} sx={{ minWidth: 'auto' }}>
+								⌘K
+							</Button>
+						</InputAdornment>
+					)
+				}
+			}}
+			onClick={handleFocus}
+			variant="outlined"
+		/>
+	)
+}
+
+const SearchDialog = ({ open, onClose: closeBox }) => {
+	const [searchTerm, setSearchTerm] = useState('')
+	const navigate = useNavigate()
+
+	const handleClose = () => {
+		setSearchTerm('')
+		closeBox()
+	}
+	const handleSearch = (_, value) => {
+		if (value) {
+			navigate(value.url)
+			handleClose()
+		}
+	}
+
+	return (
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			fullWidth
+			maxWidth="sm"
+			PaperProps={{
+				sx: { position: 'fixed', top: '15%', m: 2 }
+			}}
+		>
+			<Paper>
+				<DialogContent>
+					<Autocomplete
+						freeSolo
+						options={searchSuggestions}
+						getOptionLabel={(option) => option.title}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								autoFocus
+								fullWidth
+								variant="outlined"
+								placeholder="Search"
+								slotProps={{
+									input: {
+										...params.InputProps,
+										startAdornment: (
+											<InputAdornment position="start">
+												<Search />
+											</InputAdornment>
+										)
+									}
+								}}
+							/>
+						)}
+						inputValue={searchTerm}
+						onInputChange={(_, newValue) => setSearchTerm(newValue)}
+						onChange={handleSearch}
+					/>
+				</DialogContent>
+			</Paper>
+		</Dialog>
 	)
 }
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
-	const handleOpen = () => setOpen(true)
+	const [searchOpen, setSearchOpen] = useState(false)
+	const handleOpen = () => setOpen(!open)
+	const theme = useTheme()
+	const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+				event.preventDefault()
+				setSearchOpen(true)
+			}
+		}
+
+		document.addEventListener('keydown', handleKeyDown)
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+		}
+	}, [])
 
 	return (
-		<AppBar position="sticky">
-			<Container maxWidth="xl" sx={{ pb: { xs: 2, md: 0 } }}>
-				<Sidebar open={open} setOpen={setOpen} />
-				<ToolbarContent handleOpen={handleOpen} />
-				<Searchbar />
+		<AppBar
+			position="sticky"
+			elevation={0}
+			sx={{
+				backgroundColor: 'transparent',
+				backdropFilter: 'blur(10px)',
+				WebkitBackdropFilter: 'blur(10px)', // For Safari
+				borderBottom: '1px solid',
+				borderColor: 'divider'
+			}}
+		>
+			<Container maxWidth="xl">
+				<Toolbar disableGutters sx={{ minHeight: 64 }}>
+					<Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" spacing={2}>
+						<Branding />
+						<Stack direction="row" alignItems="center" spacing={2}>
+							{isMobile ? (
+								<IconButton size="large" aria-label="menu" onClick={() => setSearchOpen(true)} color="inherit" edge="end">
+									<Search />
+								</IconButton>
+							) : (
+								<SearchBar onFocus={() => setSearchOpen(true)} />
+							)}
+							{isMobile ? (
+								<IconButton size="large" aria-label="menu" onClick={handleOpen} color="inherit" edge="end">
+									<Menu />
+								</IconButton>
+							) : (
+								<Stack direction="row" spacing={2} alignItems="center">
+									<LoggedOutOptions />
+									<AccountMenu />
+								</Stack>
+							)}
+						</Stack>
+					</Stack>
+				</Toolbar>
+				{isMobile && open && (
+					<Box py={2}>
+						<Stack direction="row" justifyContent="flex-end" spacing={2}>
+							<LoggedOutOptions />
+							<AccountMenu />
+						</Stack>
+					</Box>
+				)}
 			</Container>
+			<Sidebar open={open} setOpen={setOpen} />
+			<SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
 		</AppBar>
 	)
 }
-
-const ToolbarContent = ({ handleOpen }) => (
-	<Toolbar disableGutters>
-		<Stack py={2} justifyContent="space-between" direction="row" width="100%" alignItems="center">
-			<IconButton size="large" aria-label="current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpen} edge="start" color="inherit" sx={{ width: '50px', height: '50px', display: { xs: 'block', md: 'none' }, marginRight: 2 }}>
-				<Menu />
-			</IconButton>
-			<Branding />
-			<LoggedOutOptions />
-			<AccountMenu />
-		</Stack>
-	</Toolbar>
-)
 
 export default Navbar

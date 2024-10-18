@@ -101,7 +101,6 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 								alignItems="center"
 								justifyContent="center"
 								borderRadius="50%"
-								bgcolor="rgba(0, 0, 0, 0.5)"
 								sx={{
 									opacity: 0,
 									transition: 'opacity 0.3s',

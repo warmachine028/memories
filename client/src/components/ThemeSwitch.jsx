@@ -1,5 +1,5 @@
 import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ButtonGroup, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import { Button, ButtonGroup, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 import { useTheme } from '@/hooks'
 
@@ -54,22 +54,21 @@ const ThemeSwitch = () => {
 
 	return (
 		<>
-			<Button //
+			<IconButton //
 				id="theme-button"
 				aria-controls={anchorEl ? 'theme-menu' : undefined}
 				aria-haspopup="true"
 				aria-expanded={anchorEl ? 'true' : undefined}
-				variant="contained"
 				onClick={handleOpen}
 				sx={{
 					display: {
 						xs: 'none',
-						md: 'block'
-					}
+						md: 'flex'
+					},
 				}}
 			>
-				Switch Theme
-			</Button>
+				{theme === 'light' ? <LightMode /> : theme === 'dark' ? <DarkMode /> : <Computer />}
+			</IconButton>
 			<ThemeMenu //
 				anchorEl={anchorEl}
 				handleClose={handleClose}
