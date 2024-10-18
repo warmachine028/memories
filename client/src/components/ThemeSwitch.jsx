@@ -64,7 +64,7 @@ const ThemeSwitch = () => {
 					display: {
 						xs: 'none',
 						md: 'flex'
-					},
+					}
 				}}
 			>
 				{theme === 'light' ? <LightMode /> : theme === 'dark' ? <DarkMode /> : <Computer />}
