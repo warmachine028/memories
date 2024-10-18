@@ -1,5 +1,6 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix'
 import type { Event, EventType, User } from '@/types'
+import { prisma } from '@/lib'
 
 const webhookSecret = Bun.env.WEBHOOK_SECRET || ''
 
@@ -9,7 +10,7 @@ type HandleWebhookParams = {
 	set: { status: number }
 }
 
-export const createUser = async ({ headers, request, set }: HandleWebhookParams) => {
+export const handleWebhook = async ({ headers, request, set }: HandleWebhookParams) => {
 	const payload = await request.json()
 	const heads = {
 		'svix-id': headers['svix-id'],
@@ -27,22 +28,51 @@ export const createUser = async ({ headers, request, set }: HandleWebhookParams)
 	}
 
 	const eventType: EventType = event.type
-	if (eventType === 'user.created' || eventType === 'user.updated') {
-		const { data } = event
-		const user: User = {
-			id: data.id,
-			firstName: data.first_name,
-			lastName: data.last_name,
-			email: data.email_addresses[0].email_address,
-			bio: data.unsafe_metadata.bio,
-			imageUrl: data.image_url,
-			createdAt: new Date(data.created_at),
-			updatedAt: new Date(data.updated_at),
+
+	try {
+		switch (eventType) {
+			case 'user.created':
+			case 'user.updated':
+			case 'user.createdAtEdge':
+				await handleUserCreatedOrUpdated(event)
+				break
+			case 'user.deleted':
+				await handleUserDeleted(event)
+				break
+			default:
+				console.log(`Unhandled event type: ${eventType}`)
 		}
-		console.log(user)
-	} else if (eventType === 'user.deleted') {
-		console.log(event.data)
+	} catch (error) {
+		console.error('Error processing webhook:', error)
+		set.status = 500
+		return { message: 'Error processing webhook', error: (error as Error).message }
 	}
 
-	return { message: 'Webhook verified successfully', event }
+	return { message: 'Webhook processed successfully', event }
+}
+
+async function handleUserCreatedOrUpdated(event: Event) {
+	const { data } = event
+	const user: User = {
+		id: data.id,
+		firstName: data.first_name,
+		lastName: data.last_name,
+		email: data.email_addresses[0].email_address,
+		bio: data.unsafe_metadata.bio,
+		imageUrl: data.image_url,
+	}
+
+	await prisma.user.upsert({
+		where: { id: user.id },
+		update: user,
+		create: user,
+	})
+
+	console.log(`User ${event.type}:`, user)
+}
+
+async function handleUserDeleted(event: Event) {
+	const userId = event.data.id
+	await prisma.user.delete({ where: { id: userId } })
+	console.log('User deleted:', userId)
 }

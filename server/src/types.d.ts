@@ -37,8 +37,6 @@ export type User = {
 	email: string
 	bio: null | string
 	imageUrl: string
-	createdAt: Date
-	updatedAt: Date
 }
 
 export type Post = {
