@@ -11,4 +11,3 @@ export const useTheme = () => {
 }
 
 export const { useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation } = api
-
