@@ -1,5 +1,5 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix'
-import type { Event, EventType, User, RequestParams } from '@/types'
+import type { Event, EventType, RequestParams } from '@/types'
 import { prisma } from '@/lib'
 
 const webhookSecret = Bun.env.WEBHOOK_SECRET || ''
@@ -47,7 +47,7 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 
 async function handleUserCreatedOrUpdated(event: Event) {
 	const { data } = event
-	const user: User = {
+	const user = {
 		id: data.id,
 		firstName: data.first_name,
 		lastName: data.last_name,

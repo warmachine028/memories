@@ -25,8 +25,7 @@ body:
           label: Additional information
           description: Is there anything else we should know about this idea?
           value: |
-
-              ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
+              ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and docs before proceeding**
               ## Happy contributing. 💐
               Star my other Repositories [here](https://github.com/warmachine028)
       validations:
@@ -34,6 +33,6 @@ body:
     - type: markdown
       attributes:
           value: |
-              ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and [SETUP](https://github.com/warmachine028/memories/tree/main/rules) docs before proceeding**
+              ## **Make sure to read the [CONTRIBUTING](https://github.com/warmachine028/memories/blob/main/CONTRIBUTING.md) and docs before proceeding**
               ## Happy contributing. 💐
               Star my other Repositories [here](https://github.com/warmachine028?tab=repositories)

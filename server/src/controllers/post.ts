@@ -1,36 +1,161 @@
 import { prisma } from '@/lib'
+import { processPostsReactions } from '@/lib/utils'
 import type { RequestParams } from '@/types'
+import { error } from 'elysia'
 
-export const getPosts = ({ userId }: RequestParams) => {
-	if (!userId) {
-		return prisma.post.findMany({
-			where: { visibility: 'PUBLIC' },
-		})
-	}
-	return prisma.post.findMany({
+export const getPosts = async ({ userId, query }: RequestParams) => {
+	const { cursor, limit = 9 } = query
+
+	const posts = await prisma.post.findMany({
+		take: limit + 1,
+		cursor: cursor ? { id: cursor } : undefined,
+		include: {
+			author: {
+				select: {
+					id: true,
+					fullName: true,
+					imageUrl: true,
+				},
+			},
+			tags: {
+				include: {
+					tag: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
+			reactions: {
+				orderBy: { createdAt: 'desc' },
+				take: 3,
+				select: {
+					reactionType: true,
+					userId: true,
+					createdAt: true,
+					user: {
+						select: {
+							imageUrl: true,
+						},
+					},
+				},
+			},
+		},
 		where: {
 			visibility: 'PUBLIC',
-			authorId: userId,
+			...(userId && { authorId: userId }),
 		},
+		orderBy: { createdAt: 'desc' } as const,
 	})
+
+	return processPostsReactions(posts, userId)
 }
 
-export const getPostById = async ({ params: { id }, set, userId }: RequestParams) => {
-	const post = await prisma.post.findUnique({ where: { id } })
+export const getPostById = async ({ params: { id }, userId }: RequestParams) => {
+	const post = await prisma.post.findUnique({
+		where: {
+			id,
+			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId || '' }],
+		},
+		include: {
+			author: {
+				select: {
+					id: true,
+					fullName: true,
+					imageUrl: true,
+				},
+			},
+			tags: {
+				include: {
+					tag: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
+			reactions: {
+				orderBy: { createdAt: 'desc' },
+				take: 3,
+				select: {
+					reactionType: true,
+					userId: true,
+					createdAt: true,
+					user: {
+						select: {
+							imageUrl: true,
+						},
+					},
+				},
+			},
+		},
+	})
+
 	if (!post) {
-		set.status = 404
-		return { message: 'Post not found' }
+		return error(404, { message: 'Post not found' })
 	}
-	if (post.visibility === 'PRIVATE' && post.authorId !== userId) {
-		set.status = 401
-		return { message: 'Unauthorized' }
-	}
-	return post
+
+	const [processedPost] = processPostsReactions([post], userId)
+	return processedPost
 }
 
 export const createPost = async ({ body, userId }: RequestParams) => {
 	if (!userId) {
-		return { message: 'Unauthorized' }
+		return error(401, { message: 'Unauthorized' })
 	}
-	return prisma.post.create({ data: { ...body, authorId: userId } })
+	const { title, description, imageUrl, visibility, tags } = body
+
+	const post = await prisma.post.create({
+		data: {
+			title,
+			description,
+			imageUrl,
+			visibility: visibility || 'PUBLIC',
+			author: { connect: { id: userId } },
+			tags: {
+				create: tags.map((tagName: string) => ({
+					tag: {
+						connectOrCreate: {
+							where: { name: tagName },
+							create: { name: tagName },
+						},
+					},
+				})),
+			},
+		},
+		include: {
+			author: {
+				select: {
+					id: true,
+					fullName: true,
+					imageUrl: true,
+				},
+			},
+			tags: {
+				include: {
+					tag: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
+			reactions: {
+				orderBy: { createdAt: 'desc' },
+				take: 3,
+				select: {
+					reactionType: true,
+					userId: true,
+					createdAt: true,
+					user: {
+						select: {
+							imageUrl: true,
+						},
+					},
+				},
+			},
+		},
+	})
+	const [processedPost] = processPostsReactions([post], userId)
+	return processedPost
 }

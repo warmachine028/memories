@@ -5,7 +5,19 @@ import { PrismaClient } from '@prisma/client'
 
 const neon = new Pool({ connectionString: Bun.env.DATABASE_URL })
 const adapter = new PrismaNeon(neon)
-const prismaClientSingleton = () => new PrismaClient({ adapter })
+const prismaClientSingleton = () =>
+	new PrismaClient({ adapter }).$extends({
+		result: {
+			user: {
+				fullName: {
+					needs: { firstName: true, lastName: true },
+					compute(user) {
+						return `${user.firstName} ${user.lastName}`
+					},
+				},
+			},
+		},
+	})
 
 declare global {
 	var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>

@@ -1,5 +1,5 @@
+import { t } from 'elysia'
 export type ReactionType = 'LIKE' | 'LOVE' | 'HAHA' | 'WOW' | 'SAD' | 'ANGRY'
-export type Visibility = 'PUBLIC' | 'PRIVATE'
 
 type EventEmailAddress = {
 	email_address: string
@@ -18,9 +18,13 @@ export type RequestParams = {
 	headers: Record<string, string>
 	request: Request
 	set: { status: number }
-	params: { id: string }
+	params: {
+		id: string
+		postId: string
+	}
 	body: Record
 	userId: string | null
+	query: Record
 }
 export type EventType = 'user.created' | 'user.updated' | 'user.deleted' | 'user.createdAtEdge'
 export type Event = {
@@ -38,68 +42,10 @@ export type Event = {
 	timestamp: number
 	type: EventType
 }
-export type User = {
-	id: string
-	firstName: string
-	lastName: null | string
-	email: string
-	bio: null | string
-	imageUrl: string
-}
 
-export type Post = {
-	id: string
-	authorId: string
-	title: string
-	description: string
-	imageUrl: string
-	visibility: Visibility
-	reactionCount: number
-	createdAt: Date
-	updatedAt: Date
-}
-
-export type Comment = {
-	id: string
-	postId: string
-	authorId: string
-	content: string
-	likeCount: number
-	createdAt: Date
-	updatedAt: Date
-}
-
-export type PostReaction = {
-	id: string
+export type ProcessedPostReaction = {
 	userId: string
-	postId: string
+	user: { imageUrl: string }
+	createdAt: Date
 	reactionType: ReactionType
-	createdAt: Date
-}
-
-export type CommentLike = {
-	id: string
-	userId: string
-	commentId: string
-	createdAt: Date
-}
-
-export type ReactionCounts = {
-	likes: number
-	love: number
-	haha: number
-	wow: number
-	sad: number
-	angry: number
-}
-
-export type PostTag = {
-	id: string
-	postId: string
-	tagId: string
-}
-
-type Tag = {
-	id: string
-	name: string
 }
