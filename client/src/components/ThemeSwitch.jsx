@@ -13,6 +13,8 @@ const ThemeMenu = ({ anchorEl, handleClose, handleClick, theme }) => {
 			MenuListProps={{
 				'aria-labelledby': 'theme-button'
 			}}
+			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 		>
 			<MenuItem onClick={() => handleClick('light')} selected={theme === 'light'}>
 				<ListItemText sx={{ mr: 1 }}>Light</ListItemText>
@@ -69,17 +71,8 @@ const ThemeSwitch = () => {
 			>
 				{theme === 'light' ? <LightMode /> : theme === 'dark' ? <DarkMode /> : <Computer />}
 			</IconButton>
-			<ThemeMenu //
-				anchorEl={anchorEl}
-				handleClose={handleClose}
-				handleClick={handleClick}
-				theme={theme}
-			/>
-			<ButtonGroup
-				sx={{
-					display: { md: 'none' }
-				}}
-			>
+			<ThemeMenu anchorEl={anchorEl} handleClose={handleClose} handleClick={handleClick} theme={theme} />
+			<ButtonGroup sx={{ display: { md: 'none' } }}>
 				<Button variant={theme === 'light' ? 'contained' : 'outlined'} onClick={() => handleClick('light')}>
 					<LightMode />
 				</Button>

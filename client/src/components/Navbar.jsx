@@ -17,30 +17,9 @@ const searchSuggestions = [
 
 const Branding = () => {
 	return (
-		<Stack
-			direction="row"
-			spacing={2}
-			alignItems="center"
-			component={Link}
-			to="/"
-			sx={{
-				textDecoration: 'none',
-				color: 'inherit',
-				'&:hover': { opacity: 0.8 },
-				transition: 'opacity 0.3s'
-			}}
-		>
+		<Stack direction="row" spacing={2} alignItems="center" component={Link} to="/" sx={{ '&:hover': { opacity: 0.8 }, transition: 'opacity 0.3s' }}>
 			<Box component="img" src="/favicon.ico" width={40} height={40} alt="logo" />
-			<Box
-				component="img"
-				src={brand}
-				alt="brand"
-				sx={{
-					height: 40,
-					width: 'auto',
-					display: { xs: 'none', sm: 'block' }
-				}}
-			/>
+			<Box component="img" src={brand} width="auto" height={40} alt="brand" display={{ xs: 'none', sm: 'block' }} />
 		</Stack>
 	)
 }
