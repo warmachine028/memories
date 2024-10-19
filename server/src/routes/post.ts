@@ -30,13 +30,13 @@ export const postRoutes = new Elysia({ prefix: '/posts' })
 		}),
 	})
 	.post('/', createPost, {
-		body: t.Object({
-			title: t.String(),
-			description: t.String(),
-			imageUrl: t.String(),
-			visibility: t.Enum(Visibility),
-			tags: t.Array(t.String()),
-		}),
+		// body: t.Object({
+		// 	title: t.String(),
+		// 	description: t.String(),
+		// 	tags: t.Array(t.String()),
+		// 	media: t.File({ type: 'image/*' }),
+		// 	visibility: t.Enum(Visibility),
+		// }),
 	})
 	.patch(
 		'/:id',

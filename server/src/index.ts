@@ -1,9 +1,10 @@
-import { Elysia } from 'elysia'
+import { Elysia, t } from 'elysia'
 import { rateLimit } from 'elysia-rate-limit'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { cron } from '@elysiajs/cron'
 import { postRoutes, commentRoutes, userRoutes, reactionRoutes, tagRoutes } from '@/routes'
+import { createPost } from './controllers'
 
 const port = Bun.env.PORT || 5000
 const RATE_LIMIT = 1000

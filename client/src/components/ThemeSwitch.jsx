@@ -1,21 +1,11 @@
 import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ButtonGroup, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import { Button, ButtonGroup, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper } from '@mui/material'
 import { useState } from 'react'
 import { useTheme } from '@/hooks'
 
 const ThemeMenu = ({ anchorEl, handleClose, handleClick, theme }) => {
 	return (
-		<Menu
-			id="theme-menu"
-			anchorEl={anchorEl}
-			open={Boolean(anchorEl)}
-			onClose={handleClose}
-			MenuListProps={{
-				'aria-labelledby': 'theme-button'
-			}}
-			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-		>
+		<Menu id="theme-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'theme-button' }} slotProps={{ paper: { elevation: 1 } }} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }} transformOrigin={{ horizontal: 'right', vertical: 'top' }}>
 			<MenuItem onClick={() => handleClick('light')} selected={theme === 'light'}>
 				<ListItemText sx={{ mr: 1 }}>Light</ListItemText>
 				<ListItemIcon>

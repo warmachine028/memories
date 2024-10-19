@@ -54,6 +54,7 @@ export const getPost = createAsyncThunk('post/getPost', async (id, { rejectWithV
 		return rejectWithValue(error.message)
 	}
 })
+
 export const slice = createSlice({
 	name: 'post',
 	initialState,

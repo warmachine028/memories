@@ -1,5 +1,5 @@
 import { prisma } from '@/lib'
-import { processPostsReactions } from '@/lib/utils'
+import { processPostsReactions, uploadToCloudinary } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import { error } from 'elysia'
 
@@ -103,14 +103,15 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
-	const { title, description, imageUrl, visibility, tags } = body
 
+	const { title, description, visibility, tags, media } = body
+	const response = await uploadToCloudinary(media)
 	const post = await prisma.post.create({
 		data: {
 			title,
 			description,
-			imageUrl,
-			visibility: visibility || 'PUBLIC',
+			imageUrl: response.secure_url,
+			visibility,
 			author: { connect: { id: userId } },
 			tags: {
 				create: tags.map((tagName: string) => ({

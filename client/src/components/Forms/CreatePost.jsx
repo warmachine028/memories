@@ -6,9 +6,13 @@ import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { openSnackbar } from '@/reducers/notif'
+import { useApiWithAuth } from '@/hooks'
+import { convertToBase64 } from '@/lib/utils'
 
 const Form = () => {
-	const initialData = { title: '', description: '', tags: [], visibility: 'public', media: null }
+	const api = useApiWithAuth()
+	const [createPost, { isLoading }] = api.useCreatePostMutation()
+	const initialData = { title: '', description: '', tags: [], visibility: 'PUBLIC', media: null }
 	const initialErrorState = { title: '', description: '', tags: '', media: '' }
 	const dispatch = useDispatch()
 	const [formData, setFormData] = useState(initialData)
@@ -16,9 +20,12 @@ const Form = () => {
 	const [preview, setPreview] = useState(null)
 	const handleChange = (event) => {
 		setErrors(initialErrorState)
+
 		const { name, value, files } = event.target
 		if (name === 'title' && value.length > 30) {
 			setErrors({ ...errors, title: 'Title must be less than 30 characters' })
+		} else if (name === 'visibility') {
+			setFormData({ ...formData, visibility: formData.visibility === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC' })
 		} else if (name === 'description' && value.length > 150) {
 			setErrors({ ...errors, description: 'Description must be less than 150 characters' })
 		} else if (name === 'media' && files && files[0]) {
@@ -67,20 +74,36 @@ const Form = () => {
 		setFormData(initialData)
 		setPreview(null)
 	}
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault()
 		setErrors(initialErrorState)
 		if (!validateInputs()) {
 			return
 		}
-		console.table(formData)
-		dispatch(
-			openSnackbar({
-				severity: 'success',
-				message: 'Post created successfully'
+		try {
+			const { error, data } = await createPost({
+				...formData,
+				media: await convertToBase64(formData.media)
 			})
-		)
-		handleClear()
+			if (error) {
+				throw error
+			}
+			dispatch(
+				openSnackbar({
+					severity: 'success',
+					message: 'Post created successfully'
+				})
+			)
+		} catch (error) {
+			dispatch(
+				openSnackbar({
+					severity: 'error',
+					message: 'Post creation failed'
+				})
+			)
+		} finally {
+			handleClear()
+		}
 	}
 
 	const handleSearchInput = (params) => {
@@ -105,13 +128,6 @@ const Form = () => {
 				}}
 			/>
 		)
-	}
-
-	const toggleVisibility = () => {
-		setFormData((prevData) => ({
-			...prevData,
-			visibility: prevData.visibility === 'public' ? 'private' : 'public'
-		}))
 	}
 
 	return (
@@ -155,8 +171,15 @@ const Form = () => {
 						</IconButton>
 					</Tooltip>
 					<Tooltip title={formData.visibility} arrow>
-						<IconButton size="small" onClick={toggleVisibility}>
-							{formData.visibility === 'public' ? <Visibility /> : <VisibilityOff />}
+						<IconButton size="small" component="label">
+							<Input //
+								type="checkbox"
+								onChange={handleChange}
+								sx={{ display: 'none' }}
+								value={formData.visibility}
+								name="visibility"
+							/>
+							{formData.visibility === 'PUBLIC' ? <Visibility /> : <VisibilityOff />}
 						</IconButton>
 					</Tooltip>
 				</Stack>
@@ -191,8 +214,10 @@ const Form = () => {
 					<FormHelperText sx={{ m: 0 }}>{errors.media}</FormHelperText>
 				</FormControl>
 			</Stack>
-			<ButtonGroup orientation="vertical" fullWidth variant="contained">
-				<Button type="submit">Create</Button>
+			<ButtonGroup orientation="vertical" fullWidth variant="contained" disabled={isLoading}>
+				<Button type="submit" endIcon={isLoading && <CircularProgress size={20} />}>
+					Create
+				</Button>
 				<Button color="secondary" type="reset" onClick={handleClear}>
 					Clear
 				</Button>
@@ -205,7 +230,7 @@ const CreatePost = () => {
 	const { isSignedIn, isLoaded } = useAuth()
 
 	return (
-		<Paper>
+		<Paper sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
 			{!isLoaded ? (
 				<Stack p={2} spacing={2} alignItems="center">
 					<CircularProgress />

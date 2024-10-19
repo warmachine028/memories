@@ -1,6 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ThemeContext } from '@/contexts'
 import { api } from '@/api'
+import { useAuth } from '@clerk/clerk-react'
+import { useDispatch } from 'react-redux'
+import { updateAuthToken } from '@/reducers/auth'
 
 export const useTheme = () => {
 	const context = useContext(ThemeContext)
@@ -10,4 +13,19 @@ export const useTheme = () => {
 	return context
 }
 
-export const { useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation } = api
+export const useApiWithAuth = () => {
+	const { getToken } = useAuth()
+	const dispatch = useDispatch()
+
+	const updateToken = async () => {
+		const token = await getToken()
+
+		if (token) {
+			dispatch(updateAuthToken(token))
+		}
+	}
+	useEffect(() => {
+		updateToken()
+	}, [getToken])
+	return api
+}

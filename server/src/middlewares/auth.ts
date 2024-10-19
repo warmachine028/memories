@@ -1,8 +1,5 @@
-import { createClerkClient } from '@clerk/express'
+import { verifyToken } from '@clerk/express'
 import type { Elysia } from 'elysia'
-
-// Initialize Clerk
-const clerkClient = createClerkClient({ secretKey: Bun.env.CLERK_SECRET_KEY })
 
 // Middleware to check authentication
 export const authMiddleware = (app: Elysia) =>
@@ -14,10 +11,16 @@ export const authMiddleware = (app: Elysia) =>
 		}
 
 		try {
-			const session = await clerkClient.sessions.verifySession(sessionToken, sessionToken)
-			return { userId: session.userId }
+			const { userId } = await verifyToken(sessionToken, {
+				jwtKey: Bun.env.CLERK_JWT_TOKEN,
+			})
+			if (!userId) {
+				set.status = 401
+				return { userId: null }
+			}
+			return { userId }
 		} catch (error) {
 			set.status = 401
-			throw new Error('Invalid session')
+			return { userId: null, error: 'Invalid session' }
 		}
 	})

@@ -1,5 +1,5 @@
 import { movies } from '@/data'
-import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, Stack, TextField } from '@mui/material'
 
 const Search = () => {
 	const handleSearchInput = (params) => <TextField {...params} label="Search Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
@@ -9,8 +9,8 @@ const Search = () => {
 	}
 
 	return (
-		<Paper sx={{ padding: 2 }}>
-			<Box gap={1} width={1} display="flex" flexDirection="column" component="form" onSubmit={handleSubmit}>
+		<Paper sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+			<Stack component="form" onSubmit={handleSubmit} spacing={1} p={2}>
 				<FormGroup className="mb-3">
 					<TextField id="title" label="Search Memories" variant="outlined" />
 				</FormGroup>
@@ -20,7 +20,7 @@ const Search = () => {
 				<Button variant="contained" type="submit" color="success" fullWidth>
 					Search
 				</Button>
-			</Box>
+			</Stack>
 		</Paper>
 	)
 }

@@ -2,8 +2,6 @@ import { Webhook, WebhookRequiredHeaders } from 'svix'
 import type { Event, EventType, RequestParams } from '@/types'
 import { prisma } from '@/lib'
 
-const webhookSecret = Bun.env.WEBHOOK_SECRET || ''
-
 export const handleWebhook = async ({ headers, request, set }: RequestParams) => {
 	const payload = await request.json()
 	const heads = {
@@ -11,7 +9,7 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 		'svix-timestamp': headers['svix-timestamp'],
 		'svix-signature': headers['svix-signature'],
 	}
-	const wh = new Webhook(webhookSecret)
+	const wh = new Webhook(Bun.env.CLERK_WEBHOOK_SECRET as string)
 	let event: Event | null = null
 
 	try {

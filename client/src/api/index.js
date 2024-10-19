@@ -1,21 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { useAuth } from '@clerk/clerk-react'
 
 const baseUrl = import.meta.env.VITE_API_URL
 
-console.log(baseUrl)
 export const api = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
 		baseUrl,
-		prepareHeaders: (headers) => {
-			const { getToken } = useAuth()
-
-			getToken().then((token) => {
-				if (token) {
-					headers.set('Authorization', `Bearer ${token}`)
-				}
-			})
+		prepareHeaders: (headers, { getState }) => {
+			const token = getState().auth.token
+			if (token) {
+				headers.set('Authorization', `Bearer ${token}`)
+			}
 			return headers
 		}
 	}),
@@ -24,6 +19,12 @@ export const api = createApi({
 		getPostById: builder.query({ query: (id) => `/posts/${id}` }),
 		createPost: builder.mutation({
 			query: (post) => ({ url: '/posts', method: 'POST', body: post })
+		}),
+		updatePost: builder.mutation({
+			query: ({ id, post }) => ({ url: `/posts/${id}`, method: 'PATCH', body: post })
+		}),
+		deletePost: builder.mutation({
+			query: (id) => ({ url: `/posts/${id}`, method: 'DELETE' })
 		})
 	})
 })

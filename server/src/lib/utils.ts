@@ -1,5 +1,5 @@
-
 import type { ProcessedPostReaction } from '@/types'
+import cloudinary from './cloudinary'
 
 // Helper function to process reactions
 export const processPostsReactions = (posts: any[], userId: string | null) => {
@@ -26,4 +26,16 @@ export const processPostsReactions = (posts: any[], userId: string | null) => {
 			})),
 		}
 	})
+}
+
+export const uploadToCloudinary = (base64Image: string) => {
+	try {
+		return cloudinary.uploader.upload(base64Image, {
+			resource_type: 'auto',
+			overwrite: true,
+		})
+	} catch (error) {
+		console.error('Error uploading to Cloudinary:', error)
+		throw error
+	}
 }
