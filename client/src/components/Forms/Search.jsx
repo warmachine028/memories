@@ -1,5 +1,5 @@
 import { movies } from '@/data'
-import { Autocomplete, Box, Button, FormControl, FormGroup, Paper, Stack, TextField } from '@mui/material'
+import { Autocomplete, Button, FormControl, FormGroup, Paper, Stack, TextField } from '@mui/material'
 
 const Search = () => {
 	const handleSearchInput = (params) => <TextField {...params} label="Search Tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />

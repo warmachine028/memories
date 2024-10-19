@@ -81,7 +81,7 @@ const Form = () => {
 			return
 		}
 		try {
-			const { error, data } = await createPost({
+			const { error } = await createPost({
 				...formData,
 				media: await convertToBase64(formData.media)
 			})

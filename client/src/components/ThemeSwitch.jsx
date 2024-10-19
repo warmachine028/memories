@@ -1,5 +1,5 @@
 import { Computer, DarkMode, LightMode, SettingsSystemDaydream } from '@mui/icons-material'
-import { Button, ButtonGroup, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper } from '@mui/material'
+import { Button, ButtonGroup, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 import { useTheme } from '@/hooks'
 
