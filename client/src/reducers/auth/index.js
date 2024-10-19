@@ -5,10 +5,10 @@ const initialState = {
 }
 
 export const slice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        updateAuthToken: (state, action) => {
+	name: 'auth',
+	initialState,
+	reducers: {
+		updateAuthToken: (state, action) => {
 			state.token = action.payload
 		}
 	}
