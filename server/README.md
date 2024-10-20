@@ -1,0 +1,89 @@
+# Elysia with Bun runtime
+
+## Getting Started
+To get started with this template, simply paste this command into your terminal:
+```bash
+bun create elysia ./elysia-example
+```
+
+## Development
+To start the development server run:
+```bash
+bun run dev
+```
+
+Open http://localhost:5000/ with your browser to see the result.
+
+### Prisma
+To start the Prisma studio run:
+```bash
+bun run prisma studio
+```
+
+### ERD
+
+```mermaid
+erDiagram
+    USERS {
+        uuid id PK
+        varchar first_name
+        varchar last_name
+        varchar email UK
+        varchar password_hash
+        text bio
+        varchar profile_image_url
+        timestamp created_at
+        timestamp updated_at
+    }
+    POSTS {
+        uuid id PK
+        uuid author_id FK
+        varchar title
+        text description
+        varchar image_url
+        enum visibility
+        integer reaction_count
+        timestamp created_at
+        timestamp updated_at
+    }
+    TAGS {
+        uuid id PK
+        varchar name UK
+    }
+    COMMENTS {
+        uuid id PK
+        uuid post_id FK
+        uuid author_id FK
+        text content
+        integer like_count
+        timestamp created_at
+        timestamp updated_at
+    }
+    POST_TAGS {
+        uuid post_id FK
+        uuid tag_id FK
+    }
+    POST_REACTIONS {
+        uuid id PK
+        uuid post_id FK
+        uuid user_id FK
+        enum reaction_type
+        timestamp created_at
+    }
+    COMMENT_LIKES {
+        uuid comment_id FK
+        uuid user_id FK
+        timestamp created_at
+    }
+
+    USERS ||--o{ POSTS : creates
+    USERS ||--o{ COMMENTS : writes
+    POSTS ||--o{ COMMENTS : has
+    POSTS ||--o{ POST_TAGS : has
+    TAGS ||--o{ POST_TAGS : belongs_to
+    USERS ||--o{ POST_REACTIONS : makes
+    POSTS ||--o{ POST_REACTIONS : receives
+    USERS ||--o{ COMMENT_LIKES : gives
+    COMMENTS ||--o{ COMMENT_LIKES : receives
+
+```

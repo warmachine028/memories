@@ -1,0 +1,75 @@
+You are an expert in React, JavaScript, Vite, Material UI, Clerk Auth, React Router, Zustand, Tanstack React Query, axios, moment, Tabler icons, MUI icons, Vercel, Express.js, Node.js, Cloudinary, Prisma, and Neon PostgreSQL.
+
+Key Principles
+- Write concise, technical responses with accurate JavaScript examples.
+- Use functional, declarative programming. Avoid classes.
+- Prefer iteration and modularization over duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading).
+- Use lowercase with dashes for directories (e.g., components/auth-modal).
+- Favor named exports for components.
+- Use the Receive an Object, Return an Object (RORO) pattern.
+
+JavaScript
+- Use "function" keyword for pure functions. Use semicolons.
+- File structure: Exported component, subcomponents, helpers, static content.
+- Avoid unnecessary curly braces in conditional statements.
+- For single-line statements in conditionals, omit curly braces.
+
+Error Handling and Validation
+- Prioritize error handling and edge cases:
+  - Handle errors and edge cases at the beginning of functions.
+  - Use early returns for error conditions to avoid deeply nested if statements.
+  - Place the happy path last in the function for improved readability.
+  - Avoid unnecessary else statements; use if-return pattern instead.
+  - Use guard clauses to handle preconditions and invalid states early.
+  - Implement proper error logging and user-friendly error messages.
+  - Consider using custom error types or error factories for consistent error handling.
+
+React/Vite
+- Use functional components.
+- Use declarative JSX.
+- Use const, not function, for components.
+- Use Material UI for components and styling.
+- Implement responsive design with Material UI's responsive utilities.
+- Use mobile-first approach for responsive design.
+- Place static content at file end.
+- Use content variables for static content outside render functions.
+- Use Clerk for authentication and user management.
+- Use axios for API requests.
+- Use React Router for navigation.
+- Use Zustand for state management.
+- Utilize Tanstack React Query for data fetching and caching.
+- Use moment for date and time manipulation.
+- Use Tabler icons and MUI icons for iconography.
+- Deploy frontend to Vercel.
+
+Backend (Express.js/Node.js)
+- Use Express.js for routing and middleware.
+- Implement RESTful API design principles.
+- Use Prisma as the ORM for database operations.
+- Implement proper error handling middleware.
+- Use environment variables for configuration.
+- Implement input validation and sanitization.
+- Use async/await for asynchronous operations.
+- Use Clerk for user authorization on the backend.
+- Integrate Cloudinary for image and file management.
+
+Database (Neon PostgreSQL)
+- Design schemas with proper data types and constraints.
+- Use indexes for frequently queried fields.
+- Implement data pagination for large datasets.
+- Use Prisma migrations for database schema management.
+
+Key Conventions
+1. Use Vite for fast development and optimized builds.
+2. Prioritize Web Vitals (LCP, CLS, FID).
+3. Implement efficient data fetching and caching strategies with RTK Query.
+4. Use proper security measures (e.g., CORS, helmet for Express).
+5. Utilize Prisma's type-safe database access.
+6. Implement proper state management with Zustand.
+7. Use React Router for declarative routing.
+8. Leverage Clerk's authentication and user management features.
+9. Optimize image delivery with Cloudinary.
+10. Utilize Neon PostgreSQL's scalability and performance features.
+
+Refer to the documentation of each technology for best practices and up-to-date information.

@@ -1,35 +1,105 @@
-import axios from 'axios'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const apiURL = ['https://memories-pritam-server.vercel.app', 'http://localhost:5000']
-const API = axios.create({ baseURL: apiURL[0] })
+const baseUrl = import.meta.env.VITE_API_URL
 
-API.interceptors.request.use((req) => {
-	const profile = localStorage.getItem('profile')
-	if (profile) {
-		req.headers.Authorization = `Bearer ${JSON.parse(profile).token}`
-	}
-	return req
+export const api = createApi({
+	reducerPath: 'api',
+	baseQuery: fetchBaseQuery({
+		baseUrl,
+		prepareHeaders: (headers, { getState }) => {
+			const token = getState().auth.token
+			if (token) {
+				headers.set('Authorization', `Bearer ${token}`)
+			}
+			return headers
+		}
+	}),
+
+	tagTypes: ['Post'],
+	endpoints: (builder) => ({
+		getPosts: builder.query({
+			query: ({ cursor, limit }) => ({
+				url: '/posts',
+				params: { cursor, limit }
+			}),
+			providesTags: (result) => (result ? [...result.posts.map(({ id }) => ({ type: 'Post', id })), { type: 'Post', id: 'LIST' }] : [{ type: 'Post', id: 'LIST' }])
+		}),
+		getPostById: builder.query({
+			query: (id) => `/posts/${id}`,
+			providesTags: (_, __, id) => [{ type: 'Post', id }]
+		}),
+		createPost: builder.mutation({
+			query: (post) => ({
+				url: '/posts',
+				method: 'POST',
+				body: post
+			}),
+			async onQueryStarted(post, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					api.util.updateQueryData('getPosts', { cursor: null, limit: 9 }, (draft) => {
+						draft.posts.unshift({ ...post, id: 'temp_' + new Date().getTime() })
+					})
+				)
+				try {
+					const { data: newPost } = await queryFulfilled
+					dispatch(
+						api.util.updateQueryData('getPosts', { cursor: null, limit: 9 }, (draft) => {
+							const index = draft.posts.findIndex((p) => p.id === 'temp_' + new Date().getTime())
+							if (index !== -1) draft.posts[index] = newPost
+						})
+					)
+				} catch {
+					patchResult.undo()
+				}
+			},
+			invalidatesTags: [{ type: 'Post', id: 'LIST' }]
+		}),
+		updatePost: builder.mutation({
+			query: ({ id, ...post }) => ({
+				url: `/posts/${id}`,
+				method: 'PATCH',
+				body: post
+			}),
+			async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					api.util.updateQueryData('getPostById', id, (draft) => {
+						Object.assign(draft, patch)
+					})
+				)
+				try {
+					await queryFulfilled
+				} catch {
+					patchResult.undo()
+				}
+			},
+			invalidatesTags: (_, __, { id }) => [{ type: 'Post', id }]
+		}),
+		deletePost: builder.mutation({
+			query: (id) => ({
+				url: `/posts/${id}`,
+				method: 'DELETE'
+			}),
+			async onQueryStarted(id, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					api.util.updateQueryData('getPosts', { cursor: null, limit: 9 }, (draft) => {
+						const index = draft.posts.findIndex((post) => post.id === id)
+						if (index !== -1) {
+							draft.posts.splice(index, 1)
+						}
+					})
+				)
+				try {
+					await queryFulfilled
+				} catch {
+					patchResult.undo()
+				}
+			},
+			invalidatesTags: (_, __, id) => [
+				{ type: 'Post', id },
+				{ type: 'Post', id: 'LIST' }
+			]
+		})
+	})
 })
 
-export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
-export const fetchPost = (id) => API.get(`/posts/${id}`)
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search ?? 'none'}&tags=${searchQuery.tags ?? 'none'}`)
-export const fetchComments = (postId) => API.get(`/comments/${postId}`)
-export const fetchTags = () => API.get(`/posts/tags`)
-
-export const createPost = (newPost) => API.post('/posts', newPost)
-export const createComment = (comment) => API.post('/comments/', comment)
-export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost)
-export const deletePost = (id) => API.delete(`/posts/${id}`)
-export const deleteComment = (id) => API.delete(`/comments/${id}`)
-
-export const signIn = (formData) => API.post('/user/signin', formData)
-export const googleSignIn = (formData) => API.post('/user/googleSignIn', formData)
-export const signUp = (formData) => API.post('/user/signup', formData)
-export const sendResetLink = (formData) => API.post('/user/forgotPassword', formData)
-export const setNewPassword = (formData) => API.post('/user/resetPassword', formData)
-
-export const updateUser = (formData) => API.patch('/user/update', formData)
-export const userDetails = (userId) => API.get(`/user/details/${userId}`)
-export const fetchUserPostsByType = (userId, page, type) => API.get(`/user/posts/${userId}?page=${page}&type=${type}`)
-export const fetchUserComments = (userId, page) => API.get(`/user/comments/${userId}?page=${page}`)
+export const { useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation, useUpdatePostMutation, useDeletePostMutation } = api
