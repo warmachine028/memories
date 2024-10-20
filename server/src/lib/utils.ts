@@ -28,10 +28,11 @@ export const processPostsReactions = (posts: any[], userId: string | null) => {
 	})
 }
 
-export const uploadToCloudinary = (base64Image: string) => {
+export const uploadToCloudinary = (base64Image: string, public_id?: string) => {
 	try {
 		return cloudinary.uploader.upload(base64Image, {
 			resource_type: 'auto',
+			public_id,
 			overwrite: true,
 		})
 	} catch (error) {
@@ -39,3 +40,5 @@ export const uploadToCloudinary = (base64Image: string) => {
 		throw error
 	}
 }
+
+export const getPublicId = (imageUrl: string) => imageUrl.split('/').pop()?.split('.').shift()

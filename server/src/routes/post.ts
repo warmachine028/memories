@@ -14,7 +14,7 @@ export const postRoutes = new Elysia({ prefix: '/posts' })
 	.get('/', getPosts, {
 		query: t.Optional(
 			t.Object({
-				cursor: t.String(),
+				cursor: t.Optional(t.String()),
 				limit: t.Optional(t.Number()),
 			})
 		),

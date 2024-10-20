@@ -1,90 +1,37 @@
 import { prisma } from '@/lib'
-import { processPostsReactions, uploadToCloudinary } from '@/lib/utils'
+import { getPublicId, processPostsReactions, uploadToCloudinary } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import { error } from 'elysia'
 
-export const getPosts = async ({ userId, query }: RequestParams) => {
-	const { cursor: cursorValue, limit = 9 } = query
-	const cursor = cursorValue === 'null' || cursorValue === '' ? undefined : { id: cursorValue }
+export const getPosts = async ({ query: { cursor, limit }, userId: currentUserId }: RequestParams) => {
+	const userId = currentUserId || ''
 	const posts = await prisma.post.findMany({
-		take: Number(limit) + 1,
-		cursor,
-		include: {
-			author: {
-				select: {
-					fullName: true,
-					imageUrl: true,
-				},
-			},
-			tags: {
-				select: {
-					tag: {
-						select: {
-							name: true,
-						},
-					},
-				},
-			},
-			reactions: {
-				where: {
-					userId: userId || '',
-				},
-				take: 1,
-				select: {
-					reactionType: true,
-				},
-			},
-			_count: {
-				select: {
-					reactions: true,
-				},
-			},
-		},
+		take: limit || 10,
 		where: {
-			OR: [{ visibility: 'PUBLIC' }, ...(userId ? [{ authorId: userId }] : [])],
+			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
+		},
+		cursor: cursor ? { id: cursor } : undefined,
+		include: {
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { select: { tag: { select: { name: true } } } },
+			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
 		},
 		orderBy: { createdAt: 'desc' } as const,
 	})
 	return posts
 }
 
-export const getPostById = async ({ params: { id }, userId }: RequestParams) => {
+export const getPostById = async ({ params: { id }, userId: currentUserId }: RequestParams) => {
+	const userId = currentUserId || ''
 	const post = await prisma.post.findUnique({
 		where: {
 			id,
-			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId || '' }],
+			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
 		},
 		include: {
-			author: {
-				select: {
-					id: true,
-					fullName: true,
-					imageUrl: true,
-				},
-			},
-			tags: {
-				include: {
-					tag: {
-						select: {
-							name: true,
-						},
-					},
-				},
-			},
-			reactions: {
-				orderBy: { createdAt: 'desc' },
-				take: 3,
-				select: {
-					reactionType: true,
-					userId: true,
-					createdAt: true,
-					user: {
-						select: {
-							imageUrl: true,
-						},
-					},
-				},
-			},
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { include: { tag: { select: { name: true } } } },
+			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
 		},
 	})
 
@@ -100,10 +47,9 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
-
 	const { title, description, visibility, tags, media } = body
 	const response = await uploadToCloudinary(media)
-	const post = await prisma.post.create({
+	return prisma.post.create({
 		data: {
 			title,
 			description,
@@ -122,38 +68,49 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 			},
 		},
 		include: {
-			author: {
-				select: {
-					id: true,
-					fullName: true,
-					imageUrl: true,
-				},
-			},
-			tags: {
-				include: {
-					tag: {
-						select: {
-							name: true,
-						},
-					},
-				},
-			},
-			reactions: {
-				orderBy: { createdAt: 'desc' },
-				take: 3,
-				select: {
-					reactionType: true,
-					userId: true,
-					createdAt: true,
-					user: {
-						select: {
-							imageUrl: true,
-						},
-					},
-				},
-			},
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { include: { tag: { select: { name: true } } } },
+			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
 		},
 	})
-	const [processedPost] = processPostsReactions([post], userId)
-	return processedPost
+}
+
+export const deletePost = async ({ params: { id }, userId }: RequestParams) => {
+	if (!userId) {
+		return error(401, { message: 'Unauthorized' })
+	}
+	await prisma.post.delete({ where: { id, authorId: userId } })
+	return { message: 'Post deleted successfully' }
+}
+
+export const updatePost = async ({ params: { id }, body, userId }: RequestParams) => {
+	if (!userId) {
+		return error(401, { message: 'Unauthorized' })
+	}
+	const { title, description, visibility, tags, media, imageUrl } = body
+	const response = await uploadToCloudinary(media, getPublicId(imageUrl))
+	return prisma.post.update({
+		where: { id, authorId: userId },
+		data: {
+			title,
+			description,
+			imageUrl: response.secure_url,
+			visibility,
+			tags: {
+				set: tags.map((tagName: string) => ({
+					tag: {
+						connectOrCreate: {
+							where: { name: tagName },
+							create: { name: tagName },
+						},
+					},
+				})),
+			},
+		},
+		include: {
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { include: { tag: { select: { name: true } } } },
+			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
+		},
+	})
 }
