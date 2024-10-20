@@ -119,7 +119,7 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 						renderInput={(params) => (
 							<TextField
 								{...params}
-								fullWidth 
+								fullWidth
 								variant="outlined"
 								placeholder="Search"
 								slotProps={{
