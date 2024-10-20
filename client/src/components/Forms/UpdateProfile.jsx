@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
-import { useDispatch } from 'react-redux'
 import { List, ListItem, DialogTitle, Dialog, TextField, Button, Paper, Avatar, IconButton, Input, Stack, FormControl, FormHelperText, ButtonGroup, Grid2 as Grid, CircularProgress } from '@mui/material'
-import { openSnackbar } from '@/reducers/notif'
+import { useStore } from '@/store'
 import { AddAPhotoOutlined, Close } from '@mui/icons-material'
 
 const UpdateProfile = ({ open, onClose: handleClose }) => {
 	const { user } = useUser()
+	const { openSnackbar } = useStore()
 	const initialErrorState = { imageUrl: '', firstName: '', lastName: '', bio: '' }
 	const initialData = { imageUrl: user.imageUrl, firstName: user.firstName, lastName: user.lastName, bio: user.unsafeMetadata.bio || '' }
-	const dispatch = useDispatch()
 	const [errors, setErrors] = useState(initialErrorState)
 	const [editedUser, setEditedUser] = useState(initialData)
 	const [newImage, setNewImage] = useState(null)
@@ -65,10 +64,10 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 			if (newImage) {
 				await user.setProfileImage({ file: newImage })
 			}
-			dispatch(openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' }))
+			openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' })
 		} catch (error) {
 			console.error('Error updating user:', error.errors[0]?.longMessage || error.message)
-			dispatch(openSnackbar({ message: error.errors[0]?.longMessage || error.message, severity: 'error' }))
+			openSnackbar({ message: error.errors[0]?.longMessage || error.message, severity: 'error' })
 		} finally {
 			handleClose()
 			setLoading(false)

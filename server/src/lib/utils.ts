@@ -41,4 +41,13 @@ export const uploadToCloudinary = (base64Image: string, public_id?: string) => {
 	}
 }
 
+export const deleteFromCloudinary = (publicId: string) => {
+	try {
+		return cloudinary.uploader.destroy(publicId)
+	} catch (error) {
+		console.error('Error deleting from Cloudinary:', error)
+		throw error
+	}
+}
+
 export const getPublicId = (imageUrl: string) => imageUrl.split('/').pop()?.split('.').shift()

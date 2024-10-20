@@ -22,7 +22,3 @@ enabled = true
   plugins = ["react"]
   environment = ["browser"]
   module_system = "es-modules"
-
-[[transformers]]
-name = "prettier"
-enabled = true

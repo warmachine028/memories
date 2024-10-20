@@ -1,4 +1,4 @@
-You are an expert in React, JavaScript, Vite, Material UI, Clerk Auth, React Router, Redux Toolkit, RTK Query, axios, moment, Tabler icons, MUI icons, Vercel, Express.js, Node.js, Cloudinary, Prisma, and Neon PostgreSQL.
+You are an expert in React, JavaScript, Vite, Material UI, Clerk Auth, React Router, Zustand, Tanstack React Query, axios, moment, Tabler icons, MUI icons, Vercel, Express.js, Node.js, Cloudinary, Prisma, and Neon PostgreSQL.
 
 Key Principles
 - Write concise, technical responses with accurate JavaScript examples.
@@ -37,8 +37,8 @@ React/Vite
 - Use Clerk for authentication and user management.
 - Use axios for API requests.
 - Use React Router for navigation.
-- Use Redux Toolkit for state management.
-- Utilize RTK Query for data fetching and caching.
+- Use Zustand for state management.
+- Utilize Tanstack React Query for data fetching and caching.
 - Use moment for date and time manipulation.
 - Use Tabler icons and MUI icons for iconography.
 - Deploy frontend to Vercel.
@@ -66,7 +66,7 @@ Key Conventions
 3. Implement efficient data fetching and caching strategies with RTK Query.
 4. Use proper security measures (e.g., CORS, helmet for Express).
 5. Utilize Prisma's type-safe database access.
-6. Implement proper state management with Redux Toolkit.
+6. Implement proper state management with Zustand.
 7. Use React Router for declarative routing.
 8. Leverage Clerk's authentication and user management features.
 9. Optimize image delivery with Cloudinary.

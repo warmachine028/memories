@@ -2,10 +2,9 @@ import { useEffect } from 'react'
 import { AddReactionSharp, Comment, Share } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Divider, IconButton, Stack, Typography } from '@mui/material'
 import moment from 'moment'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import { getPost } from '@/reducers/post'
 import { PostSkeleton } from '@/components'
+import { useGetPostById } from '@/hooks'
 
 const AuthorInfo = ({ imageUrl, name, email, timestamp, id }) => (
 	<Stack direction="row">
@@ -56,17 +55,13 @@ const user = {
 
 const Post = () => {
 	const { id } = useParams()
-	const dispatch = useDispatch()
-	const { post } = useSelector((state) => state.posts)
-	useEffect(() => {
-		dispatch(getPost(id))
-	}, [dispatch, id])
+	const { data: post } = useGetPostById(id)
 
 	if (!post) {
 		return <PostSkeleton />
 	}
 	return (
-		<Card elevation={3}>
+		<Card elevation={3} width="100%">
 			<CardMedia component="img" height="400" image={post.imageUrl} alt="Post cover" />
 			<Stack divider={<Divider sx={{ my: 2 }} />}>
 				<CardHeader
@@ -85,8 +80,8 @@ const Post = () => {
 						{post.title}
 					</Typography>
 					<Box mb={2}>
-						{post.tags.map((tag) => (
-							<Chip key={tag} label={tag} sx={{ mr: 1 }} />
+						{post.tags.map(({ name }) => (
+							<Chip key={name} label={name} sx={{ mr: 1 }} />
 						))}
 					</Box>
 					<Typography variant="body1" component="p">

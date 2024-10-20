@@ -4,18 +4,16 @@ import { AddAPhotoOutlined, AutoAwesome, Close, Visibility, VisibilityOff } from
 import { useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { openSnackbar } from '@/reducers/notif'
-import { useApiWithAuth } from '@/hooks'
+import { useCreatePost } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
-import { api } from '@/api'
+import { useStore } from '@/store'
 
 const Form = () => {
-	const { isLoaded } = useApiWithAuth()
-	const [createPost, { isLoading }] = api.useCreatePostMutation()
+	const { isLoaded } = useAuth()
+	const { mutate: createPost, isLoading } = useCreatePost()
 	const initialData = { title: '', description: '', tags: [], visibility: 'PUBLIC', media: null }
 	const initialErrorState = { title: '', description: '', tags: '', media: '' }
-	const dispatch = useDispatch()
+	const { openSnackbar } = useStore()
 	const [formData, setFormData] = useState(initialData)
 	const [errors, setErrors] = useState(initialErrorState)
 	const [preview, setPreview] = useState(null)
@@ -82,26 +80,14 @@ const Form = () => {
 			return
 		}
 		try {
-			const { error } = await createPost({
+			createPost({
 				...formData,
 				media: await convertToBase64(formData.media)
 			})
-			if (error) {
-				throw error
-			}
-			dispatch(
-				openSnackbar({
-					severity: 'success',
-					message: 'Post created successfully'
-				})
-			)
+			openSnackbar('Post created successfully', 'success')
 		} catch (error) {
-			dispatch(
-				openSnackbar({
-					severity: 'error',
-					message: 'Post creation failed'
-				})
-			)
+			console.error(error)
+			openSnackbar('Post creation failed', 'error')
 		} finally {
 			handleClear()
 		}

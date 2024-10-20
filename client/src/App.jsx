@@ -1,10 +1,10 @@
-import { AppRouter, Navbar,  ScrollToTop, Snackbar } from '@/components'
+import { AppRouter, Navbar, ScrollToTop, Snackbar } from '@/components'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@/providers'
-import { Provider } from 'react-redux'
-import { store } from '@/store'
-
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { queryClient } from '@/lib/react-query'
 const MemoriesApp = () => {
 	return (
 		<ThemeProvider>
@@ -23,11 +23,12 @@ const App = () => {
 	}
 	return (
 		<ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-			<Provider store={store}>
+			<QueryClientProvider client={queryClient}>
 				<BrowserRouter>
 					<MemoriesApp />
 				</BrowserRouter>
-			</Provider>
+				<ReactQueryDevtools initialIsOpen={false} />
+			</QueryClientProvider>
 		</ClerkProvider>
 	)
 }

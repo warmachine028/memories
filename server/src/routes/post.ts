@@ -3,6 +3,7 @@ import { getPosts, getPostById, createPost } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { Visibility } from '@prisma/client'
 import { type RequestParams } from '@/types'
+import { deletePost } from '@/controllers/post'
 
 export const postRoutes = new Elysia({ prefix: '/posts' })
 	.use(authMiddleware)
@@ -60,11 +61,8 @@ export const postRoutes = new Elysia({ prefix: '/posts' })
 			}),
 		}
 	)
-	.delete('/:id', ({ params: { id }, userId }: RequestParams) => {
-		if (userId !== '1') {
-			throw new Error('Unauthorized')
-		}
-		return {
-			id,
-		}
+	.delete('/:id', deletePost, {
+		params: t.Object({
+			id: t.String(),
+		}),
 	})

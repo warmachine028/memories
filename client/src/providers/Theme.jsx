@@ -1,21 +1,11 @@
 import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import { ThemeContext } from '@/contexts'
-import { setThemeAction } from '@/reducers/theme'
 import { Light as lightTheme, Dark as darkTheme } from '@/themes'
+import { useStore } from '@/store'
 
 const ThemeProvider = ({ children }) => {
-	const dispatch = useDispatch()
-	const reduxTheme = useSelector((state) => state.theme)
-	const [theme, setThemeState] = useState(() => {
-		// Try to get the theme from localStorage, fallback to reduxTheme
-		if (typeof window !== 'undefined') {
-			return localStorage.getItem('theme') || reduxTheme
-		}
-		return reduxTheme
-	})
-	const [actualTheme, setActualTheme] = useState(reduxTheme === 'system' ? 'light' : reduxTheme)
+	const { theme, actualTheme, setActualTheme, setThemeAndActual, getCurrentTheme } = useStore()
 
 	useEffect(() => {
 		const handleSystemThemeChange = (event) => {
@@ -33,30 +23,15 @@ const ThemeProvider = ({ children }) => {
 			setActualTheme(theme)
 		}
 
-		// Use addEventListener instead of addListener
 		mediaQuery.addEventListener('change', handleSystemThemeChange)
 
-		// Clean up the event listener
 		return () => mediaQuery.removeEventListener('change', handleSystemThemeChange)
-	}, [theme])
+	}, [theme, setActualTheme])
 
-	useEffect(() => {
-		// Sync Redux state with localStorage
-		dispatch(setThemeAction(theme))
-		localStorage.setItem('theme', theme)
-	}, [theme, dispatch])
-
-	const setTheme = (newTheme) => {
-		setThemeState(newTheme)
-		if (newTheme !== 'system') {
-			setActualTheme(newTheme)
-		}
-	}
-
-	const currentTheme = actualTheme === 'dark' ? darkTheme : lightTheme
+	const currentTheme = getCurrentTheme() === 'dark' ? darkTheme : lightTheme
 
 	return (
-		<ThemeContext.Provider value={{ theme, setTheme, actualTheme }}>
+		<ThemeContext.Provider value={{ theme, setTheme: setThemeAndActual, actualTheme }}>
 			<MUIThemeProvider theme={currentTheme}>
 				<CssBaseline enableColorScheme />
 				{children}

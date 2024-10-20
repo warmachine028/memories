@@ -1,5 +1,5 @@
 import { prisma } from '@/lib'
-import { getPublicId, processPostsReactions, uploadToCloudinary } from '@/lib/utils'
+import { deleteFromCloudinary, getPublicId, processPostsReactions, uploadToCloudinary } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import { error } from 'elysia'
 
@@ -45,6 +45,7 @@ export const getPostById = async ({ params: { id }, userId: currentUserId }: Req
 }
 
 export const createPost = async ({ body, userId }: RequestParams) => {
+	console.log(userId, body)
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
@@ -80,7 +81,16 @@ export const deletePost = async ({ params: { id }, userId }: RequestParams) => {
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
-	await prisma.post.delete({ where: { id, authorId: userId } })
+	const post = await prisma.post.delete({
+		where: { id, authorId: userId },
+		select: {
+			imageUrl: true,
+		},
+	})
+	if (!post.imageUrl) {
+		return error(404, { message: 'Post not found' })
+	}
+	await deleteFromCloudinary(getPublicId(post.imageUrl) as string)
 	return { message: 'Post deleted successfully' }
 }
 

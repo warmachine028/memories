@@ -1,9 +1,8 @@
-import { openSnackbar } from '@/reducers/notif'
 import { Search as SearchIcon } from '@mui/icons-material'
 import { alpha, Box, InputBase, styled } from '@mui/material'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { useStore } from '@/store'
 
 const Search = styled(Box)(({ theme }) => ({
 	position: 'relative',
@@ -46,9 +45,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	}
 }))
 const Searchbar = () => {
-	const dispatch = useDispatch()
 	const [search, setSearch] = useState('')
 	const { pathname } = useLocation()
+	const { openSnackbar } = useStore()
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		if (!search) {
@@ -60,19 +59,15 @@ const Searchbar = () => {
 		const foundLevel = securityLevels.find((level) => lowerCaseSearch.includes(level))
 
 		if (foundLevel) {
-			dispatch(
-				openSnackbar({
-					severity: foundLevel || 'success',
-					message: `Alert! You searched for a term containing "${foundLevel}".`
-				})
-			)
+			openSnackbar({
+				severity: foundLevel || 'success',
+				message: `Alert! You searched for a term containing "${foundLevel}".`
+			})
 		} else {
-			dispatch(
-				openSnackbar({
-					severity: 'success',
-					message: `Hurrray! 🎊🎊, You searched for "${search}"`
-				})
-			)
+			openSnackbar({
+				severity: 'success',
+				message: `Hurrray! 🎊🎊, You searched for "${search}"`
+			})
 		}
 		setSearch('')
 	}
