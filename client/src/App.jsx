@@ -1,4 +1,4 @@
-import { AppRouter, Navbar,  ScrollToTop, Snackbar } from '@/components'
+import { AppRouter, Navbar, ScrollToTop, Snackbar } from '@/components'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@/providers'
