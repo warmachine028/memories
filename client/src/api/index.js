@@ -14,7 +14,7 @@ export const api = createApi({
 			return headers
 		}
 	}),
-	
+
 	tagTypes: ['Post'],
 	endpoints: (builder) => ({
 		getPosts: builder.query({
