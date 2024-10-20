@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Button, Popover, Paper, CardActionArea, AvatarGroup, Stack, Box } from '@mui/material'
-import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined } from '@mui/icons-material'
+import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit } from '@mui/icons-material'
 import { UserAvatar } from '.'
+import moment from 'moment'
 const reactions = [
 	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
 	{ icon: Favorite, label: 'Love', color: '#e91e63' },
@@ -62,7 +63,7 @@ const PostCard = ({ post }) => {
 	}
 	const navigate = useNavigate()
 	return (
-		<Card sx={{ height: { md: 370 }, border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` }, position: 'relative' }} elevation={1}>
+		<Card sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` }, position: 'relative' }} elevation={1}>
 			<CardActionArea component={Link} to={`/post/${post.id}`}>
 				<CardMedia
 					sx={{
@@ -87,76 +88,77 @@ const PostCard = ({ post }) => {
 						{post.title}
 					</TruncatedText>
 					<Typography variant="body2" color="text.secondary.muted">
-						{post.tags.map((tag) => `#${tag} `)}
+						{post.tags.map((tag) => `#${tag.tag.name} `)}
 					</Typography>
 					<Box marginTop={1}>
 						<TruncatedText maxLength={100} color="text.secondary">
-							{post.body}
+							{post.description}
 						</TruncatedText>
 					</Box>
 				</CardContent>
 			</CardActionArea>
 			<CardHeader
-				avatar={<UserAvatar handleClick={() => navigate(`/user/${post.author.id}`)} user={post.author} />}
+				avatar={<UserAvatar handleClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />}
 				title={post.author.fullName}
-				subheader="September 14, 2016"
+				subheader={moment(post.createdAt).format('Do MMM YYYY \\at h:mm a')}
 				sx={{
 					position: 'absolute',
 					top: 0,
 					left: 0,
 					zIndex: 2,
+					right: 0,
 					color: 'white',
 					'& .MuiCardHeader-title': { color: 'white' },
 					'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
 				}}
+				action={
+					<IconButton aria-label="edit">
+						<Edit sx={{ width: 20, height: 20 }} />
+					</IconButton>
+				}
 			/>
-			<CardActions sx={{ justifyContent: 'space-between' }}>
-				<Stack flexDirection="row" alignItems="center">
+			<CardActions>
+				<Stack flexDirection="row" alignItems="center" justifyContent="space-between" width="100%">
 					<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
-						<IconButton size="small" title="react" sx={{ color: currentReaction ? currentReaction?.color : 'textPrimary' }}>
+						<IconButton size="small" sx={{ color: currentReaction ? currentReaction.color : 'textPrimary' }}>
 							{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
+							{post._count.reactions || ''}
 						</IconButton>
 					</Box>
-					<Popover
-						open={Boolean(reactionAnchorEl)}
-						anchorEl={reactionAnchorEl}
-						onClose={() => setReactionAnchorEl(null)}
-						anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-						transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-						disableRestoreFocus
-						slotProps={{
-							paper: {
-								onMouseEnter: handlePopoverEnter,
-								onMouseLeave: handlePopoverLeave
-							}
-						}}
-					>
-						<Paper sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.divider}` }}>
-							{reactions.map((reaction) => (
-								<IconButton
-									key={reaction.label}
-									onClick={() => handleReactionSelect(reaction)}
-									sx={{
-										color: reaction === currentReaction ? 'white' : reaction.color,
-										bgcolor: reaction === currentReaction ? reaction.color : 'transparent'
-									}}
-								>
-									<reaction.icon />
-								</IconButton>
-							))}
-						</Paper>
-					</Popover>
-					<AvatarGroup max={4} total={post.reactions.likes} slotProps={{ additionalAvatar: { sx: { width: 24, height: 24, fontSize: 10, cursor: 'pointer' } } }} sx={{ '& .MuiAvatar-root': { width: 24, height: 24 } }}>
-						<Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
-						<Avatar alt="Travis Howard" src="https://mui.com/static/images/avatar/2.jpg" />
-						<Avatar alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />
-						<Avatar alt="Agnes Walker" src="https://mui.com/static/images/avatar/4.jpg" />
-						<Avatar alt="Trevor Henderson" src="https://mui.com/static/images/avatar/5.jpg" />
-					</AvatarGroup>
+
+					<Button color="error" startIcon={<Delete />}>
+						Delete
+					</Button>
 				</Stack>
-				<Button size="small" color="error" startIcon={<Delete />}>
-					Delete
-				</Button>
+				<Popover
+					open={Boolean(reactionAnchorEl)}
+					anchorEl={reactionAnchorEl}
+					onClose={() => setReactionAnchorEl(null)}
+					anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+					transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+					disableRestoreFocus
+					slotProps={{
+						paper: {
+							onMouseEnter: handlePopoverEnter,
+							onMouseLeave: handlePopoverLeave
+						}
+					}}
+				>
+					<Paper sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.divider}` }}>
+						{reactions.map((reaction) => (
+							<IconButton
+								key={reaction.label}
+								onClick={() => handleReactionSelect(reaction)}
+								sx={{
+									color: reaction === currentReaction ? 'white' : reaction.color,
+									bgcolor: reaction === currentReaction ? reaction.color : 'transparent'
+								}}
+							>
+								<reaction.icon />
+							</IconButton>
+						))}
+					</Paper>
+				</Popover>
 			</CardActions>
 		</Card>
 	)

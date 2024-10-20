@@ -8,9 +8,10 @@ import { useDispatch } from 'react-redux'
 import { openSnackbar } from '@/reducers/notif'
 import { useApiWithAuth } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
+import { api } from '@/api'
 
 const Form = () => {
-	const api = useApiWithAuth()
+	const { isLoaded } = useApiWithAuth()
 	const [createPost, { isLoading }] = api.useCreatePostMutation()
 	const initialData = { title: '', description: '', tags: [], visibility: 'PUBLIC', media: null }
 	const initialErrorState = { title: '', description: '', tags: '', media: '' }
@@ -214,7 +215,7 @@ const Form = () => {
 					<FormHelperText sx={{ m: 0 }}>{errors.media}</FormHelperText>
 				</FormControl>
 			</Stack>
-			<ButtonGroup orientation="vertical" fullWidth variant="contained" disabled={isLoading}>
+			<ButtonGroup orientation="vertical" fullWidth variant="contained" disabled={isLoading || !isLoaded}>
 				<Button type="submit" endIcon={isLoading && <CircularProgress size={20} />}>
 					Create
 				</Button>

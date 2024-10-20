@@ -32,7 +32,7 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 				await handleUserDeleted(event)
 				break
 			default:
-				console.log(`Unhandled event type: ${eventType}`)
+				console.error(`Unhandled event type: ${eventType}`)
 		}
 	} catch (error) {
 		console.error('Error processing webhook:', error)

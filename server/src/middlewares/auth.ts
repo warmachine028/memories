@@ -5,7 +5,7 @@ import type { Elysia } from 'elysia'
 export const authMiddleware = (app: Elysia) =>
 	app.derive(async ({ set, headers }) => {
 		const sessionToken = headers['authorization']?.split(' ')[1]
-
+		
 		if (!sessionToken) {
 			return { userId: null }
 		}

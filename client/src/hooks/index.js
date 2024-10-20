@@ -14,18 +14,24 @@ export const useTheme = () => {
 }
 
 export const useApiWithAuth = () => {
-	const { getToken } = useAuth()
+	const { getToken, isLoaded } = useAuth()
 	const dispatch = useDispatch()
 
 	const updateToken = async () => {
-		const token = await getToken()
-
-		if (token) {
-			dispatch(updateAuthToken(token))
+		if (isLoaded) {
+			try {
+				const token = await getToken()
+				if (token) {
+					dispatch(updateAuthToken(token))
+				}
+			} catch (error) {
+				console.error('Error getting token:', error)
+			}
 		}
 	}
 	useEffect(() => {
 		updateToken()
-	}, [getToken])
-	return api
+	}, [getToken, isLoaded, dispatch])
+
+	return { isLoaded }
 }

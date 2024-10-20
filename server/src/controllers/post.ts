@@ -4,21 +4,20 @@ import type { RequestParams } from '@/types'
 import { error } from 'elysia'
 
 export const getPosts = async ({ userId, query }: RequestParams) => {
-	const { cursor, limit = 9 } = query
-
+	const { cursor: cursorValue, limit = 9 } = query
+	const cursor = cursorValue === 'null' || cursorValue === '' ? undefined : { id: cursorValue }
 	const posts = await prisma.post.findMany({
-		take: limit + 1,
-		cursor: cursor ? { id: cursor } : undefined,
+		take: Number(limit) + 1,
+		cursor,
 		include: {
 			author: {
 				select: {
-					id: true,
 					fullName: true,
 					imageUrl: true,
 				},
 			},
 			tags: {
-				include: {
+				select: {
 					tag: {
 						select: {
 							name: true,
@@ -27,28 +26,26 @@ export const getPosts = async ({ userId, query }: RequestParams) => {
 				},
 			},
 			reactions: {
-				orderBy: { createdAt: 'desc' },
-				take: 3,
+				where: {
+					userId: userId || '',
+				},
+				take: 1,
 				select: {
 					reactionType: true,
-					userId: true,
-					createdAt: true,
-					user: {
-						select: {
-							imageUrl: true,
-						},
-					},
+				},
+			},
+			_count: {
+				select: {
+					reactions: true,
 				},
 			},
 		},
 		where: {
-			visibility: 'PUBLIC',
-			...(userId && { authorId: userId }),
+			OR: [{ visibility: 'PUBLIC' }, ...(userId ? [{ authorId: userId }] : [])],
 		},
 		orderBy: { createdAt: 'desc' } as const,
 	})
-
-	return processPostsReactions(posts, userId)
+	return posts
 }
 
 export const getPostById = async ({ params: { id }, userId }: RequestParams) => {

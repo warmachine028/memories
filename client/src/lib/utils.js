@@ -6,3 +6,5 @@ export const convertToBase64 = (file) => {
 		reader.readAsDataURL(file)
 	})
 }
+
+export const getThumbnail = (url) => url.replace('/upload/', '/upload/q_10/')
