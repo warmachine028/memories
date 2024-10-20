@@ -6,19 +6,20 @@ import { error } from 'elysia'
 export const getPosts = async ({ query: { cursor, limit }, userId: currentUserId }: RequestParams) => {
 	const userId = currentUserId || ''
 	const posts = await prisma.post.findMany({
-		take: limit || 10,
-		where: {
-			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
-		},
-		cursor: cursor ? { id: cursor } : undefined,
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { select: { tag: { select: { name: true } } } },
 			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
 		},
-		orderBy: { createdAt: 'desc' } as const,
+		orderBy: { createdAt: 'desc' },
+		take: (limit || 9) + 1,
+		where: {
+			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
+		},
+		cursor: cursor ? { id: cursor } : undefined,
 	})
-	return posts
+	const nextCursor = posts.length > limit ? posts[limit].id : undefined
+	return { posts: posts.slice(0, limit), nextCursor }
 }
 
 export const getPostById = async ({ params: { id }, userId: currentUserId }: RequestParams) => {

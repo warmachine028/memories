@@ -14,20 +14,14 @@ export const api = createApi({
 			return headers
 		}
 	}),
+	
 	tagTypes: ['Post'],
 	endpoints: (builder) => ({
 		getPosts: builder.query({
-			query: ({ cursor = '', limit = 9 }) => ({
+			query: ({ cursor, limit }) => ({
 				url: '/posts',
 				params: { cursor, limit }
 			}),
-			transformResponse: (response, _, arg) => {
-				const limit = arg.limit || 9
-				return {
-					posts: response.slice(0, limit),
-					nextCursor: response.length > limit ? response[limit].id : undefined
-				}
-			},
 			providesTags: (result) => (result ? [...result.posts.map(({ id }) => ({ type: 'Post', id })), { type: 'Post', id: 'LIST' }] : [{ type: 'Post', id: 'LIST' }])
 		}),
 		getPostById: builder.query({

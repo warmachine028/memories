@@ -33,7 +33,7 @@ const TruncatedText = ({ children: text, maxLength, ...props }) => {
 
 const PostCard = ({ post }) => {
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
-	const [currentReaction, setCurrentReaction] = useState(null)
+	const [currentReaction, setCurrentReaction] = useState(post.reactions[0]?.reactionType)
 
 	const popoverTimeoutRef = useRef(null)
 
@@ -122,7 +122,7 @@ const PostCard = ({ post }) => {
 					<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
 						<IconButton size="small" sx={{ color: currentReaction ? currentReaction.color : 'textPrimary' }}>
 							{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
-							{post._count.reactions || ''}
+							{post.reactionCount || ''}
 						</IconButton>
 					</Box>
 

@@ -1,7 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "memories-client",
-	"private": true,
+	"name": "memories",
 	"scripts": {
 		"build": "vite build",
 		"dev": "bunx --bun vite --host",
@@ -15,7 +14,23 @@
 		"name": "Pritam Kundu",
 		"url": "https://github.com/warmachine028"
 	},
-	"description": "A well refined project to store your valuable memories in a digital Diary",
+	"description": "A modern, fast, and secure web app to store your memories built with the latest technologies and best practices.",
+	"license": "MIT",
+	"homepage": "https://memories-latest.vercel.app",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/warmachine028/memories"
+	},
+	"bugs": {
+		"url": "https://github.com/warmachine028/memories/issues"
+	},
+	"keywords": [
+		"social-media",
+		"social",
+		"memories",
+		"diary",
+		"digital-diary"
+	],
 	"dependencies": {
 		"@clerk/clerk-react": "^5.12.0",
 		"@emotion/react": "^11.13.3",
@@ -24,7 +39,6 @@
 		"@mui/lab": "^6.0.0-beta.12",
 		"@mui/material": "^6.1.4",
 		"@reduxjs/toolkit": "^2.3.0",
-		"@tabler/icons-react": "^3.19.0",
 		"axios": "^1.7.7",
 		"moment": "^2.30.1",
 		"react": "^19.0.0-rc-fb9a90fa48-20240614",
@@ -33,15 +47,15 @@
 		"react-router-dom": "^6.27.0"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.12.0",
+		"@eslint/js": "^9.13.0",
 		"@types/eslint__js": "^8.42.3",
 		"@types/eslint-config-prettier": "^6.11.3",
 		"@vitejs/plugin-react-swc": "^3.7.1",
-		"eslint": "^9.12.0",
+		"eslint": "^9.13.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-react": "^7.37.1",
 		"eslint-plugin-react-hooks": "^5.1.0-rc-fb9a90fa48-20240614",
-		"eslint-plugin-react-refresh": "^0.4.12",
+		"eslint-plugin-react-refresh": "^0.4.13",
 		"globals": "^15.11.0",
 		"prettier": "^3.3.3",
 		"vite": "^6.0.0-beta.3"
