@@ -10,12 +10,12 @@ const RATE_LIMIT = 1000
 const RATE_LIMIT_WINDOW = 1000 * 60 // 1 minute in milliseconds
 
 new Elysia()
-	// .use(
-	// 	rateLimit({
-	// 		max: RATE_LIMIT,
-	// 		duration: RATE_LIMIT_WINDOW,
-	// 	})
-	// )
+	.use(
+		rateLimit({
+			max: RATE_LIMIT,
+			duration: RATE_LIMIT_WINDOW,
+		})
+	)
 	.use(
 		// Create a cron job to ping the server every 14 minutes
 		cron({
@@ -55,4 +55,4 @@ new Elysia()
 	.use(reactionRoutes)
 	.use(commentRoutes)
 	.use(tagRoutes)
-	.listen(port, () => console.log(`🦊 Elysia is running at http://localhost:${port}`))
+	.listen(port, () => console.info(`%c🦊 Elysia is running at http://localhost:${port}`))

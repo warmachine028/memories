@@ -45,7 +45,6 @@ export const getPostById = async ({ params: { id }, userId: currentUserId }: Req
 }
 
 export const createPost = async ({ body, userId }: RequestParams) => {
-	console.log(userId, body)
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}

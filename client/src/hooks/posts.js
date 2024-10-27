@@ -39,7 +39,6 @@ export const useCreatePost = () => {
 			await queryClient.cancelQueries({ queryKey: ['posts'] })
 			const previousData = queryClient.getQueryData(['posts'])
 
-			console.log(newPost)
 			const optimisticPost = {
 				...newPost,
 				imageUrl: newPost.media,
@@ -52,7 +51,6 @@ export const useCreatePost = () => {
 				},
 				reactionCount: 0
 			}
-			console.log(optimisticPost)
 			const updatedPages = [
 				{
 					posts: [optimisticPost],
@@ -72,7 +70,7 @@ export const useCreatePost = () => {
 		onError: (_err, _newPost, context) => {
 			const previousPages = context?.previousData?.pages ?? []
 			queryClient.setQueryData(['posts'], context?.previousData)
-			setOptimisticPages(previousPages)
+			setPages(previousPages)
 		},
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})
@@ -80,32 +78,31 @@ export const useCreatePost = () => {
 
 export const useUpdatePost = () => {
 	const queryClient = useQueryClient()
-	const { optimisticPages, setOptimisticPages } = useStore()
+	const { pages, setPages } = useStore()
 
 	return useMutation({
-		mutationFn: updatePost,
+		mutationFn: (post) => updatePost(post.id, post),
 		onMutate: async (updatedPost) => {
 			await queryClient.cancelQueries({ queryKey: ['posts'] })
 			const previousData = queryClient.getQueryData(['posts'])
 
 			// Update both states
-			const newPages = optimisticPages.map((page) => ({
+			const newPages = pages.map((page) => ({
 				...page,
 				posts: page.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post))
 			}))
-
 			queryClient.setQueryData(['posts'], (old) => ({
 				...(old ?? { pageParams: [] }),
 				pages: newPages
 			}))
-			setOptimisticPages(newPages)
+			setPages(newPages)
 
 			return { previousData }
 		},
 		onError: (_err, _updatedPost, context) => {
 			const previousPages = context?.previousData?.pages ?? []
 			queryClient.setQueryData(['posts'], context?.previousData)
-			setOptimisticPages(previousPages)
+			setPages(previousPages)
 		},
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})
@@ -149,17 +146,15 @@ export const useSearchPosts = () => {
 
 export const useRefresh = () => {
 	const queryClient = useQueryClient()
-	const { setOptimisticPages } = useStore()
+	const { setPages } = useStore()
 	const [refreshing, setRefreshing] = useState(false)
 
 	return {
 		refresh: async () => {
 			try {
 				setRefreshing(true)
-				// Reset the optimistic state first
-				setOptimisticPages([])
+				setPages([])
 
-				// Reset and refetch the posts query
 				await queryClient.resetQueries({ queryKey: ['posts'] })
 
 				return true
