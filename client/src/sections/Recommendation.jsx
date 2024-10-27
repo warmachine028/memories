@@ -1,18 +1,10 @@
-import { Paper } from '@mui/material'
+import { Card, CardHeader } from '@mui/material'
 
 const Recommendation = () => {
 	return (
-		<Paper
-			sx={{
-				width: '100%',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				minHeight: '400px'
-			}}
-		>
-			Recommendation
-		</Paper>
+		<Card sx={{ width: '100%' }} elevation={3}>
+			<CardHeader title="Recommendation" />
+		</Card>
 	)
 }
 
