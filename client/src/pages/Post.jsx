@@ -34,23 +34,21 @@ const users = [
 
 const PostCard = () => {
 	const { id } = useParams()
-	const { data: post } = useGetPost(id)
+	const { data: post, isLoading, error } = useGetPost(id)
+	const navigate = useNavigate()
 	const [shareDialogOpen, setShareDialogOpen] = useState(false)
 	const handleShareClick = () => {
 		setShareDialogOpen(true)
 	}
 
-	if (!post) {
+	if (isLoading) {
 		return <PostSkeleton />
 	}
-	const reactions = {
-		like: post.reactions.filter((r) => r.reactionType === 'LIKE').length,
-		love: post.reactions.filter((r) => r.reactionType === 'LOVE').length,
-		haha: post.reactions.filter((r) => r.reactionType === 'HAHA').length,
-		sad: post.reactions.filter((r) => r.reactionType === 'SAD').length,
-		wow: post.reactions.filter((r) => r.reactionType === 'WOW').length,
-		angry: post.reactions.filter((r) => r.reactionType === 'ANGRY').length
+	if (error?.message === 'API Error: Post not found') {
+		navigate('/not-found')
 	}
+
+
 	return (
 		<Card elevation={3}>
 			<CardMedia component="img" image={post.imageUrl} alt="Post cover" />
@@ -82,13 +80,7 @@ const PostCard = () => {
 					<AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 40, height: 40, fontSize: '1rem' } }}>
 						{users.map((user) => (
 							<Tooltip key={user.id} title={user.name} arrow>
-								<Avatar
-									component={Link}
-									to={`/user/${user.id}`}
-									alt={user.name}
-									src={user.avatar}
-									sx={{ transition: 'transform 0.2s, z-index 0.2s', '&:hover': { transform: 'scale(1.2)', zIndex: 10 } }}
-								/>
+								<Avatar component={Link} to={`/user/${user.id}`} alt={user.name} src={user.avatar} sx={{ transition: 'transform 0.2s, z-index 0.2s', '&:hover': { transform: 'scale(1.2)', zIndex: 10 } }} />
 							</Tooltip>
 						))}
 					</AvatarGroup>
