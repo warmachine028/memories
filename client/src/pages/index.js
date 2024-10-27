@@ -1,4 +1,4 @@
-export { default as Post } from './Post'
+export { default as PostCard } from './Post'
 export { default as Posts } from './Posts'
 export { default as LogIn } from './LogIn'
 export { default as SignUp } from './SignUp'

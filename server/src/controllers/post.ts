@@ -31,8 +31,8 @@ export const getPostById = async ({ params: { id }, userId: currentUserId }: Req
 		},
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
-			tags: { include: { tag: { select: { name: true } } } },
-			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
+			tags: { select: { tag: { select: { name: true } } } },
+			reactions: true,
 		},
 	})
 
