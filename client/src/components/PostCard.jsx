@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, InputAdornment, Input, Tooltip } from '@mui/material'
-import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh } from '@mui/icons-material'
+import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility } from '@mui/icons-material'
 import { UserAvatar } from '.'
 import moment from 'moment'
 import { getThumbnail, convertToBase64 } from '@/lib/utils'
@@ -65,6 +65,8 @@ const PostCard = ({ post }) => {
 
 		if (name === 'title' && value.length > 30) {
 			setErrors({ ...errors, title: 'Title must be less than 30 characters' })
+		} else if (name === 'visibility') {
+			setEditedPost({ ...editedPost, visibility: value === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC' })
 		} else if (name === 'description' && value.length > 150) {
 			setErrors({ ...errors, description: 'Description must be less than 150 characters' })
 		} else if (name === 'media' && files && files[0]) {
@@ -133,10 +135,7 @@ const PostCard = ({ post }) => {
 				error={Boolean(errors.tags)}
 				name="tags"
 				slotProps={{
-					input: {
-						...params.InputProps,
-						type: 'search'
-					}
+					input: { ...params.InputProps, type: 'search' }
 				}}
 			/>
 		)
@@ -190,9 +189,26 @@ const PostCard = ({ post }) => {
 				/>
 				<Input id="image-upload" type="file" accept="image/*" sx={{ display: 'none' }} onChange={handleChange} name="media" />
 				<CardHeader
-					avatar={<UserAvatar onClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />}
-					title={post.author.fullName}
-					subheader={moment(post.createdAt).format('Do MMM YYYY \\at h:mm a')}
+					avatar={
+						editing ? (
+							<Tooltip title={editedPost.visibility} arrow>
+								<IconButton aria-label="visibility" component="label" sx={{ color: 'white' }}>
+									<Input //
+										type="checkbox"
+										onChange={handleChange}
+										sx={{ display: 'none' }}
+										value={editedPost.visibility}
+										name="visibility"
+									/>
+									{editedPost.visibility === 'PUBLIC' ? <Visibility /> : <VisibilityOff />}
+								</IconButton>
+							</Tooltip>
+						) : (
+							<UserAvatar onClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />
+						)
+					}
+					title={!editing && post.author.fullName}
+					subheader={!editing && moment(post.createdAt).format('Do MMM YYYY \\at h:mm a')}
 					sx={{
 						position: 'absolute',
 						top: 0,
@@ -205,7 +221,7 @@ const PostCard = ({ post }) => {
 					}}
 					action={
 						user?.id === post.authorId && (
-							<IconButton aria-label="edit" onClick={() => setEditing(!editing)}>
+							<IconButton aria-label="edit" onClick={() => setEditing(!editing)} sx={{ color: 'white' }}>
 								{editing ? <Cancel /> : <Edit />}
 							</IconButton>
 						)
