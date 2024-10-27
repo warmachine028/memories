@@ -106,7 +106,7 @@ const PostCard = ({ post }) => {
 					</CardContent>
 				</CardActionArea>
 				<CardHeader
-					avatar={<UserAvatar handleClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />}
+					avatar={<UserAvatar onClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />}
 					title={post.author.fullName}
 					subheader={moment(post.createdAt).format('Do MMM YYYY \\at h:mm a')}
 					sx={{

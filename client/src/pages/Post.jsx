@@ -1,11 +1,12 @@
-import { CardMedia, Container, Grid2 as Grid } from '@mui/material'
+import { AvatarGroup, Button, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid2 as Grid, TextField, Tooltip } from '@mui/material'
 import { CommentSection, RecommendationSection } from '@/sections'
-import { EmojiEmotionsOutlined, FavoriteBorder, MoodOutlined, SentimentDissatisfiedOutlined, SentimentVeryDissatisfiedOutlined, ThumbUpOutlined } from '@mui/icons-material'
+import { ContentCopy, EmojiEmotionsOutlined, Facebook, FavoriteBorder, FavoriteOutlined, LinkedIn, MoodOutlined, SentimentDissatisfiedOutlined, SentimentVeryDissatisfiedOutlined, Share, ThumbUpOutlined, Twitter, WhatsApp, X } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, Divider, IconButton, Stack, Typography } from '@mui/material'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PostSkeleton } from '@/components'
 import { useGetPost } from '@/hooks'
 import moment from 'moment'
+import { useState } from 'react'
 
 const AuthorInfo = ({ author, timestamp }) => (
 	<Stack direction="row">
@@ -22,9 +23,22 @@ const AuthorInfo = ({ author, timestamp }) => (
 	</Stack>
 )
 
+const users = [
+	{ id: 1, name: 'John Doe', avatar: 'https://picsum.photos/seed/1/200' },
+	{ id: 2, name: 'Jane Smith', avatar: 'https://picsum.photos/seed/2/200' },
+	{ id: 3, name: 'Bob Johnson', avatar: 'https://picsum.photos/seed/3/200' },
+	{ id: 4, name: 'Alice Brown', avatar: 'https://picsum.photos/seed/4/200' },
+	{ id: 5, name: 'Charlie Davis', avatar: 'https://picsum.photos/seed/5/200' },
+	{ id: 6, name: 'Eva Wilson', avatar: 'https://picsum.photos/seed/6/200' }
+]
+
 const PostCard = () => {
 	const { id } = useParams()
 	const { data: post } = useGetPost(id)
+	const [shareDialogOpen, setShareDialogOpen] = useState(false)
+	const handleShareClick = () => {
+		setShareDialogOpen(true)
+	}
 
 	if (!post) {
 		return <PostSkeleton />
@@ -40,11 +54,10 @@ const PostCard = () => {
 	return (
 		<Card elevation={3}>
 			<CardMedia component="img" image={post.imageUrl} alt="Post cover" />
-
 			<CardHeader avatar={<AuthorInfo author={post.author} timestamp={post.createdAt} />} />
 			<Divider />
 			<CardContent>
-				<Typography variant="h4" gutterBottom fontWeight="bold" color="primary">
+				<Typography variant="h4" gutterBottom fontWeight="bold">
 					{post.title}
 				</Typography>
 				<Box mb={2}>
@@ -58,47 +71,81 @@ const PostCard = () => {
 			</CardContent>
 			<Divider />
 			<CardActions>
-				<IconButton>
-					<ThumbUpOutlined sx={{ color: '#2196f3', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.like}
-					</Typography>
+				<IconButton color="primary">
+					<FavoriteOutlined color="error" />
 				</IconButton>
-				<IconButton>
-					<FavoriteBorder sx={{ color: '#e91e63', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.love}
-					</Typography>
+				<IconButton onClick={handleShareClick} color="primary">
+					<Share />
 				</IconButton>
-				<IconButton>
-					<EmojiEmotionsOutlined sx={{ color: '#ffc107', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.haha}
-					</Typography>
-				</IconButton>
-				<IconButton>
-					<SentimentVeryDissatisfiedOutlined sx={{ color: '#607d8b', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.sad}
-					</Typography>
-				</IconButton>
-				<IconButton>
-					<MoodOutlined sx={{ color: '#4caf50', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.wow}
-					</Typography>
-				</IconButton>
-				<IconButton>
-					<SentimentDissatisfiedOutlined sx={{ color: '#ff5722', mr: 1 }} />
-					<Typography variant="body2" color="textSecondary">
-						{reactions.angry}
-					</Typography>
-				</IconButton>
+
+				<Stack direction="row" alignItems="center" spacing={1} flexGrow={1} justifyContent="flex-end">
+					<AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 40, height: 40, fontSize: '1rem' } }}>
+						{users.map((user) => (
+							<Tooltip key={user.id} title={user.name} arrow>
+								<Avatar
+									//
+									alt={user.name}
+									src={user.avatar}
+									sx={{ transition: 'transform 0.2s, z-index 0.2s', '&:hover': { transform: 'scale(1.2)', zIndex: 10 } }}
+								/>
+							</Tooltip>
+						))}
+					</AvatarGroup>
+				</Stack>
 			</CardActions>
+			<ShareDialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} url={window.location.href} />
 		</Card>
 	)
 }
+const ShareDialog = ({ open, onClose, url }) => {
+	const handleCopy = () => navigator.clipboard.writeText(url).then(() => {})
+	const navigate = useNavigate()
+	const shareUrls = {
+		facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+		twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
+		linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`,
+		whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`
+	}
 
+	return (
+		<Dialog open={open} onClose={onClose} aria-labelledby="share-dialog-title" fullWidth PaperProps={{ elevation: 1 }}>
+			<DialogTitle id="share-dialog-title">Share this post</DialogTitle>
+			<DialogContent>
+				<Stack direction="row" spacing={2}>
+					<IconButton onClick={() => window.open(shareUrls.facebook, '_blank')} aria-label="Share on Facebook">
+						<Facebook color="primary" />
+					</IconButton>
+					<IconButton onClick={() => window.open(shareUrls.twitter, '_blank')} aria-label="Share on Twitter">
+						<X />
+					</IconButton>
+					<IconButton onClick={() => window.open(shareUrls.linkedin, '_blank')} aria-label="Share on LinkedIn">
+						<LinkedIn color="info" />
+					</IconButton>
+					<IconButton onClick={() => window.open(shareUrls.whatsapp, '_blank')} aria-label="Share on WhatsApp">
+						<WhatsApp color="success" />
+					</IconButton>
+				</Stack>
+				<TextField
+					fullWidth
+					value={url}
+					slotProps={{
+						input: {
+							readOnly: true,
+							endAdornment: (
+								<IconButton onClick={handleCopy} aria-label="Copy link">
+									<ContentCopy />
+								</IconButton>
+							)
+						}
+					}}
+				/>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={onClose}>Close</Button>
+			</DialogActions>
+		</Dialog>
+	)
+}
 const Post = () => {
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, mb: 10 }} maxWidth="xl">

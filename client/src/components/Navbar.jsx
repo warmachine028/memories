@@ -183,14 +183,14 @@ const Navbar = () => {
 						<Branding />
 						<Stack direction="row" alignItems="center" spacing={2}>
 							{isMobile ? (
-								<IconButton size="large" aria-label="menu" onClick={() => setSearchOpen(true)} color="inherit" edge="end">
+								<IconButton size="large" aria-label="menu" onClick={() => setSearchOpen(true)} edge="end">
 									<Search />
 								</IconButton>
 							) : (
 								<SearchBar onFocus={() => setSearchOpen(true)} />
 							)}
 							{isMobile ? (
-								<IconButton size="large" aria-label="menu" onClick={handleOpen} color="inherit" edge="end">
+								<IconButton size="large" aria-label="menu" onClick={handleOpen} edge="end">
 									<Menu />
 								</IconButton>
 							) : (

@@ -1,6 +1,6 @@
 import { Avatar, IconButton, Tooltip } from '@mui/material'
 
-const UserAvatar = ({ handleClick, user, tooltipText, disableHover, size }) => {
+const UserAvatar = ({ onClick: handleClick, user, tooltipText, disableHover, size }) => {
 	return (
 		<Tooltip title={tooltipText} arrow>
 			<IconButton onClick={handleClick} sx={{ p: 0 }}>

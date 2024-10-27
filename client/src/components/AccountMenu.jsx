@@ -141,7 +141,7 @@ const AccountMenu = () => {
 	}
 	return (
 		<>
-			<UserAvatar handleClick={handleClick} open={open} user={user} />
+			<UserAvatar onClick={handleClick} open={open} user={user} />
 			<Menu
 				anchorEl={anchorEl}
 				id="account-menu"
