@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack, useTheme, useMediaQuery, Dialog, DialogContent, TextField, Autocomplete, InputAdornment, Paper } from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack, useTheme, useMediaQuery, Dialog, DialogContent, TextField, Autocomplete, InputAdornment, Paper, Divider, Avatar } from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
-import { Menu, Search, LoginOutlined } from '@mui/icons-material'
+import { Menu, Search, LoginOutlined, GitHub } from '@mui/icons-material'
 import { AccountMenu, ThemeSwitch, Sidebar } from '@/components'
 import { brand } from '@/assets'
 
@@ -197,6 +197,12 @@ const Navbar = () => {
 								<Stack direction="row" spacing={2} alignItems="center">
 									<LoggedOutOptions />
 									<AccountMenu />
+									<Divider orientation="vertical" flexItem />
+									<Link to="https://github.com/warmachine028/memories" target="_blank" rel="noopener noreferrer">
+										<Avatar sx={{ bgcolor: 'primary.main' }}>
+											<GitHub />
+										</Avatar>
+									</Link>
 								</Stack>
 							)}
 						</Stack>

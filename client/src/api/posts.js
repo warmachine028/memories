@@ -1,60 +1,109 @@
+import { sleep } from '@/lib/utils'
 import axios from 'axios'
-import { useAuth } from '@clerk/clerk-react'
-import { useStore } from '@/store'
 
-const createApi = (getToken, isLoaded) => {
-	const api = axios.create({
-		baseURL: import.meta.env.VITE_API_URL
-	})
+const baseURL = import.meta.env.VITE_API_URL
+const api = axios.create({ baseURL })
 
-	api.interceptors.request.use(async (config) => {
-		if (!isLoaded) {
-			throw new Error('Authentication is still loading')
+api.interceptors.request.use(async (req) => {
+	try {
+		const session = await window.Clerk.session
+		if (!session) {
+			// not logged in
+			return req
 		}
-		const token = await getToken()
+		const token = await session.getToken()
 		if (token) {
-			config.headers.Authorization = `Bearer ${token}`
+			req.headers.Authorization = `Bearer ${token}`
 		}
-		return config
-	})
+	} catch (error) {
+		console.error('Auth interceptor error:', error)
+	} finally {
+		return req
+	}
+})
 
-	api.interceptors.response.use(
-		(response) => response,
-		(error) => {
-			const openSnackbar = useStore.getState().openSnackbar
-			openSnackbar(error.response?.data?.message || 'An error occurred', 'error')
-			return Promise.reject(error)
-		}
-	)
-
-	return api
+const handleApiError = (error) => {
+	if (axios.isAxiosError(error)) {
+		const message = error.response?.data?.message || error.message
+		console.error('API Error:', {
+			status: error.response?.status,
+			message,
+			details: error.response?.data
+		})
+		throw new Error(`API Error: ${message}`)
+	}
+	console.error('Unexpected error:', error)
+	throw error
 }
 
-export const useApi = () => {
-	const { getToken, isLoaded } = useAuth()
-	const api = createApi(getToken, isLoaded)
-
-	const makeRequest = async (requestFn) => {
-		if (!isLoaded) {
-			throw new Error('Authentication is still loading')
-		}
-		try {
-			return await requestFn()
-		} catch (error) {
-			console.error('API Error:', error)
-			throw error
-		}
+export const getPosts = async (cursor, limit) => {
+	try {
+		const { data } = await api.get('/posts', { params: { cursor, limit } })
+		return data
+	} catch (error) {
+		throw handleApiError(error)
 	}
+}
 
-	return {
-		getPosts: ({ cursor, limit }) => makeRequest(() => api.get('/posts', { params: { cursor, limit } }).then((response) => response.data)),
+export const searchPosts = async (query) => {
+	try {
+		const { data } = await api.get('/posts/search', { params: { query } })
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
 
-		getPostById: (id) => makeRequest(() => api.get(`/posts/${id}`).then((response) => response.data)),
+export const getPost = async (id) => {
+	try {
+		const { data } = await api.get(`/posts/${id}`)
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
 
-		createPost: (post) => makeRequest(() => api.post('/posts', post).then((response) => response.data)),
+export const createPost = async (post) => {
+	try {
+		await sleep(4000)
+		// const { data } = await api.post('/posts', post)
+		const data = post
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
 
-		updatePost: ({ id, ...post }) => makeRequest(() => api.patch(`/posts/${id}`, post).then((response) => response.data)),
+export const updatePost = async (id, post) => {
+	try {
+		const { data } = await api.put(`/posts/${id}`, post)
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
 
-		deletePost: (id) => makeRequest(() => api.delete(`/posts/${id}`).then(() => id))
+export const deletePost = async (id) => {
+	try {
+		await api.delete(`/posts/${id}`)
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
+
+export const reactPost = async (id, reaction) => {
+	try {
+		const { data } = await api.post(`/posts/${id}/react`, reaction)
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
+
+export const unreactPost = async (id) => {
+	try {
+		await api.delete(`/posts/${id}/react`)
+	} catch (error) {
+		throw handleApiError(error)
 	}
 }

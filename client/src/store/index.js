@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 export const useStore = create(
 	persist(
 		(set, get) => ({
+			// Posts state and actions
 			posts: [],
 			setPosts: (posts) => set({ posts }),
 			addPost: (post) => set((state) => ({ posts: [post, ...state.posts] })),
@@ -16,6 +17,7 @@ export const useStore = create(
 					posts: state.posts.filter((post) => post.id !== id)
 				})),
 
+			// Theme state and actions
 			theme: 'system',
 			setTheme: (theme) => set({ theme }),
 			actualTheme: 'dark',
@@ -38,11 +40,19 @@ export const useStore = create(
 				severity: 'info'
 			},
 			openSnackbar: (message, severity = 'info') => set({ snackbar: { open: true, message, severity } }),
-			closeSnackbar: () => set((state) => ({ snackbar: { ...state.snackbar, open: false } }))
+			closeSnackbar: () => set((state) => ({ snackbar: { ...state.snackbar, open: false } })),
+
+			// Pages state and actions
+			pages: [],
+			setPages: (pages) => set({ pages })
 		}),
 		{
 			name: 'app-storage',
-			partialize: (state) => ({ theme: state.theme })
+			// Only persist theme-related state
+			partialize: (state) => ({
+				theme: state.theme,
+				actualTheme: state.actualTheme
+			})
 		}
 	)
 )

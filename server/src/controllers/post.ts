@@ -19,7 +19,7 @@ export const getPosts = async ({ query: { cursor, limit }, userId: currentUserId
 		cursor: cursor ? { id: cursor } : undefined,
 	})
 	const nextCursor = posts.length > limit ? posts[limit].id : undefined
-	return { posts: posts.slice(0, limit), nextCursor }
+	return { posts: posts.slice(0, limit), nextCursor, total: await prisma.post.count() }
 }
 
 export const getPostById = async ({ params: { id }, userId: currentUserId }: RequestParams) => {

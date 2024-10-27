@@ -1,19 +1,58 @@
-import { Container, Grid2 as Grid } from '@mui/material'
+import { Box, Container, Grid2 as Grid } from '@mui/material'
 import { PostCard, SearchForm, CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
-import { Fragment, useEffect, useCallback } from 'react'
-import { useGetPosts, useCreatePost, useDeletePost } from '@/hooks'
-import { useAuth } from '@clerk/clerk-react'
+import { useEffect } from 'react'
+import { useGetPosts } from '@/hooks'
 import { useInView } from 'react-intersection-observer'
-import { useQueryClient } from '@tanstack/react-query'
+import { useStore } from '@/store'
+
+const PostGrid = () => {
+	const { ref, inView } = useInView()
+	const { pages } = useStore()
+	const { fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGetPosts()
+	const allPosts = pages.flatMap((page) => page.posts)
+
+	useEffect(() => {
+		if (inView && hasNextPage) {
+			fetchNextPage()
+		}
+	}, [inView, hasNextPage, fetchNextPage])
+
+	if (status === 'pending') {
+		return Array.from({ length: 6 }).map((_, i) => (
+			<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={i}>
+				<PostCardSkeleton />
+			</Grid>
+		))
+	}
+	if (status === 'error') {
+		return <Grid xs={12}>Error loading posts: {status}</Grid>
+	}
+	return (
+		<>
+			{allPosts.map((post) => (
+				<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={post.id}>
+					<PostCard post={post} />
+				</Grid>
+			))}
+
+			{isFetchingNextPage && (
+				<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
+					<PostCardSkeleton />
+				</Grid>
+			)}
+			<Box ref={ref} height="10px" />
+		</>
+	)
+}
 
 const Posts = () => {
 	return (
-		<Container sx={{ py: { xs: 2, md: 4 }, mb: 10 }} maxWidth="xl">
+		<Container sx={{ py: { xs: 2, md: 4 }, height: '100vh' }} maxWidth="xl">
 			<Grid container spacing={3}>
-				<Grid container size={{ xs: 12, md: 8, xl: 9 }} height={1}>
+				<Grid container size={{ xs: 12, md: 8, xl: 9 }} overflow="auto" height={'calc(100vh - 150px)'} sx={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
 					<PostGrid />
 				</Grid>
-				<Grid container size={{ xs: 12, md: 4, xl: 3 }} position="sticky" height={1} top={95} sx={{ display: { xs: 'none', md: 'flex' } }}>
+				<Grid container size={{ xs: 12, md: 4, xl: 3 }} height={1} top={95} sx={{ display: { xs: 'none', md: 'flex' } }}>
 					<Grid size={{ xs: 12 }}>
 						<CreatePostForm />
 					</Grid>
@@ -24,49 +63,6 @@ const Posts = () => {
 			</Grid>
 			<Bottombar />
 		</Container>
-	)
-}
-
-const PostGrid = () => {
-	const { isLoaded } = useAuth()
-	const { data, isLoading, isFetching, fetchNextPage, hasNextPage, error } = useGetPosts(null, 9)
-	const { ref, inView } = useInView({ threshold: 0 })
-
-	useEffect(() => {
-		if (inView && hasNextPage) {
-			fetchNextPage()
-		}
-	}, [inView, fetchNextPage, hasNextPage])
-
-	if (!isLoaded || isLoading) {
-		return Array.from({ length: 6 }).map((_, i) => (
-			<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={i}>
-				<PostCardSkeleton />
-			</Grid>
-		))
-	}
-
-	if (error) {
-		return <Grid xs={12}>Error loading posts: {error.message}</Grid>
-	}
-
-	return (
-		<>
-			{data?.pages.map((page, i) => (
-				<Fragment key={i}>
-					{page.posts.map((post) => (
-						<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={post.id}>
-							<PostCard post={post} />
-						</Grid>
-					))}
-				</Fragment>
-			))}
-			{(isFetching || hasNextPage) && (
-				<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} ref={ref}>
-					<PostCardSkeleton />
-				</Grid>
-			)}
-		</>
 	)
 }
 

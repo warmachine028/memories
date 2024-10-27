@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import { AuthenticateWithRedirectCallback } from '@clerk/clerk-react'
+import { AuthenticateWithRedirectCallback, useAuth } from '@clerk/clerk-react'
 const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Post } = {
 	Posts: lazy(() => import('@/pages/Posts')),
 	LogIn: lazy(() => import('@/pages/LogIn')),
@@ -15,6 +15,10 @@ import { SuspenseFallback } from '.'
 
 const AppRouter = () => {
 	const location = useLocation()
+	const { isLoaded } = useAuth()
+	if (!isLoaded) {
+		return <SuspenseFallback />
+	}
 	return (
 		<Suspense fallback={<SuspenseFallback />}>
 			<Routes location={location}>

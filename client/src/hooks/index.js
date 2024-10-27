@@ -1,120 +1,233 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ThemeContext } from '@/contexts'
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
+import { createPost, deletePost, getPosts, searchPosts, unreactPost, updatePost } from '@/api'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useStore } from '@/store'
-import { useApi } from '@/api/posts'
-import { useAuth } from '@clerk/clerk-react'
+import { useUser } from '@clerk/clerk-react'
+
 
 export const useTheme = () => {
 	const context = useContext(ThemeContext)
+
 	if (context === undefined) {
 		throw new Error('useTheme must be used within a ThemeProvider')
 	}
+
 	return context
 }
 
-export const useGetPosts = (initialCursor, limit) => {
-	const setPosts = useStore((state) => state.setPosts)
-	const api = useApi()
-	const { isLoaded } = useAuth()
+export const useGetPosts = () => {
+	const { setPages } = useStore()
 
-	return useInfiniteQuery({
+	const query = useInfiniteQuery({
 		queryKey: ['posts'],
-		queryFn: ({ pageParam = initialCursor }) => api.getPosts({ cursor: pageParam, limit }),
+		queryFn: ({ pageParam }) => getPosts(pageParam, 10),
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
-		onSuccess: (data) => {
-			const allPosts = data.pages.flatMap((page) => page.posts)
-			setPosts(allPosts)
-		},
-		enabled: isLoaded
 	})
-}
 
-export const useGetPostById = (id) => {
-	const api = useApi()
-	const { isLoaded } = useAuth()
+	useEffect(() => {
+		if (query.data?.pages) {
+			setPages(query.data.pages)
+		}
+	}, [query.data?.pages, setPages])
 
-	return useQuery({
-		queryKey: ['post', id],
-		queryFn: () => api.getPostById(id),
-		enabled: isLoaded && !!id
-	})
+	return query
 }
 
 export const useCreatePost = () => {
 	const queryClient = useQueryClient()
-	const addPost = useStore((state) => state.addPost)
-	const api = useApi()
-
+	const { pages, setPages } = useStore()
+	const { user } = useUser()
 	return useMutation({
-		mutationFn: api.createPost,
+		mutationFn: createPost,
 		onMutate: async (newPost) => {
-			await queryClient.cancelQueries(['posts'])
-			const previousPosts = queryClient.getQueryData(['posts'])
-			const tempId = 'temp_' + new Date().getTime()
-			addPost({ ...newPost, id: tempId })
-			return { previousPosts, tempId }
-		},
-		onSuccess: (data, variables, context) => {
-			queryClient.setQueryData(['posts'], (old) => {
-				if (!old) return { pages: [{ posts: [data] }], pageParams: [null] }
-				return {
-					...old,
-					pages: old.pages.map((page) => ({
-						...page,
-						posts: page.posts.map((post) => (post.id === context.tempId ? data : post))
-					}))
-				}
-			})
-		},
-		onError: (err, newPost, context) => {
-			queryClient.setQueryData(['posts'], context.previousPosts)
-		},
-		onSettled: () => {
-			queryClient.invalidateQueries(['posts'])
-		}
-	})
-}
+			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			const previousData = queryClient.getQueryData(['posts'])
 
-export const useDeletePost = () => {
-	const queryClient = useQueryClient()
-	const removePost = useStore((state) => state.removePost)
-	const api = useApi()
-	return useMutation({
-		mutationFn: api.deletePost,
-		onMutate: async (id) => {
-			await queryClient.cancelQueries(['posts'])
-			const previousPosts = queryClient.getQueryData(['posts'])
-			removePost(id)
-			return { previousPosts }
+			console.log(newPost)
+			const optimisticPost = {
+				...newPost,
+				imageUrl: newPost.media,
+				id: Date.now(),
+				tags: newPost.tags.map((tag) => ({ tag: { name: tag } })),
+				reactions: [],
+				author: {
+					fullName: user.fullName,
+					imageUrl: user.imageUrl
+				},
+				reactionCount: 0
+			}
+			console.log(optimisticPost)
+			const updatedPages = [
+				{
+					posts: [optimisticPost],
+					nextCursor: pages[0]?.nextCursor
+				},
+				...pages
+			]
+
+			queryClient.setQueryData(['posts'], (old) => ({
+				...(old ?? { pageParams: [] }),
+				pages: updatedPages
+			}))
+			setPages(updatedPages)
+
+			return { previousData }
 		},
-		onError: (err, id, context) => {
-			queryClient.setQueryData(['posts'], context.previousPosts)
+		onError: (_err, _newPost, context) => {
+			const previousPages = (context?.previousData)?.pages ?? []
+			queryClient.setQueryData(['posts'], context?.previousData)
+			setOptimisticPages(previousPages)
 		},
-		onSettled: () => {
-			queryClient.invalidateQueries(['posts'])
-		}
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})
 }
 
 export const useUpdatePost = () => {
 	const queryClient = useQueryClient()
-	const updatePost = useStore((state) => state.updatePost)
-	const api = useApi()
+	const { optimisticPages, setOptimisticPages } = useStore()
 
 	return useMutation({
-		mutationFn: api.updatePost,
+		mutationFn: updatePost,
 		onMutate: async (updatedPost) => {
-			await queryClient.cancelQueries(['posts'])
-			const previousPosts = queryClient.getQueryData(['posts'])
-			updatePost(updatedPost)
-			return { previousPosts }
+			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			const previousData = queryClient.getQueryData(['posts'])
+
+			// Update both states
+			const newPages = optimisticPages.map((page) => ({
+				...page,
+				posts: page.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post))
+			}))
+
+			queryClient.setQueryData(['posts'], (old) => ({
+				...(old ?? { pageParams: [] }),
+				pages: newPages
+			}))
+			setOptimisticPages(newPages)
+
+			return { previousData }
 		},
-		onError: (err, updatedPost, context) => {
-			queryClient.setQueryData(['posts'], context.previousPosts)
+		onError: (_err, _updatedPost, context) => {
+			const previousPages = (context?.previousData)?.pages ?? []
+			queryClient.setQueryData(['posts'], context?.previousData)
+			setOptimisticPages(previousPages)
 		},
-		onSettled: () => {
-			queryClient.invalidateQueries(['posts'])
-		}
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+	})
+}
+
+export const useDeletePost = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation({
+		mutationFn: deletePost,
+		onMutate: async (postId) => {
+			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			const previousData = queryClient.getQueryData(['posts'])
+
+			queryClient.setQueryData(['posts'], (old) => {
+				if (!old) {
+					return { pages: [], pageParams: [] }
+				}
+				return {
+					...old,
+					pages: old.pages.map((page) => ({
+						...page,
+						posts: page.posts.filter((post) => post.id !== postId)
+					}))
+				}
+			})
+
+			return { previousData }
+		},
+		onError: (_err, _postId, context) => queryClient.setQueryData(['posts'], context?.previousData),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+	})
+}
+
+export const useSearchPosts = () => {
+	return useQuery({
+		queryKey: ['searchPosts'],
+		queryFn: () => searchPosts
+	})
+}
+
+export const useRefresh = () => {
+	const queryClient = useQueryClient()
+	const { setOptimisticPages } = useStore()
+	const [refreshing, setRefreshing] = useState(false)
+
+	return {
+		refresh: async () => {
+			try {
+				setRefreshing(true)
+				// Reset the optimistic state first
+				setOptimisticPages([])
+
+				// Reset and refetch the posts query
+				await queryClient.resetQueries({ queryKey: ['posts'] })
+
+				return true
+			} catch (error) {
+				console.error('Failed to refresh:', error)
+				return false
+			} finally {
+				setRefreshing(false)
+			}
+		},
+		refreshing
+	}
+}
+
+export const useReactPost = () => {
+	const queryClient = useQueryClient()
+	const { pages, setPages } = useStore()
+
+	return useMutation({
+		mutationFn: ({ postId, type }) => updateReaction(postId, type),
+		onMutate: async ({ postId, type }) => {
+			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			const previousData = queryClient.getQueryData(['posts'])
+
+			// Update both states with optimistic update
+			const newPages = pages.map((page) => ({
+				...page,
+				posts: page.posts.map((post) => {
+					if (post.id === postId) {
+						return {
+							...post,
+							reactions: {
+								...post.reactions,
+								likes: post.reactions.likes + (type === 'like' ? 1 : 0),
+								dislikes: post.reactions.dislikes + (type === 'dislike' ? 1 : 0)
+							}
+						}
+					}
+					return post
+				})
+			}))
+
+			queryClient.setQueryData(['posts'], (old) => ({
+				...(old ?? { pageParams: [] }),
+				pages: newPages
+			}))
+			setPages(newPages)
+
+			return { previousData }
+		},
+		onError: (_err, _variables, context) => {
+			const previousPages = (context?.previousData)?.pages ?? []
+			queryClient.setQueryData(['posts'], context?.previousData)
+			setPages(previousPages)
+		},
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+	})
+}
+
+export const useUnreactPost = () => {
+	const queryClient = useQueryClient()
+	const { pages, setPages } = useStore()
+	return useMutation({
+		mutationFn: (postId) => unreactPost(postId),
 	})
 }

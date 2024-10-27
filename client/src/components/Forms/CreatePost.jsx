@@ -214,15 +214,11 @@ const Form = () => {
 }
 
 const CreatePost = () => {
-	const { isSignedIn, isLoaded } = useAuth()
+	const { isSignedIn } = useAuth()
 
 	return (
 		<Paper sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-			{!isLoaded ? (
-				<Stack p={2} spacing={2} alignItems="center">
-					<CircularProgress />
-				</Stack>
-			) : isSignedIn ? (
+			{isSignedIn ? (
 				<Form />
 			) : (
 				<Stack p={2} spacing={2} alignItems="center">

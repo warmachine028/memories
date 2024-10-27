@@ -1,6 +1,6 @@
 import { brand as logo } from '@/assets'
-import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, SwipeableDrawer, Box } from '@mui/material'
-import { Close, Dashboard, Logout, Settings } from '@mui/icons-material'
+import { Avatar, IconButton, ListItemText, ListItemIcon, ListItemButton, ListItem, List, Divider, Button, SwipeableDrawer, Box, ListItemAvatar } from '@mui/material'
+import { Close, Dashboard, GitHub, Logout, Settings } from '@mui/icons-material'
 
 import ThemeSwitch from './ThemeSwitch'
 import { Link } from 'react-router-dom'
@@ -24,24 +24,22 @@ const SideBar = ({ open, setOpen }) => {
 					</IconButton>
 				</Box>
 				{!user && (
-					<>
-						<List>
-							<ListItem>
-								<Button variant="contained" fullWidth LinkComponent={Link} to="/login" onClick={closeDrawer}>
-									LOGIN
-								</Button>
-							</ListItem>
-							<ListItem>
-								<Button variant="outlined" fullWidth LinkComponent={Link} color="secondary" to="/signup" onClick={closeDrawer}>
-									SIGN UP
-								</Button>
-							</ListItem>
-						</List>
+					<List>
+						<ListItem>
+							<Button variant="contained" fullWidth LinkComponent={Link} to="/login" onClick={closeDrawer}>
+								LOGIN
+							</Button>
+						</ListItem>
+						<ListItem>
+							<Button variant="outlined" fullWidth LinkComponent={Link} color="secondary" to="/signup" onClick={closeDrawer}>
+								SIGN UP
+							</Button>
+						</ListItem>
 						<Divider />
-					</>
+					</List>
 				)}
 				{user && (
-					<List sx={{ p: 1, height: '100vh', zIndex: 1 }}>
+					<List sx={{ p: 1, zIndex: 1 }}>
 						<ListItem>
 							<ListItemIcon>
 								<Avatar src={user.imageUrl} />
@@ -73,9 +71,9 @@ const SideBar = ({ open, setOpen }) => {
 								<Logout />
 							</ListItemIcon>
 						</ListItemButton>
+						<Divider />
 					</List>
 				)}
-				<Divider />
 				{!user && (
 					<List>
 						<ListItem>
@@ -86,6 +84,16 @@ const SideBar = ({ open, setOpen }) => {
 						</ListItem>
 					</List>
 				)}
+				<List>
+					<ListItem>
+						<ListItemAvatar>
+							<Avatar sx={{ bgcolor: 'primary.main' }} component={Link} to="https://github.com/warmachine028/memories" target="_blank" rel="noopener noreferrer">
+								<GitHub />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Memories - Github" />
+					</ListItem>
+				</List>
 			</Box>
 		</SwipeableDrawer>
 	)

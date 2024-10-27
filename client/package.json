@@ -2,10 +2,11 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "memories",
 	"scripts": {
-		"build": "vite build",
-		"dev": "bunx --bun vite --host",
-		"lint": "eslint",
-		"preview": "vite preview"
+		"dev": "bun x vite",
+		"build": "bun x vite build",
+		"lint": "eslint .",
+		"preview": "bun x vite preview",
+		"start": "bun x vite preview --host"
 	},
 	"type": "module",
 	"version": "1.0.0",

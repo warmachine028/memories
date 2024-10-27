@@ -8,3 +8,5 @@ export const convertToBase64 = (file) => {
 }
 
 export const getThumbnail = (url) => url.replace('/upload/', '/upload/q_10/')
+
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

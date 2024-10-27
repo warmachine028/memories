@@ -1,9 +1,0 @@
-{
-	"depcheck": {
-		"ignoreMatches": [
-			"prettier",
-			"@types/eslint-config-prettier",
-			"@types/eslint__js"
-		]
-	}
-}
