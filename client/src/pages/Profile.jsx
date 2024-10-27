@@ -206,7 +206,7 @@ const UserMetrics = ({ metrics }) => (
 						<MetricItem title="Private Posts" value={metrics?.privatePostsCount || 0} />
 						<MetricItem title="Likes Received" value={metrics?.likesReceived || 0} />
 						<MetricItem title="Comments Received" value={metrics?.commentsReceived || 0} />
-						<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/post/${metrics?.longestPostId}`} />
+						<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/posts/${metrics?.longestPostId}`} />
 					</Grid>
 				</ListItem>
 			</List>

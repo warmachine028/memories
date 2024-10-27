@@ -24,7 +24,7 @@ const AppRouter = () => {
 			<Routes location={location}>
 				<Route path="/" element={<Navigate to="/posts" />} />
 				<Route path="/posts" element={<Posts />} />
-				<Route path="/post/:id" element={<Post />} />
+				<Route path="/posts/:id" element={<Post />} />
 				<Route path="/user" element={<PrivateRoute component={<Profile />} />} />
 				<Route path="/user/:id" element={<Profile />} />
 				<Route path="/login" element={<AuthRoute component={<LogIn />} />} />

@@ -1,6 +1,6 @@
 import { AvatarGroup, Button, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid2 as Grid, TextField, Tooltip } from '@mui/material'
 import { CommentSection, RecommendationSection } from '@/sections'
-import { ContentCopy, EmojiEmotionsOutlined, Facebook, FavoriteBorder, FavoriteOutlined, LinkedIn, MoodOutlined, SentimentDissatisfiedOutlined, SentimentVeryDissatisfiedOutlined, Share, ThumbUpOutlined, Twitter, WhatsApp, X } from '@mui/icons-material'
+import { ContentCopy, Facebook, FavoriteOutlined, LinkedIn, Share, X, WhatsApp } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, Divider, IconButton, Stack, Typography } from '@mui/material'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PostSkeleton } from '@/components'
@@ -83,7 +83,8 @@ const PostCard = () => {
 						{users.map((user) => (
 							<Tooltip key={user.id} title={user.name} arrow>
 								<Avatar
-									//
+									component={Link}
+									to={`/user/${user.id}`}
 									alt={user.name}
 									src={user.avatar}
 									sx={{ transition: 'transform 0.2s, z-index 0.2s', '&:hover': { transform: 'scale(1.2)', zIndex: 10 } }}

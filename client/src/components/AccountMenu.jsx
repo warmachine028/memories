@@ -46,7 +46,10 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 
 const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 	const { theme, setTheme } = useTheme()
-	const handleClick = (newTheme) => setTheme(newTheme)
+	const handleClick = (newTheme) => {
+		setTheme(newTheme)
+		handleClose()
+	}
 
 	return (
 		<Menu
@@ -132,7 +135,10 @@ const AccountMenu = () => {
 	const handleClickTheme = (event) => setAnchorEl2(event.currentTarget)
 	const { user } = useUser()
 
-	const handleCloseTheme = () => setAnchorEl2(null)
+	const handleCloseTheme = () => {
+		setAnchorEl2(null)
+		handleClose()
+	}
 	if (!isLoaded) {
 		return <CircularProgress size={45} />
 	}

@@ -59,17 +59,16 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 				lastName: editedUser.lastName,
 				unsafeMetadata: { ...user.unsafeMetadata, bio: editedUser.bio }
 			})
-
 			// Update profile picture if changed
 			if (newImage) {
 				await user.setProfileImage({ file: newImage })
 			}
-			openSnackbar({ message: 'Profile successfully updated 🎊', severity: 'success' })
+			handleClose()
+			openSnackbar('Profile successfully updated 🎊', 'success')
 		} catch (error) {
 			console.error('Error updating user:', error.errors[0]?.longMessage || error.message)
-			openSnackbar({ message: error.errors[0]?.longMessage || error.message, severity: 'error' })
+			openSnackbar(error.errors[0]?.longMessage || error.message, 'error')
 		} finally {
-			handleClose()
 			setLoading(false)
 		}
 	}
@@ -90,7 +89,16 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 					<ListItem sx={{ justifyContent: 'center' }}>
 						<IconButton component="label">
 							<Input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-							<Avatar src={editedUser.imageUrl} alt={`${editedUser.firstName} ${editedUser.lastName}`} sx={{ width: 150, height: 150, transition: 'opacity 0.3s', '&:hover': { opacity: 0.7 } }} />
+							<Avatar
+								src={editedUser.imageUrl}
+								alt={`${editedUser.firstName} ${editedUser.lastName}`}
+								sx={{
+									width: 150,
+									height: 150,
+									transition: 'opacity 0.3s',
+									'&:hover': { opacity: 0.7 }
+								}}
+							/>
 							<Stack
 								position="absolute"
 								top={0}
@@ -100,6 +108,7 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 								alignItems="center"
 								justifyContent="center"
 								borderRadius="50%"
+								color="white"
 								sx={{
 									opacity: 0,
 									transition: 'opacity 0.3s',

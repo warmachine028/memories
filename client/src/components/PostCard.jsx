@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, InputAdornment, Input, Tooltip } from '@mui/material'
+import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, Input, Tooltip } from '@mui/material'
 import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility } from '@mui/icons-material'
 import { UserAvatar } from '.'
 import moment from 'moment'
@@ -146,8 +146,8 @@ const PostCard = ({ post }) => {
 			<Card
 				sx={{
 					border: (theme) => `1px solid ${theme.palette.divider}`,
-					':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` },
-					position: 'relative'
+					position: 'relative',
+					cursor: 'pointer'
 				}}
 				elevation={1}
 			>
@@ -185,7 +185,7 @@ const PostCard = ({ post }) => {
 						})
 					}}
 					image={editing ? editedPost.imageUrl : getThumbnail(post.imageUrl)}
-					onClick={() => (editing ? document.getElementById('image-upload').click() : navigate(`/post/${post.id}`))}
+					onClick={() => (editing ? document.getElementById('image-upload').click() : navigate(`/posts/${post.id}`))}
 				/>
 				<Input id="image-upload" type="file" accept="image/*" sx={{ display: 'none' }} onChange={handleChange} name="media" />
 				<CardHeader
