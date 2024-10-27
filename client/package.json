@@ -1,11 +1,11 @@
 {
 	"name": "memories",
 	"scripts": {
-		"dev": "bun x vite",
+		"dev": "bun x vite --host",
 		"build": "bun x vite build",
 		"lint": "eslint .",
 		"preview": "bun x vite preview",
-		"start": "bun x vite preview --host"
+		"start": "bun x vite preview"
 	},
 	"type": "module",
 	"version": "1.0.0",

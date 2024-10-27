@@ -22,7 +22,7 @@ const UserAvatar = ({ user }) => {
 						<Avatar src={user.imageUrl} alt={user.fullName} variant="square" sx={{ width: 300, height: 300 }} />
 					</Stack>
 				</Paper>
-				<Paper sx={{ position: 'absolute', top: 0, right: -48 }} elevation={1}>
+				<Paper sx={{ position: 'absolute', top: { xs: -48, sm: 0 }, right: { xs: 0, sm: -48 } }} elevation={1}>
 					<IconButton onClick={handleClose} sx={{ borderRadius: 1 }}>
 						<Close />
 					</IconButton>

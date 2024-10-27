@@ -5,7 +5,7 @@ import { comments as dummyComments } from '@/data/comments'
 import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
 import { UserAvatar } from '@/components'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const CommentInput = ({ setComments, comments }) => {
 	// TODO: Fix later by add comment
@@ -71,7 +71,7 @@ const Comments = () => {
 						<Avatar src={comment.avatar} alt={comment.author} sx={{ mr: 2 }} />
 						<Box sx={{ flexGrow: 1 }}>
 							<Stack direction="row" alignItems="center" justifyContent="space-between">
-								<Typography variant="subtitle2" component="span" fontWeight="bold" color="primary.main">
+								<Typography variant="subtitle2" component={Link} fontWeight="bold" to={`/user/${comment.author}`} sx={{ textDecoration: 'none' }} color="primary">
 									{comment.author}
 								</Typography>
 								<Typography variant="caption" color="text.secondary.muted">

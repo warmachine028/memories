@@ -121,13 +121,13 @@ const UpdateProfile = ({ open, onClose: handleClose }) => {
 					</ListItem>
 					<ListItem>
 						<Grid width="100%" container spacing={2}>
-							<Grid size={{ xs: 12, md: 6 }}>
+							<Grid size={{ xs: 12, sm: 6 }}>
 								<FormControl fullWidth error={Boolean(errors.firstName)}>
 									<TextField label="First Name" name="firstName" value={editedUser.firstName} onChange={handleInputChange} required error={Boolean(errors.firstName)} />
 									<FormHelperText>{errors.firstName}</FormHelperText>
 								</FormControl>
 							</Grid>
-							<Grid size={{ xs: 12, md: 6 }}>
+							<Grid size={{ xs: 12, sm: 6 }}>
 								<FormControl fullWidth error={Boolean(errors.lastName)}>
 									<TextField label="Last Name" name="lastName" value={editedUser.lastName} onChange={handleInputChange} error={Boolean(errors.lastName)} />
 									<FormHelperText>{errors.lastName}</FormHelperText>
