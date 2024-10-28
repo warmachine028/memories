@@ -65,9 +65,8 @@ export const getPost = async (id) => {
 
 export const createPost = async (post) => {
 	try {
-		await sleep(3000)
-		// const { data } = await api.post('/posts', post)
-		// return data
+		const { data } = await api.post('/posts', post)
+		return data
 	} catch (error) {
 		throw handleApiError(error)
 	}
@@ -75,10 +74,10 @@ export const createPost = async (post) => {
 
 export const updatePost = async (id, post) => {
 	try {
-		await sleep(3000)
-		// const { data } = await api.put(`/posts/${id}`, post)
-		// return data
+		const { data } = await api.put(`/posts/${id}`, post)
+		return data
 	} catch (error) {
+		console.error(error);
 		throw handleApiError(error)
 	}
 }

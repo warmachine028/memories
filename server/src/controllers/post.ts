@@ -58,11 +58,11 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 			visibility,
 			author: { connect: { id: userId } },
 			tags: {
-				create: tags.map((tagName: string) => ({
+				create: tags.map((name: string) => ({
 					tag: {
 						connectOrCreate: {
-							where: { name: tagName },
-							create: { name: tagName },
+							where: { name },
+							create: { name },
 						},
 					},
 				})),
@@ -97,8 +97,14 @@ export const updatePost = async ({ params: { id }, body, userId }: RequestParams
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
+	body.tags = body.tags.map(({ tag: { name } }: { tag: { name: string } }) => name)
 	const { title, description, visibility, tags, media, imageUrl } = body
 	const response = await uploadToCloudinary(media, getPublicId(imageUrl))
+
+	// STEP 1: Find the post and delete all the tag relations in PostTag
+	await prisma.postTag.deleteMany({ where: { postId: id } })
+
+	// STEP 2: Create the new tag relations in PostTag
 	return prisma.post.update({
 		where: { id, authorId: userId },
 		data: {
@@ -107,11 +113,11 @@ export const updatePost = async ({ params: { id }, body, userId }: RequestParams
 			imageUrl: response.secure_url,
 			visibility,
 			tags: {
-				set: tags.map((tagName: string) => ({
+				create: tags.map((name: string) => ({
 					tag: {
 						connectOrCreate: {
-							where: { name: tagName },
-							create: { name: tagName },
+							where: { name },
+							create: { name },
 						},
 					},
 				})),

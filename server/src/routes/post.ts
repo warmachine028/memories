@@ -2,8 +2,8 @@ import { Elysia, t } from 'elysia'
 import { getPosts, getPostById, createPost } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { Visibility } from '@prisma/client'
-import { type RequestParams } from '@/types'
-import { deletePost } from '@/controllers/post'
+import type { RequestParams } from '@/types'
+import { deletePost, updatePost } from '@/controllers/post'
 
 export const postRoutes = new Elysia({ prefix: '/posts' })
 	.use(authMiddleware)
@@ -31,36 +31,24 @@ export const postRoutes = new Elysia({ prefix: '/posts' })
 		}),
 	})
 	.post('/', createPost, {
-		// body: t.Object({
-		// 	title: t.String(),
-		// 	description: t.String(),
-		// 	tags: t.Array(t.String()),
-		// 	media: t.File({ type: 'image/*' }),
-		// 	visibility: t.Enum(Visibility),
-		// }),
+		body: t.Object({
+			title: t.String(),
+			description: t.String(),
+			tags: t.Array(t.String()),
+			media: t.String(),
+			visibility: t.Enum(Visibility),
+		}),
 	})
-	.patch(
-		'/:id',
-		({ params: { id }, body, userId }: RequestParams) => {
-			return {
-				id,
-				title: 'Hello',
-				description: 'Hello',
-				imageUrl: 'Hello',
-				visibility: Visibility.PUBLIC,
-				tags: ['Hello'],
-			}
-		},
-		{
-			body: t.Object({
-				title: t.String(),
-				description: t.String(),
-				imageUrl: t.String(),
-				visibility: t.Enum(Visibility),
-				tags: t.Array(t.String()),
-			}),
-		}
-	)
+	.put('/:id', updatePost, {
+		body: t.Object({
+			title: t.String(),
+			description: t.String(),
+			tags: t.Array(t.Object({ tag: t.Object({ name: t.String() }) })),
+			media: t.String(),
+			imageUrl: t.String(),
+			visibility: t.Enum(Visibility),
+		}),
+	})
 	.delete('/:id', deletePost, {
 		params: t.Object({
 			id: t.String(),

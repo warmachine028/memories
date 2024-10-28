@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, Input, Tooltip } from '@mui/material'
-import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility } from '@mui/icons-material'
+import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility, LockOpen, Lock } from '@mui/icons-material'
 import { UserAvatar } from '.'
 import moment from 'moment'
 import { getThumbnail, convertToBase64 } from '@/lib/utils'
@@ -38,21 +38,17 @@ const PostCard = ({ post }) => {
 		setReactionAnchorEl(event.currentTarget)
 	}
 
-	const handleReactionIconLeave = () => {
-		popoverTimeoutRef.current = setTimeout(() => {
+	const handleReactionIconLeave = () =>
+		(popoverTimeoutRef.current = setTimeout(() => {
 			setReactionAnchorEl(null)
-		}, 1000)
-	}
+		}, 1000))
 
-	const handlePopoverEnter = () => {
-		clearTimeout(popoverTimeoutRef.current)
-	}
+	const handlePopoverEnter = () => clearTimeout(popoverTimeoutRef.current)
 
-	const handlePopoverLeave = () => {
-		popoverTimeoutRef.current = setTimeout(() => {
+	const handlePopoverLeave = () =>
+		(popoverTimeoutRef.current = setTimeout(() => {
 			setReactionAnchorEl(null)
-		}, 300)
-	}
+		}, 300))
 
 	const handleReactionSelect = (reaction) => {
 		setCurrentReaction(reaction === currentReaction ? null : reaction)
@@ -116,7 +112,6 @@ const PostCard = ({ post }) => {
 				media: editedPost.media ? await convertToBase64(editedPost.media) : editedPost.imageUrl
 			})
 			setEditing(false)
-			setEditedPost(post)
 		} catch (error) {
 			console.error(error)
 		}
@@ -127,19 +122,7 @@ const PostCard = ({ post }) => {
 		setErrors({ title: '', description: '', tags: '', media: '' })
 	}
 
-	const handleTagInput = (params) => {
-		return (
-			<TextField
-				{...params}
-				label="Tags"
-				error={Boolean(errors.tags)}
-				name="tags"
-				slotProps={{
-					input: { ...params.InputProps, type: 'search' }
-				}}
-			/>
-		)
-	}
+	const handleTagInput = (params) => <TextField {...params} label="Tags" error={Boolean(errors.tags)} name="tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
 
 	return (
 		<Fade in timeout={500} unmountOnExit>
@@ -147,7 +130,8 @@ const PostCard = ({ post }) => {
 				sx={{
 					border: (theme) => `1px solid ${theme.palette.divider}`,
 					position: 'relative',
-					cursor: 'pointer'
+					cursor: 'pointer',
+					height: editing ? 'auto' : '100%'
 				}}
 				elevation={1}
 			>
@@ -193,13 +177,7 @@ const PostCard = ({ post }) => {
 						editing ? (
 							<Tooltip title={editedPost.visibility} arrow>
 								<IconButton aria-label="visibility" component="label" sx={{ color: 'white' }}>
-									<Input //
-										type="checkbox"
-										onChange={handleChange}
-										sx={{ display: 'none' }}
-										value={editedPost.visibility}
-										name="visibility"
-									/>
+									<Input type="checkbox" onChange={handleChange} sx={{ display: 'none' }} value={editedPost.visibility} name="visibility" />
 									{editedPost.visibility === 'PUBLIC' ? <Visibility /> : <VisibilityOff />}
 								</IconButton>
 							</Tooltip>
@@ -227,13 +205,20 @@ const PostCard = ({ post }) => {
 						)
 					}
 				/>
-				<CardContent>
+				<CardContent sx={{ mb: 5 }}>
 					{editing ? (
 						<TextField fullWidth label="Title" name="title" value={editedPost.title} onChange={handleChange} error={!!errors.title} helperText={errors.title} margin="normal" />
 					) : (
 						<Typography variant="h5" gutterBottom>
 							{post.title}
 						</Typography>
+					)}
+					{!editing && post.visibility === 'PRIVATE' && (
+						<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+							<IconButton aria-label="visibility" component="label" color="primary">
+								<Lock />
+							</IconButton>
+						</Box>
 					)}
 					{editing ? (
 						<Autocomplete
@@ -265,7 +250,7 @@ const PostCard = ({ post }) => {
 						</Typography>
 					)}
 				</CardContent>
-				<CardActions>
+				<CardActions sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2 }}>
 					<Stack flexDirection="row" alignItems="center" justifyContent="space-between" width="100%">
 						{!editing ? (
 							<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
@@ -284,7 +269,7 @@ const PostCard = ({ post }) => {
 						{user?.id === post.authorId &&
 							(editing ? (
 								<Button color="primary" startIcon={isUpdating ? <CircularProgress size={20} /> : <Save />} onClick={handleSubmit} disabled={isUpdating}>
-									Submit
+									Edit
 								</Button>
 							) : (
 								<Button color="error" startIcon={isDeleting ? <CircularProgress size={20} /> : <Delete />} onClick={() => deletePost(editedPost.id)} disabled={isDeleting}>
