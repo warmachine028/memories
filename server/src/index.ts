@@ -1,21 +1,12 @@
 import { Elysia, t } from 'elysia'
-import { rateLimit } from 'elysia-rate-limit'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { cron } from '@elysiajs/cron'
 import { postRoutes, commentRoutes, userRoutes, reactionRoutes, tagRoutes } from '@/routes'
 
 const port = Bun.env.PORT || 5000
-const RATE_LIMIT = 1000
-const RATE_LIMIT_WINDOW = 1000 * 60 // 1 minute in milliseconds
 
 new Elysia()
-	.use(
-		rateLimit({
-			max: RATE_LIMIT,
-			duration: RATE_LIMIT_WINDOW,
-		})
-	)
 	.use(
 		// Create a cron job to ping the server every 14 minutes
 		cron({

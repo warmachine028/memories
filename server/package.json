@@ -34,7 +34,6 @@
         "@prisma/client": "^5.21.1",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
-        "elysia-rate-limit": "^4.1.0",
         "svix": "^1.37.0"
     },
     "peerDependencies": {
