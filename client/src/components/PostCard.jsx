@@ -144,7 +144,6 @@ const PostCard = ({ post }) => {
 		}
 		return text
 	}
-	console.log(editedPost)
 	return (
 		<Fade in timeout={500} unmountOnExit>
 			<Card

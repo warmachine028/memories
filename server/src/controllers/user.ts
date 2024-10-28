@@ -60,13 +60,11 @@ async function handleUserCreatedOrUpdated(event: Event) {
 		create: user,
 	})
 
-	console.log(`User ${event.type}:`, user)
 }
 
 async function handleUserDeleted(event: Event) {
 	const userId = event.data.id
 	await prisma.user.delete({ where: { id: userId } })
-	console.log('User deleted:', userId)
 }
 
 export const getUsers = async () => prisma.user.findMany()
