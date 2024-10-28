@@ -89,7 +89,15 @@ export const useUpdatePost = () => {
 			// Update both states
 			const newPages = pages.map((page) => ({
 				...page,
-				posts: page.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post))
+				posts: page.posts.map((post) =>
+					post.id === updatedPost.id
+						? {
+								...post,
+								...updatedPost,
+								imageUrl: updatedPost.media || updatedPost.imageUrl
+							}
+						: post
+				)
 			}))
 			queryClient.setQueryData(['posts'], (old) => ({
 				...(old ?? { pageParams: [] }),

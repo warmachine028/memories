@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, Skeleton, CardActions, Stack, CardAction
 const PostCardSkeleton = () => {
 	return (
 		<Fade in timeout={500}>
-			<Card sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, ':hover': { boxShadow: (theme) => `0px 0px 10px 0px ${theme.palette.primary.main}` }, position: 'relative', height: '100%', minHeight: 350 }} elevation={1}>
+			<Card sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, position: 'relative', height: '100%', minHeight: 350 }} elevation={1}>
 				<CardActionArea>
 					<CardMedia>
 						<Skeleton sx={{ height: 180 }} animation="wave" variant="rectangular" />

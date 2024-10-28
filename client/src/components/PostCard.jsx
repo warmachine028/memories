@@ -27,7 +27,7 @@ const PostCard = ({ post }) => {
 
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const [currentReaction, setCurrentReaction] = useState(post.reactions[0]?.reactionType)
-
+	const [imagePreview, setImagePreview] = useState(post.imageUrl)
 	const [errors, setErrors] = useState(initialErrors)
 
 	const popoverTimeoutRef = useRef(null)
@@ -71,11 +71,9 @@ const PostCard = ({ post }) => {
 		} else if (name === 'media' && files && files[0]) {
 			const file = files[0]
 			setEditedPost({ ...editedPost, [name]: file })
-			const reader = new FileReader()
-			reader.onloadend = () => {
-				setEditedPost((prev) => ({ ...prev, imageUrl: reader.result }))
-			}
-			reader.readAsDataURL(file)
+			const previewUrl = URL.createObjectURL(file)
+			setImagePreview(previewUrl)
+			return () => URL.revokeObjectURL(previewUrl)
 		} else {
 			setEditedPost({ ...editedPost, [name]: value })
 		}
@@ -115,7 +113,6 @@ const PostCard = ({ post }) => {
 				media: editedPost.media ? await convertToBase64(editedPost.media) : editedPost.imageUrl
 			})
 			setEditing(false)
-			setEditedPost(post)
 		} catch (error) {
 			console.error(error)
 		}
@@ -123,6 +120,7 @@ const PostCard = ({ post }) => {
 
 	const handleReset = () => {
 		setEditedPost(post)
+		setImagePreview(post.imageUrl)
 		setErrors({ title: '', description: '', tags: '', media: '' })
 	}
 
@@ -146,7 +144,7 @@ const PostCard = ({ post }) => {
 		}
 		return text
 	}
-
+	console.log(editedPost)
 	return (
 		<Fade in timeout={500} unmountOnExit>
 			<Card
@@ -193,10 +191,10 @@ const PostCard = ({ post }) => {
 							}
 						})
 					}}
-					image={editing ? editedPost.imageUrl : getThumbnail(post.imageUrl)}
-					onClick={() => (editing ? document.getElementById('image-upload').click() : navigate(`/posts/${post.id}`))}
+					image={editing ? imagePreview : post.imageUrl}
+					onClick={() => (editing ? document.getElementById(`image-upload-${post.id}`).click() : navigate(`/posts/${post.id}`))}
 				/>
-				<Input id="image-upload" type="file" accept="image/*" sx={{ display: 'none' }} onChange={handleChange} name="media" />
+				<Input id={`image-upload-${post.id}`} type="file" accept="image/*" sx={{ display: 'none' }} onChange={handleChange} name="media" />
 				<CardHeader
 					avatar={
 						editing ? (
