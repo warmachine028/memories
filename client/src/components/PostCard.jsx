@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, Input, Tooltip } from '@mui/material'
 import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility, Lock } from '@mui/icons-material'
@@ -142,7 +142,7 @@ const PostCard = ({ post }) => {
 	const truncate = (text, wordLimit) => {
 		const words = text.split(' ')
 		if (words.length > wordLimit) {
-			return words.slice(0, wordLimit).join(' ') + '...'
+			return `${words.slice(0, wordLimit).join(' ')} ...`
 		}
 		return text
 	}
@@ -232,7 +232,7 @@ const PostCard = ({ post }) => {
 				/>
 				<CardContent sx={{ mb: 5 }}>
 					{editing ? (
-						<TextField fullWidth label="Title" name="title" value={editedPost.title} onChange={handleChange} error={!!errors.title} helperText={errors.title} margin="normal" />
+						<TextField fullWidth label="Title" name="title" value={editedPost.title} onChange={handleChange} error={Boolean(errors.title)} helperText={errors.title} margin="normal" />
 					) : (
 						<Typography variant="h5" gutterBottom>
 							{truncate(post.title, 10)}
@@ -268,7 +268,7 @@ const PostCard = ({ post }) => {
 						</Box>
 					)}
 					{editing ? (
-						<TextField fullWidth label="Description" name="description" value={editedPost.description} onChange={handleChange} error={!!errors.description} helperText={errors.description} margin="normal" multiline rows={2} />
+						<TextField fullWidth label="Description" name="description" value={editedPost.description} onChange={handleChange} error={Boolean(errors.description)} helperText={errors.description} margin="normal" multiline rows={2} />
 					) : (
 						<Typography color="text.secondary" mt={1}>
 							{truncate(post.description, 20)}

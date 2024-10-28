@@ -7,6 +7,7 @@ import { PostSkeleton } from '@/components'
 import { useGetPost } from '@/hooks'
 import moment from 'moment'
 import { useState } from 'react'
+import { useStore } from '@/store'
 
 const AuthorInfo = ({ author, timestamp }) => (
 	<Stack direction="row">
@@ -47,7 +48,6 @@ const PostCard = () => {
 	if (error?.message === 'API Error: Post not found') {
 		navigate('/not-found')
 	}
-
 
 	return (
 		<Card elevation={3}>
@@ -91,14 +91,17 @@ const PostCard = () => {
 	)
 }
 const ShareDialog = ({ open, onClose, url }) => {
-	const handleCopy = () => navigator.clipboard.writeText(url).then(() => {})
-	const navigate = useNavigate()
 	const shareUrls = {
 		facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
 		twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
 		linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`,
 		whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`
 	}
+	const { openSnackbar } = useStore()
+	const handleCopy = () =>
+		navigator.clipboard.writeText(url).then(() => {
+			openSnackbar('Link copied to clipboard', 'info')
+		})
 
 	return (
 		<Dialog open={open} onClose={onClose} aria-labelledby="share-dialog-title" fullWidth PaperProps={{ elevation: 1 }}>

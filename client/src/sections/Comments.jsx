@@ -29,7 +29,7 @@ const CommentInput = ({ setComments, comments }) => {
 	const handleChange = (e) => setComment(e.target.value)
 
 	if (!user) {
-		return
+		return null
 	}
 
 	return (

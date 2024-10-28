@@ -1,4 +1,3 @@
-import { sleep } from '@/lib/utils'
 import axios from 'axios'
 
 const baseURL = import.meta.env.VITE_API_URL
@@ -17,9 +16,8 @@ api.interceptors.request.use(async (req) => {
 		}
 	} catch (error) {
 		console.error('Auth interceptor error:', error)
-	} finally {
-		return req
 	}
+	return req
 })
 
 const handleApiError = (error) => {
@@ -77,7 +75,7 @@ export const updatePost = async (id, post) => {
 		const { data } = await api.put(`/posts/${id}`, post)
 		return data
 	} catch (error) {
-		console.error(error);
+		console.error(error)
 		throw handleApiError(error)
 	}
 }
