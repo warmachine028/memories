@@ -1,0 +1,23 @@
+name: Push changes
+description: A reusable action to push changes with a specified commit message and file paths
+inputs:
+    message:
+        description: Commit message
+        required: true
+    paths:
+        description: File paths to add
+        default: '.'
+runs:
+    using: composite
+    steps:
+        - name: Pull changes
+          run: git pull
+          shell: bash
+
+        - name: Push changes
+          uses: EndBug/add-and-commit@v9
+          with:
+              committer_name: 'GitHub Actions'
+              committer_email: 'actions@github.com'
+              add: ${{ inputs.paths }}
+              message: '${{ inputs.message }}'

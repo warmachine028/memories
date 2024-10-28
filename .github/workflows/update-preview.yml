@@ -1,0 +1,38 @@
+name: 📸 Update Preview
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [main]
+        # enable this for your repository if you want to trigger this workflow to observe specific file/directory changes
+        paths:
+            - 'client/**'
+
+
+permissions:
+    contents: write
+
+jobs:
+    update-preview:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@main
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
+
+            - name: Install Puppeteer
+              run: npm install puppeteer
+
+            - name: Take snapshot
+              run: node .github/take-snapshot.mjs
+
+            - name: Push Changes
+              uses: ./.github/actions/push-changes
+              with:
+                  message: 'feat: updated preview in README.md'
+                  paths: './.github/preview.png'
+              

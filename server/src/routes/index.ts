@@ -1,0 +1,5 @@
+export { postRoutes } from './post'
+export { commentRoutes } from './comment'
+export { userRoutes } from './user'
+export { reactionRoutes } from './reaction'
+export { tagRoutes } from './tags'
