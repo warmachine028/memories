@@ -186,7 +186,8 @@ export const useReactPost = () => {
 					if (post.id === postId) {
 						return {
 							...post,
-							reactionCount: post.reactionCount++
+							reactionCount: post.reactionCount++,
+							reactions: [...post.reactions, { reactionType: type }]
 						}
 					}
 					return post
@@ -224,7 +225,8 @@ export const useUnreactPost = () => {
 					if (post.id === postId) {
 						return {
 							...post,
-							reactionCount: post.reactionCount--
+							reactionCount: post.reactionCount--,
+							reactions: [{ reactionType: null }]
 						}
 					}
 					return post
