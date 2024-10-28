@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, Input, Tooltip } from '@mui/material'
-import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility, LockOpen, Lock } from '@mui/icons-material'
+import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility, Lock } from '@mui/icons-material'
 import { UserAvatar } from '.'
 import moment from 'moment'
 import { getThumbnail, convertToBase64 } from '@/lib/utils'
@@ -21,19 +21,22 @@ const PostCard = ({ post }) => {
 	const { user } = useUser()
 	const [editing, setEditing] = useState(false)
 	const [editedPost, setEditedPost] = useState(post)
-
+	const initialErrors = { title: '', description: '', tags: '', media: '' }
 	const { mutate: deletePost, isPending: isDeleting } = useDeletePost()
 	const { mutate: updatePost, isPending: isUpdating } = useUpdatePost()
 
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const [currentReaction, setCurrentReaction] = useState(post.reactions[0]?.reactionType)
 
-	const [errors, setErrors] = useState({ title: '', description: '', tags: '', media: '' })
+	const [errors, setErrors] = useState(initialErrors)
 
 	const popoverTimeoutRef = useRef(null)
 	const navigate = useNavigate()
 
 	const handleReactionIconEnter = (event) => {
+		if (!user) {
+			return
+		}
 		clearTimeout(popoverTimeoutRef.current)
 		setReactionAnchorEl(event.currentTarget)
 	}
@@ -112,6 +115,7 @@ const PostCard = ({ post }) => {
 				media: editedPost.media ? await convertToBase64(editedPost.media) : editedPost.imageUrl
 			})
 			setEditing(false)
+			setEditedPost(post)
 		} catch (error) {
 			console.error(error)
 		}
@@ -122,7 +126,26 @@ const PostCard = ({ post }) => {
 		setErrors({ title: '', description: '', tags: '', media: '' })
 	}
 
-	const handleTagInput = (params) => <TextField {...params} label="Tags" error={Boolean(errors.tags)} name="tags" slotProps={{ input: { ...params.InputProps, type: 'search' } }} />
+	const handleTagInput = (params) => {
+		return (
+			<TextField
+				{...params}
+				label="Tags"
+				error={Boolean(errors.tags)}
+				name="tags"
+				slotProps={{
+					input: { ...params.InputProps, type: 'search' }
+				}}
+			/>
+		)
+	}
+	const truncate = (text, wordLimit) => {
+		const words = text.split(' ')
+		if (words.length > wordLimit) {
+			return words.slice(0, wordLimit).join(' ') + '...'
+		}
+		return text
+	}
 
 	return (
 		<Fade in timeout={500} unmountOnExit>
@@ -139,8 +162,9 @@ const PostCard = ({ post }) => {
 					sx={{
 						height: { md: 160, xs: 200 },
 						position: 'relative',
+
 						...(!editing && {
-							'&::after': {
+							':after': {
 								content: '""',
 								position: 'absolute',
 								top: 0,
@@ -151,9 +175,10 @@ const PostCard = ({ post }) => {
 								zIndex: 1
 							}
 						}),
+
 						...(editing && {
-							'&:hover': {
-								'&::after': {
+							':hover': {
+								':after': {
 									height: '100%',
 									content: '"Click to change image"',
 									display: 'flex',
@@ -210,15 +235,8 @@ const PostCard = ({ post }) => {
 						<TextField fullWidth label="Title" name="title" value={editedPost.title} onChange={handleChange} error={!!errors.title} helperText={errors.title} margin="normal" />
 					) : (
 						<Typography variant="h5" gutterBottom>
-							{post.title}
+							{truncate(post.title, 10)}
 						</Typography>
-					)}
-					{!editing && post.visibility === 'PRIVATE' && (
-						<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-							<IconButton aria-label="visibility" component="label" color="primary">
-								<Lock />
-							</IconButton>
-						</Box>
 					)}
 					{editing ? (
 						<Autocomplete
@@ -242,19 +260,26 @@ const PostCard = ({ post }) => {
 							{post.tags.map(({ tag }) => `#${tag.name} `)}
 						</Typography>
 					)}
+					{!editing && post.visibility === 'PRIVATE' && (
+						<Box justifyContent="center" display="flex">
+							<IconButton aria-label="visibility" component="label" color="primary">
+								<Lock />
+							</IconButton>
+						</Box>
+					)}
 					{editing ? (
 						<TextField fullWidth label="Description" name="description" value={editedPost.description} onChange={handleChange} error={!!errors.description} helperText={errors.description} margin="normal" multiline rows={2} />
 					) : (
 						<Typography color="text.secondary" mt={1}>
-							{post.description}
+							{truncate(post.description, 20)}
 						</Typography>
 					)}
 				</CardContent>
-				<CardActions sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2 }}>
+				<CardActions sx={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
 					<Stack flexDirection="row" alignItems="center" justifyContent="space-between" width="100%">
 						{!editing ? (
 							<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
-								<IconButton size="small" sx={{ color: currentReaction ? currentReaction.color : 'textPrimary' }}>
+								<IconButton size="small" sx={{ color: currentReaction ? currentReaction.color : 'text.primary' }} disabled={!user}>
 									{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
 									{post.reactionCount || ''}
 								</IconButton>
