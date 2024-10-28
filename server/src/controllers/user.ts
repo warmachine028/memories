@@ -34,7 +34,6 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 			default:
 				console.error(`Unhandled event type: ${eventType}`)
 		}
-		console.log("webhook triggered")
 	} catch (error) {
 		console.error('Error processing webhook:', error)
 		set.status = 500
