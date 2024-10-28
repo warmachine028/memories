@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { createPost, deletePost, getPost, getPosts, searchPosts, unreactPost, updatePost } from '@/api'
+import { createPost, deletePost, getPost, getPosts, reactPost, searchPosts, unreactPost, updatePost } from '@/api'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useStore } from '@/store'
 import { useUser } from '@clerk/clerk-react'
@@ -174,7 +174,7 @@ export const useReactPost = () => {
 	const { pages, setPages } = useStore()
 
 	return useMutation({
-		mutationFn: ({ postId, type }) => updateReaction(postId, type),
+		mutationFn: ({ postId, type }) => reactPost(postId, type),
 		onMutate: async ({ postId, type }) => {
 			await queryClient.cancelQueries({ queryKey: ['posts'] })
 			const previousData = queryClient.getQueryData(['posts'])
@@ -186,11 +186,7 @@ export const useReactPost = () => {
 					if (post.id === postId) {
 						return {
 							...post,
-							reactions: {
-								...post.reactions,
-								likes: post.reactions.likes + (type === 'like' ? 1 : 0),
-								dislikes: post.reactions.dislikes + (type === 'dislike' ? 1 : 0)
-							}
+							reactionCount: post.reactionCount++
 						}
 					}
 					return post
@@ -218,6 +214,35 @@ export const useUnreactPost = () => {
 	const queryClient = useQueryClient()
 	const { pages, setPages } = useStore()
 	return useMutation({
-		mutationFn: (postId) => unreactPost(postId)
+		mutationFn: (postId) => unreactPost(postId),
+		onMutate: async (postId) => {
+			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			const previousData = queryClient.getQueryData(['posts'])
+			const newPages = pages.map((page) => ({
+				...page,
+				posts: page.posts.map((post) => {
+					if (post.id === postId) {
+						return {
+							...post,
+							reactionCount: post.reactionCount--
+						}
+					}
+					return post
+				})
+			}))
+			queryClient.setQueryData(['posts'], (old) => ({
+				...(old ?? { pageParams: [] }),
+				pages: newPages
+			}))
+			setPages(newPages)
+
+			return { previousData }
+		},
+		onError: (_err, _postId, context) => {
+			const previousPages = context?.previousData?.pages ?? []
+			queryClient.setQueryData(['posts'], context?.previousData)
+			setPages(previousPages)
+		},
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})
 }
