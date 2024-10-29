@@ -8,7 +8,7 @@ const takeSnapShot = async () => {
 	const page = await browser.newPage()
 	await page.setViewport({ width: 1920, height: 1080 })
 	await page.goto(url)
-	await sleep(3000)
+	await sleep(4000)
 	await page.screenshot({ path: '.github/preview.png' })
 	await browser.close()
 }
