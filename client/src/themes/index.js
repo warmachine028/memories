@@ -116,6 +116,9 @@ const Dark = createTheme({
 					borderColor: 'rgba(255, 255, 255, 0.12)',
 					boxShadow: 'none'
 				}
+			},
+			defaultProps: {
+				elevation: 0
 			}
 		},
 		MuiAppBar: {
@@ -128,6 +131,9 @@ const Dark = createTheme({
 					backdropFilter: 'blur(10px)',
 					WebkitBackdropFilter: 'blur(10px)' // For Safari
 				}
+			},
+			defaultProps: {
+				elevation: 0
 			}
 		},
 		MuiPaper: {
@@ -137,6 +143,9 @@ const Dark = createTheme({
 					borderColor: 'rgba(255, 255, 255, 0.12)',
 					boxShadow: 'none'
 				}
+			},
+			defaultProps: {
+				elevation: 0
 			}
 		}
 	}

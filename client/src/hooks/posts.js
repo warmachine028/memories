@@ -1,6 +1,20 @@
 import { useEffect, useState } from 'react'
-import { createPost, deletePost, getPost, getPosts, reactPost, searchPosts, unreactPost, updatePost } from '@/api'
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+	createPost,
+	deletePost,
+	getPost,
+	getPosts,
+	reactPost,
+	searchPosts,
+	unreactPost,
+	updatePost
+} from '@/api'
+import {
+	useInfiniteQuery,
+	useMutation,
+	useQuery,
+	useQueryClient
+} from '@tanstack/react-query'
 import { useStore } from '@/store'
 import { useUser } from '@clerk/clerk-react'
 
@@ -94,7 +108,9 @@ export const useUpdatePost = () => {
 						? {
 								...post,
 								...updatedPost,
-								imageUrl: updatedPost.media || updatedPost.imageUrl
+								media: '',
+								imageUrl:
+									updatedPost.media || updatedPost.imageUrl
 							}
 						: post
 				)
@@ -140,7 +156,8 @@ export const useDeletePost = () => {
 
 			return { previousData }
 		},
-		onError: (_err, _postId, context) => queryClient.setQueryData(['posts'], context?.previousData),
+		onError: (_err, _postId, context) =>
+			queryClient.setQueryData(['posts'], context?.previousData),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})
 }
@@ -195,7 +212,10 @@ export const useReactPost = () => {
 						return {
 							...post,
 							reactionCount: post.reactionCount++,
-							reactions: [...post.reactions, { reactionType: type }]
+							reactions: [
+								...post.reactions,
+								{ reactionType: type }
+							]
 						}
 					}
 					return post

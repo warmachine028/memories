@@ -213,7 +213,7 @@ const Navbar = () => {
 	}, [])
 
 	return (
-		<AppBar position="sticky" elevation={0}>
+		<AppBar position="sticky" >
 			<Container maxWidth="xl">
 				<Toolbar disableGutters sx={{ minHeight: 64 }}>
 					<Stack

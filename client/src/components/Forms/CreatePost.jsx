@@ -1,6 +1,29 @@
-import { Autocomplete, Box, Button, ButtonGroup, CircularProgress, Collapse, FormControl, FormHelperText, IconButton, Input, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import {
+	Autocomplete,
+	Box,
+	Button,
+	ButtonGroup,
+	CircularProgress,
+	Collapse,
+	FormControl,
+	FormHelperText,
+	IconButton,
+	Input,
+	InputAdornment,
+	Paper,
+	Stack,
+	TextField,
+	Tooltip,
+	Typography
+} from '@mui/material'
 import { movies } from '@/data'
-import { AddAPhotoOutlined, AutoAwesome, Close, Visibility, VisibilityOff } from '@mui/icons-material'
+import {
+	AddAPhotoOutlined,
+	AutoAwesome,
+	Close,
+	Visibility,
+	VisibilityOff
+} from '@mui/icons-material'
 import { useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
@@ -11,8 +34,19 @@ import { useStore } from '@/store'
 const Form = () => {
 	const { isLoaded } = useAuth()
 	const { mutate: createPost, isLoading } = useCreatePost()
-	const initialData = { title: '', description: '', tags: [], visibility: 'PUBLIC', media: null }
-	const initialErrorState = { title: '', description: '', tags: '', media: '' }
+	const initialData = {
+		title: '',
+		description: '',
+		tags: [],
+		visibility: 'PUBLIC',
+		media: null
+	}
+	const initialErrorState = {
+		title: '',
+		description: '',
+		tags: '',
+		media: ''
+	}
 	const { openSnackbar } = useStore()
 	const [formData, setFormData] = useState(initialData)
 	const [errors, setErrors] = useState(initialErrorState)
@@ -22,11 +56,21 @@ const Form = () => {
 
 		const { name, value, files } = event.target
 		if (name === 'title' && value.length > 30) {
-			setErrors({ ...errors, title: 'Title must be less than 30 characters' })
+			setErrors({
+				...errors,
+				title: 'Title must be less than 30 characters'
+			})
 		} else if (name === 'visibility') {
-			setFormData({ ...formData, visibility: formData.visibility === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC' })
+			setFormData({
+				...formData,
+				visibility:
+					formData.visibility === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC'
+			})
 		} else if (name === 'description' && value.length > 150) {
-			setErrors({ ...errors, description: 'Description must be less than 150 characters' })
+			setErrors({
+				...errors,
+				description: 'Description must be less than 150 characters'
+			})
 		} else if (name === 'media' && files && files[0]) {
 			const file = files[0]
 			setFormData({ ...formData, [name]: file })
@@ -67,7 +111,12 @@ const Form = () => {
 	}
 	const generateTags = () => {
 		const aIGenerateTags = ['social', 'media', 'post']
-		setFormData({ ...formData, tags: [...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))] })
+		setFormData({
+			...formData,
+			tags: [
+				...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))
+			]
+		})
 	}
 	const handleClear = () => {
 		setFormData(initialData)
@@ -106,7 +155,12 @@ const Form = () => {
 						type: 'search',
 						endAdornment: (
 							<InputAdornment position="end">
-								<IconButton onClick={generateTags} disabled={formData.tags.length >= 8} edge="end" size="small">
+								<IconButton
+									onClick={generateTags}
+									disabled={formData.tags.length >= 8}
+									edge="end"
+									size="small"
+								>
 									<AutoAwesome />
 								</IconButton>
 							</InputAdornment>
@@ -136,18 +190,34 @@ const Form = () => {
 								top: 8,
 								right: 8,
 								zIndex: 1,
-								'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' }
+								'&:hover': {
+									backgroundColor: 'rgba(0, 0, 0, 0.7)'
+								}
 							}}
 						>
 							<Close fontSize="small" sx={{ color: 'white' }} />
 						</IconButton>
-						<Box component="img" width="100%" height="100%" sx={{ objectFit: 'cover' }} borderRadius={1} src={preview || 'https://via.placeholder.com/300'} alt="preview" position="absolute" top={0} left={0} right={0} bottom={0} overflow="hidden" />
+						<Box
+							component="img"
+							width="100%"
+							height="100%"
+							sx={{ objectFit: 'cover' }}
+							borderRadius={1}
+							src={preview || 'https://via.placeholder.com/300'}
+							alt="preview"
+							position="absolute"
+							top={0}
+							left={0}
+							right={0}
+							bottom={0}
+							overflow="hidden"
+						/>
 					</Box>
 				</Collapse>
 				<Stack direction="row" justifyContent="space-between">
 					<Tooltip title="Add a photo" arrow>
 						<IconButton component="label" size="small">
-							<Input //
+							<Input
 								type="file"
 								slotProps={{ input: { accept: 'image/*' } }}
 								onChange={handleChange}
@@ -159,27 +229,53 @@ const Form = () => {
 					</Tooltip>
 					<Tooltip title={formData.visibility} arrow>
 						<IconButton size="small" component="label">
-							<Input //
+							<Input
 								type="checkbox"
 								onChange={handleChange}
 								sx={{ display: 'none' }}
 								value={formData.visibility}
 								name="visibility"
 							/>
-							{formData.visibility === 'PUBLIC' ? <Visibility /> : <VisibilityOff />}
+							{formData.visibility === 'PUBLIC' ? (
+								<Visibility />
+							) : (
+								<VisibilityOff />
+							)}
 						</IconButton>
 					</Tooltip>
 				</Stack>
 				<FormControl fullWidth error={Boolean(errors.title)}>
-					<TextField label="Title" variant="outlined" name="title" value={formData.title} onChange={handleChange} required error={Boolean(errors.title)} />
-					<FormHelperText sx={{ m: 0 }}>{errors.title}</FormHelperText>
+					<TextField
+						label="Title"
+						variant="outlined"
+						name="title"
+						value={formData.title}
+						onChange={handleChange}
+						required
+						error={Boolean(errors.title)}
+					/>
+					<FormHelperText sx={{ m: 0 }}>
+						{errors.title}
+					</FormHelperText>
 				</FormControl>
 				<FormControl fullWidth error={Boolean(errors.description)}>
-					<TextField label="Description" variant="outlined" rows={4} multiline name="description" value={formData.description} onChange={handleChange} required error={Boolean(errors.description)} />
-					<FormHelperText sx={{ m: 0 }}>{errors.description}</FormHelperText>
+					<TextField
+						label="Description"
+						variant="outlined"
+						rows={4}
+						multiline
+						name="description"
+						value={formData.description}
+						onChange={handleChange}
+						required
+						error={Boolean(errors.description)}
+					/>
+					<FormHelperText sx={{ m: 0 }}>
+						{errors.description}
+					</FormHelperText>
 				</FormControl>
 				<FormControl fullWidth error={Boolean(errors.tags)}>
-					<Autocomplete //
+					<Autocomplete
 						multiple
 						freeSolo
 						options={movies.map((option) => option.title)}
@@ -192,17 +288,29 @@ const Form = () => {
 							}))
 							setErrors({ ...errors, tags: '' })
 						}}
-						onInputChange={(_, value) => (formData.tags.length < 8 ? value : '')}
+						onInputChange={(_, value) =>
+							formData.tags.length < 8 ? value : ''
+						}
 						disableClearable
 					/>
 					<FormHelperText sx={{ m: 0 }}>{errors.tags}</FormHelperText>
 				</FormControl>
 				<FormControl fullWidth error={Boolean(errors.media)}>
-					<FormHelperText sx={{ m: 0 }}>{errors.media}</FormHelperText>
+					<FormHelperText sx={{ m: 0 }}>
+						{errors.media}
+					</FormHelperText>
 				</FormControl>
 			</Stack>
-			<ButtonGroup orientation="vertical" fullWidth variant="contained" disabled={isLoading || !isLoaded}>
-				<Button type="submit" endIcon={isLoading && <CircularProgress size={20} />}>
+			<ButtonGroup
+				orientation="vertical"
+				fullWidth
+				variant="contained"
+				disabled={isLoading || !isLoaded}
+			>
+				<Button
+					type="submit"
+					endIcon={isLoading && <CircularProgress size={20} />}
+				>
 					Create
 				</Button>
 				<Button color="secondary" type="reset" onClick={handleClear}>
@@ -222,10 +330,20 @@ const CreatePost = () => {
 				<Form />
 			) : (
 				<Stack p={2} spacing={2} alignItems="center">
-					<Typography component="h1" variant="body1" textAlign="center">
+					<Typography
+						component="h1"
+						variant="body1"
+						textAlign="center"
+					>
 						Please Sign in to create a post
 					</Typography>
-					<Button component={Link} to="/login" variant="contained" color="secondary" fullWidth>
+					<Button
+						component={Link}
+						to="/login"
+						variant="contained"
+						color="secondary"
+						fullWidth
+					>
 						Sign in
 					</Button>
 				</Stack>

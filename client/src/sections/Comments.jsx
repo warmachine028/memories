@@ -62,7 +62,7 @@ const Comments = () => {
 	}
 
 	return (
-		<Card sx={{ width: '100%' }} elevation={3}>
+		<Card sx={{ width: '100%' }}>
 			<CardHeader title={`${comments.length} Comments`} />
 			<CardContent>
 				<CommentInput comments={comments} setComments={setComments} />

@@ -1,4 +1,19 @@
-import { Avatar, Box, Container, Grid2 as Grid, Typography, Paper, List, ListItem, Button, Tab, CircularProgress, Dialog, IconButton, Stack } from '@mui/material'
+import {
+	Avatar,
+	Box,
+	Container,
+	Grid2 as Grid,
+	Typography,
+	Paper,
+	List,
+	ListItem,
+	Button,
+	Tab,
+	CircularProgress,
+	Dialog,
+	IconButton,
+	Stack
+} from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { UpdateProfileForm } from '@/components'
@@ -13,16 +28,38 @@ const UserAvatar = ({ user }) => {
 	const handleClose = () => setOpen(false)
 	return (
 		<>
-			<IconButton onClick={handleOpen} sx={{ p: 0.5, position: 'relative', mb: 2 }}>
-				<Avatar src={user.imageUrl} alt={user.fullName} sx={{ width: 100, height: 100 }} />
+			<IconButton
+				onClick={handleOpen}
+				sx={{ p: 0.5, position: 'relative', mb: 2 }}
+			>
+				<Avatar
+					src={user.imageUrl}
+					alt={user.fullName}
+					sx={{ width: 100, height: 100 }}
+				/>
 			</IconButton>
-			<Dialog open={open} onClose={handleClose} maxWidth="xs" PaperProps={{ sx: { overflow: 'visible', borderRadius: 2 } }}>
-				<Paper elevation={1}>
-					<Stack p={2} alignItems="center">
-						<Avatar src={user.imageUrl} alt={user.fullName} variant="square" sx={{ width: 300, height: 300 }} />
-					</Stack>
-				</Paper>
-				<Paper sx={{ position: 'absolute', top: { xs: -48, sm: 0 }, right: { xs: 0, sm: -48 } }} elevation={1}>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				maxWidth="xs"
+				PaperProps={{ sx: { overflow: 'visible' }, elevation: 0 }}
+			>
+				<Stack p={2} alignItems="center">
+					<Avatar
+						src={user.imageUrl}
+						alt={user.fullName}
+						variant="square"
+						sx={{ width: 300, height: 300 }}
+					/>
+				</Stack>
+
+				<Paper
+					sx={{
+						position: 'absolute',
+						top: { xs: -48, sm: -1 },
+						right: { xs: 0, sm: -48 }
+					}}
+				>
 					<IconButton onClick={handleClose} sx={{ borderRadius: 1 }}>
 						<Close />
 					</IconButton>
@@ -55,15 +92,25 @@ const UserProfileCard = () => {
 
 	return (
 		<Grid size={{ xs: 12, md: 4 }}>
-			<Paper elevation={1} sx={{ height: '100%' }}>
+			<Paper sx={{ height: '100%' }}>
 				<List sx={{ p: 2 }}>
 					<ListItem>
-						<Typography variant="h5" component="h2" fontWeight="bold">
+						<Typography
+							variant="h5"
+							component="h2"
+							fontWeight="bold"
+						>
 							Profile
 						</Typography>
 					</ListItem>
 
-					{!isLoaded ? <CircularProgress /> : (!id && isSignedIn) || id === user?.id ? <CurrentUserProfile /> : <OtherUserProfile userId={id} />}
+					{!isLoaded ? (
+						<CircularProgress />
+					) : (!id && isSignedIn) || id === user?.id ? (
+						<CurrentUserProfile />
+					) : (
+						<OtherUserProfile userId={id} />
+					)}
 				</List>
 			</Paper>
 		</Grid>
@@ -84,7 +131,12 @@ const CurrentUserProfile = () => {
 		<>
 			<ListItem sx={{ flexDirection: 'column' }}>
 				<UserAvatar user={user} />
-				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
+				<Typography
+					variant="h5"
+					component="h2"
+					fontWeight="bold"
+					gutterBottom
+				>
 					{user.fullName}
 				</Typography>
 				<Typography color="text.secondary.muted" variant="body2">
@@ -157,7 +209,12 @@ const OtherUserProfile = ({ userId }) => {
 		<>
 			<ListItem sx={{ flexDirection: 'column' }}>
 				<UserAvatar user={user} />
-				<Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
+				<Typography
+					variant="h5"
+					component="h2"
+					fontWeight="bold"
+					gutterBottom
+				>
 					{user.fullName}
 				</Typography>
 				<Typography color="textSecondary">{user.email}</Typography>
@@ -180,7 +237,14 @@ const MetricItem = ({ title, value, isLink, linkTo }) => (
 	<Grid size={6}>
 		<Typography gutterBottom>{title}</Typography>
 		{isLink ? (
-			<Typography variant="h5" component={Link} to={linkTo} fontWeight="bold" sx={{ textDecoration: 'none' }} color="textPrimary">
+			<Typography
+				variant="h5"
+				component={Link}
+				to={linkTo}
+				fontWeight="bold"
+				sx={{ textDecoration: 'none' }}
+				color="textPrimary"
+			>
 				{value}
 			</Typography>
 		) : (
@@ -193,7 +257,7 @@ const MetricItem = ({ title, value, isLink, linkTo }) => (
 
 const UserMetrics = ({ metrics }) => (
 	<Grid size={{ xs: 12, md: 8 }}>
-		<Paper elevation={1} sx={{ height: '100%' }}>
+		<Paper sx={{ height: '100%' }}>
 			<List sx={{ p: 2 }}>
 				<ListItem>
 					<Typography variant="h5" component="h2" fontWeight="bold">
@@ -202,11 +266,28 @@ const UserMetrics = ({ metrics }) => (
 				</ListItem>
 				<ListItem>
 					<Grid container size={12} spacing={4}>
-						<MetricItem title="Posts Created" value={metrics?.postsCount || 0} />
-						<MetricItem title="Private Posts" value={metrics?.privatePostsCount || 0} />
-						<MetricItem title="Likes Received" value={metrics?.likesReceived || 0} />
-						<MetricItem title="Comments Received" value={metrics?.commentsReceived || 0} />
-						<MetricItem title="Longest Post" value={`${metrics?.longestPostWords || 0} words`} isLink linkTo={`/posts/${metrics?.longestPostId}`} />
+						<MetricItem
+							title="Posts Created"
+							value={metrics?.postsCount || 0}
+						/>
+						<MetricItem
+							title="Private Posts"
+							value={metrics?.privatePostsCount || 0}
+						/>
+						<MetricItem
+							title="Likes Received"
+							value={metrics?.likesReceived || 0}
+						/>
+						<MetricItem
+							title="Comments Received"
+							value={metrics?.commentsReceived || 0}
+						/>
+						<MetricItem
+							title="Longest Post"
+							value={`${metrics?.longestPostWords || 0} words`}
+							isLink
+							linkTo={`/posts/${metrics?.longestPostId}`}
+						/>
 					</Grid>
 				</ListItem>
 			</List>
@@ -216,7 +297,14 @@ const UserMetrics = ({ metrics }) => (
 
 const TabNavigation = ({ value, handleChange }) => (
 	<TabContext value={value}>
-		<TabList value={value} sx={{ width: '100%' }} onChange={handleChange} variant="scrollable" aria-label="your posts" scrollButtons="auto">
+		<TabList
+			value={value}
+			sx={{ width: '100%' }}
+			onChange={handleChange}
+			variant="scrollable"
+			aria-label="your posts"
+			scrollButtons="auto"
+		>
 			<Tab label="Liked Posts" value="liked-posts" />
 			<Tab label="Private Posts" value="private-posts" />
 			<Tab label="Commented Posts" value="commented-posts" />
@@ -233,15 +321,22 @@ const UserPosts = () => {
 
 	return (
 		<Grid size={12}>
-			<Paper elevation={1}>
+			<Paper>
 				<List sx={{ p: 2 }}>
 					<ListItem>
-						<Typography variant="h5" component="h2" fontWeight="bold">
+						<Typography
+							variant="h5"
+							component="h2"
+							fontWeight="bold"
+						>
 							Your Posts
 						</Typography>
 					</ListItem>
 					<ListItem sx={{ flexDirection: 'column' }}>
-						<TabNavigation value={value} handleChange={handleChange} />
+						<TabNavigation
+							value={value}
+							handleChange={handleChange}
+						/>
 					</ListItem>
 				</List>
 			</Paper>

@@ -202,7 +202,6 @@ const PostCard = ({ post }) => {
 						cursor: 'pointer',
 						height: 'auto'
 					}}
-					elevation={1}
 				>
 					<CardMedia
 						sx={{
@@ -373,7 +372,6 @@ const PostCard = ({ post }) => {
 						cursor: 'pointer',
 						height: '100%'
 					}}
-					elevation={1}
 				>
 					<CardHeader
 						avatar={
@@ -414,36 +412,61 @@ const PostCard = ({ post }) => {
 					/>
 					<CardActionArea
 						onClick={() => navigate(`/posts/${post.id}`)}
-						sx={{ mb: 5 }}
-					>
-						<Image
-							publicId={post.imageUrl.split('/').pop()}
-							alt={post.title}
-							width={1920}
-							height={1080}
-							sx={{
-								height: { md: 160, xs: 200 },
-								':after': {
-									content: '""',
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									width: '100%',
-									height: '100%',
-									bgcolor: 'rgba(0, 0, 0, 0.3)',
-									zIndex: 1
+						sx={{
+							mb: 5,
+							'&:hover': {
+								'& .MuiCardActionArea-focusHighlight': {
+									opacity: 0
 								}
-							}}
-						/>
-
+							}
+						}}
+					>
+						{!post.imageUrl.includes('cloudinary') ? (
+							<Box
+								component="img"
+								src={post.imageUrl}
+								width={1}
+								sx={{
+									height: { md: 160, xs: 200 },
+									':after': {
+										content: '""',
+										position: 'absolute',
+										top: 0,
+										left: 0,
+										width: '100%',
+										height: '100%',
+										bgcolor: 'rgba(0, 0, 0, 0.3)',
+										zIndex: 1
+									},
+									objectFit: 'cover'
+								}}
+							/>
+						) : (
+							<Image
+								publicId={post.imageUrl.split('/').pop()}
+								alt={post.title}
+								width={1920}
+								height={1080}
+								sx={{
+									height: { md: 160, xs: 200 },
+									':after': {
+										content: '""',
+										position: 'absolute',
+										top: 0,
+										left: 0,
+										width: '100%',
+										height: '100%',
+										bgcolor: 'rgba(0, 0, 0, 0.3)',
+										zIndex: 1
+									}
+								}}
+							/>
+						)}
 						<CardContent>
 							<Typography variant="h5" gutterBottom>
 								{truncate(post.title, 10)}
 							</Typography>
-							<Typography
-								variant="body2"
-								color="text.muted"
-							>
+							<Typography variant="body2" color="text.muted">
 								{post.tags.map(({ tag }) => `#${tag.name} `)}
 							</Typography>
 
@@ -532,32 +555,34 @@ const PostCard = ({ post }) => {
 							slotProps={{
 								paper: {
 									onMouseEnter: handlePopoverEnter,
-									onMouseLeave: handlePopoverLeave
+									onMouseLeave: handlePopoverLeave,
+									sx: {
+										p: 1
+									},
+									elevation: 0
 								}
 							}}
 						>
-							<Paper sx={{ p: 1 }}>
-								{reactions.map((reaction) => (
-									<IconButton
-										key={reaction.label}
-										onClick={() =>
-											handleReactionSelect(reaction)
-										}
-										sx={{
-											color:
-												reaction === currentReaction
-													? 'white'
-													: reaction.color,
-											bgcolor:
-												reaction === currentReaction
-													? reaction.color
-													: 'transparent'
-										}}
-									>
-										<reaction.icon />
-									</IconButton>
-								))}
-							</Paper>
+							{reactions.map((reaction) => (
+								<IconButton
+									key={reaction.label}
+									onClick={() =>
+										handleReactionSelect(reaction)
+									}
+									sx={{
+										color:
+											reaction === currentReaction
+												? 'white'
+												: reaction.color,
+										bgcolor:
+											reaction === currentReaction
+												? reaction.color
+												: 'transparent'
+									}}
+								>
+									<reaction.icon />
+								</IconButton>
+							))}
 						</Popover>
 					</CardActions>
 				</Card>

@@ -1,5 +1,20 @@
-import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, CircularProgress } from '@mui/material'
-import { Settings, ChevronRight, Computer, DarkMode, Done, LightMode, Logout } from '@mui/icons-material'
+import {
+	Box,
+	Avatar,
+	Menu,
+	MenuItem,
+	ListItemIcon,
+	Divider,
+	CircularProgress
+} from '@mui/material'
+import {
+	ChevronRight,
+	Computer,
+	DarkMode,
+	Done,
+	LightMode,
+	Logout
+} from '@mui/icons-material'
 import { useAuth, useUser } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '@/hooks'
@@ -16,21 +31,24 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 				<Avatar src={user.imageUrl} /> {user.fullName}
 			</MenuItem>
 			<Divider />
-
-			<MenuItem component={Link} to="/user/update" onClick={handleClose}>
-				<ListItemIcon>
-					<Settings fontSize="small" />
-				</ListItemIcon>
-				Settings
-			</MenuItem>
-			<MenuItem aria-controls={open ? 'theme-menu' : undefined} onClick={handleClick} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+			<MenuItem
+				aria-controls={open ? 'theme-menu' : undefined}
+				onClick={handleClick}
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between'
+				}}
+			>
 				<Box display="flex" alignItems="center">
 					<ListItemIcon>
 						<Computer fontSize="small" />
 					</ListItemIcon>
 					Theme
 				</Box>
-				<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
+				<ListItemIcon
+					sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}
+				>
 					<ChevronRight fontSize="small" />
 				</ListItemIcon>
 			</MenuItem>
@@ -60,17 +78,16 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 			sx={{ left: -10, top: 10, marginRight: 0 }}
 			slotProps={{
 				paper: {
-					elevation: 1,
+					elevation: 0,
 					sx: {
 						minWidth: 160,
 						overflow: 'visible',
-						filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
 						'& .MuiAvatar-root': {
 							width: 32,
 							height: 32,
 							mr: 1
 						},
-						'&::before': {
+						':before': {
 							content: '""',
 							display: 'block',
 							position: 'absolute',
@@ -94,7 +111,9 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 				</ListItemIcon>
 				Light
 				{theme === 'light' && (
-					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
+					<ListItemIcon
+						sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}
+					>
 						<Done fontSize="small" />
 					</ListItemIcon>
 				)}
@@ -105,7 +124,9 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 				</ListItemIcon>
 				Dark
 				{theme === 'dark' && (
-					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
+					<ListItemIcon
+						sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}
+					>
 						<Done fontSize="small" />
 					</ListItemIcon>
 				)}
@@ -116,7 +137,9 @@ const ThemeMenu = ({ handleClose, anchorEl, open }) => {
 				</ListItemIcon>
 				System
 				{theme === 'system' && (
-					<ListItemIcon sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}>
+					<ListItemIcon
+						sx={{ marginLeft: 'auto', justifyContent: 'flex-end' }}
+					>
 						<Done fontSize="small" />
 					</ListItemIcon>
 				)}
@@ -155,17 +178,17 @@ const AccountMenu = () => {
 				onClose={handleClose}
 				slotProps={{
 					paper: {
-						elevation: 1,
+						elevation: 0,
 						sx: {
 							overflow: 'visible',
-							filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-							mt: 1.5,
+							mt: 2,
+							ml: 1,
 							'& .MuiAvatar-root': {
 								width: 32,
 								height: 32,
 								mr: 1
 							},
-							'&::before': {
+							':before': {
 								content: '""',
 								display: 'block',
 								position: 'absolute',
@@ -183,9 +206,17 @@ const AccountMenu = () => {
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 			>
-				<AccountMenuItems handleClose={handleClose} handleClick={handleClickTheme} open={Boolean(anchorEl2)} />
+				<AccountMenuItems
+					handleClose={handleClose}
+					handleClick={handleClickTheme}
+					open={Boolean(anchorEl2)}
+				/>
 			</Menu>
-			<ThemeMenu anchorEl={anchorEl2} handleClose={handleCloseTheme} open={Boolean(anchorEl2)} />
+			<ThemeMenu
+				anchorEl={anchorEl2}
+				handleClose={handleCloseTheme}
+				open={Boolean(anchorEl2)}
+			/>
 		</>
 	)
 }
