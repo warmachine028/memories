@@ -7,7 +7,7 @@
 const config = {
 	$schema: 'http://json.schemastore.org/prettierrc',
 	bracketSpacing: true,
-	printWidth: 500,
+	printWidth: 80,
 	proseWrap: 'always',
 	semi: false,
 	singleQuote: true,

@@ -21,3 +21,4 @@ export {
 	Search as SearchForm,
 	UpdateProfile as UpdateProfileForm
 } from './Forms'
+export { default as Image } from './Image'

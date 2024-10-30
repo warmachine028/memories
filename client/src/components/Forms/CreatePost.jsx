@@ -217,7 +217,7 @@ const CreatePost = () => {
 	const { isSignedIn } = useAuth()
 
 	return (
-		<Paper sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+		<Paper>
 			{isSignedIn ? (
 				<Form />
 			) : (

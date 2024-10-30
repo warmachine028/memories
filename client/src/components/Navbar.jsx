@@ -1,5 +1,24 @@
 import { useState, useEffect } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Container, Button, ButtonGroup, Stack, useTheme, useMediaQuery, Dialog, DialogContent, TextField, Autocomplete, InputAdornment, Paper, Divider, Avatar } from '@mui/material'
+import {
+	AppBar,
+	Box,
+	Toolbar,
+	IconButton,
+	Container,
+	Button,
+	ButtonGroup,
+	Stack,
+	useTheme,
+	useMediaQuery,
+	Dialog,
+	DialogContent,
+	TextField,
+	Autocomplete,
+	InputAdornment,
+	Paper,
+	Divider,
+	Avatar
+} from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
 import { Menu, Search, LoginOutlined, GitHub } from '@mui/icons-material'
@@ -17,9 +36,33 @@ const searchSuggestions = [
 
 const Branding = () => {
 	return (
-		<Stack direction="row" spacing={2} alignItems="center" component={Link} to="/" sx={{ '&:hover': { opacity: 0.8 }, transition: 'opacity 0.3s' }}>
-			<Box component="img" src="/favicon.ico" width={40} height={40} alt="logo" />
-			<Box component="img" src={brand} width="auto" height={40} alt="brand" display={{ xs: 'none', sm: 'block' }} sx={{ filter: (theme) => theme.palette.mode === 'light' && 'invert(1)' }} />
+		<Stack
+			direction="row"
+			spacing={2}
+			alignItems="center"
+			component={Link}
+			to="/"
+			sx={{ '&:hover': { opacity: 0.8 }, transition: 'opacity 0.3s' }}
+		>
+			<Box
+				component="img"
+				src="/favicon.ico"
+				width={40}
+				height={40}
+				alt="logo"
+			/>
+			<Box
+				component="img"
+				src={brand}
+				width="auto"
+				height={40}
+				alt="brand"
+				display={{ xs: 'none', sm: 'block' }}
+				sx={{
+					filter: (theme) =>
+						theme.palette.mode === 'light' && 'invert(1)'
+				}}
+			/>
 		</Stack>
 	)
 }
@@ -46,7 +89,6 @@ const LoggedOutOptions = () => {
 						md: 'flex'
 					},
 					borderRadius: '10%',
-					border: '1px solid',
 					borderColor: 'divider',
 					color: 'white',
 					bgcolor: (theme) => theme.palette.primary.main
@@ -72,7 +114,12 @@ const SearchBar = ({ onFocus: handleFocus }) => {
 					),
 					endAdornment: (
 						<InputAdornment position="end">
-							<Button variant="outlined" size="small" onClick={handleFocus} sx={{ minWidth: 'auto' }}>
+							<Button
+								variant="outlined"
+								size="small"
+								onClick={handleFocus}
+								sx={{ minWidth: 'auto' }}
+							>
 								⌘K
 							</Button>
 						</InputAdornment>
@@ -166,40 +213,58 @@ const Navbar = () => {
 	}, [])
 
 	return (
-		<AppBar
-			position="sticky"
-			elevation={0}
-			sx={{
-				backgroundColor: 'transparent',
-				backdropFilter: 'blur(10px)',
-				WebkitBackdropFilter: 'blur(10px)', // For Safari
-				borderBottom: '1px solid',
-				borderColor: 'divider'
-			}}
-		>
+		<AppBar position="sticky" elevation={0}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters sx={{ minHeight: 64 }}>
-					<Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" spacing={2}>
+					<Stack
+						direction="row"
+						justifyContent="space-between"
+						alignItems="center"
+						width="100%"
+						spacing={2}
+					>
 						<Branding />
 						<Stack direction="row" alignItems="center" spacing={2}>
 							{isMobile ? (
-								<IconButton size="large" aria-label="menu" onClick={() => setSearchOpen(true)} edge="end">
+								<IconButton
+									size="large"
+									aria-label="menu"
+									onClick={() => setSearchOpen(true)}
+									edge="end"
+								>
 									<Search />
 								</IconButton>
 							) : (
-								<SearchBar onFocus={() => setSearchOpen(true)} />
+								<SearchBar
+									onFocus={() => setSearchOpen(true)}
+								/>
 							)}
 							{isMobile ? (
-								<IconButton size="large" aria-label="menu" onClick={handleOpen} edge="end">
+								<IconButton
+									size="large"
+									aria-label="menu"
+									onClick={handleOpen}
+									edge="end"
+								>
 									<Menu />
 								</IconButton>
 							) : (
-								<Stack direction="row" spacing={2} alignItems="center">
+								<Stack
+									direction="row"
+									spacing={2}
+									alignItems="center"
+								>
 									<LoggedOutOptions />
 									<AccountMenu />
 									<Divider orientation="vertical" flexItem />
-									<Link to="https://github.com/warmachine028/memories" target="_blank" rel="noopener noreferrer">
-										<Avatar sx={{ bgcolor: 'primary.main' }}>
+									<Link
+										to="https://github.com/warmachine028/memories"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<Avatar
+											sx={{ bgcolor: 'primary.main' }}
+										>
 											<GitHub />
 										</Avatar>
 									</Link>
@@ -210,7 +275,11 @@ const Navbar = () => {
 				</Toolbar>
 				{isMobile && open && (
 					<Box py={2}>
-						<Stack direction="row" justifyContent="flex-end" spacing={2}>
+						<Stack
+							direction="row"
+							justifyContent="flex-end"
+							spacing={2}
+						>
 							<LoggedOutOptions />
 							<AccountMenu />
 						</Stack>
@@ -218,7 +287,10 @@ const Navbar = () => {
 				)}
 			</Container>
 			<Sidebar open={open} setOpen={setOpen} />
-			<SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+			<SearchDialog
+				open={searchOpen}
+				onClose={() => setSearchOpen(false)}
+			/>
 		</AppBar>
 	)
 }

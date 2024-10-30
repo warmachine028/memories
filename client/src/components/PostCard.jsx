@@ -1,10 +1,46 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Button, Popover, Paper, Stack, Box, Fade, CircularProgress, TextField, Autocomplete, Input, Tooltip } from '@mui/material'
-import { ThumbUp, Delete, Favorite, EmojiEmotions, SentimentVeryDissatisfied, Mood, SentimentDissatisfied, ThumbUpOutlined, Edit, Cancel, Save, Refresh, VisibilityOff, Visibility, Lock } from '@mui/icons-material'
-import { UserAvatar } from '.'
+import {
+	Card,
+	CardHeader,
+	CardMedia,
+	CardContent,
+	CardActions,
+	IconButton,
+	Typography,
+	Button,
+	Popover,
+	Paper,
+	Stack,
+	Box,
+	Fade,
+	CircularProgress,
+	TextField,
+	Autocomplete,
+	Input,
+	Tooltip,
+	CardActionArea
+} from '@mui/material'
+import {
+	ThumbUp,
+	Delete,
+	Favorite,
+	EmojiEmotions,
+	SentimentVeryDissatisfied,
+	Mood,
+	SentimentDissatisfied,
+	ThumbUpOutlined,
+	Edit,
+	Cancel,
+	Save,
+	Refresh,
+	VisibilityOff,
+	Visibility,
+	Lock
+} from '@mui/icons-material'
+import { UserAvatar, Image } from '.'
 import moment from 'moment'
-import { getThumbnail, convertToBase64 } from '@/lib/utils'
+import { convertToBase64 } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
 
@@ -26,7 +62,9 @@ const PostCard = ({ post }) => {
 	const { mutate: updatePost, isPending: isUpdating } = useUpdatePost()
 
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
-	const [currentReaction, setCurrentReaction] = useState(post.reactions[0]?.reactionType)
+	const [currentReaction, setCurrentReaction] = useState(
+		post.reactions[0]?.reactionType
+	)
 	const [imagePreview, setImagePreview] = useState(post.imageUrl)
 	const [errors, setErrors] = useState(initialErrors)
 
@@ -63,11 +101,20 @@ const PostCard = ({ post }) => {
 		setErrors({ ...errors, [name]: '' })
 
 		if (name === 'title' && value.length > 30) {
-			setErrors({ ...errors, title: 'Title must be less than 30 characters' })
+			setErrors({
+				...errors,
+				title: 'Title must be less than 30 characters'
+			})
 		} else if (name === 'visibility') {
-			setEditedPost({ ...editedPost, visibility: value === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC' })
+			setEditedPost({
+				...editedPost,
+				visibility: value === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC'
+			})
 		} else if (name === 'description' && value.length > 150) {
-			setErrors({ ...errors, description: 'Description must be less than 150 characters' })
+			setErrors({
+				...errors,
+				description: 'Description must be less than 150 characters'
+			})
 		} else if (name === 'media' && files && files[0]) {
 			const file = files[0]
 			setEditedPost({ ...editedPost, [name]: file })
@@ -110,7 +157,9 @@ const PostCard = ({ post }) => {
 		try {
 			updatePost({
 				...editedPost,
-				media: editedPost.media ? await convertToBase64(editedPost.media) : editedPost.imageUrl
+				media: editedPost.media
+					? await convertToBase64(editedPost.media)
+					: editedPost.imageUrl
 			})
 			setEditing(false)
 		} catch (error) {
@@ -146,34 +195,19 @@ const PostCard = ({ post }) => {
 	}
 	return (
 		<Fade in timeout={500} unmountOnExit>
-			<Card
-				sx={{
-					border: (theme) => `1px solid ${theme.palette.divider}`,
-					position: 'relative',
-					cursor: 'pointer',
-					height: editing ? 'auto' : '100%'
-				}}
-				elevation={1}
-			>
-				<CardMedia
+			{editing ? (
+				<Card
 					sx={{
-						height: { md: 160, xs: 200 },
 						position: 'relative',
-
-						...(!editing && {
-							':after': {
-								content: '""',
-								position: 'absolute',
-								top: 0,
-								left: 0,
-								width: '100%',
-								height: '100%',
-								bgcolor: 'rgba(0, 0, 0, 0.3)',
-								zIndex: 1
-							}
-						}),
-
-						...(editing && {
+						cursor: 'pointer',
+						height: 'auto'
+					}}
+					elevation={1}
+				>
+					<CardMedia
+						sx={{
+							height: { md: 160, xs: 200 },
+							position: 'relative',
 							':hover': {
 								':after': {
 									height: '100%',
@@ -188,54 +222,78 @@ const PostCard = ({ post }) => {
 									cursor: 'pointer'
 								}
 							}
-						})
-					}}
-					image={editing ? imagePreview : post.imageUrl}
-					onClick={() => (editing ? document.getElementById(`image-upload-${post.id}`).click() : navigate(`/posts/${post.id}`))}
-				/>
-				<Input id={`image-upload-${post.id}`} type="file" accept="image/*" sx={{ display: 'none' }} onChange={handleChange} name="media" />
-				<CardHeader
-					avatar={
-						editing ? (
+						}}
+						image={imagePreview}
+						onClick={() =>
+							document
+								.getElementById(`image-upload-${post.id}`)
+								.click()
+						}
+					/>
+					<Input
+						id={`image-upload-${post.id}`}
+						type="file"
+						accept="image/*"
+						sx={{ display: 'none' }}
+						onChange={handleChange}
+						name="media"
+					/>
+					<CardHeader
+						avatar={
 							<Tooltip title={editedPost.visibility} arrow>
-								<IconButton aria-label="visibility" component="label" sx={{ color: 'white' }}>
-									<Input type="checkbox" onChange={handleChange} sx={{ display: 'none' }} value={editedPost.visibility} name="visibility" />
-									{editedPost.visibility === 'PUBLIC' ? <Visibility /> : <VisibilityOff />}
+								<IconButton
+									aria-label="visibility"
+									component="label"
+									sx={{ color: 'white' }}
+								>
+									<Input
+										type="checkbox"
+										onChange={handleChange}
+										sx={{ display: 'none' }}
+										value={editedPost.visibility}
+										name="visibility"
+									/>
+									{editedPost.visibility === 'PUBLIC' ? (
+										<Visibility />
+									) : (
+										<VisibilityOff />
+									)}
 								</IconButton>
 							</Tooltip>
-						) : (
-							<UserAvatar onClick={() => navigate(`/user/${post.authorId}`)} user={post.author} />
-						)
-					}
-					title={!editing && post.author.fullName}
-					subheader={!editing && moment(post.createdAt).format('Do MMM YYYY \\at h:mm a')}
-					sx={{
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						right: 0,
-						zIndex: 2,
-						color: 'white',
-						'& .MuiCardHeader-title': { color: 'white' },
-						'& .MuiCardHeader-subheader': { color: 'rgba(255, 255, 255, 0.7)' }
-					}}
-					action={
-						user?.id === post.authorId && (
-							<IconButton aria-label="edit" onClick={() => setEditing(!editing)} sx={{ color: 'white' }}>
-								{editing ? <Cancel /> : <Edit />}
+						}
+						sx={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							right: 0,
+							zIndex: 2,
+							color: 'white',
+							'& .MuiCardHeader-title': { color: 'white' },
+							'& .MuiCardHeader-subheader': {
+								color: 'rgba(255, 255, 255, 0.7)'
+							}
+						}}
+						action={
+							<IconButton
+								aria-label="edit"
+								onClick={() => setEditing(!editing)}
+								sx={{ color: 'white' }}
+							>
+								<Cancel />
 							</IconButton>
-						)
-					}
-				/>
-				<CardContent sx={{ mb: 5 }}>
-					{editing ? (
-						<TextField fullWidth label="Title" name="title" value={editedPost.title} onChange={handleChange} error={Boolean(errors.title)} helperText={errors.title} margin="normal" />
-					) : (
-						<Typography variant="h5" gutterBottom>
-							{truncate(post.title, 10)}
-						</Typography>
-					)}
-					{editing ? (
+						}
+					/>
+					<CardContent sx={{ mb: 5 }}>
+						<TextField //
+							fullWidth
+							label="Title"
+							name="title"
+							value={editedPost.title}
+							onChange={handleChange}
+							error={Boolean(errors.title)}
+							helperText={errors.title}
+							margin="normal"
+						/>
 						<Autocomplete
 							multiple
 							freeSolo
@@ -245,91 +303,265 @@ const PostCard = ({ post }) => {
 							onChange={(_, value) => {
 								setEditedPost((prevPost) => ({
 									...prevPost,
-									tags: value.length > 8 ? value.slice(-8) : value.map((tag) => ({ tag: { name: tag } }))
+									tags:
+										value.length > 8
+											? value.slice(-8)
+											: value.map((tag) => ({
+													tag: { name: tag }
+												}))
 								}))
 								setErrors({ ...errors, tags: '' })
 							}}
-							onInputChange={(_, value) => (editedPost.tags.length < 8 ? value : '')}
+							onInputChange={(_, value) =>
+								editedPost.tags.length < 8 ? value : ''
+							}
 							disableClearable
 						/>
-					) : (
-						<Typography variant="body2" color="text.secondary.muted">
-							{post.tags.map(({ tag }) => `#${tag.name} `)}
-						</Typography>
-					)}
-					{!editing && post.visibility === 'PRIVATE' && (
-						<Box justifyContent="center" display="flex">
-							<IconButton aria-label="visibility" component="label" color="primary">
-								<Lock />
-							</IconButton>
-						</Box>
-					)}
-					{editing ? (
-						<TextField fullWidth label="Description" name="description" value={editedPost.description} onChange={handleChange} error={Boolean(errors.description)} helperText={errors.description} margin="normal" multiline rows={2} />
-					) : (
-						<Typography color="text.secondary" mt={1}>
-							{truncate(post.description, 20)}
-						</Typography>
-					)}
-				</CardContent>
-				<CardActions sx={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-					<Stack flexDirection="row" alignItems="center" justifyContent="space-between" width="100%">
-						{!editing ? (
-							<Box onMouseEnter={handleReactionIconEnter} onMouseLeave={handleReactionIconLeave}>
-								<IconButton size="small" sx={{ color: currentReaction ? currentReaction.color : 'text.primary' }} disabled={!user}>
-									{currentReaction ? <currentReaction.icon /> : <ThumbUpOutlined />}
-									{post.reactionCount || ''}
-								</IconButton>
-							</Box>
-						) : (
+						<TextField //
+							fullWidth
+							label="Description"
+							name="description"
+							value={editedPost.description}
+							onChange={handleChange}
+							error={Boolean(errors.description)}
+							helperText={errors.description}
+							margin="normal"
+							multiline
+							rows={2}
+						/>
+					</CardContent>
+					<CardActions
+						sx={{
+							position: 'absolute',
+							bottom: 0,
+							left: 0,
+							right: 0
+						}}
+					>
+						<Stack
+							flexDirection="row"
+							alignItems="center"
+							justifyContent="space-between"
+							width="100%"
+						>
 							<Tooltip title="Reset" aria-label="Reset" arrow>
 								<IconButton type="reset" onClick={handleReset}>
 									<Refresh />
 								</IconButton>
 							</Tooltip>
+							<Button
+								color="primary"
+								startIcon={
+									isUpdating ? (
+										<CircularProgress size={20} />
+									) : (
+										<Save />
+									)
+								}
+								onClick={handleSubmit}
+								disabled={isUpdating}
+							>
+								Edit
+							</Button>
+						</Stack>
+					</CardActions>
+				</Card>
+			) : (
+				<Card
+					sx={{
+						position: 'relative',
+						cursor: 'pointer',
+						height: '100%'
+					}}
+					elevation={1}
+				>
+					<CardHeader
+						avatar={
+							<UserAvatar
+								onClick={() =>
+									navigate(`/user/${post.authorId}`)
+								}
+								user={post.author}
+							/>
+						}
+						title={post.author.fullName}
+						subheader={moment(post.createdAt).format(
+							'Do MMM YYYY \\at h:mm a'
 						)}
-						{user?.id === post.authorId &&
-							(editing ? (
-								<Button color="primary" startIcon={isUpdating ? <CircularProgress size={20} /> : <Save />} onClick={handleSubmit} disabled={isUpdating}>
-									Edit
-								</Button>
-							) : (
-								<Button color="error" startIcon={isDeleting ? <CircularProgress size={20} /> : <Delete />} onClick={() => deletePost(editedPost.id)} disabled={isDeleting}>
-									Delete
-								</Button>
-							))}
-					</Stack>
-					<Popover
-						open={Boolean(reactionAnchorEl)}
-						anchorEl={reactionAnchorEl}
-						onClose={() => setReactionAnchorEl(null)}
-						anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-						transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-						disableRestoreFocus
-						slotProps={{
-							paper: {
-								onMouseEnter: handlePopoverEnter,
-								onMouseLeave: handlePopoverLeave
+						sx={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							right: 0,
+							zIndex: 2,
+							color: 'white',
+							'& .MuiCardHeader-title': { color: 'white' },
+							'& .MuiCardHeader-subheader': {
+								color: 'rgba(255, 255, 255, 0.7)'
 							}
 						}}
-					>
-						<Paper sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.divider}` }}>
-							{reactions.map((reaction) => (
+						action={
+							user?.id === post.authorId && (
 								<IconButton
-									key={reaction.label}
-									onClick={() => handleReactionSelect(reaction)}
-									sx={{
-										color: reaction === currentReaction ? 'white' : reaction.color,
-										bgcolor: reaction === currentReaction ? reaction.color : 'transparent'
-									}}
+									aria-label="edit"
+									onClick={() => setEditing(!editing)}
+									sx={{ color: 'white' }}
 								>
-									<reaction.icon />
+									<Edit />
 								</IconButton>
-							))}
-						</Paper>
-					</Popover>
-				</CardActions>
-			</Card>
+							)
+						}
+					/>
+					<CardActionArea
+						onClick={() => navigate(`/posts/${post.id}`)}
+						sx={{ mb: 5 }}
+					>
+						<Image
+							publicId={post.imageUrl.split('/').pop()}
+							alt={post.title}
+							width={1920}
+							height={1080}
+							sx={{
+								height: { md: 160, xs: 200 },
+								':after': {
+									content: '""',
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									width: '100%',
+									height: '100%',
+									bgcolor: 'rgba(0, 0, 0, 0.3)',
+									zIndex: 1
+								}
+							}}
+						/>
+
+						<CardContent>
+							<Typography variant="h5" gutterBottom>
+								{truncate(post.title, 10)}
+							</Typography>
+							<Typography
+								variant="body2"
+								color="text.muted"
+							>
+								{post.tags.map(({ tag }) => `#${tag.name} `)}
+							</Typography>
+
+							{post.visibility === 'PRIVATE' && (
+								<Box justifyContent="center" display="flex">
+									<IconButton
+										aria-label="visibility"
+										component="label"
+										color="primary"
+									>
+										<Lock />
+									</IconButton>
+								</Box>
+							)}
+							<Typography color="text.secondary" mt={1}>
+								{truncate(post.description, 20)}
+							</Typography>
+						</CardContent>
+					</CardActionArea>
+					<CardActions
+						sx={{
+							position: 'absolute',
+							bottom: 0,
+							left: 0,
+							right: 0
+						}}
+					>
+						<Stack
+							flexDirection="row"
+							alignItems="center"
+							justifyContent="space-between"
+							width="100%"
+						>
+							<Box
+								onMouseEnter={handleReactionIconEnter}
+								onMouseLeave={handleReactionIconLeave}
+							>
+								<IconButton
+									size="small"
+									sx={{
+										color: currentReaction
+											? currentReaction.color
+											: 'text.primary'
+									}}
+									disabled={!user}
+								>
+									{currentReaction ? (
+										<currentReaction.icon />
+									) : (
+										<ThumbUpOutlined />
+									)}
+									{post.reactionCount || ''}
+								</IconButton>
+							</Box>
+
+							{user?.id === post.authorId && (
+								<Button //
+									color="error"
+									startIcon={
+										isDeleting ? (
+											<CircularProgress size={20} />
+										) : (
+											<Delete />
+										)
+									}
+									onClick={() => deletePost(editedPost.id)}
+									disabled={isDeleting}
+								>
+									Delete
+								</Button>
+							)}
+						</Stack>
+						<Popover
+							open={Boolean(reactionAnchorEl)}
+							anchorEl={reactionAnchorEl}
+							onClose={() => setReactionAnchorEl(null)}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'left'
+							}}
+							transformOrigin={{
+								vertical: 'bottom',
+								horizontal: 'left'
+							}}
+							disableRestoreFocus
+							slotProps={{
+								paper: {
+									onMouseEnter: handlePopoverEnter,
+									onMouseLeave: handlePopoverLeave
+								}
+							}}
+						>
+							<Paper sx={{ p: 1 }}>
+								{reactions.map((reaction) => (
+									<IconButton
+										key={reaction.label}
+										onClick={() =>
+											handleReactionSelect(reaction)
+										}
+										sx={{
+											color:
+												reaction === currentReaction
+													? 'white'
+													: reaction.color,
+											bgcolor:
+												reaction === currentReaction
+													? reaction.color
+													: 'transparent'
+										}}
+									>
+										<reaction.icon />
+									</IconButton>
+								))}
+							</Paper>
+						</Popover>
+					</CardActions>
+				</Card>
+			)}
 		</Fade>
 	)
 }

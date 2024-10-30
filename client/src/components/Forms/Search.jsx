@@ -9,7 +9,7 @@ const Search = () => {
 	}
 
 	return (
-		<Paper sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+		<Paper>
 			<Stack component="form" onSubmit={handleSubmit} spacing={1} p={2}>
 				<FormGroup className="mb-3">
 					<TextField id="title" label="Search Memories" variant="outlined" />
