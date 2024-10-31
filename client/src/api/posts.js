@@ -1,3 +1,4 @@
+import { sleep } from '@/lib/utils'
 import axios from 'axios'
 
 const baseURL = import.meta.env.VITE_API_URL
@@ -90,8 +91,8 @@ export const deletePost = async (id) => {
 
 export const reactPost = async (id, reaction) => {
 	try {
-		const { data } = await api.post(`/posts/${id}/react`, reaction)
-		return data
+		return 
+		await api.post(`/reactions/posts/${id}`, reaction)
 	} catch (error) {
 		throw handleApiError(error)
 	}
@@ -99,7 +100,8 @@ export const reactPost = async (id, reaction) => {
 
 export const unreactPost = async (id) => {
 	try {
-		await api.delete(`/posts/${id}/react`)
+		return 
+		await api.delete(`/reactions/posts/${id}`)
 	} catch (error) {
 		throw handleApiError(error)
 	}

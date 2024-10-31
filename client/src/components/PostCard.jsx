@@ -13,8 +13,6 @@ import {
 	Popover,
 	Stack,
 	Box,
-	Fade,
-	CircularProgress,
 	TextField,
 	Autocomplete,
 	Input,
@@ -41,15 +39,15 @@ import { UserAvatar } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
-import { useDeletePost, useUpdatePost } from '@/hooks'
+import { useDeletePost, useReactPost, useUpdatePost } from '@/hooks'
 
 const reactions = [
-	{ icon: ThumbUp, label: 'Like', color: '#2196f3' },
-	{ icon: Favorite, label: 'Love', color: '#e91e63' },
-	{ icon: EmojiEmotions, label: 'Haha', color: '#ffc107' },
-	{ icon: SentimentVeryDissatisfied, label: 'Sad', color: '#607d8b' },
-	{ icon: Mood, label: 'Wow', color: '#4caf50' },
-	{ icon: SentimentDissatisfied, label: 'Angry', color: '#ff5722' }
+	{ icon: ThumbUp, label: 'LIKE', color: '#2196f3' },
+	{ icon: Favorite, label: 'LOVE', color: '#e91e63' },
+	{ icon: EmojiEmotions, label: 'HAHA', color: '#ffc107' },
+	{ icon: SentimentVeryDissatisfied, label: 'SAD', color: '#607d8b' },
+	{ icon: Mood, label: 'WOW', color: '#4caf50' },
+	{ icon: SentimentDissatisfied, label: 'ANGRY', color: '#ff5722' }
 ]
 
 const truncate = (text, wordLimit) => {
@@ -330,12 +328,10 @@ const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
 	const navigate = useNavigate()
 	const { mutate: deletePost } = useDeletePost()
-
+	const { mutate: reactPost } = useReactPost()
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
-	const [currentReaction, setCurrentReaction] = useState(
-		post.reactions[0]?.reactionType
-	)
-
+	const currentReaction = post.reactions[0]?.reactionType
+	const currentReactionObj = reactions.find((r) => r.label === currentReaction)
 	const popoverTimeoutRef = useRef(null)
 
 	const handleReactionIconEnter = (event) => {
@@ -360,8 +356,9 @@ const StaticCard = ({ post, setEditing }) => {
 		}, 300)
 	}
 
-	const handleReactionSelect = (reaction) => {
-		setCurrentReaction(reaction === currentReaction ? null : reaction)
+	const handleReactionSelect = (reactionType) => {
+		const reaction = reactionType === currentReaction ? null : reactionType
+		reactPost({ postId: post.id, type: reaction })
 		setReactionAnchorEl(null)
 	}
 
@@ -493,14 +490,14 @@ const StaticCard = ({ post, setEditing }) => {
 						<IconButton
 							size="small"
 							sx={{
-								color: currentReaction
-									? currentReaction.color
+								color: currentReactionObj
+									? currentReactionObj.color
 									: 'text.primary'
 							}}
 							disabled={!user}
 						>
-							{currentReaction ? (
-								<currentReaction.icon
+							{currentReactionObj ? (
+								<currentReactionObj.icon
 									sx={{
 										width: 20,
 										height: 20
@@ -532,14 +529,8 @@ const StaticCard = ({ post, setEditing }) => {
 					open={Boolean(reactionAnchorEl)}
 					anchorEl={reactionAnchorEl}
 					onClose={() => setReactionAnchorEl(null)}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'left'
-					}}
-					transformOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left'
-					}}
+					anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+					transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
 					disableRestoreFocus
 					slotProps={{
 						paper: {
@@ -553,14 +544,14 @@ const StaticCard = ({ post, setEditing }) => {
 					{reactions.map((reaction) => (
 						<IconButton
 							key={reaction.label}
-							onClick={() => handleReactionSelect(reaction)}
+							onClick={() => handleReactionSelect(reaction.label)}
 							sx={{
 								color:
-									reaction === currentReaction
+									reaction.label === currentReaction
 										? 'white'
 										: reaction.color,
 								bgcolor:
-									reaction === currentReaction
+									reaction.label === currentReaction
 										? reaction.color
 										: 'transparent'
 							}}
