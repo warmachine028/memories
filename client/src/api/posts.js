@@ -37,6 +37,7 @@ const handleApiError = (error) => {
 
 export const getPosts = async (cursor, limit) => {
 	try {
+		await sleep(6000)
 		const { data } = await api.get('/posts', { params: { cursor, limit } })
 		return data
 	} catch (error) {
