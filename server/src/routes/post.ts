@@ -2,7 +2,6 @@ import { Elysia, t } from 'elysia'
 import { getPosts, getPostById, createPost } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { Visibility } from '@prisma/client'
-import type { RequestParams } from '@/types'
 import { deletePost, updatePost } from '@/controllers/post'
 
 export const postRoutes = new Elysia({ prefix: '/posts' })
@@ -43,7 +42,13 @@ export const postRoutes = new Elysia({ prefix: '/posts' })
 		body: t.Object({
 			title: t.String(),
 			description: t.String(),
-			tags: t.Array(t.Object({ tag: t.Object({ name: t.String() }) })),
+			tags: t.Array(
+				t.Object({
+					tag: t.Object({
+						name: t.String(),
+					}),
+				})
+			),
 			media: t.String(),
 			imageUrl: t.String(),
 			visibility: t.Enum(Visibility),

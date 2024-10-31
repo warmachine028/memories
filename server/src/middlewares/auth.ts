@@ -4,8 +4,8 @@ import type { Elysia } from 'elysia'
 // Middleware to check authentication
 export const authMiddleware = (app: Elysia) =>
 	app.derive(async ({ set, headers }) => {
-		const sessionToken = headers['authorization']?.split(' ')[1]
-		
+		const sessionToken = headers['authorization']?.split(' ').at(-1)
+
 		if (!sessionToken) {
 			return { userId: null }
 		}

@@ -3,87 +3,98 @@ import { processPostsReactions } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import type { ReactionType } from '@prisma/client'
 
-export const react = async ({ params: { postId }, body, userId }: RequestParams) => {
+/**
+ * React to a post or update an existing reaction
+ * @param params - The request parameters (postId)
+ * @param body - The request body (reactionType)
+ * @param userId - The user ID
+ * @returns The reaction
+ */
+
+export const react = async ({
+	params: { postId },
+	body,
+	userId,
+}: RequestParams) => {
+	if (!userId) {
+		throw new Error('Unauthorized')
+	}
+	const { reactionType }: { reactionType: ReactionType } = body
+	return prisma.$transaction(async (tx) => {
+		const existingReaction = await tx.postReaction.findUnique({
+			where: {
+				userId_postId: { userId, postId },
+			},
+		})
+
+		if (existingReaction) {
+			// If the reaction is the same, return the existing reaction
+			if (existingReaction.reactionType === reactionType) {
+				return existingReaction
+			}
+
+			// If the reaction is different, update the reaction
+			const updatedReaction = await tx.postReaction.update({
+				where: { id: existingReaction.id },
+				data: { reactionType },
+			})
+
+			return updatedReaction
+		}
+
+		// If the reaction is new, create it
+		const newReaction = await tx.postReaction.create({
+			data: { userId, postId, reactionType },
+		})
+
+		await tx.post.update({
+			where: { id: postId },
+			data: { reactionCount: { increment: 1 } },
+		})
+
+		return newReaction
+	})
+}
+
+/**
+ * Unreact to a post
+ * @param params - The request parameters (postId)
+ * @param userId - The user ID
+ * @returns The deleted reaction
+ */
+export const unreact = async ({
+	params: { postId },
+	userId,
+}: RequestParams) => {
 	if (!userId) {
 		throw new Error('Unauthorized')
 	}
 
-	const { reactionType }: { reactionType: ReactionType } = body
-
-	// Check if the post exists and is accessible to the user
-	const post = await prisma.post.findFirst({
-		where: {
-			id: postId,
-			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
-		},
-	})
-
-	if (!post) {
-		throw new Error('Post not found or not accessible')
-	}
-
-	// Check if the user has already reacted to this post
-	const existingReaction = await prisma.postReaction.findUnique({
-		where: {
-			userId_postId: {
-				userId,
-				postId,
-			},
-		},
-	})
-
-	let reaction
-
-	if (existingReaction) {
-		if (existingReaction.reactionType === reactionType) {
-			// If the reaction is the same, remove it
-			await prisma.postReaction.delete({
-				where: { id: existingReaction.id },
-			})
-			reaction = null
-		} else {
-			// If the reaction is different, update it
-			reaction = await prisma.postReaction.update({
-				where: { id: existingReaction.id },
-				data: { reactionType },
-			})
-		}
-	} else {
-		// If no existing reaction, create a new one
-		reaction = await prisma.postReaction.create({
-			data: {
-				reactionType,
-				user: { connect: { id: userId } },
-				post: { connect: { id: postId } },
-			},
+	return prisma.$transaction(async (tx) => {
+		const deletedReaction = await tx.postReaction.delete({
+			where: { id: postId },
 		})
-	}
 
-	// Fetch the updated post with reactions
-	const updatedPost = await prisma.post.findUnique({
-		where: { id: postId },
+		await tx.post.update({
+			where: { id: postId },
+			data: { reactionCount: { decrement: 1 } },
+		})
+
+		return deletedReaction
+	})
+}
+
+export const getReaction = ({ params: { postId } }: RequestParams) => {
+	return prisma.postReaction.findMany({
+		where: { postId },
 		include: {
-			reactions: {
-				orderBy: { createdAt: 'desc' },
-				take: 3,
+			user: {
 				select: {
-					reactionType: true,
-					userId: true,
-					createdAt: true,
-					user: {
-						select: {
-							imageUrl: true,
-						},
-					},
+					id: true,
+					fullName: true,
+					imageUrl: true,
 				},
 			},
 		},
 	})
-
-	if (!updatedPost) {
-		throw new Error('Failed to fetch updated post')
-	}
-
-	const [processedPost] = processPostsReactions([updatedPost], userId)
-	return processedPost
 }
