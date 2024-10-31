@@ -1,7 +1,12 @@
 import { Elysia, t } from 'elysia'
 import type { RequestParams } from '@/types'
 
-export const tagRoutes = new Elysia({ prefix: '/tags' }) //
+export const tagRoutes = new Elysia({
+	prefix: '/tags',
+	detail: {
+		tags: ['Tags'],
+	},
+})
 	.get('/', () => {
 		return [
 			{

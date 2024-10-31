@@ -2,7 +2,20 @@ import { Elysia, t } from 'elysia'
 import type { RequestParams } from '@/types'
 import { authMiddleware } from '@/middlewares'
 
-export const commentRoutes = new Elysia({ prefix: '/comments' }) //
+export const commentRoutes = new Elysia({
+	prefix: '/comments',
+	detail: {
+		tags: ['Comments'],
+		responses: {
+			'200': {
+				description: 'Returns a list of comments',
+			},
+			'401': {
+				description: 'Unauthorized',
+			},
+		},
+	},
+})
 	.use(authMiddleware)
 	.guard({
 		headers: t.Object({

@@ -39,7 +39,7 @@ import { UserAvatar } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
-import { useDeletePost, useReactPost, useUpdatePost } from '@/hooks'
+import { useCreatePost, useDeletePost, useReactPost, useUpdatePost } from '@/hooks'
 
 const reactions = [
 	{ icon: ThumbUp, label: 'LIKE', color: '#2196f3' },
@@ -361,7 +361,6 @@ const StaticCard = ({ post, setEditing }) => {
 		reactPost({ postId: post.id, type: reaction })
 		setReactionAnchorEl(null)
 	}
-
 	return (
 		<Card
 			sx={{

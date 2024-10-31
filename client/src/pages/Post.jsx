@@ -97,7 +97,7 @@ const PostCard = () => {
 	}
 
 	return (
-		<Card>
+		<Card sx={{ width: 1 }}>
 			<CardMedia component="img" image={post.imageUrl} alt="Post cover" />
 			<CardHeader
 				avatar={
@@ -199,7 +199,7 @@ const ShareDialog = ({ open, onClose, url }) => {
 		>
 			<DialogTitle id="share-dialog-title">Share this post</DialogTitle>
 			<DialogContent>
-				<Stack direction="row" spacing={2}>
+				<Stack direction="row" spacing={2} justifyContent="center" mb={1}>
 					<IconButton
 						onClick={() =>
 							window.open(shareUrls.facebook, '_blank')

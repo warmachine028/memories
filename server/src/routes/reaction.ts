@@ -3,7 +3,22 @@ import { getReaction, react, unreact } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { ReactionType } from '@prisma/client'
 
-export const reactionRoutes = new Elysia({ prefix: '/reactions' })
+export const reactionRoutes = new Elysia({
+	prefix: '/reactions',
+	detail: {
+		tags: ['Reactions'],
+		responses: {
+			'200': {
+				description: 'Returns a list of reactions',
+			},
+			'401': {
+				description: 'Unauthorized',
+			},
+		},
+		security: [{ bearerAuth: [] }],
+		
+	},
+})
 	.use(authMiddleware)
 	.guard({
 		params: t.Object({

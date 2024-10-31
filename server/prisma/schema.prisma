@@ -76,7 +76,7 @@ model PostTag {
     post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
     tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
-    @@id(name: "postTagId", [postId, tagId])
+    @@id(name: "id", [postId, tagId])
     @@unique([postId, tagId])
     @@map("post_tags")
 }
@@ -100,7 +100,6 @@ model Comment {
 }
 
 model PostReaction {
-    id           String       @id @default(uuid())
     userId       String
     postId       String
     reactionType ReactionType
@@ -110,6 +109,7 @@ model PostReaction {
 
     createdAt DateTime @default(now())
 
+    @@id(name: "id", [userId, postId])
     @@unique([userId, postId])
     @@map("post_reactions")
 }
@@ -123,6 +123,7 @@ model CommentLike {
 
     createdAt DateTime @default(now())
 
+    @@id(name: "id", [userId, commentId])
     @@unique([userId, commentId])
     @@map("comment_likes")
 }

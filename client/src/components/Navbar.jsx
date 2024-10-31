@@ -154,39 +154,38 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 			fullWidth
 			maxWidth="sm"
 			PaperProps={{
-				sx: { position: 'fixed', top: '15%', m: 2 }
+				sx: { position: 'fixed', top: '15%', m: 2 },
+				elevation: 0
 			}}
 		>
-			<Paper>
-				<DialogContent>
-					<Autocomplete
-						freeSolo
-						options={searchSuggestions}
-						getOptionLabel={(option) => option.title}
-						renderInput={(params) => (
-							<TextField
-								{...params}
-								fullWidth
-								variant="outlined"
-								placeholder="Search"
-								slotProps={{
-									input: {
-										...params.InputProps,
-										startAdornment: (
-											<InputAdornment position="start">
-												<Search />
-											</InputAdornment>
-										)
-									}
-								}}
-							/>
-						)}
-						inputValue={searchTerm}
-						onInputChange={(_, newValue) => setSearchTerm(newValue)}
-						onChange={handleSearch}
-					/>
-				</DialogContent>
-			</Paper>
+			<DialogContent>
+				<Autocomplete
+					freeSolo
+					options={searchSuggestions}
+					getOptionLabel={(option) => option.title}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							fullWidth
+							variant="outlined"
+							placeholder="Search"
+							slotProps={{
+								input: {
+									...params.InputProps,
+									startAdornment: (
+										<InputAdornment position="start">
+											<Search />
+										</InputAdornment>
+									)
+								}
+							}}
+						/>
+					)}
+					inputValue={searchTerm}
+					onInputChange={(_, newValue) => setSearchTerm(newValue)}
+					onChange={handleSearch}
+				/>
+			</DialogContent>
 		</Dialog>
 	)
 }
@@ -213,7 +212,7 @@ const Navbar = () => {
 	}, [])
 
 	return (
-		<AppBar position="sticky" >
+		<AppBar position="sticky">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters sx={{ minHeight: 64 }}>
 					<Stack

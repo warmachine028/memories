@@ -4,7 +4,20 @@ import { authMiddleware } from '@/middlewares'
 import { Visibility } from '@prisma/client'
 import { deletePost, updatePost } from '@/controllers/post'
 
-export const postRoutes = new Elysia({ prefix: '/posts' })
+export const postRoutes = new Elysia({
+	prefix: '/posts',
+	detail: {
+		tags: ['Posts'],
+		responses: {
+			'200': {
+				description: 'Returns a list of posts',
+			},
+			'401': {
+				description: 'Unauthorized',
+			},
+		},
+	},
+})
 	.use(authMiddleware)
 	.guard({
 		headers: t.Object({
