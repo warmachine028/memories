@@ -3,24 +3,24 @@ import { getReaction, react, unreact } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { ReactionType } from '@prisma/client'
 
-export const reactionRoutes = new Elysia()
+export const reactionRoutes = new Elysia({ prefix: '/reactions' })
 	.use(authMiddleware)
 	.guard({
 		params: t.Object({
-		postId: t.String(),
+			postId: t.String(),
 		}),
 	})
-	.get('/posts/:postId/reacts', getReaction)
+	.get('/posts/:postId', getReaction)
 	.guard({
 		headers: t.Object({
 			authorization: t.String(),
 		}),
 	})
-	.delete('/posts/:postId/react', unreact)
+	.delete('/posts/:postId', unreact)
 	.guard({
 		body: t.Object({
 			reactionType: t.Enum(ReactionType),
 		}),
 	})
-	.post('/posts/:postId/react', react)
-	.patch('/posts/:postId/react', react)
+	.post('/posts/:postId', react)
+	.patch('/posts/:postId', react)

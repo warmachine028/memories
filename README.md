@@ -10,7 +10,7 @@
     </a>
 </div>
 
-# [Memories](https://memories-latest.vercel.app)
+# [Memories](https://memories-pritam.vercel.app)
 
 ![line]
 
