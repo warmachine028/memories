@@ -6,11 +6,11 @@ import {
 	CardMedia,
 	CardContent,
 	CardActions,
+	CardActionArea,
 	IconButton,
 	Typography,
 	Button,
 	Popover,
-	Paper,
 	Stack,
 	Box,
 	Fade,
@@ -18,8 +18,7 @@ import {
 	TextField,
 	Autocomplete,
 	Input,
-	Tooltip,
-	CardActionArea
+	Tooltip
 } from '@mui/material'
 import {
 	ThumbUp,
@@ -38,9 +37,9 @@ import {
 	Visibility,
 	Lock
 } from '@mui/icons-material'
-import { UserAvatar, Image } from '.'
+import { UserAvatar } from '.'
 import moment from 'moment'
-import { convertToBase64 } from '@/lib/utils'
+import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
 
@@ -53,49 +52,53 @@ const reactions = [
 	{ icon: SentimentDissatisfied, label: 'Angry', color: '#ff5722' }
 ]
 
-const PostCard = ({ post }) => {
-	const { user } = useUser()
-	const [editing, setEditing] = useState(false)
-	const [editedPost, setEditedPost] = useState(post)
-	const initialErrors = { title: '', description: '', tags: '', media: '' }
-	const { mutate: deletePost, isPending: isDeleting } = useDeletePost()
-	const { mutate: updatePost, isPending: isUpdating } = useUpdatePost()
+const truncate = (text, wordLimit) => {
+	const words = text.split(' ')
+	return words.length > wordLimit
+		? `${words.slice(0, wordLimit).join(' ')} ...`
+		: text
+}
 
-	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
-	const [currentReaction, setCurrentReaction] = useState(
-		post.reactions[0]?.reactionType
-	)
+const EditCard = ({ post, setEditing }) => {
+	const [editedPost, setEditedPost] = useState(post)
 	const [imagePreview, setImagePreview] = useState(post.imageUrl)
+	const initialErrors = { title: '', description: '', tags: '', media: '' }
+	const { mutate: updatePost } = useUpdatePost()
 	const [errors, setErrors] = useState(initialErrors)
 
-	const popoverTimeoutRef = useRef(null)
-	const navigate = useNavigate()
-
-	const handleReactionIconEnter = (event) => {
-		if (!user) {
-			return
+	const handleReset = () => {
+		setEditedPost(post)
+		setImagePreview(post.imageUrl)
+		setErrors(initialErrors)
+	}
+	const validateInputs = () => {
+		const newErrors = {
+			title: '',
+			description: '',
+			tags: '',
+			media: ''
 		}
-		clearTimeout(popoverTimeoutRef.current)
-		setReactionAnchorEl(event.currentTarget)
+		let valid = true
+
+		if (editedPost.title.trim() === '') {
+			newErrors.title = 'Title is required'
+			valid = false
+		}
+		if (editedPost.description.trim() === '') {
+			newErrors.description = 'Description is required'
+			valid = false
+		}
+		if (editedPost.tags.length === 0) {
+			newErrors.tags = 'At least one tag is required'
+			valid = false
+		}
+		if (!editedPost.imageUrl) {
+			newErrors.media = 'Please pick an image'
+			valid = false
+		}
+		setErrors(newErrors)
+		return valid
 	}
-
-	const handleReactionIconLeave = () =>
-		(popoverTimeoutRef.current = setTimeout(() => {
-			setReactionAnchorEl(null)
-		}, 1000))
-
-	const handlePopoverEnter = () => clearTimeout(popoverTimeoutRef.current)
-
-	const handlePopoverLeave = () =>
-		(popoverTimeoutRef.current = setTimeout(() => {
-			setReactionAnchorEl(null)
-		}, 300))
-
-	const handleReactionSelect = (reaction) => {
-		setCurrentReaction(reaction === currentReaction ? null : reaction)
-		setReactionAnchorEl(null)
-	}
-
 	const handleChange = (event) => {
 		const { name, value, files } = event.target
 		setErrors({ ...errors, [name]: '' })
@@ -125,32 +128,25 @@ const PostCard = ({ post }) => {
 			setEditedPost({ ...editedPost, [name]: value })
 		}
 	}
-
-	const validateInputs = () => {
-		const newErrors = { title: '', description: '', tags: '', media: '' }
-		let valid = true
-
-		if (editedPost.title.trim() === '') {
-			newErrors.title = 'Title is required'
-			valid = false
-		}
-		if (editedPost.description.trim() === '') {
-			newErrors.description = 'Description is required'
-			valid = false
-		}
-		if (editedPost.tags.length === 0) {
-			newErrors.tags = 'At least one tag is required'
-			valid = false
-		}
-		if (!editedPost.imageUrl) {
-			newErrors.media = 'Please pick an image'
-			valid = false
-		}
-		setErrors(newErrors)
-		return valid
+	const handleTagInput = (params) => {
+		return (
+			<TextField
+				{...params}
+				label="Tags"
+				error={Boolean(errors.tags)}
+				name="tags"
+				helperText={errors.tags}
+				slotProps={{
+					input: {
+						...params.InputProps,
+						type: 'search'
+					}
+				}}
+			/>
+		)
 	}
-
-	const handleSubmit = async () => {
+	const handleSubmit = async (event) => {
+		event.preventDefault()
 		if (!validateInputs()) {
 			return
 		}
@@ -167,428 +163,421 @@ const PostCard = ({ post }) => {
 		}
 	}
 
-	const handleReset = () => {
-		setEditedPost(post)
-		setImagePreview(post.imageUrl)
-		setErrors({ title: '', description: '', tags: '', media: '' })
-	}
-
-	const handleTagInput = (params) => {
-		return (
-			<TextField
-				{...params}
-				label="Tags"
-				error={Boolean(errors.tags)}
-				name="tags"
-				slotProps={{
-					input: { ...params.InputProps, type: 'search' }
-				}}
-			/>
-		)
-	}
-	const truncate = (text, wordLimit) => {
-		const words = text.split(' ')
-		if (words.length > wordLimit) {
-			return `${words.slice(0, wordLimit).join(' ')} ...`
-		}
-		return text
-	}
 	return (
-		<Fade in timeout={500} unmountOnExit>
-			{editing ? (
-				<Card
-					sx={{
-						position: 'relative',
-						cursor: 'pointer',
-						height: 'auto'
-					}}
-				>
-					<CardMedia
-						sx={{
-							height: { md: 160, xs: 200 },
-							position: 'relative',
-							':hover': {
-								':after': {
-									height: '100%',
-									content: '"Click to change image"',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-									color: 'white',
-									fontSize: '1.2rem',
-									bgcolor: 'rgba(0, 0, 0, 0.5)',
-									fontWeight: 'bold',
-									cursor: 'pointer'
-								}
-							}
-						}}
-						image={imagePreview}
-						onClick={() =>
-							document
-								.getElementById(`image-upload-${post.id}`)
-								.click()
-						}
-					/>
-					<Input
-						id={`image-upload-${post.id}`}
-						type="file"
-						accept="image/*"
-						sx={{ display: 'none' }}
-						onChange={handleChange}
-						name="media"
-					/>
-					<CardHeader
-						avatar={
-							<Tooltip title={editedPost.visibility} arrow>
-								<IconButton
-									aria-label="visibility"
-									component="label"
-									sx={{ color: 'white' }}
-								>
-									<Input
-										type="checkbox"
-										onChange={handleChange}
-										sx={{ display: 'none' }}
-										value={editedPost.visibility}
-										name="visibility"
-									/>
-									{editedPost.visibility === 'PUBLIC' ? (
-										<Visibility />
-									) : (
-										<VisibilityOff />
-									)}
-								</IconButton>
-							</Tooltip>
-						}
-						sx={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							right: 0,
-							zIndex: 2,
+		<Card
+			sx={{ position: 'relative', cursor: 'pointer', height: 'auto' }}
+			component="form"
+			onSubmit={handleSubmit}
+			onReset={handleReset}
+		>
+			<CardMedia
+				sx={{
+					height: { md: 160, xs: 200 },
+					position: 'relative',
+					':hover': {
+						':after': {
+							height: '100%',
+							content: '"Click to change image"',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
 							color: 'white',
-							'& .MuiCardHeader-title': { color: 'white' },
-							'& .MuiCardHeader-subheader': {
-								color: 'rgba(255, 255, 255, 0.7)'
-							}
-						}}
-						action={
-							<IconButton
-								aria-label="edit"
-								onClick={() => setEditing(!editing)}
-								sx={{ color: 'white' }}
-							>
-								<Cancel />
-							</IconButton>
+							fontSize: '1.2rem',
+							bgcolor: 'rgba(0, 0, 0, 0.5)',
+							fontWeight: 'bold',
+							cursor: 'pointer'
 						}
-					/>
-					<CardContent sx={{ mb: 5 }}>
-						<TextField //
-							fullWidth
-							label="Title"
-							name="title"
-							value={editedPost.title}
-							onChange={handleChange}
-							error={Boolean(errors.title)}
-							helperText={errors.title}
-							margin="normal"
-						/>
-						<Autocomplete
-							multiple
-							freeSolo
-							options={[]} // You might want to provide a list of suggested tags here
-							renderInput={handleTagInput}
-							value={editedPost.tags.map((tag) => tag.tag.name)}
-							onChange={(_, value) => {
-								setEditedPost((prevPost) => ({
-									...prevPost,
-									tags:
-										value.length > 8
-											? value.slice(-8)
-											: value.map((tag) => ({
-													tag: { name: tag }
-												}))
-								}))
-								setErrors({ ...errors, tags: '' })
-							}}
-							onInputChange={(_, value) =>
-								editedPost.tags.length < 8 ? value : ''
-							}
-							disableClearable
-						/>
-						<TextField //
-							fullWidth
-							label="Description"
-							name="description"
-							value={editedPost.description}
-							onChange={handleChange}
-							error={Boolean(errors.description)}
-							helperText={errors.description}
-							margin="normal"
-							multiline
-							rows={2}
-						/>
-					</CardContent>
-					<CardActions
-						sx={{
-							position: 'absolute',
-							bottom: 0,
-							left: 0,
-							right: 0
-						}}
-					>
-						<Stack
-							flexDirection="row"
-							alignItems="center"
-							justifyContent="space-between"
-							width="100%"
+					}
+				}}
+				image={imagePreview}
+				onClick={() =>
+					document
+						.getElementById(`image-upload-${editedPost.id}`)
+						.click()
+				}
+			/>
+			<Input
+				id={`image-upload-${editedPost.id}`}
+				type="file"
+				accept="image/*"
+				sx={{ display: 'none' }}
+				onChange={handleChange}
+				name="media"
+			/>
+			<CardHeader
+				avatar={
+					<Tooltip title={editedPost.visibility} arrow>
+						<IconButton
+							aria-label="visibility"
+							component="label"
+							sx={{ color: 'white' }}
 						>
-							<Tooltip title="Reset" aria-label="Reset" arrow>
-								<IconButton type="reset" onClick={handleReset}>
-									<Refresh />
-								</IconButton>
-							</Tooltip>
-							<Button
-								color="primary"
-								startIcon={
-									isUpdating ? (
-										<CircularProgress size={20} />
-									) : (
-										<Save />
-									)
-								}
-								onClick={handleSubmit}
-								disabled={isUpdating}
-							>
-								Edit
-							</Button>
-						</Stack>
-					</CardActions>
-				</Card>
-			) : (
-				<Card
-					sx={{
-						position: 'relative',
-						cursor: 'pointer',
-						height: '100%'
+							<Input
+								type="checkbox"
+								onChange={handleChange}
+								sx={{ display: 'none' }}
+								value={editedPost.visibility}
+								name="visibility"
+							/>
+							{editedPost.visibility === 'PUBLIC' ? (
+								<Visibility />
+							) : (
+								<VisibilityOff />
+							)}
+						</IconButton>
+					</Tooltip>
+				}
+				sx={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0,
+					zIndex: 2,
+					color: 'white',
+					'& .MuiCardHeader-title': { color: 'white' },
+					'& .MuiCardHeader-subheader': {
+						color: 'rgba(255, 255, 255, 0.7)'
+					}
+				}}
+				action={
+					<IconButton
+						aria-label="edit"
+						onClick={() => setEditing(false)}
+						sx={{ color: 'white' }}
+					>
+						<Cancel />
+					</IconButton>
+				}
+			/>
+			<CardContent sx={{ mb: 5 }}>
+				<TextField
+					fullWidth
+					label="Title"
+					name="title"
+					value={editedPost.title}
+					onChange={handleChange}
+					error={Boolean(errors.title)}
+					helperText={errors.title}
+					margin="normal"
+					required
+				/>
+				<Autocomplete
+					multiple
+					freeSolo
+					options={[]}
+					renderInput={handleTagInput}
+					value={editedPost.tags.map((tag) => tag.tag.name)}
+					onChange={(_, value) => {
+						setEditedPost({
+							...editedPost,
+							tags:
+								value.length > 8
+									? value.slice(-8)
+									: value.map((tag) => ({
+											tag: { name: tag }
+										}))
+						})
+						setErrors({ ...errors, tags: '' })
 					}}
+					onInputChange={(_, value) =>
+						editedPost.tags.length < 8 ? value : ''
+					}
+					disableClearable
+				/>
+				<TextField
+					fullWidth
+					label="Description"
+					name="description"
+					value={editedPost.description}
+					onChange={handleChange}
+					error={Boolean(errors.description)}
+					helperText={errors.description}
+					margin="normal"
+					multiline
+					maxRows={2}
+					required
+				/>
+			</CardContent>
+			<CardActions
+				sx={{
+					position: 'absolute',
+					bottom: 0,
+					left: 0,
+					right: 0
+				}}
+			>
+				<Stack
+					flexDirection="row"
+					alignItems="center"
+					justifyContent="space-between"
+					width="100%"
 				>
-					<CardHeader
-						avatar={
-							<UserAvatar
-								onClick={() =>
-									navigate(`/user/${post.authorId}`)
-								}
-								user={post.author}
-							/>
-						}
-						title={post.author.fullName}
-						subheader={moment(post.createdAt).format(
-							'Do MMM YYYY \\at h:mm a'
-						)}
-						sx={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							right: 0,
-							zIndex: 2,
-							color: 'white',
-							'& .MuiCardHeader-title': { color: 'white' },
-							'& .MuiCardHeader-subheader': {
-								color: 'rgba(255, 255, 255, 0.7)'
-							}
-						}}
-						action={
-							user?.id === post.authorId && (
-								<IconButton
-									aria-label="edit"
-									onClick={() => setEditing(!editing)}
-									sx={{ color: 'white' }}
-								>
-									<Edit />
-								</IconButton>
-							)
-						}
-					/>
-					<CardActionArea
-						onClick={() => navigate(`/posts/${post.id}`)}
-						sx={{
-							mb: 5,
-							'&:hover': {
-								'& .MuiCardActionArea-focusHighlight': {
-									opacity: 0
-								}
-							}
-						}}
-					>
-						{!post.imageUrl.includes('cloudinary') ? (
-							<Box
-								component="img"
-								src={post.imageUrl}
-								width={1}
-								sx={{
-									height: { md: 160, xs: 200 },
-									':after': {
-										content: '""',
-										position: 'absolute',
-										top: 0,
-										left: 0,
-										width: '100%',
-										height: '100%',
-										bgcolor: 'rgba(0, 0, 0, 0.3)',
-										zIndex: 1
-									},
-									objectFit: 'cover'
-								}}
-							/>
-						) : (
-							<Image
-								publicId={post.imageUrl.split('/').pop()}
-								alt={post.title}
-								width={1920}
-								height={1080}
-								sx={{
-									height: { md: 160, xs: 200 },
-									':after': {
-										content: '""',
-										position: 'absolute',
-										top: 0,
-										left: 0,
-										width: '100%',
-										height: '100%',
-										bgcolor: 'rgba(0, 0, 0, 0.3)',
-										zIndex: 1
-									}
-								}}
-							/>
-						)}
-						<CardContent>
-							<Typography variant="h5" gutterBottom>
-								{truncate(post.title, 10)}
-							</Typography>
-							<Typography variant="body2" color="text.muted">
-								{post.tags.map(({ tag }) => `#${tag.name} `)}
-							</Typography>
-
-							{post.visibility === 'PRIVATE' && (
-								<Box justifyContent="center" display="flex">
-									<IconButton
-										aria-label="visibility"
-										component="label"
-										color="primary"
-									>
-										<Lock />
-									</IconButton>
-								</Box>
-							)}
-							<Typography color="text.secondary" mt={1}>
-								{truncate(post.description, 20)}
-							</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions
-						sx={{
-							position: 'absolute',
-							bottom: 0,
-							left: 0,
-							right: 0
-						}}
-					>
-						<Stack
-							flexDirection="row"
-							alignItems="center"
-							justifyContent="space-between"
-							width="100%"
-						>
-							<Box
-								onMouseEnter={handleReactionIconEnter}
-								onMouseLeave={handleReactionIconLeave}
-							>
-								<IconButton
-									size="small"
-									sx={{
-										color: currentReaction
-											? currentReaction.color
-											: 'text.primary'
-									}}
-									disabled={!user}
-								>
-									{currentReaction ? (
-										<currentReaction.icon />
-									) : (
-										<ThumbUpOutlined />
-									)}
-									{post.reactionCount || ''}
-								</IconButton>
-							</Box>
-
-							{user?.id === post.authorId && (
-								<Button //
-									color="error"
-									startIcon={
-										isDeleting ? (
-											<CircularProgress size={20} />
-										) : (
-											<Delete />
-										)
-									}
-									onClick={() => deletePost(editedPost.id)}
-									disabled={isDeleting}
-								>
-									Delete
-								</Button>
-							)}
-						</Stack>
-						<Popover
-							open={Boolean(reactionAnchorEl)}
-							anchorEl={reactionAnchorEl}
-							onClose={() => setReactionAnchorEl(null)}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'left'
-							}}
-							transformOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left'
-							}}
-							disableRestoreFocus
-							slotProps={{
-								paper: {
-									onMouseEnter: handlePopoverEnter,
-									onMouseLeave: handlePopoverLeave,
-									sx: {
-										p: 1
-									},
-									elevation: 0
-								}
-							}}
-						>
-							{reactions.map((reaction) => (
-								<IconButton
-									key={reaction.label}
-									onClick={() =>
-										handleReactionSelect(reaction)
-									}
-									sx={{
-										color:
-											reaction === currentReaction
-												? 'white'
-												: reaction.color,
-										bgcolor:
-											reaction === currentReaction
-												? reaction.color
-												: 'transparent'
-									}}
-								>
-									<reaction.icon />
-								</IconButton>
-							))}
-						</Popover>
-					</CardActions>
-				</Card>
-			)}
-		</Fade>
+					<Tooltip title="Reset" aria-label="Reset" arrow>
+						<IconButton type="reset">
+							<Refresh />
+						</IconButton>
+					</Tooltip>
+					<Button color="primary" startIcon={<Save />} type="submit">
+						Edit
+					</Button>
+				</Stack>
+			</CardActions>
+		</Card>
 	)
+}
+
+const StaticCard = ({ post, setEditing }) => {
+	const { user } = useUser()
+	const navigate = useNavigate()
+	const { mutate: deletePost } = useDeletePost()
+
+	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
+	const [currentReaction, setCurrentReaction] = useState(
+		post.reactions[0]?.reactionType
+	)
+
+	const popoverTimeoutRef = useRef(null)
+
+	const handleReactionIconEnter = (event) => {
+		if (!user) {
+			return
+		}
+		clearTimeout(popoverTimeoutRef.current)
+		setReactionAnchorEl(event.currentTarget)
+	}
+
+	const handleReactionIconLeave = () => {
+		popoverTimeoutRef.current = setTimeout(() => {
+			setReactionAnchorEl(null)
+		}, 1000)
+	}
+
+	const handlePopoverEnter = () => clearTimeout(popoverTimeoutRef.current)
+
+	const handlePopoverLeave = () => {
+		popoverTimeoutRef.current = setTimeout(() => {
+			setReactionAnchorEl(null)
+		}, 300)
+	}
+
+	const handleReactionSelect = (reaction) => {
+		setCurrentReaction(reaction === currentReaction ? null : reaction)
+		setReactionAnchorEl(null)
+	}
+
+	return (
+		<Card
+			sx={{
+				position: 'relative',
+				cursor: 'pointer',
+				height: 1
+			}}
+		>
+			<CardHeader
+				avatar={
+					<UserAvatar
+						onClick={() => navigate(`/user/${post.authorId}`)}
+						user={post.author}
+					/>
+				}
+				title={post.author.fullName}
+				subheader={moment(post.createdAt).format(
+					'Do MMM YYYY \\at h:mm a'
+				)}
+				sx={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0,
+					zIndex: 2,
+					color: 'white',
+					'& .MuiCardHeader-subheader': {
+						color: 'rgba(255, 255, 255, 0.7)'
+					}
+				}}
+				action={
+					user?.id === post.authorId && (
+						<IconButton
+							aria-label="edit"
+							onClick={() => setEditing(true)}
+							sx={{ color: 'white' }}
+						>
+							<Edit />
+						</IconButton>
+					)
+				}
+			/>
+			<CardActionArea
+				onClick={() => navigate(`/posts/${post.id}`)}
+				sx={{
+					mb: 5,
+					'&:hover': {
+						'& .MuiCardActionArea-focusHighlight': {
+							opacity: 0.02
+						}
+					}
+				}}
+			>
+				<Box
+					height={1}
+					sx={{
+						height: { md: 160, xs: 200 },
+						position: 'relative',
+						':after': {
+							content: '""',
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							width: '100%',
+							height: '100%',
+							bgcolor: 'rgba(0, 0, 0, 0.3)',
+							zIndex: 1
+						}
+					}}
+				>
+					<Box
+						width={1}
+						component="img"
+						src={getThumbnail(post.imageUrl)}
+						alt={post.title}
+						sx={{
+							objectFit: 'cover',
+							width: '100%',
+							height: '100%'
+						}}
+					/>
+				</Box>
+
+				<CardContent>
+					<Typography variant="h5" gutterBottom>
+						{truncate(post.title, 10)}
+					</Typography>
+					<Typography variant="body2" color="text.muted">
+						{post.tags.map(({ tag }) => `#${tag.name} `)}
+					</Typography>
+
+					{post.visibility === 'PRIVATE' && (
+						<Box justifyContent="center" display="flex">
+							<IconButton
+								aria-label="visibility"
+								component="label"
+								color="primary"
+							>
+								<Lock />
+							</IconButton>
+						</Box>
+					)}
+					<Typography color="text.secondary" mt={1}>
+						{truncate(post.description, 20)}
+					</Typography>
+				</CardContent>
+			</CardActionArea>
+			<CardActions
+				sx={{
+					position: 'absolute',
+					bottom: 0,
+					left: 0,
+					right: 0
+				}}
+			>
+				<Stack
+					flexDirection="row"
+					alignItems="center"
+					justifyContent="space-between"
+					width="100%"
+				>
+					<Box
+						onMouseEnter={handleReactionIconEnter}
+						onMouseLeave={handleReactionIconLeave}
+					>
+						<IconButton
+							size="small"
+							sx={{
+								color: currentReaction
+									? currentReaction.color
+									: 'text.primary'
+							}}
+							disabled={!user}
+						>
+							{currentReaction ? (
+								<currentReaction.icon
+									sx={{
+										width: 20,
+										height: 20
+									}}
+								/>
+							) : (
+								<ThumbUpOutlined
+									sx={{
+										width: 20,
+										height: 20
+									}}
+								/>
+							)}
+						</IconButton>
+						{post.reactionCount}
+					</Box>
+
+					{user?.id === post.authorId && (
+						<Button
+							color="error"
+							startIcon={<Delete />}
+							onClick={() => deletePost(post.id)}
+						>
+							Delete
+						</Button>
+					)}
+				</Stack>
+				<Popover
+					open={Boolean(reactionAnchorEl)}
+					anchorEl={reactionAnchorEl}
+					onClose={() => setReactionAnchorEl(null)}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'left'
+					}}
+					transformOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left'
+					}}
+					disableRestoreFocus
+					slotProps={{
+						paper: {
+							onMouseEnter: handlePopoverEnter,
+							onMouseLeave: handlePopoverLeave,
+							sx: { p: 1 },
+							elevation: 0
+						}
+					}}
+				>
+					{reactions.map((reaction) => (
+						<IconButton
+							key={reaction.label}
+							onClick={() => handleReactionSelect(reaction)}
+							sx={{
+								color:
+									reaction === currentReaction
+										? 'white'
+										: reaction.color,
+								bgcolor:
+									reaction === currentReaction
+										? reaction.color
+										: 'transparent'
+							}}
+						>
+							<reaction.icon />
+						</IconButton>
+					))}
+				</Popover>
+			</CardActions>
+		</Card>
+	)
+}
+
+const PostCard = ({ post }) => {
+	const [editing, setEditing] = useState(false)
+	const props = { post, setEditing }
+	return editing ? <EditCard {...props} /> : <StaticCard {...props} />
 }
 
 export default PostCard
