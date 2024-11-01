@@ -11,7 +11,7 @@ export const react = async ({
 	if (!userId || !postId) {
 		throw new Error('Missing required parameters')
 	}
-
+	
 	// Validate reaction type at runtime
 	const { reactionType }: { reactionType: ReactionType } = body
 	return prisma.$transaction(
@@ -43,7 +43,7 @@ export const react = async ({
 					data: { reactionType },
 				})
 			}
-
+			console.log(userId, postId)
 			// Create new reaction
 			const newReaction = await tx.postReaction.create({
 				data: {
