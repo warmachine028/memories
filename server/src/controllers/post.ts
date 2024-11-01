@@ -33,7 +33,6 @@ export const getPosts = async ({
 		},
 		cursor: cursor ? { id: cursor } : undefined,
 	})
-	console.table(posts, ['title', 'reactionCount', 'reactions'])
 	const nextCursor = posts.length > limit ? posts[limit].id : undefined
 	return {
 		posts: posts.slice(0, limit),
