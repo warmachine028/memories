@@ -37,7 +37,7 @@ const handleApiError = (error) => {
 
 export const getPosts = async (cursor, limit) => {
 	try {
-		await sleep(6000)
+		// await sleep(6000)
 		const { data } = await api.get('/posts', { params: { cursor, limit } })
 		return data
 	} catch (error) {
@@ -92,8 +92,7 @@ export const deletePost = async (id) => {
 
 export const reactPost = async (id, reaction) => {
 	try {
-		return 
-		await api.post(`/reactions/posts/${id}`, reaction)
+		await api.post(`/reactions/posts/${id}`, { reactionType: reaction })
 	} catch (error) {
 		throw handleApiError(error)
 	}
@@ -101,7 +100,6 @@ export const reactPost = async (id, reaction) => {
 
 export const unreactPost = async (id) => {
 	try {
-		return 
 		await api.delete(`/reactions/posts/${id}`)
 	} catch (error) {
 		throw handleApiError(error)

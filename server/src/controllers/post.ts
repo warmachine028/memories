@@ -1,33 +1,59 @@
 import { prisma } from '@/lib'
-import { deleteFromCloudinary, getPublicId, processPostsReactions, uploadToCloudinary } from '@/lib/utils'
+import {
+	deleteFromCloudinary,
+	getPublicId,
+	processPostsReactions,
+	uploadToCloudinary,
+} from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import { error } from 'elysia'
 
-export const getPosts = async ({ query: { cursor, limit }, userId: currentUserId }: RequestParams) => {
+export const getPosts = async ({
+	query: { cursor, limit },
+	userId: currentUserId,
+}: RequestParams) => {
 	const userId = currentUserId || ''
 	const posts = await prisma.post.findMany({
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { select: { tag: { select: { name: true } } } },
-			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
+			reactions: {
+				take: 1,
+				where: { userId },
+				select: { reactionType: true },
+			},
 		},
 		orderBy: { createdAt: 'desc' },
 		take: (limit || 9) + 1,
 		where: {
-			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
+			OR: [
+				{ visibility: 'PUBLIC' },
+				{ visibility: 'PRIVATE', authorId: userId },
+			],
 		},
 		cursor: cursor ? { id: cursor } : undefined,
 	})
+	console.table(posts, ['title', 'reactionCount', 'reactions'])
 	const nextCursor = posts.length > limit ? posts[limit].id : undefined
-	return { posts: posts.slice(0, limit), nextCursor, total: await prisma.post.count() }
+	return {
+		posts: posts.slice(0, limit),
+		nextCursor,
+		total: await prisma.post.count(),
+	}
 }
 
-export const getPostById = async ({ params: { id }, userId: currentUserId }: RequestParams) => {
+export const getPostById = async ({
+	params: { id },
+	userId: currentUserId,
+}: RequestParams) => {
 	const userId = currentUserId || ''
 	const post = await prisma.post.findUnique({
 		where: {
 			id,
-			OR: [{ visibility: 'PUBLIC' }, { visibility: 'PRIVATE', authorId: userId }],
+			OR: [
+				{ visibility: 'PUBLIC' },
+				{ visibility: 'PRIVATE', authorId: userId },
+			],
 		},
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
@@ -71,7 +97,11 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { include: { tag: { select: { name: true } } } },
-			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
+			reactions: {
+				take: 1,
+				where: { userId },
+				select: { reactionType: true },
+			},
 		},
 	})
 }
@@ -93,11 +123,17 @@ export const deletePost = async ({ params: { id }, userId }: RequestParams) => {
 	return { message: 'Post deleted successfully' }
 }
 
-export const updatePost = async ({ params: { id }, body, userId }: RequestParams) => {
+export const updatePost = async ({
+	params: { id },
+	body,
+	userId,
+}: RequestParams) => {
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
-	body.tags = body.tags.map(({ tag: { name } }: { tag: { name: string } }) => name)
+	body.tags = body.tags.map(
+		({ tag: { name } }: { tag: { name: string } }) => name
+	)
 	const { title, description, visibility, tags, media, imageUrl } = body
 	const response = await uploadToCloudinary(media, getPublicId(imageUrl))
 
@@ -126,7 +162,11 @@ export const updatePost = async ({ params: { id }, body, userId }: RequestParams
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { include: { tag: { select: { name: true } } } },
-			reactions: { take: 1, where: { userId }, select: { reactionType: true } },
+			reactions: {
+				take: 1,
+				where: { userId },
+				select: { reactionType: true },
+			},
 		},
 	})
 }

@@ -1,5 +1,5 @@
 import { verifyToken } from '@clerk/express'
-import type { Elysia } from 'elysia'
+import { type Elysia, error } from 'elysia'
 
 // Middleware to check authentication
 export const authMiddleware = (app: Elysia) =>
@@ -19,8 +19,8 @@ export const authMiddleware = (app: Elysia) =>
 				return { userId: null }
 			}
 			return { userId }
-		} catch (error) {
+		} catch (err) {
 			set.status = 401
-			return { userId: null, error: 'Invalid session' }
+			return error(401, 'Invalid session')
 		}
 	})

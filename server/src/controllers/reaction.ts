@@ -1,100 +1,180 @@
 import { prisma } from '@/lib'
-import { processPostsReactions } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import type { ReactionType } from '@prisma/client'
-
-/**
- * React to a post or update an existing reaction
- * @param params - The request parameters (postId)
- * @param body - The request body (reactionType)
- * @param userId - The user ID
- * @returns The reaction
- */
+import { Prisma } from '@prisma/client'
 
 export const react = async ({
 	params: { postId },
 	body,
 	userId,
 }: RequestParams) => {
-	if (!userId) {
-		throw new Error('Unauthorized')
+	if (!userId || !postId) {
+		throw new Error('Missing required parameters')
 	}
+
+	// Validate reaction type at runtime
 	const { reactionType }: { reactionType: ReactionType } = body
-	return prisma.$transaction(async (tx) => {
-		const existingReaction = await tx.postReaction.findUnique({
-			where: {
-				userId_postId: { userId, postId },
-			},
-		})
-
-		if (existingReaction) {
-			// If the reaction is the same, return the existing reaction
-			if (existingReaction.reactionType === reactionType) {
-				return existingReaction
-			}
-
-			// If the reaction is different, update the reaction
-			const updatedReaction = await tx.postReaction.update({
-				where: { id: existingReaction.id },
-				data: { reactionType },
+	return prisma.$transaction(
+		async (tx) => {
+			const post = await tx.post.findUnique({
+				where: { id: postId },
+				select: { id: true },
 			})
 
-			return updatedReaction
+			if (!post) {
+				throw new Error('Post not found')
+			}
+
+			const existingReaction = await tx.postReaction.findUnique({
+				where: {
+					userId_postId: { userId, postId },
+				},
+			})
+
+			if (existingReaction) {
+				// If reaction type is same, no update needed
+				if (existingReaction.reactionType === reactionType) {
+					return existingReaction
+				}
+
+				// Update existing reaction
+				return await tx.postReaction.update({
+					where: { id: existingReaction.id },
+					data: { reactionType },
+				})
+			}
+
+			// Create new reaction
+			const newReaction = await tx.postReaction.create({
+				data: {
+					userId,
+					postId,
+					reactionType,
+				},
+			})
+
+			// Update post reaction count
+			await tx.post.update({
+				where: { id: postId },
+				data: {
+					reactionCount: {
+						increment: 1,
+					},
+				},
+			})
+
+			return newReaction
+		},
+		{
+			isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+			timeout: 5000, // 5 second timeout
 		}
-
-		// If the reaction is new, create it
-		const newReaction = await tx.postReaction.create({
-			data: { userId, postId, reactionType },
-		})
-
-		await tx.post.update({
-			where: { id: postId },
-			data: { reactionCount: { increment: 1 } },
-		})
-
-		return newReaction
-	})
+	)
 }
 
-/**
- * Unreact to a post
- * @param params - The request parameters (postId)
- * @param userId - The user ID
- * @returns The deleted reaction
- */
 export const unreact = async ({
 	params: { postId },
 	userId,
 }: RequestParams) => {
-	if (!userId) {
-		throw new Error('Unauthorized')
+	if (!userId || !postId) {
+		throw new Error('Missing required parameters')
 	}
 
-	return prisma.$transaction(async (tx) => {
-		const deletedReaction = await tx.postReaction.delete({
-			where: { id: postId },
-		})
+	return prisma.$transaction(
+		async (tx) => {
+			const post = await tx.post.findUnique({
+				where: { id: postId },
+				select: { id: true },
+			})
 
-		await tx.post.update({
-			where: { id: postId },
-			data: { reactionCount: { decrement: 1 } },
-		})
+			if (!post) {
+				throw new Error('Post not found')
+			}
 
-		return deletedReaction
-	})
+			try {
+				// Delete reaction
+				const deletedReaction = await tx.postReaction.delete({
+					where: { userId_postId: { userId, postId } },
+				})
+
+				// Update post reaction count
+				await tx.post.update({
+					where: { id: postId },
+					data: {
+						reactionCount: {
+							decrement: 1,
+						},
+					},
+				})
+
+				return deletedReaction
+			} catch (error) {
+				if (error instanceof Prisma.PrismaClientKnownRequestError) {
+					if (error.code === 'P2025') {
+						// Record not found
+						throw new Error('Reaction not found')
+					}
+				}
+				throw error
+			}
+		},
+		{
+			isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+			timeout: 5000,
+		}
+	)
 }
 
-export const getReaction = ({ params: { postId } }: RequestParams) => {
-	return prisma.postReaction.findMany({
-		where: { postId },
-		include: {
-			user: {
-				select: {
-					id: true,
-					fullName: true,
-					imageUrl: true,
+export const getReaction = async ({
+	params: { postId },
+	query: { page = '1', limit = '10' },
+}: RequestParams) => {
+	if (!postId) {
+		throw new Error('Missing post ID')
+	}
+
+	const pageNum = Math.max(1, parseInt(page as string))
+	const limitNum = Math.min(50, Math.max(1, parseInt(limit as string)))
+	const skip = (pageNum - 1) * limitNum
+
+	return prisma.$transaction(
+		async (tx) => {
+			const [reactions, total] = await Promise.all([
+				tx.postReaction.findMany({
+					where: { postId },
+					include: {
+						user: {
+							select: {
+								id: true,
+								fullName: true,
+								imageUrl: true,
+							},
+						},
+					},
+					skip,
+					take: limitNum,
+					orderBy: {
+						createdAt: 'desc',
+					},
+				}),
+				tx.postReaction.count({
+					where: { postId },
+				}),
+			])
+
+			return {
+				reactions,
+				pagination: {
+					page: pageNum,
+					limit: limitNum,
+					total,
+					pages: Math.ceil(total / limitNum),
 				},
-			},
+			}
 		},
-	})
+		{
+			isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead,
+			timeout: 5000,
+		}
+	)
 }

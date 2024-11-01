@@ -2,7 +2,11 @@ import { Webhook, WebhookRequiredHeaders } from 'svix'
 import type { Event, EventType, RequestParams } from '@/types'
 import { prisma } from '@/lib'
 
-export const handleWebhook = async ({ headers, request, set }: RequestParams) => {
+export const handleWebhook = async ({
+	headers,
+	request,
+	set,
+}: RequestParams) => {
 	const payload = await request.json()
 	const heads = {
 		'svix-id': headers['svix-id'],
@@ -13,7 +17,10 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 	let event: Event | null = null
 
 	try {
-		event = wh.verify(JSON.stringify(payload), heads as WebhookRequiredHeaders) as Event
+		event = wh.verify(
+			JSON.stringify(payload),
+			heads as WebhookRequiredHeaders
+		) as Event
 	} catch (error) {
 		set.status = 400
 		return { message: (error as Error).message }
@@ -37,7 +44,10 @@ export const handleWebhook = async ({ headers, request, set }: RequestParams) =>
 	} catch (error) {
 		console.error('Error processing webhook:', error)
 		set.status = 500
-		return { message: 'Error processing webhook', error: (error as Error).message }
+		return {
+			message: 'Error processing webhook',
+			error: (error as Error).message,
+		}
 	}
 
 	return { message: 'Webhook processed successfully', event }
@@ -59,7 +69,6 @@ async function handleUserCreatedOrUpdated(event: Event) {
 		update: user,
 		create: user,
 	})
-
 }
 
 async function handleUserDeleted(event: Event) {
@@ -68,4 +77,5 @@ async function handleUserDeleted(event: Event) {
 }
 
 export const getUsers = async () => prisma.user.findMany()
-export const getUser = ({ params: { id } }: RequestParams) => prisma.user.findUnique({ where: { id } })
+export const getUser = ({ params: { id } }: RequestParams) =>
+	prisma.user.findUnique({ where: { id } })

@@ -5,6 +5,7 @@ import {
 	getPost,
 	getPosts,
 	reactPost,
+	// getReactions,
 	searchPosts,
 	unreactPost,
 	updatePost
@@ -43,10 +44,19 @@ export const useGetPost = (id) => {
 	})
 }
 
+// export const useGetReactions = (postId, page = 1, limit = 10) => {
+// 	return useQuery({
+// 		queryKey: ['reactions', postId, page, limit],
+// 		queryFn: () => getReactions(postId, { page, limit }),
+// 		enabled: !!postId
+// 	})
+// }
+
 export const useCreatePost = () => {
 	const queryClient = useQueryClient()
 	const { pages, setPages } = useStore()
 	const { user } = useUser()
+
 	return useMutation({
 		mutationFn: createPost,
 		onMutate: async (newPost) => {
@@ -63,7 +73,8 @@ export const useCreatePost = () => {
 					fullName: user.fullName,
 					imageUrl: user.imageUrl
 				},
-				reactionCount: 0
+				reactionCount: 0,
+				optimistic: true
 			}
 			const updatedPages = [
 				{
@@ -100,7 +111,6 @@ export const useUpdatePost = () => {
 			await queryClient.cancelQueries({ queryKey: ['posts'] })
 			const previousData = queryClient.getQueryData(['posts'])
 
-			// Update both states
 			const newPages = pages.map((page) => ({
 				...page,
 				posts: page.posts.map((post) =>
@@ -110,7 +120,8 @@ export const useUpdatePost = () => {
 								...updatedPost,
 								media: '',
 								imageUrl:
-									updatedPost.media || updatedPost.imageUrl
+									updatedPost.media || updatedPost.imageUrl,
+								optimistic: true
 							}
 						: post
 				)
@@ -197,43 +208,96 @@ export const useRefresh = () => {
 export const useReactPost = () => {
 	const queryClient = useQueryClient()
 	const { pages, setPages } = useStore()
+	const { user } = useUser()
 
 	return useMutation({
-		mutationFn: ({ postId, type }) => {
-			type ? reactPost(postId, type) : unreactPost(postId)
-		},
+		mutationFn: ({ postId, type }) =>
+			type ? reactPost(postId, type) : unreactPost(postId),
 		onMutate: async ({ postId, type }) => {
-			await queryClient.cancelQueries({ queryKey: ['posts'] })
-			const previousData = queryClient.getQueryData(['posts'])
+			// Cancel any outgoing refetches
+			await Promise.all([
+				queryClient.cancelQueries({ queryKey: ['posts'] }),
+				queryClient.cancelQueries({ queryKey: ['reactions', postId] })
+			])
 
-			// Update both states with optimistic update
+			const previousData = {
+				posts: queryClient.getQueryData(['posts']),
+				reactions: queryClient.getQueryData(['reactions', postId])
+			}
+
+			// Optimistically update posts
 			const newPages = pages.map((page) => ({
 				...page,
 				posts: page.posts.map((post) =>
 					post.id === postId
 						? {
 								...post,
-								reactionCount: type
-									? post.reactionCount + 1
-									: post.reactionCount - 1,
-								reactions: [{ reactionType: type }]
+								reactionCount:
+									post.reactions.length === 0 && type
+										? post.reactionCount + 1
+										: type === null
+											? Math.max(
+													0,
+													post.reactionCount - 1
+												)
+											: post.reactionCount,
+								reactions: type ? [{ reactionType: type }] : []
 							}
 						: post
 				)
 			}))
+
+			// Update posts data
 			queryClient.setQueryData(['posts'], (old) => ({
 				...(old ?? { pageParams: [] }),
 				pages: newPages
 			}))
 			setPages(newPages)
 
+			// Optimistically update reactions if they're being displayed
+			if (previousData.reactions) {
+				const optimisticReaction = type
+					? {
+							postId,
+							reactionType: type,
+							user: {
+								id: user.id,
+								fullName: user.fullName,
+								imageUrl: user.imageUrl
+							},
+							createdAt: new Date().toISOString()
+						}
+					: null
+
+				queryClient.setQueryData(['reactions', postId], (old) => ({
+					...old,
+					reactions: type
+						? [optimisticReaction, ...(old?.reactions || [])]
+						: (old?.reactions || []).filter(
+								(r) => r.user.id !== user.id
+							)
+				}))
+			}
+
 			return { previousData }
 		},
-		onError: (_err, _variables, context) => {
-			const previousPages = context?.previousData?.pages ?? []
-			queryClient.setQueryData(['posts'], context?.previousData)
-			setPages(previousPages)
+		onError: (_err, { postId }, context) => {
+			// Revert both posts and reactions on error
+			queryClient.setQueryData(['posts'], context?.previousData.posts)
+			queryClient.setQueryData(
+				['reactions', postId],
+				context?.previousData.reactions
+			)
+			setPages(context?.previousData.posts?.pages ?? [])
 		},
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+		onSuccess: (_data, { postId }) => {
+			// Invalidate affected queries
+			return Promise.all([
+				queryClient.invalidateQueries({ queryKey: ['posts'] }),
+				queryClient.invalidateQueries({
+					queryKey: ['reactions', postId]
+				})
+			])
+		}
 	})
 }

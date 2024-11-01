@@ -39,7 +39,12 @@ import { UserAvatar } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
-import { useCreatePost, useDeletePost, useReactPost, useUpdatePost } from '@/hooks'
+import {
+	useCreatePost,
+	useDeletePost,
+	useReactPost,
+	useUpdatePost
+} from '@/hooks'
 
 const reactions = [
 	{ icon: ThumbUp, label: 'LIKE', color: '#2196f3' },
@@ -331,8 +336,26 @@ const StaticCard = ({ post, setEditing }) => {
 	const { mutate: reactPost } = useReactPost()
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const currentReaction = post.reactions[0]?.reactionType
-	const currentReactionObj = reactions.find((r) => r.label === currentReaction)
+	const currentReactionObj = reactions.find(
+		(r) => r.label === currentReaction
+	)
 	const popoverTimeoutRef = useRef(null)
+
+	const renderReactionCount = () => {
+		if (!currentReaction) {
+			if (post.reactionCount === 0) {
+				return null
+			}
+			return `${post.reactionCount} ${post.reactionCount !== 1 && 'others'}`
+		}
+		if (post.reactionCount === 1) {
+			return 'YOU'
+		}
+		if (post.reactionCount === 2) {
+			return 'YOU and 1 other'
+		}
+		return `YOU and ${post.reactionCount - 1} others`
+	}
 
 	const handleReactionIconEnter = (event) => {
 		if (!user) {
@@ -404,7 +427,9 @@ const StaticCard = ({ post, setEditing }) => {
 				}
 			/>
 			<CardActionArea
-				onClick={() => navigate(`/posts/${post.id}`)}
+				onClick={() =>
+					!post.optimistic && navigate(`/posts/${post.id}`)
+				}
 				sx={{
 					mb: 5,
 					'&:hover': {
@@ -485,6 +510,7 @@ const StaticCard = ({ post, setEditing }) => {
 					<Box
 						onMouseEnter={handleReactionIconEnter}
 						onMouseLeave={handleReactionIconLeave}
+						sx={{ display: 'flex', alignItems: 'center' }}
 					>
 						<IconButton
 							size="small"
@@ -511,7 +537,9 @@ const StaticCard = ({ post, setEditing }) => {
 								/>
 							)}
 						</IconButton>
-						{post.reactionCount}
+						<Typography variant="body2" className="ml-1">
+							{renderReactionCount()}
+						</Typography>
 					</Box>
 
 					{user?.id === post.authorId && (

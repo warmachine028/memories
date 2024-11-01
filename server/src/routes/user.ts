@@ -32,5 +32,5 @@ export const userRoutes = new Elysia({
 	},
 })
 	.use(webhookRoutes)
-	.get('/', getUsers)
+	// .get('/', getUsers)
 	.get('/:id', getUser)
