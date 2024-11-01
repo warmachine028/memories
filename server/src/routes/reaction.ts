@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia'
-import { getReaction, react, unreact } from '@/controllers'
+import { getReaction, getTop3Reactors, react, unreact } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { ReactionType } from '@prisma/client'
 
@@ -16,7 +16,6 @@ export const reactionRoutes = new Elysia({
 			},
 		},
 		security: [{ bearerAuth: [] }],
-		
 	},
 })
 	.use(authMiddleware)
@@ -26,6 +25,7 @@ export const reactionRoutes = new Elysia({
 		}),
 	})
 	.get('/posts/:postId', getReaction)
+	.get('/posts/top-reactors/:postId', getTop3Reactors)
 	.guard({
 		headers: t.Object({
 			authorization: t.String(),

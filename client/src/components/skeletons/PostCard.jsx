@@ -6,13 +6,12 @@ import {
 	CardActions,
 	Stack,
 	CardActionArea,
-	CardMedia,
-	Fade
+	CardMedia
 } from '@mui/material'
 
-const PostCardSkeleton = () => {
+const PostCard = () => {
 	return (
-		<Card sx={{ position: 'relative', height: '100%', minHeight: 350 }}>
+		<Card sx={{ position: 'relative', height: 1, minHeight: 350 }}>
 			<CardActionArea
 				sx={{
 					mb: 5,
@@ -128,4 +127,4 @@ const PostCardSkeleton = () => {
 	)
 }
 
-export default PostCardSkeleton
+export default PostCard

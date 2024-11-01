@@ -1,7 +1,8 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix'
 import type { Event, EventType, RequestParams } from '@/types'
 import { prisma } from '@/lib'
-
+import { error } from 'elysia'
+import { Prisma } from '@prisma/client'
 export const handleWebhook = async ({
 	headers,
 	request,
@@ -77,5 +78,60 @@ async function handleUserDeleted(event: Event) {
 }
 
 export const getUsers = async () => prisma.user.findMany()
-export const getUser = ({ params: { id } }: RequestParams) =>
-	prisma.user.findUnique({ where: { id } })
+export const getUser = async ({ params: { id } }: RequestParams) => {
+	const user = await prisma.user.findUnique({ where: { id } })
+	if (!user) {
+		return error(404, { message: 'User not found' })
+	}
+	return user
+}
+
+export const getUserStats = async ({ params: { id } }: RequestParams) => {
+	// Validate input
+	const user = await prisma.user.findUnique({ where: { id } })
+	if (!user) {
+		return error(404, { message: 'User not found' })
+	}
+
+	const posts = await prisma.post.count({
+		where: { authorId: id },
+	})
+
+	const privatePosts = await prisma.post.count({
+		where: { authorId: id, visibility: 'PRIVATE' },
+	})
+
+	const reactionsReceived = await prisma.post.aggregate({
+		where: { authorId: id },
+		_sum: { reactionCount: true },
+	})
+
+	const commentsReceived = await prisma.comment.count({
+		where: { post: { authorId: id } },
+	})
+	try {
+		const result = await prisma.$queryRaw<{ id: string; words: number }[]>`
+			SELECT 
+				id,
+				array_length(
+					regexp_split_to_array(
+						description, '\\s+'
+					),
+					1
+				) words
+			FROM posts
+			WHERE "authorId" = ${id}
+			ORDER BY words DESC, "updatedAt" DESC
+			LIMIT 1
+	`
+		return {
+			posts,
+			privatePosts,
+			reactionsReceived: reactionsReceived._sum.reactionCount,
+			commentsReceived,
+			longestPost: result[0],
+		}
+	} catch (error) {
+		console.error('Error fetching longest post:', error)
+	}
+}

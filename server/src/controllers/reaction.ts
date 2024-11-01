@@ -178,3 +178,27 @@ export const getReaction = async ({
 		}
 	)
 }
+
+export const getTop3Reactors = async ({
+	params: { postId },
+}: RequestParams) => {
+	if (!postId) {
+		throw new Error('Missing post ID')
+	}
+	return prisma.postReaction.findMany({
+		where: { postId },
+		select: {
+			user: {
+				select: {
+					id: true,
+					fullName: true,
+					imageUrl: true,
+				},
+			},
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
+		take: 3,
+	})
+}

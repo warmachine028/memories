@@ -12,15 +12,17 @@ import {
 	CircularProgress,
 	Dialog,
 	IconButton,
-	Stack
+	Stack,
+	Skeleton
 } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Link, useParams, Navigate } from 'react-router-dom'
-import { UpdateProfileForm } from '@/components'
-import { useEffect, useState } from 'react'
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom'
+import { UpdateProfile as UpdateProfileForm } from '@/components'
+import { useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import moment from 'moment'
-import { Close } from '@mui/icons-material'
+import { Close, Link as LinkIcon } from '@mui/icons-material'
+import { useGetUser, useGetUserStats } from '@/hooks'
 
 const UserAvatar = ({ user }) => {
 	const [open, setOpen] = useState(false)
@@ -94,16 +96,6 @@ const UserProfileCard = () => {
 		<Grid size={{ xs: 12, md: 4 }}>
 			<Paper sx={{ height: '100%' }}>
 				<List sx={{ p: 2 }}>
-					<ListItem>
-						<Typography
-							variant="h5"
-							component="h2"
-							fontWeight="bold"
-						>
-							Profile
-						</Typography>
-					</ListItem>
-
 					{!isLoaded ? (
 						<CircularProgress />
 					) : (!id && isSignedIn) || id === user?.id ? (
@@ -164,45 +156,26 @@ const CurrentUserProfile = () => {
 }
 
 const OtherUserProfile = ({ userId }) => {
-	const [user, setUser] = useState(null)
-	const [loading, setLoading] = useState(true)
+	const { data: user, isLoading, error } = useGetUser(userId)
+	const navigate = useNavigate()
 
-	useEffect(() => {
-		// Fetch user data based on userId
-		// This is a placeholder for actual API call
-		const fetchUser = () => {
-			try {
-				// Replace this with your actual API call
-				setUser({
-					fullName: 'Morty Smith',
-					email: 'morty.smith@example.com',
-					bio: 'Aww Jeez, I am so cool!',
-					imageUrl: 'https://github.com/shadcn.png',
-					createdAt: new Date('2024-02-14')
-				})
-				// const response = await fetch(`/api/users/${userId}`)
-				// const data = await response.json()
-				// setUser(data)
-			} catch (error) {
-				console.error('Error fetching user data:', error)
-			} finally {
-				setLoading(false)
-			}
-		}
+	if (isLoading) {
+		return (
+			<Stack width={1} alignItems="center" spacing={1}>
+				<Skeleton variant="circular" height={100} width={100} />
+				<Skeleton variant="text" height={30} width={160} />
 
-		fetchUser()
-	}, [userId])
-
-	if (loading) {
-		return <CircularProgress />
+				<Skeleton variant="text" height={20} width={180} />
+				<Stack alignItems="center" width={1}>
+					<Skeleton variant="text" height={20} width={220} />
+					<Skeleton variant="text" height={20} width={180} />
+				</Stack>
+			</Stack>
+		)
 	}
 
-	if (!user) {
-		return (
-			<ListItem>
-				<Typography>User not found</Typography>
-			</ListItem>
-		)
+	if (error?.message === 'API Error: User not found') {
+		navigate('/not-found')
 	}
 
 	return (
@@ -242,10 +215,15 @@ const MetricItem = ({ title, value, isLink, linkTo }) => (
 				component={Link}
 				to={linkTo}
 				fontWeight="bold"
-				sx={{ textDecoration: 'none' }}
+				sx={{
+					textDecoration: 'none',
+					display: 'flex',
+					alignItems: 'center'
+				}}
 				color="textPrimary"
 			>
 				{value}
+				<LinkIcon sx={{ fontSize: 16, ml: 1, mt: 0.5 }} />
 			</Typography>
 		) : (
 			<Typography variant="h5" component="h2" fontWeight="bold">
@@ -255,46 +233,71 @@ const MetricItem = ({ title, value, isLink, linkTo }) => (
 	</Grid>
 )
 
-const UserMetrics = ({ metrics }) => (
-	<Grid size={{ xs: 12, md: 8 }}>
-		<Paper sx={{ height: '100%' }}>
-			<List sx={{ p: 2 }}>
-				<ListItem>
-					<Typography variant="h5" component="h2" fontWeight="bold">
-						Metrics
-					</Typography>
-				</ListItem>
-				<ListItem>
-					<Grid container size={12} spacing={4}>
-						<MetricItem
-							title="Posts Created"
-							value={metrics?.postsCount || 0}
-						/>
-						<MetricItem
-							title="Private Posts"
-							value={metrics?.privatePostsCount || 0}
-						/>
-						<MetricItem
-							title="Likes Received"
-							value={metrics?.likesReceived || 0}
-						/>
-						<MetricItem
-							title="Comments Received"
-							value={metrics?.commentsReceived || 0}
-						/>
-						<MetricItem
-							title="Longest Post"
-							value={`${metrics?.longestPostWords || 0} words`}
-							isLink
-							linkTo={`/posts/${metrics?.longestPostId}`}
-						/>
-					</Grid>
-				</ListItem>
-			</List>
-		</Paper>
-	</Grid>
-)
+const UserMetrics = () => {
+	const { id } = useParams()
+	const { user } = useUser()
+	const { data: metrics, isLoading, error } = useGetUserStats(id || user?.id)
+	const navigate = useNavigate()
 
+	if (error?.message === 'API Error: User not found') {
+		navigate('/not-found')
+	}
+	return (
+		<Grid size={{ xs: 12, md: 8 }}>
+			<Paper sx={{ height: 1 }}>
+				<Stack justifyContent="center" height={1}>
+					<List sx={{ p: 2 }}>
+						<ListItem>
+							{isLoading ? (
+								<Grid container size={12} spacing={4}>
+									{Array.from({ length: 5 }).map((_, i) => (
+										<Grid size={6} key={i}>
+											<Skeleton
+												variant="text"
+												height={20}
+												width="50%"
+											/>
+											<Skeleton
+												variant="text"
+												height={30}
+												width="30%"
+											/>
+										</Grid>
+									))}
+								</Grid>
+							) : (
+								<Grid container size={12} spacing={4}>
+									<MetricItem
+										title="Posts Created"
+										value={metrics.posts}
+									/>
+									<MetricItem
+										title="Private Posts"
+										value={metrics.privatePosts}
+									/>
+									<MetricItem
+										title="Reactions Received"
+										value={metrics.reactionsReceived}
+									/>
+									<MetricItem
+										title="Comments Received"
+										value={metrics.commentsReceived}
+									/>
+									<MetricItem
+										title="Longest Post"
+										value={`${metrics.longestPost?.words} words`}
+										isLink
+										linkTo={`/posts/${metrics.longestPost?.id}`}
+									/>
+								</Grid>
+							)}
+						</ListItem>
+					</List>
+				</Stack>
+			</Paper>
+		</Grid>
+	)
+}
 const TabNavigation = ({ value, handleChange }) => (
 	<TabContext value={value}>
 		<TabList
@@ -345,21 +348,12 @@ const UserPosts = () => {
 }
 
 const Profile = () => {
-	const user = {
-		name: 'John Doe'
-	}
-
 	return (
 		<Container maxWidth="xl">
 			<Box marginY={4}>
 				<Grid container spacing={3}>
-					{/* User Profile Card */}
 					<UserProfileCard />
-
-					{/* Metrics */}
-					<UserMetrics metrics={user.metrics} />
-
-					{/* Posts */}
+					<UserMetrics />
 					<UserPosts />
 				</Grid>
 			</Box>

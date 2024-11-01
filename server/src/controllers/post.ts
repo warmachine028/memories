@@ -47,6 +47,15 @@ export const getPostById = async ({
 }: RequestParams) => {
 	const userId = currentUserId || ''
 	const post = await prisma.post.findUnique({
+		include: {
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { select: { tag: { select: { name: true } } } },
+			reactions: {
+				take: 1,
+				where: { userId },
+				select: { reactionType: true },
+			},
+		},
 		where: {
 			id,
 			OR: [
@@ -54,19 +63,13 @@ export const getPostById = async ({
 				{ visibility: 'PRIVATE', authorId: userId },
 			],
 		},
-		include: {
-			author: { select: { fullName: true, imageUrl: true } },
-			tags: { select: { tag: { select: { name: true } } } },
-			reactions: true,
-		},
 	})
 
 	if (!post) {
 		return error(404, { message: 'Post not found' })
 	}
 
-	const [processedPost] = processPostsReactions([post], userId)
-	return processedPost
+	return post
 }
 
 export const createPost = async ({ body, userId }: RequestParams) => {

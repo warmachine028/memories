@@ -1,6 +1,5 @@
 import {
 	Skeleton,
-	Box,
 	Card,
 	CardActions,
 	CardContent,
@@ -8,53 +7,7 @@ import {
 	Divider,
 	Stack
 } from '@mui/material'
-
-const AuthorInfoSkeleton = () => (
-	<Stack
-		direction="row"
-		alignItems="center"
-		mb={2}
-		width="100%"
-		minWidth={250}
-		spacing={1}
-	>
-		<Box>
-			<Skeleton variant="circular" width={60} height={60} />
-		</Box>
-		<Box width="100%">
-			<Skeleton variant="text" height={27} />
-			<Skeleton variant="text" width="40%" height={20} />
-			<Skeleton variant="text" width="30%" height={16} />
-		</Box>
-	</Stack>
-)
-
-const PostActionsSkeleton = () => (
-	<Stack
-		direction={{ xs: 'column', sm: 'row' }}
-		justifyContent="space-between"
-		mt={2}
-		spacing={2}
-	>
-		<Stack direction="row" spacing={2}>
-			{[1, 2].map((item) => (
-				<Stack
-					key={item}
-					alignItems="center"
-					direction="row"
-					spacing={1}
-				>
-					<Skeleton variant="circular" width={24} height={24} />
-					<Skeleton variant="text" width={80} height={40} />
-				</Stack>
-			))}
-		</Stack>
-		<Stack alignItems="center" direction="row" spacing={1}>
-			<Skeleton variant="circular" width={24} height={24} />
-			<Skeleton variant="text" width={80} height={40} />
-		</Stack>
-	</Stack>
-)
+import { AuthorInfoSkeleton, AvatarGroupSkeleton } from '.'
 
 const PostSkeleton = () => {
 	return (
@@ -99,7 +52,49 @@ const PostSkeleton = () => {
 					/>
 				</CardContent>
 				<CardActions>
-					<PostActionsSkeleton />
+					<Stack
+						direction={{ xs: 'column', sm: 'row' }}
+						justifyContent="space-between"
+						mt={2}
+						spacing={2}
+						width
+					>
+						<Stack direction="row" spacing={2}>
+							<Stack
+								alignItems="center"
+								direction="row"
+								spacing={1}
+							>
+								<Skeleton
+									variant="circular"
+									width={24}
+									height={24}
+								/>
+								<Skeleton
+									variant="text"
+									width={20}
+									height={40}
+								/>
+							</Stack>
+							<Stack
+								alignItems="center"
+								direction="row"
+								spacing={1}
+							>
+								<Skeleton
+									variant="circular"
+									width={24}
+									height={24}
+								/>
+								<Skeleton
+									variant="text"
+									width={20}
+									height={40}
+								/>
+							</Stack>
+						</Stack>
+						<AvatarGroupSkeleton />
+					</Stack>
 				</CardActions>
 			</Stack>
 		</Card>

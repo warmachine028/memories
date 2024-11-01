@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
 	Card,
@@ -19,14 +19,7 @@ import {
 	Tooltip
 } from '@mui/material'
 import {
-	ThumbUp,
 	Delete,
-	Favorite,
-	EmojiEmotions,
-	SentimentVeryDissatisfied,
-	Mood,
-	SentimentDissatisfied,
-	ThumbUpOutlined,
 	Edit,
 	Cancel,
 	Save,
@@ -35,25 +28,11 @@ import {
 	Visibility,
 	Lock
 } from '@mui/icons-material'
-import { UserAvatar } from '.'
+import { UserAvatar, ReactButton } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
-import {
-	useCreatePost,
-	useDeletePost,
-	useReactPost,
-	useUpdatePost
-} from '@/hooks'
-
-const reactions = [
-	{ icon: ThumbUp, label: 'LIKE', color: '#2196f3' },
-	{ icon: Favorite, label: 'LOVE', color: '#e91e63' },
-	{ icon: EmojiEmotions, label: 'HAHA', color: '#ffc107' },
-	{ icon: SentimentVeryDissatisfied, label: 'SAD', color: '#607d8b' },
-	{ icon: Mood, label: 'WOW', color: '#4caf50' },
-	{ icon: SentimentDissatisfied, label: 'ANGRY', color: '#ff5722' }
-]
+import { useDeletePost, useUpdatePost } from '@/hooks'
 
 const truncate = (text, wordLimit) => {
 	const words = text.split(' ')
@@ -331,59 +310,9 @@ const EditCard = ({ post, setEditing }) => {
 
 const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
-	const navigate = useNavigate()
 	const { mutate: deletePost } = useDeletePost()
-	const { mutate: reactPost } = useReactPost()
-	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
-	const currentReaction = post.reactions[0]?.reactionType
-	const currentReactionObj = reactions.find(
-		(r) => r.label === currentReaction
-	)
-	const popoverTimeoutRef = useRef(null)
+	const navigate = useNavigate()
 
-	const renderReactionCount = () => {
-		if (!currentReaction) {
-			if (post.reactionCount === 0) {
-				return null
-			}
-			return `${post.reactionCount} ${post.reactionCount === 1 ? '' : 'others'}`
-		}
-		if (post.reactionCount === 1) {
-			return 'YOU'
-		}
-		if (post.reactionCount === 2) {
-			return 'YOU and 1 other'
-		}
-		return `YOU and ${post.reactionCount - 1} others`
-	}
-
-	const handleReactionIconEnter = (event) => {
-		if (!user) {
-			return
-		}
-		clearTimeout(popoverTimeoutRef.current)
-		setReactionAnchorEl(event.currentTarget)
-	}
-
-	const handleReactionIconLeave = () => {
-		popoverTimeoutRef.current = setTimeout(() => {
-			setReactionAnchorEl(null)
-		}, 1000)
-	}
-
-	const handlePopoverEnter = () => clearTimeout(popoverTimeoutRef.current)
-
-	const handlePopoverLeave = () => {
-		popoverTimeoutRef.current = setTimeout(() => {
-			setReactionAnchorEl(null)
-		}, 300)
-	}
-
-	const handleReactionSelect = (reactionType) => {
-		const reaction = reactionType === currentReaction ? null : reactionType
-		reactPost({ postId: post.id, type: reaction })
-		setReactionAnchorEl(null)
-	}
 	return (
 		<Card
 			sx={{
@@ -507,40 +436,7 @@ const StaticCard = ({ post, setEditing }) => {
 					justifyContent="space-between"
 					width="100%"
 				>
-					<Box
-						onMouseEnter={handleReactionIconEnter}
-						onMouseLeave={handleReactionIconLeave}
-						sx={{ display: 'flex', alignItems: 'center' }}
-					>
-						<IconButton
-							size="small"
-							sx={{
-								color: currentReactionObj
-									? currentReactionObj.color
-									: 'text.primary'
-							}}
-							disabled={!user}
-						>
-							{currentReactionObj ? (
-								<currentReactionObj.icon
-									sx={{
-										width: 20,
-										height: 20
-									}}
-								/>
-							) : (
-								<ThumbUpOutlined
-									sx={{
-										width: 20,
-										height: 20
-									}}
-								/>
-							)}
-						</IconButton>
-						<Typography variant="body2" className="ml-1">
-							{renderReactionCount()}
-						</Typography>
-					</Box>
+					<ReactButton post={post} />
 
 					{user?.id === post.authorId && (
 						<Button
@@ -552,41 +448,6 @@ const StaticCard = ({ post, setEditing }) => {
 						</Button>
 					)}
 				</Stack>
-				<Popover
-					open={Boolean(reactionAnchorEl)}
-					anchorEl={reactionAnchorEl}
-					onClose={() => setReactionAnchorEl(null)}
-					anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-					transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-					disableRestoreFocus
-					slotProps={{
-						paper: {
-							onMouseEnter: handlePopoverEnter,
-							onMouseLeave: handlePopoverLeave,
-							sx: { p: 1 },
-							elevation: 0
-						}
-					}}
-				>
-					{reactions.map((reaction) => (
-						<IconButton
-							key={reaction.label}
-							onClick={() => handleReactionSelect(reaction.label)}
-							sx={{
-								color:
-									reaction.label === currentReaction
-										? 'white'
-										: reaction.color,
-								bgcolor:
-									reaction.label === currentReaction
-										? reaction.color
-										: 'transparent'
-							}}
-						>
-							<reaction.icon />
-						</IconButton>
-					))}
-				</Popover>
 			</CardActions>
 		</Card>
 	)

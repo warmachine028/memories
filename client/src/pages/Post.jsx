@@ -1,5 +1,4 @@
 import {
-	//
 	Avatar,
 	AvatarGroup,
 	Box,
@@ -18,6 +17,7 @@ import {
 	Divider,
 	Grid2 as Grid,
 	IconButton,
+	Skeleton,
 	Stack,
 	TextField,
 	Tooltip,
@@ -27,84 +27,72 @@ import { CommentSection, RecommendationSection } from '@/sections'
 import {
 	ContentCopy,
 	Facebook,
-	FavoriteOutlined,
 	LinkedIn,
 	Share,
 	X,
 	WhatsApp
 } from '@mui/icons-material'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { PostSkeleton } from '@/components'
-import { useGetPost } from '@/hooks'
+import {
+	AvatarGroupSkeleton,
+	PostSkeleton,
+	ReactButton,
+	UserAvatar
+} from '@/components'
+import { useGetPost, useGetPostReactions } from '@/hooks'
 import moment from 'moment'
 import { useState } from 'react'
 import { useStore } from '@/store'
 
-const AuthorInfo = ({ author, timestamp }) => (
-	<Stack direction="row">
-		<Avatar
-			src={author.imageUrl}
-			alt={author.fullName}
-			sx={{ width: 60, height: 60, mr: 2 }}
-			component={Link}
-			to={`/user/${author.id}`}
-		/>
-		<Stack>
-			<Typography variant="h6">{author.fullName}</Typography>
-			<Typography
-				component={Link}
-				variant="body2"
-				color="textSecondary"
-				to={`mailto:${author.email}`}
-				sx={{ textDecoration: 'none' }}
-			>
-				{author.email}
-			</Typography>
-			<Typography variant="caption" color="textSecondary">
-				{moment(timestamp).fromNow()}
-			</Typography>
-		</Stack>
-	</Stack>
-)
+const PostMetaData = ({ author, timestamp }) => {
+	const navigate = useNavigate()
 
-const users = [
-	{ id: 1, name: 'John Doe', avatar: 'https://picsum.photos/seed/1/200' },
-	{ id: 2, name: 'Jane Smith', avatar: 'https://picsum.photos/seed/2/200' },
-	{ id: 3, name: 'Bob Johnson', avatar: 'https://picsum.photos/seed/3/200' },
-	{ id: 4, name: 'Alice Brown', avatar: 'https://picsum.photos/seed/4/200' },
-	{
-		id: 5,
-		name: 'Charlie Davis',
-		avatar: 'https://picsum.photos/seed/5/200'
-	},
-	{ id: 6, name: 'Eva Wilson', avatar: 'https://picsum.photos/seed/6/200' }
-]
+	return (
+		<Stack direction="row" spacing={2} alignItems="center">
+			<UserAvatar
+				onClick={() => navigate(`/user/${author.id}`)}
+				user={author}
+				size={70}
+			/>
+			<Stack>
+				<Typography variant="h6">{author.fullName}</Typography>
+				<Typography
+					component={Link}
+					variant="body2"
+					color="textSecondary"
+					to={`mailto:${author.email}`}
+					sx={{ textDecoration: 'none' }}
+				>
+					{author.email}
+				</Typography>
+				<Typography variant="caption" color="textSecondary">
+					{moment(timestamp).fromNow()}
+				</Typography>
+			</Stack>
+		</Stack>
+	)
+}
 
 const PostCard = () => {
 	const { id } = useParams()
 	const { data: post, isLoading, error } = useGetPost(id)
 	const navigate = useNavigate()
 	const [shareDialogOpen, setShareDialogOpen] = useState(false)
-	const handleShareClick = () => {
-		setShareDialogOpen(true)
-	}
+	const handleShareClick = () => setShareDialogOpen(true)
 
 	if (isLoading) {
 		return <PostSkeleton />
 	}
+	const author = { ...post.author, id: post.authorId }
 	if (error?.message === 'API Error: Post not found') {
 		navigate('/not-found')
 	}
-
 	return (
 		<Card sx={{ width: 1 }}>
 			<CardMedia component="img" image={post.imageUrl} alt="Post cover" />
 			<CardHeader
 				avatar={
-					<AuthorInfo
-						author={post.author}
-						timestamp={post.createdAt}
-					/>
+					<PostMetaData author={author} timestamp={post.createdAt} />
 				}
 			/>
 			<Divider />
@@ -123,13 +111,10 @@ const PostCard = () => {
 			</CardContent>
 			<Divider />
 			<CardActions>
-				<IconButton color="primary">
-					<FavoriteOutlined color="error" />
-				</IconButton>
+				<ReactButton post={post} />
 				<IconButton onClick={handleShareClick} color="primary">
 					<Share />
 				</IconButton>
-
 				<Stack
 					direction="row"
 					alignItems="center"
@@ -137,35 +122,7 @@ const PostCard = () => {
 					flexGrow={1}
 					justifyContent="flex-end"
 				>
-					<AvatarGroup
-						max={4}
-						sx={{
-							'& .MuiAvatar-root': {
-								width: 40,
-								height: 40,
-								fontSize: '1rem'
-							}
-						}}
-					>
-						{users.map((user) => (
-							<Tooltip key={user.id} title={user.name} arrow>
-								<Avatar
-									component={Link}
-									to={`/user/${user.id}`}
-									alt={user.name}
-									src={user.avatar}
-									sx={{
-										transition:
-											'transform 0.2s, z-index 0.2s',
-										'&:hover': {
-											transform: 'scale(1.2)',
-											zIndex: 10
-										}
-									}}
-								/>
-							</Tooltip>
-						))}
-					</AvatarGroup>
+					<Top3Reactions post={post} />
 				</Stack>
 			</CardActions>
 			<ShareDialog
@@ -176,6 +133,47 @@ const PostCard = () => {
 		</Card>
 	)
 }
+
+const Top3Reactions = ({ post }) => {
+	const { data: reactors, isLoading } = useGetPostReactions(post.id)
+
+	if (isLoading) {
+		return <AvatarGroupSkeleton />
+	}
+
+	return (
+		<AvatarGroup
+			max={4}
+			sx={{
+				'& .MuiAvatar-root': {
+					width: 40,
+					height: 40,
+					fontSize: '1rem'
+				}
+			}}
+			total={post.reactionCount}
+		>
+			{reactors.map(({ user: reactor }) => (
+				<Tooltip key={reactor.id} title={reactor.fullName} arrow>
+					<Avatar
+						component={Link}
+						to={`/user/${reactor.id}`}
+						alt={reactor.fullName}
+						src={reactor.imageUrl}
+						sx={{
+							transition: 'transform 0.2s, z-index 0.2s',
+							'&:hover': {
+								transform: 'scale(1.2)',
+								zIndex: 10
+							}
+						}}
+					/>
+				</Tooltip>
+			))}
+		</AvatarGroup>
+	)
+}
+
 const ShareDialog = ({ open, onClose, url }) => {
 	const shareUrls = {
 		facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
@@ -199,7 +197,12 @@ const ShareDialog = ({ open, onClose, url }) => {
 		>
 			<DialogTitle id="share-dialog-title">Share this post</DialogTitle>
 			<DialogContent>
-				<Stack direction="row" spacing={2} justifyContent="center" mb={1}>
+				<Stack
+					direction="row"
+					spacing={2}
+					justifyContent="center"
+					mb={1}
+				>
 					<IconButton
 						onClick={() =>
 							window.open(shareUrls.facebook, '_blank')

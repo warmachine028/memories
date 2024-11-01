@@ -1,5 +1,5 @@
 import { Box, Container, Grid2 as Grid } from '@mui/material'
-import { PostCard, SearchForm, CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
+import { PostCard, Search as SearchForm, CreatePost as CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
 import { useEffect } from 'react'
 import { useGetPosts } from '@/hooks'
 import { useInView } from 'react-intersection-observer'

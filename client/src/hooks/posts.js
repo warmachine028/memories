@@ -217,12 +217,14 @@ export const useReactPost = () => {
 			// Cancel any outgoing refetches
 			await Promise.all([
 				queryClient.cancelQueries({ queryKey: ['posts'] }),
-				queryClient.cancelQueries({ queryKey: ['reactions', postId] })
+				queryClient.cancelQueries({ queryKey: ['reactions', postId] }),
+				queryClient.cancelQueries({ queryKey: ['post', postId] })
 			])
 
 			const previousData = {
 				posts: queryClient.getQueryData(['posts']),
-				reactions: queryClient.getQueryData(['reactions', postId])
+				reactions: queryClient.getQueryData(['reactions', postId]),
+				post: queryClient.getQueryData(['post', postId])
 			}
 
 			// Optimistically update posts
@@ -288,6 +290,10 @@ export const useReactPost = () => {
 				['reactions', postId],
 				context?.previousData.reactions
 			)
+			queryClient.setQueryData(
+				['post', postId],
+				context?.previousData.post
+			)
 			setPages(context?.previousData.posts?.pages ?? [])
 		},
 		onSuccess: (_data, { postId }) => {
@@ -296,7 +302,8 @@ export const useReactPost = () => {
 				queryClient.invalidateQueries({ queryKey: ['posts'] }),
 				queryClient.invalidateQueries({
 					queryKey: ['reactions', postId]
-				})
+				}),
+				queryClient.invalidateQueries({ queryKey: ['post', postId] })
 			])
 		}
 	})

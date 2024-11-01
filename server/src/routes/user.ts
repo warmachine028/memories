@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia'
-import { handleWebhook, getUsers, getUser } from '@/controllers'
+import { handleWebhook, getUsers, getUser, getUserStats } from '@/controllers'
 
 const webhookRoutes = new Elysia({
 	prefix: '/webhook',
@@ -34,3 +34,4 @@ export const userRoutes = new Elysia({
 	.use(webhookRoutes)
 	// .get('/', getUsers)
 	.get('/:id', getUser)
+	.get('/:id/stats', getUserStats)

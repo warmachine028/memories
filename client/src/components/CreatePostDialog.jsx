@@ -1,5 +1,5 @@
 import { Dialog } from '@mui/material'
-import { CreatePost } from './Forms'
+import { CreatePost } from './forms'
 
 const CreatePostDialog = ({ open, setOpen }) => {
 	const handleClose = () => setOpen(false)
