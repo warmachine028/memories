@@ -346,7 +346,7 @@ const StaticCard = ({ post, setEditing }) => {
 			if (post.reactionCount === 0) {
 				return null
 			}
-			return `${post.reactionCount} ${post.reactionCount !== 1 && 'others'}`
+			return `${post.reactionCount} ${post.reactionCount === 1 ? '' : 'others'}`
 		}
 		if (post.reactionCount === 1) {
 			return 'YOU'
