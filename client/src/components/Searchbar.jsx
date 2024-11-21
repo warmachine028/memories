@@ -56,7 +56,9 @@ const Searchbar = () => {
 		const securityLevels = ['info', 'warning', 'error', 'success']
 
 		const lowerCaseSearch = search.toLowerCase()
-		const foundLevel = securityLevels.find((level) => lowerCaseSearch.includes(level))
+		const foundLevel = securityLevels.find((level) =>
+			lowerCaseSearch.includes(level)
+		)
 
 		if (foundLevel) {
 			openSnackbar({
@@ -79,11 +81,19 @@ const Searchbar = () => {
 	}
 
 	return (
-		<Search display={{ xs: 'block', md: 'none' }} component={'form'} onSubmit={handleSubmit}>
+		<Search
+			display={{ xs: 'block', md: 'none' }}
+			component="form"
+			onSubmit={handleSubmit}
+		>
 			<SearchIconWrapper>
 				<SearchIcon />
 			</SearchIconWrapper>
-			<StyledInputBase placeholder="Search Memories" value={search} onChange={handleChange} />
+			<StyledInputBase
+				placeholder="Search Memories"
+				value={search}
+				onChange={handleChange}
+			/>
 		</Search>
 	)
 }

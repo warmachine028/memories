@@ -37,3 +37,4 @@ export { api, handleApiError }
 export * from './posts'
 export * from './users'
 export * from './reactions'
+export * from './comments'

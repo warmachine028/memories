@@ -1,6 +1,26 @@
 import { useState } from 'react'
-import { Avatar, Box, Button, ButtonGroup, Card, CardContent, CardHeader, Fade, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { ThumbUp, Send, ArrowDownward, Cancel } from '@mui/icons-material'
+import {
+	Avatar,
+	Box,
+	Button,
+	ButtonGroup,
+	Card,
+	CardContent,
+	CardHeader,
+	CircularProgress,
+	Fade,
+	IconButton,
+	Stack,
+	TextField,
+	Typography
+} from '@mui/material'
+import {
+	ThumbUp,
+	Send,
+	ArrowDownward,
+	Cancel,
+	Delete
+} from '@mui/icons-material'
 import { comments as dummyComments } from '@/data/comments'
 import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
@@ -26,6 +46,11 @@ const CommentInput = ({ setComments, comments }) => {
 		setComments([newComment, ...comments])
 		setComment('')
 	}
+
+	const handleReset = () => {
+		setComment('')
+	}
+
 	const handleChange = (e) => setComment(e.target.value)
 
 	if (!user) {
@@ -33,10 +58,22 @@ const CommentInput = ({ setComments, comments }) => {
 	}
 
 	return (
-		<Box component="form" onSubmit={handleSubmit} mb={7}>
+		<Box
+			component="form"
+			onSubmit={handleSubmit}
+			mb={7}
+			onReset={handleReset}
+		>
 			<Stack gap={1} direction="row" mb={1} alignItems="center">
 				<UserAvatar user={user} onClick={() => navigate('/user')} />
-				<TextField multiline maxRows={3} fullWidth placeholder="Add a comment..." value={comment} onChange={handleChange} />
+				<TextField
+					multiline
+					maxRows={3}
+					fullWidth
+					placeholder="Add a comment..."
+					value={comment}
+					onChange={handleChange}
+				/>
 			</Stack>
 
 			<Fade in={comment.trim()}>
@@ -58,7 +95,13 @@ const Comments = () => {
 	const [visibleComments, setVisibleComments] = useState(5)
 
 	const handleLike = (id) => {
-		setComments(comments.map((comment) => (comment.id === id ? { ...comment, likes: comment.likes + 1 } : comment)))
+		setComments(
+			comments.map((comment) =>
+				comment.id === id
+					? { ...comment, likes: comment.likes + 1 }
+					: comment
+			)
+		)
 	}
 
 	return (
@@ -68,25 +111,70 @@ const Comments = () => {
 				<CommentInput comments={comments} setComments={setComments} />
 				{comments.slice(0, visibleComments).map((comment) => (
 					<Stack key={comment.id} direction="row" mb={2}>
-						<Avatar src={comment.avatar} alt={comment.author} sx={{ mr: 2 }} />
+						<Avatar
+							src={comment.avatar}
+							alt={comment.author}
+							sx={{ mr: 2 }}
+						/>
 						<Box sx={{ flexGrow: 1 }}>
-							<Stack direction="row" alignItems="center" justifyContent="space-between">
-								<Typography variant="subtitle2" component={Link} fontWeight="bold" to={`/user/${comment.author}`} sx={{ textDecoration: 'none' }} color="primary">
+							<Stack
+								direction="row"
+								alignItems="center"
+								justifyContent="space-between"
+							>
+								<Typography
+									variant="subtitle2"
+									component={Link}
+									fontWeight="bold"
+									to={`/user/${comment.author}`}
+									sx={{ textDecoration: 'none' }}
+									color="primary"
+								>
 									{comment.author}
 								</Typography>
-								<Typography variant="caption" color="text.secondary.muted">
+								<Typography
+									variant="caption"
+									color="text.secondary.muted"
+								>
 									{moment(comment.createdAt).fromNow()}
 								</Typography>
 							</Stack>
-							<Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-								{comment.content}
-							</Typography>
+							<Stack
+								direction="row"
+								alignItems="center"
+								justifyContent="space-between"
+							>
+								<Typography
+									variant="body2"
+									color="text.secondary"
+									component="p"
+									sx={{ mb: 1, overflowWrap: 'anywhere' }}
+								>
+									{comment.content}
+								</Typography>
+								{comment.pending ? (
+									<CircularProgress size={20} />
+								) : (
+									<IconButton
+										size="small"
+										color="error"
+										onClick={() => handleDelete(comment.id)}
+									>
+										<Delete fontSize="small" />
+									</IconButton>
+								)}
+							</Stack>
+
 							<Stack direction="row" alignItems="center">
-								<IconButton size="small" onClick={() => handleLike(comment.id)}>
+								<IconButton
+									size="small"
+									onClick={() => handleLike(comment.id)}
+								>
 									<ThumbUp fontSize="small" />
 								</IconButton>
 								<Typography variant="caption">
-									{comment.likes} {comment.likes === 1 ? 'like' : 'likes'}
+									{comment.likes}{' '}
+									{comment.likes === 1 ? 'like' : 'likes'}
 								</Typography>
 							</Stack>
 						</Box>
@@ -94,7 +182,10 @@ const Comments = () => {
 				))}
 
 				{visibleComments < comments.length && (
-					<Button onClick={() => setVisibleComments(visibleComments + 5)} endIcon={<ArrowDownward />}>
+					<Button
+						onClick={() => setVisibleComments(visibleComments + 5)}
+						endIcon={<ArrowDownward />}
+					>
 						Load More Comments
 					</Button>
 				)}

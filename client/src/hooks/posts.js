@@ -5,7 +5,6 @@ import {
 	getPost,
 	getPosts,
 	reactPost,
-	// getReactions,
 	searchPosts,
 	unreactPost,
 	updatePost
@@ -43,14 +42,6 @@ export const useGetPost = (id) => {
 		queryFn: () => getPost(id)
 	})
 }
-
-// export const useGetReactions = (postId, page = 1, limit = 10) => {
-// 	return useQuery({
-// 		queryKey: ['reactions', postId, page, limit],
-// 		queryFn: () => getReactions(postId, { page, limit }),
-// 		enabled: !!postId
-// 	})
-// }
 
 export const useCreatePost = () => {
 	const queryClient = useQueryClient()
@@ -92,7 +83,7 @@ export const useCreatePost = () => {
 
 			return { previousData }
 		},
-		onError: (_err, _newPost, context) => {
+		onError: (_, __, context) => {
 			const previousPages = context?.previousData?.pages ?? []
 			queryClient.setQueryData(['posts'], context?.previousData)
 			setPages(previousPages)
@@ -160,14 +151,14 @@ export const useDeletePost = () => {
 					...old,
 					pages: old.pages.map((page) => ({
 						...page,
-						posts: page.posts.filter((post) => post.id !== postId)
+						posts: page.posts.filter((p) => p.id !== postId)
 					}))
 				}
 			})
 
 			return { previousData }
 		},
-		onError: (_err, _postId, context) =>
+		onError: (_, __, context) =>
 			queryClient.setQueryData(['posts'], context?.previousData),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
 	})

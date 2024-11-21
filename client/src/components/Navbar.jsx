@@ -126,6 +126,7 @@ const SearchBar = ({ onFocus: handleFocus }) => {
 					)
 				}
 			}}
+			onKeyDown={handleFocus}
 			onClick={handleFocus}
 			variant="outlined"
 		/>
