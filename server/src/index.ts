@@ -1,6 +1,5 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
-import { cron } from '@elysiajs/cron'
 import {
 	postRoutes,
 	commentRoutes,
@@ -8,15 +7,19 @@ import {
 	reactionRoutes,
 	tagRoutes,
 } from '@/routes'
-import { deleteUnusedTags, updateAllReactionCounts } from '@/controllers'
 import { docs } from '@/middlewares'
-import { pingServer, deleteUnusedTagsCron } from '@/cron'
+import {
+	pingServer,
+	deleteUnusedTagsCron,
+	updateReactionCountsCron,
+} from '@/cron'
 
 const port = Bun.env.PORT || 5000
 
 new Elysia()
 	.use(pingServer)
 	.use(deleteUnusedTagsCron)
+	.use(updateReactionCountsCron)
 	.use(cors())
 	.get('/favicon.ico', () => Bun.file('public/favicon.ico'))
 	.get('/', () => '💾 Hello from memories server', {

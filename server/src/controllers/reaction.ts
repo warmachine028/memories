@@ -61,39 +61,27 @@ export const unreact = async ({
 	if (!userId || !postId) {
 		throw new Error('Missing required parameters')
 	}
+	const post = await prisma.post.findUnique({
+		where: { id: postId },
+		select: { id: true },
+	})
+	if (!post) {
+		throw new Error('Post not found')
+	}
 
-	return prisma.$transaction(
-		async (tx) => {
-			const post = await tx.post.findUnique({
-				where: { id: postId },
-				select: { id: true },
-			})
-
-			if (!post) {
-				throw new Error('Post not found')
-			}
-
-			const deletedReaction = await tx.postReaction.delete({
-				where: { userId_postId: { userId, postId } },
-			})
-
-			// Update post reaction count
-			await tx.post.update({
-				where: { id: postId },
-				data: {
-					reactionCount: {
-						decrement: 1,
-					},
+	return prisma.$transaction([
+		prisma.postReaction.delete({
+			where: { userId_postId: { userId, postId } },
+		}),
+		prisma.post.update({
+			where: { id: postId },
+			data: {
+				reactionCount: {
+					decrement: 1,
 				},
-			})
-
-			return deletedReaction
-		},
-		{
-			isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-			timeout: 5000,
-		}
-	)
+			},
+		}),
+	])
 }
 
 export const getReaction = async ({
