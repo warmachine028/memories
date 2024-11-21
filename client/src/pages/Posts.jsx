@@ -14,8 +14,14 @@ import { useStore } from '@/store'
 const PostGrid = () => {
 	const { ref, inView } = useInView()
 	const { pages } = useStore()
-	const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-		useGetPosts()
+	const {
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isPending,
+		isError,
+		error
+	} = useGetPosts()
 	const allPosts = pages.flatMap((page) => page.posts)
 
 	useEffect(() => {
@@ -24,15 +30,15 @@ const PostGrid = () => {
 		}
 	}, [inView, hasNextPage, fetchNextPage])
 
-	if (status === 'pending') {
+	if (isPending) {
 		return Array.from({ length: 6 }).map((_, i) => (
 			<Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={i}>
 				<PostCardSkeleton />
 			</Grid>
 		))
 	}
-	if (status === 'error') {
-		return <Grid xs={12}>Error loading posts: {status}</Grid>
+	if (isError) {
+		return <Grid xs={12}>Error loading posts: {error.message}</Grid>
 	}
 	return (
 		<>

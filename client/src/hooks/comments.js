@@ -1,27 +1,31 @@
 import { getComments, createComment, deleteComment } from '@/api'
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useUser } from '@clerk/clerk-react'
+import {
+	useQueryClient,
+	useMutation,
+	useInfiniteQuery
+} from '@tanstack/react-query'
 
-export const useGetComments = (postId, pageParam) => {
-	return useQuery({
-		queryKey: ['comments', postId, pageParam],
-		queryFn: () => getComments(postId, pageParam)
+export const useGetComments = (postId) => {
+	return useInfiniteQuery({
+		queryKey: ['comments', postId],
+		queryFn: ({ pageParam }) => getComments(postId, pageParam, 5),
+		getNextPageParam: (lastPage) => lastPage.nextCursor
 	})
 }
 
-export const useCreateComment = () => {
+export const useCreateComment = (postId) => {
 	const queryClient = useQueryClient()
 	const { user } = useUser()
 
 	return useMutation({
-		mutationFn: createComment,
+		mutationFn: (newComment) => createComment(postId, newComment),
 		onMutate: async (newComment) => {
 			await queryClient.cancelQueries({
-				queryKey: ['comments', newComment.postId]
+				queryKey: ['comments', postId]
 			})
-			const previousData = queryClient.getQueryData([
-				'comments',
-				newComment.postId
-			])
+			const previousData = queryClient.getQueryData(['comments', postId])
+
 			const optimisticComment = {
 				...newComment,
 				id: Date.now(),
@@ -39,46 +43,39 @@ export const useCreateComment = () => {
 				},
 				...previousData?.pages
 			]
-			queryClient.setQueryData(
-				['comments', newComment.postId],
-				(old) => ({
-					...(old ?? { pageParams: [] }),
-					pages: updatedPages
-				})
-			)
+			queryClient.setQueryData(['comments', postId], (old) => ({
+				...(old ?? { pageParams: [] }),
+				pages: updatedPages
+			}))
 
 			return { previousData }
 		},
-		onError: (_err, newComment, context) => {
+		onError: (_, __, context) => {
 			const previousPages = context?.previousData?.pages ?? []
 			queryClient.setQueryData(
-				['comments', newComment.postId],
+				['comments', postId],
 				context?.previousData
 			)
 			setPages(previousPages)
 		},
 		onSuccess: () =>
 			queryClient.invalidateQueries({
-				queryKey: ['comments', newComment.postId]
+				queryKey: ['comments', postId]
 			})
 	})
 }
 
-export const useDeleteComment = () => {
+export const useDeleteComment = (postId) => {
 	const queryClient = useQueryClient()
+	const queryKey = ['comments', postId]
 
 	return useMutation({
-		mutationFn: (comment) => deleteComment(comment.id),
-		onMutate: async (comment) => {
-			await queryClient.cancelQueries({
-				queryKey: ['comments', comment.postId]
-			})
-			const previousData = queryClient.getQueryData([
-				'comments',
-				comment.postId
-			])
+		mutationFn: deleteComment,
+		onMutate: async (commentId) => {
+			await queryClient.cancelQueries({ queryKey })
+			const previousData = queryClient.getQueryData(queryKey)
 
-			queryClient.setQueryData(['comments', comment.postId], (old) => {
+			queryClient.setQueryData(queryKey, (old) => {
 				if (!old) {
 					return { pages: [], pageParams: [] }
 				}
@@ -87,7 +84,7 @@ export const useDeleteComment = () => {
 					pages: old.pages.map((page) => ({
 						...page,
 						comments: page.comments.filter(
-							(c) => c.id !== comment.id
+							(c) => c.id !== commentId
 						)
 					}))
 				}
@@ -95,14 +92,8 @@ export const useDeleteComment = () => {
 
 			return { previousData }
 		},
-		onError: (_, comment, context) =>
-			queryClient.setQueryData(
-				['comments', comment.postId],
-				context?.previousData
-			),
-		onSuccess: () =>
-			queryClient.invalidateQueries({
-				queryKey: ['comments', comment.postId]
-			})
+		onError: (_, __, context) =>
+			queryClient.setQueryData(queryKey, context?.previousData),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey })
 	})
 }

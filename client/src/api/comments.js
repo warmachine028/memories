@@ -1,4 +1,4 @@
-import { handleApiError } from './utils'
+import { api, handleApiError } from '.'
 
 export const getComments = async (postId, cursor, limit) => {
 	try {
@@ -11,9 +11,9 @@ export const getComments = async (postId, cursor, limit) => {
 	}
 }
 
-export const createComment = async (comment) => {
+export const createComment = async (postId, comment) => {
 	try {
-		const { data } = await api.post('/comments', comment)
+		const { data } = await api.post(`/comments/${postId}`, comment)
 		return data
 	} catch (error) {
 		throw handleApiError(error)

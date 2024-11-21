@@ -38,11 +38,7 @@ export const createComment = async ({
 	}
 	const { content } = body
 	return prisma.comment.create({
-		data: {
-			content,
-			postId,
-			authorId: userId,
-		},
+		data: { content, postId, authorId: userId },
 	})
 }
 
@@ -53,15 +49,13 @@ export const deleteComment = async ({
 	if (!userId) {
 		throw new Error('Unauthorized')
 	}
+
 	const comment = await prisma.comment.findUnique({
 		where: { id, authorId: userId },
 	})
+
 	if (!comment) {
 		throw new Error('Comment not found')
 	}
-	if (comment.authorId !== userId) {
-		throw new Error('Unauthorized')
-	}
-
 	return prisma.comment.delete({ where: { id, authorId: userId } })
 }

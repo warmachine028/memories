@@ -1,5 +1,5 @@
 // import { sleep } from '@/lib/utils'
-import { api, handleApiError } from '@/api'
+import { api, handleApiError } from '.'
 
 export const getPosts = async (cursor, limit) => {
 	try {

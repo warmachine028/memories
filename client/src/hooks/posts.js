@@ -136,14 +136,14 @@ export const useUpdatePost = () => {
 
 export const useDeletePost = () => {
 	const queryClient = useQueryClient()
-
+	const queryKey = ['posts']
 	return useMutation({
 		mutationFn: deletePost,
 		onMutate: async (postId) => {
-			await queryClient.cancelQueries({ queryKey: ['posts'] })
-			const previousData = queryClient.getQueryData(['posts'])
+			await queryClient.cancelQueries({ queryKey })
+			const previousData = queryClient.getQueryData(queryKey)
 
-			queryClient.setQueryData(['posts'], (old) => {
+			queryClient.setQueryData(queryKey, (old) => {
 				if (!old) {
 					return { pages: [], pageParams: [] }
 				}
@@ -159,8 +159,8 @@ export const useDeletePost = () => {
 			return { previousData }
 		},
 		onError: (_, __, context) =>
-			queryClient.setQueryData(['posts'], context?.previousData),
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+			queryClient.setQueryData(queryKey, context?.previousData),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey })
 	})
 }
 
@@ -175,14 +175,14 @@ export const useRefresh = () => {
 	const queryClient = useQueryClient()
 	const { setPages } = useStore()
 	const [refreshing, setRefreshing] = useState(false)
-
+	const queryKey = ['posts']
 	return {
 		refresh: async () => {
 			try {
 				setRefreshing(true)
 				setPages([])
 
-				await queryClient.resetQueries({ queryKey: ['posts'] })
+				await queryClient.resetQueries({ queryKey })
 
 				return true
 			} catch (error) {

@@ -25,12 +25,31 @@ const AppRouter = () => {
 				<Route path="/" element={<Navigate to="/posts" />} />
 				<Route path="/posts" element={<Posts />} />
 				<Route path="/posts/:id" element={<Post />} />
-				<Route path="/user" element={<PrivateRoute component={<Profile />} />} />
+				<Route
+					path="/user"
+					element={<PrivateRoute component={<Profile />} />}
+				/>
 				<Route path="/user/:id" element={<Profile />} />
-				<Route path="/login" element={<AuthRoute component={<LogIn />} />} />
-				<Route path="/signup" element={<AuthRoute component={<SignUp />} />} />
-				<Route path="/verify-email" element={<AuthRoute component={<VerifyEmail />} />} />
-				<Route path="/callback" element={<AuthRoute component={<AuthenticateWithRedirectCallback />} />} />
+				<Route
+					path="/login"
+					element={<AuthRoute component={<LogIn />} />}
+				/>
+				<Route
+					path="/signup"
+					element={<AuthRoute component={<SignUp />} />}
+				/>
+				<Route
+					path="/verify-email"
+					element={<AuthRoute component={<VerifyEmail />} />}
+				/>
+				<Route
+					path="/callback"
+					element={
+						<AuthRoute
+							component={<AuthenticateWithRedirectCallback />}
+						/>
+					}
+				/>
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>
