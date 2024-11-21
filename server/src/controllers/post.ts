@@ -2,7 +2,6 @@ import { prisma } from '@/lib'
 import {
 	deleteFromCloudinary,
 	getPublicId,
-	processPostsReactions,
 	uploadToCloudinary,
 } from '@/lib/utils'
 import type { RequestParams } from '@/types'
