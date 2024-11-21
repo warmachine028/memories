@@ -26,7 +26,6 @@ export const react = async ({
 			userId_postId: { userId, postId },
 		},
 	})
-
 	return prisma.$transaction([
 		...(existingReaction
 			? [
@@ -43,15 +42,15 @@ export const react = async ({
 							reactionType,
 						},
 					}),
+					prisma.post.update({
+						where: { id: postId },
+						data: {
+							reactionCount: {
+								increment: 1,
+							},
+						},
+					}),
 			  ]),
-		prisma.post.update({
-			where: { id: postId },
-			data: {
-				reactionCount: {
-					increment: 1,
-				},
-			},
-		}),
 	])
 }
 
@@ -74,32 +73,21 @@ export const unreact = async ({
 				throw new Error('Post not found')
 			}
 
-			try {
-				// Delete reaction
-				const deletedReaction = await tx.postReaction.delete({
-					where: { userId_postId: { userId, postId } },
-				})
+			const deletedReaction = await tx.postReaction.delete({
+				where: { userId_postId: { userId, postId } },
+			})
 
-				// Update post reaction count
-				await tx.post.update({
-					where: { id: postId },
-					data: {
-						reactionCount: {
-							decrement: 1,
-						},
+			// Update post reaction count
+			await tx.post.update({
+				where: { id: postId },
+				data: {
+					reactionCount: {
+						decrement: 1,
 					},
-				})
+				},
+			})
 
-				return deletedReaction
-			} catch (error) {
-				if (error instanceof Prisma.PrismaClientKnownRequestError) {
-					if (error.code === 'P2025') {
-						// Record not found
-						throw new Error('Reaction not found')
-					}
-				}
-				throw error
-			}
+			return deletedReaction
 		},
 		{
 			isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
