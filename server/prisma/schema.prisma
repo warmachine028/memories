@@ -109,7 +109,7 @@ model PostReaction {
 
     createdAt DateTime @default(now())
 
-    @@id(name: "id", [userId, postId])
+    @@id([userId, postId])
     @@unique([userId, postId])
     @@map("post_reactions")
 }
@@ -123,7 +123,7 @@ model CommentLike {
 
     createdAt DateTime @default(now())
 
-    @@id(name: "id", [userId, commentId])
+    @@id([userId, commentId])
     @@unique([userId, commentId])
     @@map("comment_likes")
 }

@@ -11,65 +11,48 @@ export const react = async ({
 	if (!userId || !postId) {
 		throw new Error('Missing required parameters')
 	}
-	
+
 	// Validate reaction type at runtime
 	const { reactionType }: { reactionType: ReactionType } = body
-	return prisma.$transaction(
-		async (tx) => {
-			const post = await tx.post.findUnique({
-				where: { id: postId },
-				select: { id: true },
-			})
-
-			if (!post) {
-				throw new Error('Post not found')
-			}
-
-			const existingReaction = await tx.postReaction.findUnique({
-				where: {
-					userId_postId: { userId, postId },
-				},
-			})
-
-			if (existingReaction) {
-				// If reaction type is same, no update needed
-				if (existingReaction.reactionType === reactionType) {
-					return existingReaction
-				}
-
-				// Update existing reaction
-				return await tx.postReaction.update({
-					where: { id: existingReaction.id },
-					data: { reactionType },
-				})
-			}
-			console.log(userId, postId)
-			// Create new reaction
-			const newReaction = await tx.postReaction.create({
-				data: {
-					userId,
-					postId,
-					reactionType,
-				},
-			})
-
-			// Update post reaction count
-			await tx.post.update({
-				where: { id: postId },
-				data: {
-					reactionCount: {
-						increment: 1,
-					},
-				},
-			})
-
-			return newReaction
+	const post = await prisma.post.findUnique({
+		where: { id: postId },
+		select: { id: true },
+	})
+	if (!post) {
+		throw new Error('Post not found')
+	}
+	const existingReaction = await prisma.postReaction.findUnique({
+		where: {
+			userId_postId: { userId, postId },
 		},
-		{
-			isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-			timeout: 5000, // 5 second timeout
-		}
-	)
+	})
+
+	return prisma.$transaction([
+		...(existingReaction
+			? [
+					prisma.postReaction.update({
+						where: { userId_postId: { userId, postId } },
+						data: { reactionType },
+					}),
+			  ]
+			: [
+					prisma.postReaction.create({
+						data: {
+							userId,
+							postId,
+							reactionType,
+						},
+					}),
+			  ]),
+		prisma.post.update({
+			where: { id: postId },
+			data: {
+				reactionCount: {
+					increment: 1,
+				},
+			},
+		}),
+	])
 }
 
 export const unreact = async ({
@@ -201,4 +184,52 @@ export const getTop3Reactors = async ({
 		},
 		take: 3,
 	})
+}
+
+export const updateAllReactionCounts = async () => {
+	// Get all unique posts with their reaction counts
+	const postReactionCounts = await prisma.postReaction.groupBy({
+		by: ['postId'],
+		_count: {
+			postId: true,
+		},
+	})
+
+	// Batch update posts with their reaction counts
+	const updatePromises = postReactionCounts.map((reaction) =>
+		prisma.post.update({
+			where: { id: reaction.postId },
+			data: {
+				reactionCount: reaction._count.postId,
+			},
+		})
+	)
+
+	// If there are no reactions, set reactionCount to 0 for all posts
+	const zeroReactionPosts = await prisma.post.findMany({
+		where: {
+			NOT: {
+				id: { in: postReactionCounts.map((r) => r.postId) },
+			},
+		},
+	})
+
+	const zeroReactionUpdatePromises = zeroReactionPosts.map((post) =>
+		prisma.post.update({
+			where: { id: post.id },
+			data: {
+				reactionCount: 0,
+			},
+		})
+	)
+
+	// Execute all updates
+	await Promise.all([...updatePromises, ...zeroReactionUpdatePromises])
+
+	console.log(
+		`Updated reaction counts for ${postReactionCounts.length} posts with reactions`
+	)
+	console.log(
+		`Set reaction count to 0 for ${zeroReactionPosts.length} posts without reactions`
+	)
 }
