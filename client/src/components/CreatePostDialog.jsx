@@ -5,7 +5,12 @@ const CreatePostDialog = ({ open, setOpen }) => {
 	const handleClose = () => setOpen(false)
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth>
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			fullWidth
+			PaperProps={{ elevation: 0 }}
+		>
 			<CreatePost />
 		</Dialog>
 	)

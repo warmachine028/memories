@@ -324,31 +324,23 @@ const Form = () => {
 const CreatePost = () => {
 	const { isSignedIn } = useAuth()
 
-	return (
-		<Paper>
-			{isSignedIn ? (
-				<Form />
-			) : (
-				<Stack p={2} spacing={2} alignItems="center">
-					<Typography
-						component="h1"
-						variant="body1"
-						textAlign="center"
-					>
-						Please Sign in to create a post
-					</Typography>
-					<Button
-						component={Link}
-						to="/login"
-						variant="contained"
-						color="secondary"
-						fullWidth
-					>
-						Sign in
-					</Button>
-				</Stack>
-			)}
-		</Paper>
+	return isSignedIn ? (
+		<Form />
+	) : (
+		<Stack p={2} spacing={2} alignItems="center">
+			<Typography component="h1" variant="body1" textAlign="center">
+				Please Sign in to create a post
+			</Typography>
+			<Button
+				component={Link}
+				to="/login"
+				variant="contained"
+				color="secondary"
+				fullWidth
+			>
+				Sign in
+			</Button>
+		</Stack>
 	)
 }
 

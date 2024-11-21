@@ -1,5 +1,11 @@
-import { Box, Container, Grid2 as Grid } from '@mui/material'
-import { PostCard, Search as SearchForm, CreatePost as CreatePostForm, Bottombar, PostCardSkeleton } from '@/components'
+import { Box, Container, Grid2 as Grid, Paper } from '@mui/material'
+import {
+	PostCard,
+	Search as SearchForm,
+	CreatePost as CreatePostForm,
+	Bottombar,
+	PostCardSkeleton
+} from '@/components'
 import { useEffect } from 'react'
 import { useGetPosts } from '@/hooks'
 import { useInView } from 'react-intersection-observer'
@@ -8,7 +14,8 @@ import { useStore } from '@/store'
 const PostGrid = () => {
 	const { ref, inView } = useInView()
 	const { pages } = useStore()
-	const { fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGetPosts()
+	const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+		useGetPosts()
 	const allPosts = pages.flatMap((page) => page.posts)
 
 	useEffect(() => {
@@ -49,12 +56,30 @@ const Posts = () => {
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, height: '100vh' }} maxWidth="xl">
 			<Grid container spacing={3}>
-				<Grid container size={{ xs: 12, md: 8, xl: 9 }} overflow="auto" height={'calc(100vh - 150px)'} sx={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+				<Grid
+					container
+					size={{ xs: 12, md: 8, xl: 9 }}
+					overflow="auto"
+					height={'calc(100vh - 150px)'}
+					sx={{
+						'&::-webkit-scrollbar': { display: 'none' },
+						scrollbarWidth: 'none',
+						msOverflowStyle: 'none'
+					}}
+				>
 					<PostGrid />
 				</Grid>
-				<Grid container size={{ xs: 12, md: 4, xl: 3 }} height={1} top={95} sx={{ display: { xs: 'none', md: 'flex' } }}>
+				<Grid
+					container
+					size={{ xs: 12, md: 4, xl: 3 }}
+					height={1}
+					top={95}
+					sx={{ display: { xs: 'none', md: 'flex' } }}
+				>
 					<Grid size={{ xs: 12 }}>
-						<CreatePostForm />
+						<Paper elevation={0}>
+							<CreatePostForm />
+						</Paper>
 					</Grid>
 					<Grid size={{ xs: 12 }}>
 						<SearchForm />
