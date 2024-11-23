@@ -167,6 +167,7 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 					renderInput={(params) => (
 						<TextField
 							{...params}
+							autoFocus
 							fullWidth
 							variant="outlined"
 							placeholder="Search"

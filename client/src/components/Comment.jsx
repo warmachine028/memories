@@ -1,27 +1,17 @@
 import { useState } from 'react'
 import {
-	Avatar,
 	Box,
-	Button,
-	ButtonGroup,
-	Card,
-	CardContent,
-	CardHeader,
 	CircularProgress,
-	Fade,
 	IconButton,
 	Menu,
 	MenuItem,
-	Skeleton,
 	Stack,
 	TextField,
 	Typography
 } from '@mui/material'
 import {
-	ThumbUp,
-	Send,
-	ArrowDownward,
 	Cancel,
+	ThumbUp,
 	Delete,
 	MoreVert,
 	Edit,
@@ -30,8 +20,9 @@ import {
 import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
 import { UserAvatar } from '@/components'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useCreateComment, useDeleteComment, useGetComments } from '@/hooks'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDeleteComment } from '@/hooks'
+import { DeleteCommentDialogue } from './dialogues'
 
 const MoreButton = ({ setEditing, comment }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
@@ -40,9 +31,12 @@ const MoreButton = ({ setEditing, comment }) => {
 	const handleClose = () => setAnchorEl(null)
 
 	const { mutate: deleteComment } = useDeleteComment(comment.postId)
+	
+	const [showDialog, setShowDialog] = useState(false)
 
 	const handleDelete = () => {
 		deleteComment(comment.id)
+		setShowDialog(false)
 		handleClose()
 	}
 	const handleEdit = () => {
@@ -59,38 +53,39 @@ const MoreButton = ({ setEditing, comment }) => {
 				open={open}
 				anchorEl={anchorEl}
 				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right'
-				}}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			>
 				<MenuItem
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						gap: 2
+						fontSize: 'small',
+						gap: 1
 					}}
 					onClick={handleEdit}
 				>
-					<Edit color="info" />
+					<Edit color="info" fontSize="small" />
 					Edit
 				</MenuItem>
 				<MenuItem
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						gap: 2
+						fontSize: 'small',
+						gap: 1
 					}}
-					onClick={handleDelete}
+					onClick={() => setShowDialog(true)}
 				>
-					<Delete color="error" />
+					<Delete color="error" fontSize="small" />
 					Delete
 				</MenuItem>
 			</Menu>
+			<DeleteCommentDialogue
+				onDelete={handleDelete}
+				open={showDialog}
+				setOpen={setShowDialog}
+			/>
 		</Box>
 	)
 }
@@ -111,35 +106,31 @@ const EditMoreButton = ({ setEditing }) => {
 				open={open}
 				anchorEl={anchorEl}
 				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right'
-				}}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			>
 				<MenuItem
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						gap: 2
+						fontSize: 'small',
+						gap: 1
 					}}
 					onClick={() => setEditing(false)}
 				>
-					<Save color="info" />
+					<Save color="info" fontSize="small" />
 					Save
 				</MenuItem>
 				<MenuItem
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						gap: 2
+						fontSize: 'small',
+						gap: 1
 					}}
 					onClick={() => setEditing(false)}
 				>
-					<Cancel color="error" />
+					<Cancel color="error" fontSize="small" />
 					Cancel
 				</MenuItem>
 			</Menu>
@@ -147,13 +138,10 @@ const EditMoreButton = ({ setEditing }) => {
 	)
 }
 
-
-
 const EditComment = ({ initialState, setEditing }) => {
 	const [comment, setComment] = useState(initialState)
-	const handleChange = (e) => {
-		setComment(e.target.value)
-	}
+	const handleChange = (e) => setComment(e.target.value)
+
 	return (
 		<Stack
 			direction="row"
@@ -177,15 +165,14 @@ const Comment = ({ comment }) => {
 	const { user } = useUser()
 	const handleLike = () => {}
 	const [editing, setEditing] = useState(false)
-
+	const navigate = useNavigate()
 	return (
-		<Stack direction="row" mb={2}>
-			<Avatar
-				src={comment.author.imageUrl}
-				alt={comment.author.fullName}
-				sx={{ mr: 2 }}
+		<Stack direction="row" mb={1} gap={1} alignItems="center">
+			<UserAvatar
+				user={comment.author}
+				onClick={() => navigate('/user')}
 			/>
-			<Box sx={{ flexGrow: 1 }}>
+			<Box flexGrow={1}>
 				<Stack
 					direction="row"
 					alignItems="center"
@@ -236,7 +223,6 @@ const Comment = ({ comment }) => {
 						)}
 					</Stack>
 				)}
-
 				<Stack direction="row" alignItems="center">
 					<IconButton size="small" onClick={handleLike}>
 						<ThumbUp fontSize="small" color="primary" />
