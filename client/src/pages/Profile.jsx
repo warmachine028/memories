@@ -283,12 +283,19 @@ const UserMetrics = () => {
 										title="Comments Received"
 										value={metrics.commentsReceived}
 									/>
-									<MetricItem
-										title="Longest Post"
-										value={`${metrics.longestPost?.words} words`}
-										isLink
-										linkTo={`/posts/${metrics.longestPost?.id}`}
-									/>
+									{metrics.longestPost ? (
+										<MetricItem
+											title="Longest Post"
+											value={`${metrics.longestPost.words} words`}
+											isLink
+											linkTo={`/posts/${metrics.longestPost.id}`}
+										/>
+									) : (
+										<MetricItem
+											title="Longest Post"
+											value={0}
+										/>
+									)}
 								</Grid>
 							)}
 						</ListItem>

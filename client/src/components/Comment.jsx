@@ -214,7 +214,7 @@ const Comment = ({ comment }) => {
 						{comment.optimistic ? (
 							<CircularProgress size={20} />
 						) : (
-							comment.authorId === user.id && (
+							comment.authorId === user?.id && (
 								<MoreButton
 									setEditing={setEditing}
 									comment={comment}

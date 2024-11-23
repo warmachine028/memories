@@ -107,7 +107,12 @@ export const getUserStats = async ({ params: { id } }: RequestParams) => {
 	})
 
 	const commentsReceived = await prisma.comment.count({
-		where: { post: { authorId: id } },
+		where: {
+			AND: {
+				post: { authorId: id },
+				NOT: { authorId: id },
+			},
+		},
 	})
 	try {
 		const result = await prisma.$queryRaw<{ id: string; words: number }[]>`
@@ -127,7 +132,7 @@ export const getUserStats = async ({ params: { id } }: RequestParams) => {
 		return {
 			posts,
 			privatePosts,
-			reactionsReceived: reactionsReceived._sum.reactionCount,
+			reactionsReceived: reactionsReceived._sum.reactionCount || 0,
 			commentsReceived,
 			longestPost: result[0],
 		}
