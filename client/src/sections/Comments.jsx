@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-	Avatar,
 	Box,
 	Button,
 	ButtonGroup,
@@ -9,24 +8,17 @@ import {
 	CardHeader,
 	CircularProgress,
 	Fade,
-	IconButton,
 	Skeleton,
 	Stack,
 	TextField,
 	Typography
 } from '@mui/material'
-import {
-	ThumbUp,
-	Send,
-	ArrowDownward,
-	Cancel,
-	Delete
-} from '@mui/icons-material'
-import moment from 'moment'
+import { Send, ArrowDownward, Cancel } from '@mui/icons-material'
 import { useUser } from '@clerk/clerk-react'
 import { UserAvatar } from '@/components'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useCreateComment, useDeleteComment, useGetComments } from '@/hooks'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useCreateComment, useGetComments } from '@/hooks'
+import { Comment } from '@/components'
 
 const CommentInput = ({ postId }) => {
 	const { user } = useUser()
@@ -68,7 +60,6 @@ const CommentInput = ({ postId }) => {
 					onChange={handleChange}
 				/>
 			</Stack>
-
 			<Fade in={comment.trim()}>
 				<ButtonGroup variant="contained" sx={{ float: 'right' }}>
 					<Button type="reset" endIcon={<Cancel />} color="secondary">
@@ -80,78 +71,6 @@ const CommentInput = ({ postId }) => {
 				</ButtonGroup>
 			</Fade>
 		</Box>
-	)
-}
-
-const Comment = ({ comment }) => {
-	const { mutate: deleteComment } = useDeleteComment(comment.postId)
-	const handleDelete = () => deleteComment(comment.id)
-	const handleLike = () => {}
-	const handleEdit = () => {}
-	return (
-		<Stack direction="row" mb={2}>
-			<Avatar
-				src={comment.author.imageUrl}
-				alt={comment.author.fullName}
-				sx={{ mr: 2 }}
-			/>
-			<Box sx={{ flexGrow: 1 }}>
-				<Stack
-					direction="row"
-					alignItems="center"
-					justifyContent="space-between"
-				>
-					<Typography
-						variant="subtitle2"
-						component={Link}
-						fontWeight="bold"
-						to={`/user/${comment.author.id}`}
-						sx={{ textDecoration: 'none' }}
-						color="primary"
-					>
-						{comment.author.fullName}
-					</Typography>
-					<Typography variant="caption" color="text.secondary.muted">
-						{moment(comment.createdAt).fromNow()}
-					</Typography>
-				</Stack>
-				<Stack
-					direction="row"
-					alignItems="center"
-					justifyContent="space-between"
-				>
-					<Typography
-						variant="body2"
-						color="text.secondary"
-						component="p"
-						sx={{ mb: 1, overflowWrap: 'anywhere' }}
-					>
-						{comment.content}
-					</Typography>
-					{comment.optimistic ? (
-						<CircularProgress size={20} />
-					) : (
-						<IconButton
-							size="small"
-							color="error"
-							onClick={handleDelete}
-						>
-							<Delete fontSize="small" />
-						</IconButton>
-					)}
-				</Stack>
-
-				<Stack direction="row" alignItems="center">
-					<IconButton size="small" onClick={handleLike}>
-						<ThumbUp fontSize="small" color="primary" />
-					</IconButton>
-					<Typography variant="caption">
-						{comment.likeCount}{' '}
-						{comment.likeCount === 1 ? 'like' : 'likes'}
-					</Typography>
-				</Stack>
-			</Box>
-		</Stack>
 	)
 }
 
