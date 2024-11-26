@@ -56,18 +56,3 @@ export const deletePost = async (id) => {
 	}
 }
 
-export const reactPost = async (id, reaction) => {
-	try {
-		await api.post(`/reactions/posts/${id}`, { reactionType: reaction })
-	} catch (error) {
-		throw handleApiError(error)
-	}
-}
-
-export const unreactPost = async (id) => {
-	try {
-		await api.delete(`/reactions/posts/${id}`)
-	} catch (error) {
-		throw handleApiError(error)
-	}
-}

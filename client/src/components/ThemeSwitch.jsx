@@ -23,6 +23,7 @@ const ThemeMenu = ({ anchorEl, handleClose, handleClick, theme }) => {
 			anchorEl={anchorEl}
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
+			slotProps={{ paper: { elevation: 0 } }}
 			MenuListProps={{ 'aria-labelledby': 'theme-button' }}
 			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			transformOrigin={{ horizontal: 'right', vertical: 'top' }}

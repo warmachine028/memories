@@ -9,17 +9,10 @@ import {
 	TextField,
 	Typography
 } from '@mui/material'
-import {
-	Cancel,
-	ThumbUp,
-	Delete,
-	MoreVert,
-	Edit,
-	Save
-} from '@mui/icons-material'
+import { Cancel, Delete, MoreVert, Edit, Save } from '@mui/icons-material'
 import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
-import { UserAvatar } from '@/components'
+import { LikeButton, UserAvatar } from '@/components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDeleteComment } from '@/hooks'
 import { DeleteCommentDialogue } from './dialogues'
@@ -31,7 +24,7 @@ const MoreButton = ({ setEditing, comment }) => {
 	const handleClose = () => setAnchorEl(null)
 
 	const { mutate: deleteComment } = useDeleteComment(comment.postId)
-	
+
 	const [showDialog, setShowDialog] = useState(false)
 
 	const handleDelete = () => {
@@ -151,8 +144,10 @@ const EditComment = ({ initialState, setEditing }) => {
 			<TextField
 				multiline
 				maxRows={3}
+				size="small"
 				fullWidth
 				placeholder="Add a comment..."
+				defaultValue={comment}
 				value={comment}
 				onChange={handleChange}
 			/>
@@ -223,15 +218,7 @@ const Comment = ({ comment }) => {
 						)}
 					</Stack>
 				)}
-				<Stack direction="row" alignItems="center">
-					<IconButton size="small" onClick={handleLike}>
-						<ThumbUp fontSize="small" color="primary" />
-					</IconButton>
-					<Typography variant="caption">
-						{comment.likeCount}{' '}
-						{comment.likeCount === 1 ? 'like' : 'likes'}
-					</Typography>
-				</Stack>
+				{!comment.optimistic && <LikeButton commentId={comment.id} />}
 			</Box>
 		</Stack>
 	)

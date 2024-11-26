@@ -27,3 +27,4 @@ export const deleteComment = async (id) => {
 		throw handleApiError(error)
 	}
 }
+

@@ -8,8 +8,10 @@ import {
 	Stack,
 	TextField
 } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
+	const navigate = useNavigate()
 	const handleSearchInput = (params) => (
 		<TextField
 			{...params}
@@ -20,6 +22,7 @@ const Search = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
+		navigate(`/search/${searchTerm}`)
 	}
 
 	return (

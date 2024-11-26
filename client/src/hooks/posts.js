@@ -99,7 +99,7 @@ export const useUpdatePost = () => {
 	return useMutation({
 		mutationFn: (post) => updatePost(post.id, post),
 		onMutate: async (updatedPost) => {
-			await queryClient.cancelQueries({ queryKey: ['posts'] })
+			await queryClient.cancelQueries({ queryKey: ['post'] })
 			const previousData = queryClient.getQueryData(['posts'])
 
 			const newPages = pages.map((page) => ({
@@ -194,108 +194,4 @@ export const useRefresh = () => {
 		},
 		refreshing
 	}
-}
-
-export const useReactPost = () => {
-	const queryClient = useQueryClient()
-	const { pages, setPages } = useStore()
-	const { user } = useUser()
-
-	return useMutation({
-		mutationFn: ({ postId, type }) =>
-			type ? reactPost(postId, type) : unreactPost(postId),
-		onMutate: async ({ postId, type }) => {
-			// Cancel any outgoing refetches
-			await Promise.all([
-				queryClient.cancelQueries({ queryKey: ['posts'] }),
-				queryClient.cancelQueries({ queryKey: ['reactions', postId] }),
-				queryClient.cancelQueries({ queryKey: ['post', postId] })
-			])
-
-			const previousData = {
-				posts: queryClient.getQueryData(['posts']),
-				reactions: queryClient.getQueryData(['reactions', postId]),
-				post: queryClient.getQueryData(['post', postId])
-			}
-
-			// Optimistically update posts
-			const newPages = pages.map((page) => ({
-				...page,
-				posts: page.posts.map((post) =>
-					post.id === postId
-						? {
-								...post,
-								reactionCount:
-									post.reactions.length === 0 && type
-										? post.reactionCount + 1
-										: type === null
-											? Math.max(
-													0,
-													post.reactionCount - 1
-												)
-											: post.reactionCount,
-								reactions: type ? [{ reactionType: type }] : []
-							}
-						: post
-				)
-			}))
-
-			// Update posts data
-			queryClient.setQueryData(['posts'], (old) => ({
-				...(old ?? { pageParams: [] }),
-				pages: newPages
-			}))
-			setPages(newPages)
-
-			// Optimistically update reactions if they're being displayed
-			if (previousData.reactions) {
-				const optimisticReaction = type
-					? {
-							postId,
-							reactionType: type,
-							user: {
-								id: user.id,
-								fullName: user.fullName,
-								imageUrl: user.imageUrl
-							},
-							createdAt: new Date().toISOString()
-						}
-					: null
-
-				queryClient.setQueryData(['reactions', postId], (old) => ({
-					...old,
-					reactions: type
-						? [optimisticReaction, ...(old?.reactions || [])]
-						: (old?.reactions || []).filter(
-								(r) => r.user.id !== user.id
-							)
-				}))
-			}
-
-			return { previousData }
-		},
-		onError: (_err, { postId }, context) => {
-			// Revert both posts and reactions on error
-			queryClient.setQueryData(['posts'], context?.previousData.posts)
-			queryClient.setQueryData(
-				['reactions', postId],
-				context?.previousData.reactions
-			)
-			queryClient.setQueryData(
-				['post', postId],
-				context?.previousData.post
-			)
-			setPages(context?.previousData.posts?.pages ?? [])
-		},
-		onSuccess: (_data, { postId }) => {
-			// Invalidate affected queries
-			return Promise.all([
-				queryClient.invalidateQueries({ queryKey: ['posts'] }),
-				queryClient.invalidateQueries({
-					queryKey: ['reactions', postId]
-				}),
-				queryClient.invalidateQueries({ queryKey: ['post', postId] })
-			])
-		}
-	})
 }

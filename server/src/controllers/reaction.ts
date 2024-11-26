@@ -276,3 +276,27 @@ export const unlike = async ({
 		}),
 	])
 }
+
+export const likes = async ({ params: { commentId }, userId }: RequestParams) => {
+	if (!commentId) {
+		throw new Error('Missing required parameters')
+	}
+
+	const comment = await prisma.comment.findUnique({
+		where: { id: commentId },
+		select: {
+			likes: {
+				where: { userId: userId ?? '' },
+				select: { userId: true },
+			},
+			_count: { select: { likes: true } },
+		},
+	})
+	if (!comment) {
+		throw new Error('Comment not found')
+	}
+	return {
+		likes: comment._count.likes,
+		isLiked: !!comment.likes.length,
+	}
+}

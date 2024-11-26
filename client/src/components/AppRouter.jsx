@@ -1,14 +1,15 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { AuthenticateWithRedirectCallback, useAuth } from '@clerk/clerk-react'
-const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Post } = {
+const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Post, Search } = {
 	Posts: lazy(() => import('@/pages/Posts')),
 	LogIn: lazy(() => import('@/pages/LogIn')),
 	NotFound: lazy(() => import('@/pages/NotFound')),
 	SignUp: lazy(() => import('@/pages/SignUp')),
 	VerifyEmail: lazy(() => import('@/pages/VerifyEmail')),
 	Profile: lazy(() => import('@/pages/Profile')),
-	Post: lazy(() => import('@/pages/Post'))
+	Post: lazy(() => import('@/pages/Post')),
+	Search: lazy(() => import('@/pages/Search'))
 }
 import { AuthRoute, PrivateRoute } from '@/routes'
 import { SuspenseFallback } from '.'
@@ -34,6 +35,7 @@ const AppRouter = () => {
 					path="/login"
 					element={<AuthRoute component={<LogIn />} />}
 				/>
+				<Route path="/search" element={<Search />} />
 				<Route
 					path="/signup"
 					element={<AuthRoute component={<SignUp />} />}

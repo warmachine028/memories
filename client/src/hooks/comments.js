@@ -1,4 +1,10 @@
-import { getComments, createComment, deleteComment } from '@/api'
+import {
+	getComments,
+	createComment,
+	deleteComment,
+	likeComment,
+	unlikeComment
+} from '@/api'
 import { useUser } from '@clerk/clerk-react'
 import {
 	useQueryClient,
@@ -97,3 +103,4 @@ export const useDeleteComment = (postId) => {
 		onSuccess: () => queryClient.invalidateQueries({ queryKey })
 	})
 }
+

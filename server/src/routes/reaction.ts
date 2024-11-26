@@ -3,6 +3,7 @@ import {
 	getReaction,
 	getTop3Reactors,
 	like,
+	likes,
 	react,
 	unlike,
 	unreact,
@@ -22,7 +23,7 @@ const commentReactionRoutes = new Elysia({
 			commentId: t.String(),
 		}),
 	})
-	.get('/:commentId', getReaction)
+	.get('/:commentId', likes)
 	.guard({
 		headers: t.Object({
 			authorization: t.String(),

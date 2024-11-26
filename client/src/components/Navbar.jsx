@@ -15,7 +15,6 @@ import {
 	TextField,
 	Autocomplete,
 	InputAdornment,
-	Paper,
 	Divider,
 	Avatar
 } from '@mui/material'
@@ -143,9 +142,10 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 	}
 	const handleSearch = (_, value) => {
 		if (value) {
-			navigate(value.url)
 			handleClose()
+			navigate(`/search?q=${value}`)
 		}
+
 	}
 
 	return (
@@ -162,8 +162,8 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 			<DialogContent>
 				<Autocomplete
 					freeSolo
-					options={searchSuggestions}
-					getOptionLabel={(option) => option.title}
+					options={searchSuggestions.map((option) => option.title)}
+					getOptionLabel={(option) => option}
 					renderInput={(params) => (
 						<TextField
 							{...params}
