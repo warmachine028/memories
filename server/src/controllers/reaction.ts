@@ -209,3 +209,70 @@ export const updateAllReactionCounts = async () => {
 		`Set reaction count to 0 for ${zeroReactionPosts.length} posts without reactions`
 	)
 }
+
+export const like = async ({
+	params: { commentId },
+	userId,
+}: RequestParams) => {
+	if (!userId || !commentId) {
+		throw new Error('Missing required parameters')
+	}
+	const comment = await prisma.comment.findUnique({
+		where: { id: commentId },
+		select: { id: true },
+	})
+	if (!comment) {
+		throw new Error('Comment not found')
+	}
+	const liked = await prisma.commentLike.findUnique({
+		where: {
+			userId_commentId: { userId, commentId },
+		},
+	})
+	if (liked) {
+		return
+	}
+	return prisma.$transaction([
+		prisma.commentLike.create({
+			data: { userId, commentId },
+		}),
+		prisma.comment.update({
+			where: { id: commentId },
+			data: {
+				likeCount: {
+					increment: 1,
+				},
+			},
+		}),
+	])
+}
+
+export const unlike = async ({
+	params: { commentId },
+	userId,
+}: RequestParams) => {
+	if (!userId || !commentId) {
+		throw new Error('Missing required parameters')
+	}
+	const comment = await prisma.comment.findUnique({
+		where: { id: commentId },
+		select: { id: true },
+	})
+	if (!comment) {
+		throw new Error('Comment not found')
+	}
+
+	return prisma.$transaction([
+		prisma.commentLike.delete({
+			where: { userId_commentId: { userId, commentId } },
+		}),
+		prisma.comment.update({
+			where: { id: commentId },
+			data: {
+				likeCount: {
+					decrement: 1,
+				},
+			},
+		}),
+	])
+}

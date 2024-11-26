@@ -1,7 +1,63 @@
 import { Elysia, t } from 'elysia'
-import { getReaction, getTop3Reactors, react, unreact } from '@/controllers'
+import {
+	getReaction,
+	getTop3Reactors,
+	like,
+	react,
+	unlike,
+	unreact,
+} from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { ReactionType } from '@prisma/client'
+
+const commentReactionRoutes = new Elysia({
+	prefix: '/comments',
+	detail: {
+		summary: 'Comment reactions',
+		tags: ['Comment Reactions'],
+	},
+})
+	.guard({
+		params: t.Object({
+			commentId: t.String(),
+		}),
+	})
+	.get('/:commentId', getReaction)
+	.guard({
+		headers: t.Object({
+			authorization: t.String(),
+		}),
+	})
+	.delete('/:commentId', unlike)
+	.post('/:commentId', like)
+
+const postReactionRoutes = new Elysia({
+	prefix: '/posts',
+	detail: {
+		summary: 'Post reactions',
+		tags: ['Post Reactions'],
+	},
+})
+	.guard({
+		params: t.Object({
+			postId: t.String(),
+		}),
+	})
+	.get('/:postId', getReaction)
+	.get('/top-reactors/:postId', getTop3Reactors)
+	.guard({
+		headers: t.Object({
+			authorization: t.String(),
+		}),
+	})
+	.delete('/:postId', unreact)
+	.guard({
+		body: t.Object({
+			reactionType: t.Enum(ReactionType),
+		}),
+	})
+	.post('/:postId', react)
+	.patch('/:postId', react)
 
 export const reactionRoutes = new Elysia({
 	prefix: '/reactions',
@@ -19,23 +75,5 @@ export const reactionRoutes = new Elysia({
 	},
 })
 	.use(authMiddleware)
-	.guard({
-		params: t.Object({
-			postId: t.String(),
-		}),
-	})
-	.get('/posts/:postId', getReaction)
-	.get('/posts/top-reactors/:postId', getTop3Reactors)
-	.guard({
-		headers: t.Object({
-			authorization: t.String(),
-		}),
-	})
-	.delete('/posts/:postId', unreact)
-	.guard({
-		body: t.Object({
-			reactionType: t.Enum(ReactionType),
-		}),
-	})
-	.post('/posts/:postId', react)
-	.patch('/posts/:postId', react)
+	.use(postReactionRoutes)
+	.use(commentReactionRoutes)

@@ -21,6 +21,7 @@ export type RequestParams = {
 	params: {
 		id: string
 		postId: string
+		commentId: string
 	}
 	body: Record
 	userId: string | null
