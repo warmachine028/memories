@@ -3,6 +3,7 @@ import type { Event, EventType, RequestParams } from '@/types'
 import { prisma } from '@/lib'
 import { error } from 'elysia'
 import { Prisma } from '@prisma/client'
+
 export const handleWebhook = async ({
 	headers,
 	request,
@@ -64,7 +65,7 @@ async function handleUserCreatedOrUpdated(event: Event) {
 		bio: data.unsafe_metadata.bio,
 		imageUrl: data.image_url,
 	}
-
+	console.log(user)
 	await prisma.user.upsert({
 		where: { id: user.id },
 		update: user,
