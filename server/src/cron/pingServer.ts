@@ -5,7 +5,7 @@ export const pingServer = cron({
 	pattern: '*/14 * * * *',
 	async run() {
 		try {
-			const response = await fetch('https://memories-omm3.onrender.com')
+			const response = await fetch(Bun.env.SERVER_URL!)
 			if (response.ok) {
 				console.log('Server pinged successfully')
 			} else {
