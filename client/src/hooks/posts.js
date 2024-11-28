@@ -4,9 +4,7 @@ import {
 	deletePost,
 	getPost,
 	getPosts,
-	reactPost,
 	searchPosts,
-	unreactPost,
 	updatePost
 } from '@/api'
 import {
@@ -23,7 +21,7 @@ export const useGetPosts = () => {
 
 	const query = useInfiniteQuery({
 		queryKey: ['posts'],
-		queryFn: ({ pageParam }) => getPosts(pageParam, 10),
+		queryFn: ({ pageParam }) => getPosts(pageParam, 6),
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	})
 

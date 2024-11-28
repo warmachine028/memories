@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { IconButton, Popover, Typography, Box } from '@mui/material'
+import { IconButton, Popover, Typography, Box, Stack } from '@mui/material'
 import {
 	ThumbUp,
 	Favorite,
@@ -21,7 +21,7 @@ const reactions = [
 	{ icon: SentimentDissatisfied, label: 'ANGRY', color: '#ff5722' }
 ]
 
-export default function ReactButton({ post }) {
+const ReactButton = ({ post }) => {
 	const { user } = useUser()
 	const { mutate: reactPost } = useReactPost()
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
@@ -60,10 +60,11 @@ export default function ReactButton({ post }) {
 	}
 
 	return (
-		<Box
+		<Stack
 			onMouseEnter={handleReactionIconEnter}
 			onMouseLeave={handleReactionIconLeave}
-			sx={{ display: 'flex', alignItems: 'center' }}
+			alignItems="center"
+			direction="row"
 		>
 			<IconButton
 				size="small"
@@ -118,6 +119,8 @@ export default function ReactButton({ post }) {
 					</IconButton>
 				))}
 			</Popover>
-		</Box>
+		</Stack>
 	)
 }
+
+export default ReactButton

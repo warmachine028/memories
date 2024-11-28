@@ -66,7 +66,7 @@ const Posts = () => {
 					container
 					size={{ xs: 12, md: 8, xl: 9 }}
 					overflow="auto"
-					height={'calc(100vh - 150px)'}
+					height={'calc(100vh - 190px)'}
 					sx={{
 						'&::-webkit-scrollbar': { display: 'none' },
 						scrollbarWidth: 'none',
