@@ -154,21 +154,10 @@ const EditCard = ({ post, setEditing }) => {
 	const handleChange = (event) => {
 		const { name, value, files } = event.target
 		setErrors({ ...errors, [name]: '' })
-
-		if (name === 'title' && value.length > 30) {
-			setErrors({
-				...errors,
-				title: 'Title must be less than 30 characters'
-			})
-		} else if (name === 'visibility') {
+		if (name === 'visibility') {
 			setEditedPost({
 				...editedPost,
 				visibility: value === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC'
-			})
-		} else if (name === 'description' && value.length > 150) {
-			setErrors({
-				...errors,
-				description: 'Description must be less than 150 characters'
 			})
 		} else if (name === 'media' && files && files[0]) {
 			const file = files[0]
