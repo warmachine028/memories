@@ -10,7 +10,6 @@ import {
 	IconButton,
 	Typography,
 	Button,
-	Popover,
 	Stack,
 	Box,
 	TextField,
@@ -28,7 +27,7 @@ import {
 	Visibility,
 	Lock
 } from '@mui/icons-material'
-import { UserAvatar, ReactButton } from '.'
+import { UserAvatar, ReactButton, DeletePostDialog } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
@@ -310,7 +309,10 @@ const EditCard = ({ post, setEditing }) => {
 
 const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
+	const [showDialog, setShowDialog] = useState(false)
+
 	const { mutate: deletePost } = useDeletePost()
+
 	const navigate = useNavigate()
 
 	return (
@@ -441,12 +443,18 @@ const StaticCard = ({ post, setEditing }) => {
 					{user?.id === post.authorId && (
 						<Button
 							color="error"
+							size="small"
 							startIcon={<Delete />}
-							onClick={() => deletePost(post.id)}
+							onClick={() => setShowDialog(true)}
 						>
 							Delete
 						</Button>
 					)}
+					<DeletePostDialog
+						onDelete={() => deletePost(post.id)}
+						open={showDialog}
+						setOpen={setShowDialog}
+					/>
 				</Stack>
 			</CardActions>
 		</Card>
