@@ -15,7 +15,9 @@ import {
 	TextField,
 	Autocomplete,
 	Input,
-	Tooltip
+	Tooltip,
+	Menu,
+	MenuItem
 } from '@mui/material'
 import {
 	Delete,
@@ -25,19 +27,88 @@ import {
 	Refresh,
 	VisibilityOff,
 	Visibility,
-	Lock
+	Lock,
+	MoreVert
 } from '@mui/icons-material'
-import { UserAvatar, ReactButton, DeletePostDialog } from '.'
+import { UserAvatar, ReactButton, DeletePostDialog, ShareButton } from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
+import { useStore } from '@/store'
 
 const truncate = (text, wordLimit) => {
 	const words = text.split(' ')
 	return words.length > wordLimit
 		? `${words.slice(0, wordLimit).join(' ')} ...`
 		: text
+}
+
+const MoreButton = ({ setEditing, post }) => {
+	const { openSnackbar } = useStore()
+	const [anchorEl, setAnchorEl] = useState(null)
+	const open = Boolean(anchorEl)
+	const handleClick = (event) => setAnchorEl(event.currentTarget)
+	const handleClose = () => setAnchorEl(null)
+	const { mutate: deletePost } = useDeletePost()
+	const [showDialog, setShowDialog] = useState(false)
+	const handleDelete = () => {
+		deletePost(post.id)
+		setShowDialog(false)
+		handleClose()
+		openSnackbar('Post Deleted Sucessfully')
+	}
+
+	const handleEdit = () => {
+		setEditing(true)
+		handleClose()
+	}
+
+	return (
+		<Box>
+			<IconButton size="small" onClick={handleClick} aria-label="more">
+				<MoreVert />
+			</IconButton>
+			<Menu
+				elevation={0}
+				open={open}
+				anchorEl={anchorEl}
+				onClose={handleClose}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+			>
+				<MenuItem
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						fontSize: 'small',
+						gap: 1
+					}}
+					onClick={handleEdit}
+				>
+					<Edit color="info" fontSize="small" />
+					Edit
+				</MenuItem>
+				<MenuItem
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						fontSize: 'small',
+						gap: 1
+					}}
+					onClick={() => setShowDialog(true)}
+				>
+					<Delete color="error" fontSize="small" />
+					Delete
+				</MenuItem>
+			</Menu>
+			<DeletePostDialog
+				onDelete={handleDelete}
+				open={showDialog}
+				setOpen={setShowDialog}
+			/>
+		</Box>
+	)
 }
 
 const EditCard = ({ post, setEditing }) => {
@@ -309,10 +380,6 @@ const EditCard = ({ post, setEditing }) => {
 
 const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
-	const [showDialog, setShowDialog] = useState(false)
-
-	const { mutate: deletePost } = useDeletePost()
-
 	const navigate = useNavigate()
 
 	return (
@@ -346,14 +413,8 @@ const StaticCard = ({ post, setEditing }) => {
 					}
 				}}
 				action={
-					user?.id === post.authorId && (
-						<IconButton
-							aria-label="edit"
-							onClick={() => setEditing(true)}
-							sx={{ color: 'white' }}
-						>
-							<Edit />
-						</IconButton>
+					post.authorId === user?.id && (
+						<MoreButton setEditing={setEditing} post={post} />
 					)
 				}
 			/>
@@ -439,22 +500,7 @@ const StaticCard = ({ post, setEditing }) => {
 					width="100%"
 				>
 					<ReactButton post={post} />
-
-					{user?.id === post.authorId && (
-						<Button
-							color="error"
-							size="small"
-							startIcon={<Delete />}
-							onClick={() => setShowDialog(true)}
-						>
-							Delete
-						</Button>
-					)}
-					<DeletePostDialog
-						onDelete={() => deletePost(post.id)}
-						open={showDialog}
-						setOpen={setShowDialog}
-					/>
+					<ShareButton url={`${window.location.href}/${post.id}`} />
 				</Stack>
 			</CardActions>
 		</Card>

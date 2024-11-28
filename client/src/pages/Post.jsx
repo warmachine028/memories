@@ -36,6 +36,7 @@ import {
 	AvatarGroupSkeleton,
 	PostSkeleton,
 	ReactButton,
+	ShareButton,
 	UserAvatar
 } from '@/components'
 import { useGetPost, useGetPostReactions } from '@/hooks'
@@ -111,9 +112,7 @@ const PostCard = () => {
 			<Divider />
 			<CardActions>
 				<ReactButton post={post} />
-				<IconButton onClick={handleShareClick} color="primary">
-					<Share />
-				</IconButton>
+				<ShareButton url={window.location.href} />
 				<Stack
 					direction="row"
 					alignItems="center"
@@ -124,11 +123,6 @@ const PostCard = () => {
 					<Top3Reactions post={post} />
 				</Stack>
 			</CardActions>
-			<ShareDialog
-				open={shareDialogOpen}
-				onClose={() => setShareDialogOpen(false)}
-				url={window.location.href}
-			/>
 		</Card>
 	)
 }
@@ -257,6 +251,7 @@ const ShareDialog = ({ open, onClose, url }) => {
 		</Dialog>
 	)
 }
+
 const Post = () => {
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, mb: 10 }} maxWidth="xl">

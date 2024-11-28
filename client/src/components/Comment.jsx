@@ -158,7 +158,6 @@ const EditComment = ({ initialState, setEditing }) => {
 
 const Comment = ({ comment }) => {
 	const { user } = useUser()
-	const handleLike = () => {}
 	const [editing, setEditing] = useState(false)
 	const navigate = useNavigate()
 	return (
