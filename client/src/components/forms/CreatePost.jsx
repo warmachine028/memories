@@ -10,7 +10,6 @@ import {
 	IconButton,
 	Input,
 	InputAdornment,
-	Paper,
 	Stack,
 	TextField,
 	Tooltip,
@@ -51,33 +50,23 @@ const Form = () => {
 	const [formData, setFormData] = useState(initialData)
 	const [errors, setErrors] = useState(initialErrorState)
 	const [preview, setPreview] = useState(null)
+	
 	const handleChange = (event) => {
 		setErrors(initialErrorState)
 
 		const { name, value, files } = event.target
-		if (name === 'title' && value.length > 30) {
-			setErrors({
-				...errors,
-				title: 'Title must be less than 30 characters'
-			})
-		} else if (name === 'visibility') {
+		if (name === 'visibility') {
 			setFormData({
 				...formData,
 				visibility:
 					formData.visibility === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC'
 			})
-		} else if (name === 'description' && value.length > 150) {
-			setErrors({
-				...errors,
-				description: 'Description must be less than 150 characters'
-			})
 		} else if (name === 'media' && files && files[0]) {
 			const file = files[0]
 			setFormData({ ...formData, [name]: file })
 			const reader = new FileReader()
-			reader.onloadend = () => {
-				setPreview(reader.result)
-			}
+			reader.onloadend = () => setPreview(reader.result)
+
 			reader.readAsDataURL(file)
 		} else if (name === 'tags') {
 			setFormData({ ...formData, [name]: value.split(',') })
