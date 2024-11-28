@@ -25,7 +25,8 @@ export const useGetPostReactions = (postId) => {
 export const useGetCommentLikes = (commentId) => {
 	return useQuery({
 		queryKey: ['like-info', commentId],
-		queryFn: () => getCommentLikes(commentId)
+		queryFn: () => getCommentLikes(commentId),
+		staleTime: Infinity
 	})
 }
 

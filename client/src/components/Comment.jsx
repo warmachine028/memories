@@ -14,7 +14,7 @@ import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
 import { LikeButton, UserAvatar } from '@/components'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDeleteComment } from '@/hooks'
+import { useDeleteComment, useUpdateComment } from '@/hooks'
 import { DeleteCommentDialogue } from './dialogues'
 
 const MoreButton = ({ setEditing, comment }) => {
@@ -83,7 +83,7 @@ const MoreButton = ({ setEditing, comment }) => {
 	)
 }
 
-const EditMoreButton = ({ setEditing }) => {
+const EditMoreButton = ({ setEditing, handleEdit }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
 	const handleClick = (event) => setAnchorEl(event.currentTarget)
@@ -109,7 +109,7 @@ const EditMoreButton = ({ setEditing }) => {
 						fontSize: 'small',
 						gap: 1
 					}}
-					onClick={() => setEditing(false)}
+					onClick={handleEdit}
 				>
 					<Save color="info" fontSize="small" />
 					Save
@@ -131,10 +131,14 @@ const EditMoreButton = ({ setEditing }) => {
 	)
 }
 
-const EditComment = ({ initialState, setEditing }) => {
-	const [comment, setComment] = useState(initialState)
-	const handleChange = (e) => setComment(e.target.value)
-
+const EditComment = ({ comment, setEditing }) => {
+	const [content, setContent] = useState(comment.content)
+	const handleChange = (e) => setContent(e.target.value)
+	const { mutate: updateComment } = useUpdateComment(comment.postId)
+	const handleEdit = () => {
+		updateComment({ ...comment, content })
+		setEditing(false)
+	}
 	return (
 		<Stack
 			direction="row"
@@ -147,11 +151,10 @@ const EditComment = ({ initialState, setEditing }) => {
 				size="small"
 				fullWidth
 				placeholder="Add a comment..."
-				defaultValue={comment}
-				value={comment}
+				value={content}
 				onChange={handleChange}
 			/>
-			<EditMoreButton setEditing={setEditing} />
+			<EditMoreButton setEditing={setEditing} handleEdit={handleEdit} />
 		</Stack>
 	)
 }
@@ -160,6 +163,7 @@ const Comment = ({ comment }) => {
 	const { user } = useUser()
 	const [editing, setEditing] = useState(false)
 	const navigate = useNavigate()
+
 	return (
 		<Stack direction="row" mb={1} gap={1} alignItems="center">
 			<UserAvatar
@@ -187,10 +191,7 @@ const Comment = ({ comment }) => {
 					</Typography>
 				</Stack>
 				{editing ? (
-					<EditComment
-						initialState={comment.content}
-						setEditing={setEditing}
-					/>
+					<EditComment setEditing={setEditing} comment={comment} />
 				) : (
 					<Stack
 						direction="row"

@@ -1,3 +1,4 @@
+import { sleep } from '@/lib/utils'
 import { api, handleApiError } from '.'
 
 export const getComments = async (postId, cursor, limit) => {
@@ -28,3 +29,10 @@ export const deleteComment = async (id) => {
 	}
 }
 
+export const updateComment = async (id, comment) => {
+	try {
+		await sleep(2000, id, comment)
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}

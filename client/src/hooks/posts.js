@@ -97,8 +97,9 @@ export const useUpdatePost = () => {
 	return useMutation({
 		mutationFn: (post) => updatePost(post.id, post),
 		onMutate: async (updatedPost) => {
-			await queryClient.cancelQueries({ queryKey: ['post'] })
-			const previousData = queryClient.getQueryData(['posts'])
+			const queryKey = ['post', updatedPost.id]
+			await queryClient.cancelQueries({ queryKey })
+			const previousData = queryClient.getQueryData(queryKey)
 
 			const newPages = pages.map((page) => ({
 				...page,
@@ -115,7 +116,7 @@ export const useUpdatePost = () => {
 						: post
 				)
 			}))
-			queryClient.setQueryData(['posts'], (old) => ({
+			queryClient.setQueryData(queryKey, (old) => ({
 				...(old ?? { pageParams: [] }),
 				pages: newPages
 			}))
@@ -123,12 +124,18 @@ export const useUpdatePost = () => {
 
 			return { previousData }
 		},
-		onError: (_err, _updatedPost, context) => {
+		onError: (_err, updatedPost, context) => {
 			const previousPages = context?.previousData?.pages ?? []
-			queryClient.setQueryData(['posts'], context?.previousData)
+			queryClient.setQueryData(
+				['post', updatedPost.id],
+				context?.previousData
+			)
 			setPages(previousPages)
 		},
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+		onSuccess: (_, updatedPost) =>
+			queryClient.invalidateQueries({
+				queryKey: ['post', updatedPost.id]
+			})
 	})
 }
 

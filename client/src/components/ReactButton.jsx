@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { IconButton, Popover, Typography, Box, Stack } from '@mui/material'
+import { IconButton, Popover, Typography, Stack } from '@mui/material'
 import {
 	ThumbUp,
 	Favorite,

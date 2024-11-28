@@ -1,16 +1,11 @@
-import {
-	getComments,
-	createComment,
-	deleteComment,
-	likeComment,
-	unlikeComment
-} from '@/api'
+import { getComments, createComment, deleteComment, updateComment } from '@/api'
 import { useUser } from '@clerk/clerk-react'
 import {
 	useQueryClient,
 	useMutation,
 	useInfiniteQuery
 } from '@tanstack/react-query'
+import { useStore } from '@/store'
 
 export const useGetComments = (postId) => {
 	return useInfiniteQuery({
@@ -22,15 +17,14 @@ export const useGetComments = (postId) => {
 
 export const useCreateComment = (postId) => {
 	const queryClient = useQueryClient()
+	const queryKey = ['comments', postId]
 	const { user } = useUser()
 
 	return useMutation({
 		mutationFn: (newComment) => createComment(postId, newComment),
 		onMutate: async (newComment) => {
-			await queryClient.cancelQueries({
-				queryKey: ['comments', postId]
-			})
-			const previousData = queryClient.getQueryData(['comments', postId])
+			await queryClient.cancelQueries({ queryKey })
+			const previousData = queryClient.getQueryData(queryKey)
 
 			const optimisticComment = {
 				...newComment,
@@ -49,7 +43,7 @@ export const useCreateComment = (postId) => {
 				},
 				...previousData?.pages
 			]
-			queryClient.setQueryData(['comments', postId], (old) => ({
+			queryClient.setQueryData(queryKey, (old) => ({
 				...(old ?? { pageParams: [] }),
 				pages: updatedPages
 			}))
@@ -57,17 +51,9 @@ export const useCreateComment = (postId) => {
 			return { previousData }
 		},
 		onError: (_, __, context) => {
-			const previousPages = context?.previousData?.pages ?? []
-			queryClient.setQueryData(
-				['comments', postId],
-				context?.previousData
-			)
-			setPages(previousPages)
+			queryClient.setQueryData(queryKey, context?.previousData)
 		},
-		onSuccess: () =>
-			queryClient.invalidateQueries({
-				queryKey: ['comments', postId]
-			})
+		onSuccess: () => queryClient.invalidateQueries({ queryKey })
 	})
 }
 
@@ -104,3 +90,44 @@ export const useDeleteComment = (postId) => {
 	})
 }
 
+export const useUpdateComment = (postId) => {
+	const queryClient = useQueryClient()
+	const queryKey = ['comments', postId]
+	const { openSnackbar } = useStore()
+
+	return useMutation({
+		mutationFn: (comment) => updateComment(comment.id, comment),
+		onMutate: async (comment) => {
+			await queryClient.cancelQueries({ queryKey })
+			const previousData = queryClient.getQueryData(queryKey)
+
+			const optimisticComment = { ...comment, optimistic: true }
+			// Update the comment in the infinite query cache
+			queryClient.setQueryData(queryKey, (old) => {
+				if (!old) {
+					return { pages: [], pageParams: [] }
+				}
+
+				return {
+					...old,
+					pages: old.pages.map((page) => ({
+						...page,
+						comments: page.comments.map((c) =>
+							c.id === comment.id ? optimisticComment : c
+						)
+					}))
+				}
+			})
+
+			return { previousData }
+		},
+		onError: (error, __, context) => {
+			queryClient.setQueryData(queryKey, context?.previousData)
+			openSnackbar(error, 'error')
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey })
+			openSnackbar('Comment updated Successfully', 'success')
+		}
+	})
+}
