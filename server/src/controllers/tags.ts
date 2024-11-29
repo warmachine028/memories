@@ -15,3 +15,15 @@ export const deleteUnusedTags = () =>
 			tags: unusedTags.map((tag) => tag.name),
 		}
 	})
+
+export const getTrendingTags = async () => {
+	const tags = await prisma.tag.findMany({
+		select: { name: true, _count: { select: { posts: true } } },
+		orderBy: [{ posts: { _count: 'desc' } }, { name: 'asc' }],
+		take: 5,
+	})
+	return tags.map((tag) => ({
+		hashtag: tag.name,
+		count: tag._count.posts,
+	}))
+}

@@ -1,12 +1,13 @@
-import { Add, Favorite, MessageSharp } from '@mui/icons-material'
+import { Add, Home, Tag } from '@mui/icons-material'
 import { Avatar, BottomNavigation, BottomNavigationAction } from '@mui/material'
 import { useState } from 'react'
 import { CreatePostDialog } from '@/components'
+import { useNavigate } from 'react-router'
 
 const Bottombar = () => {
 	const [open, setOpen] = useState(false)
 	const handleClickOpen = () => setOpen(true)
-
+	const navigate = useNavigate()
 	return (
 		<BottomNavigation
 			sx={{
@@ -21,7 +22,10 @@ const Bottombar = () => {
 				}
 			}}
 		>
-			<BottomNavigationAction icon={<Favorite />} />
+			<BottomNavigationAction
+				icon={<Home />}
+				onClick={() => navigate('/')}
+			/>
 			<BottomNavigationAction
 				onClick={handleClickOpen}
 				disableRipple
@@ -43,7 +47,10 @@ const Bottombar = () => {
 					</Avatar>
 				}
 			/>
-			<BottomNavigationAction icon={<MessageSharp />} />
+			<BottomNavigationAction
+				icon={<Tag />}
+				onClick={() => navigate('/trending')}
+			/>
 			<CreatePostDialog open={open} setOpen={setOpen} />
 		</BottomNavigation>
 	)

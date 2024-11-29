@@ -1,6 +1,5 @@
 import { Elysia, t } from 'elysia'
 import {
-	getReaction,
 	getTop3Reactors,
 	like,
 	likes,

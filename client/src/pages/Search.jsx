@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams, useNavigate } from 'react-router'
+import { useSearchParams } from 'react-router'
 import {
-	AppBar,
-	Toolbar,
 	Typography,
-	TextField,
-	InputAdornment,
 	Tab,
 	Tabs,
 	Card,
@@ -19,7 +15,6 @@ import {
 	Container,
 	Stack
 } from '@mui/material'
-import { Search as SearchIcon } from '@mui/icons-material'
 
 // Dummy data
 const dummyData = {
