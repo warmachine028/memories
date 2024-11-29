@@ -1,7 +1,12 @@
 import { Elysia, t } from 'elysia'
-import { getPosts, getPostById, createPost } from '@/controllers'
+import {
+	getPosts,
+	getPostById,
+	createPost,
+	deletePost,
+	updatePost,
+} from '@/controllers'
 import { authMiddleware } from '@/middlewares'
-import { deletePost, updatePost } from '@/controllers/post'
 import {
 	createPost as createPostSchema,
 	updatePost as updatePostSchema,
@@ -40,7 +45,6 @@ export const postRoutes = new Elysia({
 	.guard({
 		headers: t.Object({
 			authorization: t.String(),
-			
 		}),
 	})
 	.post('/', createPost, {

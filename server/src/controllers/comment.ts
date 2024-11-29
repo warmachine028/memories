@@ -59,3 +59,19 @@ export const deleteComment = async ({
 	}
 	return prisma.comment.delete({ where: { id, authorId: userId } })
 }
+
+export const updateComment = async ({
+	params: { id },
+	body,
+	userId,
+}: RequestParams) => {
+	if (!userId) {
+		throw new Error('Unauthorized')
+	}
+	const { content } = body
+	
+	return prisma.comment.update({
+		where: { id, authorId: userId },
+		data: { content },
+	})
+}

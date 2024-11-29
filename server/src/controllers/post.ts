@@ -16,11 +16,6 @@ export const getPosts = async ({
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { select: { tag: { select: { name: true } } } },
-			reactions: {
-				take: 1,
-				where: { userId },
-				select: { reactionType: true },
-			},
 		},
 		where: {
 			OR: [
@@ -136,38 +131,36 @@ export const updatePost = async ({
 		({ tag: { name } }: { tag: { name: string } }) => name
 	)
 	const { title, description, visibility, tags, media, imageUrl } = body
-	const response = await uploadToCloudinary(media, getPublicId(imageUrl))
 
-	// STEP 1: Find the post and delete all the tag relations in PostTag
-	await prisma.postTag.deleteMany({ where: { postId: id } })
+	// STEP 1: Upload the new image to Cloudinary
+	// STEP 2: Delete all the tags from PostTags
+	// STEP 3: Create the new tag relations in PostTag
 
-	// STEP 2: Create the new tag relations in PostTag
-	return prisma.post.update({
-		where: { id, authorId: userId },
-		data: {
-			title,
-			description,
-			imageUrl: response.secure_url,
-			visibility,
-			tags: {
-				create: tags.map((name: string) => ({
-					tag: {
-						connectOrCreate: {
-							where: { name },
-							create: { name },
+	return prisma.$transaction(async (tx) => {
+		const response = await uploadToCloudinary(media, getPublicId(imageUrl))
+		await tx.postTag.deleteMany({ where: { postId: id } })
+		await tx.post.update({
+			where: { id, authorId: userId },
+			data: {
+				title,
+				description,
+				imageUrl: response.secure_url,
+				visibility,
+				tags: {
+					create: tags.map((name: string) => ({
+						tag: {
+							connectOrCreate: {
+								where: { name },
+								create: { name },
+							},
 						},
-					},
-				})),
+					})),
+				},
 			},
-		},
-		include: {
-			author: { select: { fullName: true, imageUrl: true } },
-			tags: { include: { tag: { select: { name: true } } } },
-			reactions: {
-				take: 1,
-				where: { userId },
-				select: { reactionType: true },
+			include: {
+				author: { select: { fullName: true, imageUrl: true } },
+				tags: { include: { tag: { select: { name: true } } } },
 			},
-		},
+		})
 	})
 }

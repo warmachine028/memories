@@ -60,13 +60,15 @@ const LikeButton = ({ commentId }) => {
 			>
 				{data.likes} {data.likes === 1 ? 'like' : 'likes'}
 			</Typography>
-			<UserList
-				commentId={commentId}
-				anchorEl={anchorEl}
-				open={Boolean(anchorEl)}
-				onClose={() => setAnchorEl(null)}
-				totalLikes={data.likes}
-			/>
+			{data.likes > 0 && (
+				<UserList
+					commentId={commentId}
+					anchorEl={anchorEl}
+					open={Boolean(anchorEl)}
+					onClose={() => setAnchorEl(null)}
+					totalLikes={data.likes}
+				/>
+			)}
 		</Stack>
 	)
 }
@@ -92,7 +94,7 @@ const UserList = ({ commentId, anchorEl, open, onClose, totalLikes }) => {
 		<Popper
 			open={open}
 			anchorEl={anchorEl}
-			placement="bottom-end"
+			placement="bottom-start"
 			onClose={onClose}
 		>
 			<Paper elevation={0}>

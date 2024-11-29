@@ -21,17 +21,19 @@ export const createComment = async (postId, comment) => {
 	}
 }
 
-export const deleteComment = async (id) => {
+export const updateComment = async (comment) => {
 	try {
-		await api.delete(`/comments/${id}`)
+		const { data } = await api.put(`/comments/${comment.id}`, comment)
+		return data
 	} catch (error) {
+		console.error(error)
 		throw handleApiError(error)
 	}
 }
 
-export const updateComment = async (comment) => {
+export const deleteComment = async (id) => {
 	try {
-		await sleep(2000, comment.id, comment)
+		await api.delete(`/comments/${id}`)
 	} catch (error) {
 		throw handleApiError(error)
 	}

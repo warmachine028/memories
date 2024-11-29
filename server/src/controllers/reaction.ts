@@ -98,14 +98,14 @@ export const reactions = async ({
 				where: { userId: userId ?? '' },
 				select: { reactionType: true },
 			},
-			_count: { select: { reactions: true } },
+			reactionCount: true,
 		},
 	})
 	if (!post) {
 		throw new Error('Post not found')
 	}
 	return {
-		reactionCount: post._count.reactions,
+		reactionCount: post.reactionCount,
 		reactionType: post.reactions[0]?.reactionType,
 	}
 }
@@ -318,14 +318,14 @@ export const likes = async ({
 				where: { userId: userId ?? '' },
 				select: { userId: true },
 			},
-			_count: { select: { likes: true } },
+			likeCount: true,
 		},
 	})
 	if (!comment) {
 		throw new Error('Comment not found')
 	}
 	return {
-		likes: comment._count.likes,
+		likeCount: comment.likeCount,
 		isLiked: !!comment.likes.length,
 	}
 }
