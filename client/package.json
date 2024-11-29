@@ -1,5 +1,19 @@
 {
+	"$schema": "https://json.schemastore.org/package",
 	"name": "memories",
+	"homepage": "https://memories-latest.vercel.app",
+	"version": "1.0.0",
+	"module": "src/main.jsx",
+	"author": {
+		"email": "pritamkundu771@gmail.com",
+		"name": "Pritam Kundu",
+		"url": "https://github.com/warmachine028"
+	},
+	"description": "A modern, fast, and secure web app to store your memories built with the latest technologies and best practices.",
+	"bugs": {
+		"url": "https://github.com/warmachine028/memories/issues"
+	},
+	"license": "MIT",
 	"scripts": {
 		"dev": "bun x vite --host",
 		"build": "bun x vite build",
@@ -7,30 +21,6 @@
 		"preview": "bun x vite preview",
 		"start": "bun x vite preview"
 	},
-	"type": "module",
-	"version": "1.0.0",
-	"author": {
-		"email": "pritamkundu771@gmail.com",
-		"name": "Pritam Kundu",
-		"url": "https://github.com/warmachine028"
-	},
-	"description": "A modern, fast, and secure web app to store your memories built with the latest technologies and best practices.",
-	"license": "MIT",
-	"homepage": "https://memories-latest.vercel.app",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/warmachine028/memories"
-	},
-	"bugs": {
-		"url": "https://github.com/warmachine028/memories/issues"
-	},
-	"keywords": [
-		"social-media",
-		"social",
-		"memories",
-		"diary",
-		"digital-diary"
-	],
 	"dependencies": {
 		"@clerk/clerk-react": "^5.17.1",
 		"@emotion/react": "^11.13.5",
@@ -61,5 +51,16 @@
 		"globals": "^15.12.0",
 		"prettier": "^3.4.1",
 		"vite": "^6.0.1"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/warmachine028/memories"
+	},
+	"keywords": [
+		"social-media",
+		"social",
+		"memories",
+		"diary",
+		"digital-diary"
+	]
 }

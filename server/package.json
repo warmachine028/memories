@@ -1,9 +1,9 @@
 {
     "$schema": "https://json.schemastore.org/package",
-    "name": "memories",
-    "type": "module",
-    "homepage": "https://github.com/warmachine028/memories#readme",
+    "name": "memories-server",
+    "homepage": "https://memories-7ryn.onrender.com",
     "version": "1.0.0",
+    "module": "src/index.ts",
     "author": {
         "name": "Pritam Kundu",
         "email": "pritamkundu771@gmail.com",
@@ -26,7 +26,7 @@
         "prisma:deploy": "prisma migrate deploy"
     },
     "dependencies": {
-        "@clerk/express": "^1.3.18",
+        "@clerk/backend": "^1.18.0",
         "@elysiajs/cors": "^1.1.1",
         "@elysiajs/cron": "^1.1.1",
         "@elysiajs/swagger": "^1.1.6",
@@ -35,7 +35,7 @@
         "@prisma/client": "^6.0.0",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
-        "svix": "1.42.0"
+        "svix": "^1.42.0"
     },
     "peerDependencies": {
         "typescript": "^5.6.3"
@@ -44,7 +44,6 @@
         "bun-types": "latest",
         "prisma": "^6.0.0"
     },
-    "module": "src/index.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/warmachine028/memories.git"

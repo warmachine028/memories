@@ -1,4 +1,4 @@
-import { verifyToken } from '@clerk/express'
+import { verifyToken } from '@clerk/backend'
 import { type Elysia, error } from 'elysia'
 
 // Middleware to check authentication

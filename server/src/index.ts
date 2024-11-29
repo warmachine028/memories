@@ -23,10 +23,11 @@ new Elysia()
 	.use(cors())
 	.get('/favicon.ico', () => Bun.file('public/favicon.ico'))
 	.get('/', () => '💾 Hello from memories server', {
+		
 		detail: {
 			tags: ['Root'],
 			summary: 'Base route',
-
+		
 			responses: {
 				'200': { description: 'Returns a message from the server' },
 			},
