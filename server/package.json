@@ -31,8 +31,8 @@
         "@elysiajs/cron": "^1.1.1",
         "@elysiajs/swagger": "^1.1.6",
         "@neondatabase/serverless": "^0.10.3",
-        "@prisma/adapter-neon": "^5.22.0",
-        "@prisma/client": "^5.22.0",
+        "@prisma/adapter-neon": "^6.0.0",
+        "@prisma/client": "^6.0.0",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
         "svix": "^1.41.0"
@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "bun-types": "latest",
-        "prisma": "^5.22.0"
+        "prisma": "^6.0.0"
     },
     "module": "src/index.ts",
     "repository": {
