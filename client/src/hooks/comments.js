@@ -59,6 +59,7 @@ export const useCreateComment = (postId) => {
 
 export const useDeleteComment = (postId) => {
 	const queryClient = useQueryClient()
+	const { openSnackbar } = useStore()
 	const queryKey = ['comments', postId]
 
 	return useMutation({
@@ -84,9 +85,14 @@ export const useDeleteComment = (postId) => {
 
 			return { previousData }
 		},
-		onError: (_, __, context) =>
-			queryClient.setQueryData(queryKey, context?.previousData),
-		onSuccess: () => queryClient.invalidateQueries({ queryKey })
+		onError: (_, __, context) => {
+			queryClient.setQueryData(queryKey, context?.previousData)
+			openSnackbar('Something went wrong. Please try again.', 'error')
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey })
+			openSnackbar('Comment deleted successfully', 'success')
+		}
 	})
 }
 

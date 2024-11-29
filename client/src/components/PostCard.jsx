@@ -36,7 +36,6 @@ import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
-import { useStore } from '@/store'
 
 const truncate = (text, wordLimit) => {
 	const words = text.split(' ')
@@ -46,7 +45,6 @@ const truncate = (text, wordLimit) => {
 }
 
 const MoreButton = ({ setEditing, post }) => {
-	const { openSnackbar } = useStore()
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
 	const handleClick = (event) => setAnchorEl(event.currentTarget)
@@ -57,7 +55,6 @@ const MoreButton = ({ setEditing, post }) => {
 		deletePost(post.id)
 		setShowDialog(false)
 		handleClose()
-		openSnackbar('Post Deleted Sucessfully')
 	}
 
 	const handleEdit = () => {
@@ -480,21 +477,21 @@ const StaticCard = ({ post, setEditing }) => {
 					right: 0
 				}}
 			>
-				<Stack
-					flexDirection="row"
-					alignItems="center"
-					justifyContent="space-between"
-					width="100%"
-				>
-					<ReactButton post={post} />
-					{post.optimistic ? (
-						<CircularProgress size={20} />
-					) : (
+				{post.optimistic ? (
+					<CircularProgress size={20} />
+				) : (
+					<Stack
+						flexDirection="row"
+						alignItems="center"
+						justifyContent="space-between"
+						width="100%"
+					>
+						<ReactButton post={post} />
 						<ShareButton
 							url={`${window.location.href}/${post.id}`}
 						/>
-					)}
-				</Stack>
+					</Stack>
+				)}
 			</CardActions>
 		</Card>
 	)

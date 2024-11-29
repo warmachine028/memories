@@ -28,7 +28,6 @@ import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
 import { useCreatePost } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
-import { useStore } from '@/store'
 
 const Form = () => {
 	const { isLoaded } = useAuth()
@@ -46,11 +45,10 @@ const Form = () => {
 		tags: '',
 		media: ''
 	}
-	const { openSnackbar } = useStore()
 	const [formData, setFormData] = useState(initialData)
 	const [errors, setErrors] = useState(initialErrorState)
 	const [preview, setPreview] = useState(null)
-	
+
 	const handleChange = (event) => {
 		setErrors(initialErrorState)
 
@@ -122,10 +120,8 @@ const Form = () => {
 				...formData,
 				media: await convertToBase64(formData.media)
 			})
-			openSnackbar('Post created successfully', 'success')
 		} catch (error) {
 			console.error(error)
-			openSnackbar('Post creation failed', 'error')
 		} finally {
 			handleClear()
 		}

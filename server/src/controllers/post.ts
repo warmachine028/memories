@@ -135,32 +135,35 @@ export const updatePost = async ({
 	// STEP 1: Upload the new image to Cloudinary
 	// STEP 2: Delete all the tags from PostTags
 	// STEP 3: Create the new tag relations in PostTag
-
-	return prisma.$transaction(async (tx) => {
+	try {
 		const response = await uploadToCloudinary(media, getPublicId(imageUrl))
-		await tx.postTag.deleteMany({ where: { postId: id } })
-		await tx.post.update({
-			where: { id, authorId: userId },
-			data: {
-				title,
-				description,
-				imageUrl: response.secure_url,
-				visibility,
-				tags: {
-					create: tags.map((name: string) => ({
-						tag: {
-							connectOrCreate: {
-								where: { name },
-								create: { name },
+		return await prisma.$transaction(async (tx) => {
+			await tx.postTag.deleteMany({ where: { postId: id } })
+			await tx.post.update({
+				where: { id, authorId: userId },
+				data: {
+					title,
+					description,
+					imageUrl: response.secure_url,
+					visibility,
+					tags: {
+						create: tags.map((name: string) => ({
+							tag: {
+								connectOrCreate: {
+									where: { name },
+									create: { name },
+								},
 							},
-						},
-					})),
+						})),
+					},
 				},
-			},
-			include: {
-				author: { select: { fullName: true, imageUrl: true } },
-				tags: { include: { tag: { select: { name: true } } } },
-			},
+				include: {
+					author: { select: { fullName: true, imageUrl: true } },
+					tags: { include: { tag: { select: { name: true } } } },
+				},
+			})
 		})
-	})
+	} catch (error) {
+		console.error(error)
+	}
 }
