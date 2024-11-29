@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "bun-types": "latest",
-        "prisma": "^5.22.0"
+        "prisma": "^6.0.0"
     },
     "module": "src/index.ts",
     "repository": {
