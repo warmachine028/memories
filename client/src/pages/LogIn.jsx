@@ -1,5 +1,16 @@
-import { Container, Button, Paper, TextField, Typography, Avatar, Stack, Divider, FormControl, FormHelperText } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import {
+	Container,
+	Button,
+	Paper,
+	TextField,
+	Typography,
+	Avatar,
+	Stack,
+	Divider,
+	FormControl,
+	FormHelperText
+} from '@mui/material'
+import { Link, useNavigate } from 'react-router'
 import { LockOutlined } from '@mui/icons-material'
 import { useSignIn } from '@clerk/clerk-react'
 import { OAuthButtons } from '@/components'
@@ -12,7 +23,8 @@ const Form = () => {
 	const [error, setError] = useState('')
 	const navigate = useNavigate()
 
-	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+	const handleChange = (e) =>
+		setFormData({ ...formData, [e.target.name]: e.target.value })
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
@@ -34,21 +46,46 @@ const Form = () => {
 				setError('Sign-in failed. Please try again.')
 			}
 		} catch (err) {
-			setError(err.errors[0].longMessage || 'An error occurred during sign-in')
+			setError(
+				err.errors[0].longMessage || 'An error occurred during sign-in'
+			)
 		}
 	}
 
 	return (
-		<Stack component="form" onSubmit={handleSubmit} alignItems="center" spacing={1}>
+		<Stack
+			component="form"
+			onSubmit={handleSubmit}
+			alignItems="center"
+			spacing={1}
+		>
 			<Avatar sx={{ bgcolor: { xs: 'secondary.main' } }}>
 				<LockOutlined />
 			</Avatar>
 			<Typography variant="h5">WELCOME BACK</Typography>
 			<FormControl fullWidth>
-				<TextField label="Email" variant="outlined" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} />
+				<TextField
+					label="Email"
+					variant="outlined"
+					name="email"
+					type="email"
+					autoComplete="email"
+					required
+					value={formData.email}
+					onChange={handleChange}
+				/>
 			</FormControl>
 			<FormControl fullWidth>
-				<TextField label="Password" variant="outlined" name="password" type="password" autoComplete="current-password" required value={formData.password} onChange={handleChange} />
+				<TextField
+					label="Password"
+					variant="outlined"
+					name="password"
+					type="password"
+					autoComplete="current-password"
+					required
+					value={formData.password}
+					onChange={handleChange}
+				/>
 			</FormControl>
 			<FormHelperText error sx={{ m: 0 }}>
 				{error}
@@ -61,7 +98,9 @@ const Form = () => {
 			</Divider>
 			<OAuthButtons />
 			<Button fullWidth to="/signup" LinkComponent={Link}>
-				<Typography variant="subtitle2">Don&apos;t have an account? Sign Up</Typography>
+				<Typography variant="subtitle2">
+					Don&apos;t have an account? Sign Up
+				</Typography>
 			</Button>
 		</Stack>
 	)
@@ -70,8 +109,19 @@ const Form = () => {
 const LogIn = () => {
 	return (
 		<Container maxWidth="xl">
-			<Stack alignItems="center" minHeight="calc(100vh - 100px)" justifyContent="center">
-				<Paper sx={{ p: 2, width: 'calc(100vw - 20px)', maxWidth: 400, m: { sm: 'auto' } }}>
+			<Stack
+				alignItems="center"
+				minHeight="calc(100vh - 100px)"
+				justifyContent="center"
+			>
+				<Paper
+					sx={{
+						p: 2,
+						width: 'calc(100vw - 20px)',
+						maxWidth: 400,
+						m: { sm: 'auto' }
+					}}
+				>
 					<Form />
 				</Paper>
 			</Stack>

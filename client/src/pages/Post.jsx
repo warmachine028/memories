@@ -31,7 +31,7 @@ import {
 	X,
 	WhatsApp
 } from '@mui/icons-material'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router'
 import {
 	AvatarGroupSkeleton,
 	PostSkeleton,

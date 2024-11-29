@@ -13,7 +13,7 @@ import { Cancel, Delete, MoreVert, Edit, Save } from '@mui/icons-material'
 import moment from 'moment'
 import { useUser } from '@clerk/clerk-react'
 import { LikeButton, UserAvatar } from '@/components'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { useDeleteComment, useUpdateComment } from '@/hooks'
 import { DeleteCommentDialogue } from './dialogues'
 

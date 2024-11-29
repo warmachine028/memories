@@ -8,7 +8,7 @@ import {
 	Typography
 } from '@mui/material'
 import { ArrowDownward } from '@mui/icons-material'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { useGetComments } from '@/hooks'
 import { Comment, CommentSkeleton, CreateComment } from '@/components'
 

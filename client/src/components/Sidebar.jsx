@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import { Close, Dashboard, GitHub, Logout, Settings } from '@mui/icons-material'
 import { ThemeSwitch } from '.'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { useAuth, useUser } from '@clerk/clerk-react'
 
 const SideBar = ({ open, setOpen }) => {

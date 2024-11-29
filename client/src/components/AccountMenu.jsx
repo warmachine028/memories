@@ -16,7 +16,7 @@ import {
 	Logout
 } from '@mui/icons-material'
 import { useAuth, useUser } from '@clerk/clerk-react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { useTheme } from '@/hooks'
 import { useState } from 'react'
 import { UserAvatar } from '.'

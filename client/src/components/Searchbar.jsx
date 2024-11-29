@@ -1,7 +1,7 @@
 import { Search as SearchIcon } from '@mui/icons-material'
 import { alpha, Box, InputBase, styled } from '@mui/material'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { useStore } from '@/store'
 
 const Search = styled(Box)(({ theme }) => ({

@@ -3,7 +3,7 @@ import { Box, Button, ButtonGroup, Fade, Stack, TextField } from '@mui/material'
 import { Send, Cancel } from '@mui/icons-material'
 import { useUser } from '@clerk/clerk-react'
 import { UserAvatar } from '@/components'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useCreateComment } from '@/hooks'
 
 const CreateComment = ({ postId }) => {

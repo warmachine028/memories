@@ -16,7 +16,7 @@ import {
 	Skeleton
 } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Link, useParams, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useParams, Navigate, useNavigate } from 'react-router'
 import { UpdateProfile as UpdateProfileForm } from '@/components'
 import { useState } from 'react'
 import { useUser } from '@clerk/clerk-react'

@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material'
 import { useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { useCreatePost } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
 

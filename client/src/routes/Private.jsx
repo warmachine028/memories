@@ -1,5 +1,5 @@
 import { useAuth } from '@clerk/clerk-react'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
 const Private = ({ component }) => {
 	const { isLoaded, isSignedIn } = useAuth()

@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { AuthenticateWithRedirectCallback, useAuth } from '@clerk/clerk-react'
 const { Posts, LogIn, NotFound, SignUp, VerifyEmail, Profile, Post, Search } = {

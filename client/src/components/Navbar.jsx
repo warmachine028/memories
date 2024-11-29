@@ -18,7 +18,7 @@ import {
 	Divider,
 	Avatar
 } from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { useAuth } from '@clerk/clerk-react'
 import { Menu, Search, LoginOutlined, GitHub } from '@mui/icons-material'
 import { AccountMenu, ThemeSwitch, Sidebar } from '@/components'
@@ -145,7 +145,6 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 			handleClose()
 			navigate(`/search?q=${value}`)
 		}
-
 	}
 
 	return (
