@@ -38,9 +38,9 @@ export const createPost = async (post) => {
 	}
 }
 
-export const updatePost = async (id, post) => {
+export const updatePost = async (post) => {
 	try {
-		const { data } = await api.put(`/posts/${id}`, post)
+		const { data } = await api.put(`/posts/${post.id}`, post)
 		return data
 	} catch (error) {
 		console.error(error)
@@ -55,4 +55,3 @@ export const deletePost = async (id) => {
 		throw handleApiError(error)
 	}
 }
-

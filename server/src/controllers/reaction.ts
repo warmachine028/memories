@@ -84,6 +84,32 @@ export const unreact = async ({
 	])
 }
 
+export const reactions = async ({
+	params: { postId },
+	userId,
+}: RequestParams) => {
+	if (!userId || !postId) {
+		throw new Error('Missing required parameters')
+	}
+	const post = await prisma.post.findUnique({
+		where: { id: postId },
+		select: {
+			reactions: {
+				where: { userId: userId ?? '' },
+				select: { reactionType: true },
+			},
+			_count: { select: { reactions: true } },
+		},
+	})
+	if (!post) {
+		throw new Error('Post not found')
+	}
+	return {
+		reactionCount: post._count.reactions,
+		reactionType: post.reactions[0]?.reactionType,
+	}
+}
+
 export const getReaction = async ({
 	params: { postId },
 	query: { page = '1', limit = '10' },
@@ -277,7 +303,10 @@ export const unlike = async ({
 	])
 }
 
-export const likes = async ({ params: { commentId }, userId }: RequestParams) => {
+export const likes = async ({
+	params: { commentId },
+	userId,
+}: RequestParams) => {
 	if (!commentId) {
 		throw new Error('Missing required parameters')
 	}

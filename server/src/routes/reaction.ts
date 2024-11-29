@@ -5,6 +5,7 @@ import {
 	like,
 	likes,
 	react,
+	reactions,
 	unlike,
 	unreact,
 } from '@/controllers'
@@ -44,7 +45,7 @@ const postReactionRoutes = new Elysia({
 			postId: t.String(),
 		}),
 	})
-	.get('/:postId', getReaction)
+	.get('/:postId', reactions)
 	.get('/top-reactors/:postId', getTop3Reactors)
 	.guard({
 		headers: t.Object({
@@ -72,7 +73,6 @@ export const reactionRoutes = new Elysia({
 				description: 'Unauthorized',
 			},
 		},
-		security: [{ bearerAuth: [] }],
 	},
 })
 	.use(authMiddleware)

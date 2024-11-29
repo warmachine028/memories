@@ -12,6 +12,15 @@ export const getTop3PostReactors = async (postId) => {
 	}
 }
 
+export const getPostReactions = async (postId) => {
+	try {
+		const { data } = await api.get(`/reactions/posts/${postId}`)
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}
+
 export const reactPost = async (id, reaction) => {
 	try {
 		await api.post(`/reactions/posts/${id}`, { reactionType: reaction })

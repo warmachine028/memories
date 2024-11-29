@@ -1,5 +1,11 @@
 import { useState, useRef } from 'react'
-import { IconButton, Popover, Typography, Stack } from '@mui/material'
+import {
+	IconButton,
+	Popover,
+	Typography,
+	Stack,
+	CircularProgress
+} from '@mui/material'
 import {
 	ThumbUp,
 	Favorite,
@@ -9,7 +15,7 @@ import {
 	SentimentDissatisfied,
 	ThumbUpOutlined
 } from '@mui/icons-material'
-import { useReactPost } from '@/hooks'
+import { useGetPostReactions, useReactPost } from '@/hooks'
 import { useUser } from '@clerk/clerk-react'
 
 const reactions = [
@@ -23,13 +29,10 @@ const reactions = [
 
 const ReactButton = ({ post }) => {
 	const { user } = useUser()
+	const { data, isFetching } = useGetPostReactions(post.id)
 	const { mutate: reactPost } = useReactPost()
 	const [reactionAnchorEl, setReactionAnchorEl] = useState(null)
 	const popoverTimeoutRef = useRef(null)
-	const currentReaction = post.reactions[0]?.reactionType
-	const currentReactionObj = reactions.find(
-		(r) => r.label === currentReaction
-	)
 
 	const handleReactionIconEnter = (event) => {
 		if (!user) {
@@ -59,12 +62,20 @@ const ReactButton = ({ post }) => {
 		setReactionAnchorEl(null)
 	}
 
+	if (isFetching) {
+		return <CircularProgress size={20} />
+	}
+	const currentReaction = data.reactionType
+	const currentReactionObj = reactions.find(
+		(r) => r.label === currentReaction
+	)
+
 	return (
 		<Stack
 			onMouseEnter={handleReactionIconEnter}
 			onMouseLeave={handleReactionIconLeave}
-			alignItems="center"
 			direction="row"
+			alignItems="center"
 		>
 			<IconButton
 				size="small"
@@ -81,9 +92,7 @@ const ReactButton = ({ post }) => {
 					<ThumbUpOutlined sx={{ width: 20, height: 20 }} />
 				)}
 			</IconButton>
-			<Typography variant="body2" sx={{ ml: 1 }}>
-				{post.reactionCount}
-			</Typography>
+			<Typography variant="body2">{data.reactionCount}</Typography>
 			<Popover
 				open={Boolean(reactionAnchorEl)}
 				anchorEl={reactionAnchorEl}

@@ -29,9 +29,9 @@ export const deleteComment = async (id) => {
 	}
 }
 
-export const updateComment = async (id, comment) => {
+export const updateComment = async (comment) => {
 	try {
-		await sleep(2000, id, comment)
+		await sleep(2000, comment.id, comment)
 	} catch (error) {
 		throw handleApiError(error)
 	}

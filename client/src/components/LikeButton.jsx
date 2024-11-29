@@ -19,11 +19,11 @@ import { useUser } from '@clerk/clerk-react'
 const LikeButton = ({ commentId }) => {
 	const { user } = useUser()
 	const { data, isFetching } = useGetCommentLikes(commentId)
-	const { mutate } = useLikeComment()
+	const { mutate: likeComment } = useLikeComment()
 	const [anchorEl, setAnchorEl] = useState(null)
 
 	const handleLike = () =>
-		mutate({
+		likeComment({
 			commentId,
 			isLiked: data.isLiked
 		})

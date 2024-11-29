@@ -17,7 +17,8 @@ import {
 	Input,
 	Tooltip,
 	Menu,
-	MenuItem
+	MenuItem,
+	CircularProgress
 } from '@mui/material'
 import {
 	Delete,
@@ -442,11 +443,8 @@ const StaticCard = ({ post, setEditing }) => {
 						component="img"
 						src={getThumbnail(post.imageUrl)}
 						alt={post.title}
-						sx={{
-							objectFit: 'cover',
-							width: '100%',
-							height: '100%'
-						}}
+						height={1}
+						sx={{ objectFit: 'cover' }}
 					/>
 				</Box>
 
@@ -489,7 +487,13 @@ const StaticCard = ({ post, setEditing }) => {
 					width="100%"
 				>
 					<ReactButton post={post} />
-					<ShareButton url={`${window.location.href}/${post.id}`} />
+					{post.optimistic ? (
+						<CircularProgress size={20} />
+					) : (
+						<ShareButton
+							url={`${window.location.href}/${post.id}`}
+						/>
+					)}
 				</Stack>
 			</CardActions>
 		</Card>

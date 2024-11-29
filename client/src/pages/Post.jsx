@@ -39,7 +39,7 @@ import {
 	ShareButton,
 	UserAvatar
 } from '@/components'
-import { useGetPost, useGetPostReactions } from '@/hooks'
+import { useGetPost, useGetTop3Reacts } from '@/hooks'
 import moment from 'moment'
 import { useState } from 'react'
 import { useStore } from '@/store'
@@ -128,7 +128,7 @@ const PostCard = () => {
 }
 
 const Top3Reactions = ({ post }) => {
-	const { data: reactors, isLoading } = useGetPostReactions(post.id)
+	const { data: reactors, isLoading } = useGetTop3Reacts(post.id)
 
 	if (isLoading) {
 		return <AvatarGroupSkeleton />

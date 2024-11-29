@@ -29,6 +29,7 @@ export const useCreateComment = (postId) => {
 			const optimisticComment = {
 				...newComment,
 				id: Date.now(),
+				likes: [],
 				author: {
 					fullName: user.fullName,
 					imageUrl: user.imageUrl
@@ -50,9 +51,8 @@ export const useCreateComment = (postId) => {
 
 			return { previousData }
 		},
-		onError: (_, __, context) => {
-			queryClient.setQueryData(queryKey, context?.previousData)
-		},
+		onError: (_, __, context) =>
+			queryClient.setQueryData(queryKey, context?.previousData),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey })
 	})
 }
@@ -96,13 +96,12 @@ export const useUpdateComment = (postId) => {
 	const { openSnackbar } = useStore()
 
 	return useMutation({
-		mutationFn: (comment) => updateComment(comment.id, comment),
+		mutationFn: updateComment,
 		onMutate: async (comment) => {
 			await queryClient.cancelQueries({ queryKey })
 			const previousData = queryClient.getQueryData(queryKey)
 
 			const optimisticComment = { ...comment, optimistic: true }
-			// Update the comment in the infinite query cache
 			queryClient.setQueryData(queryKey, (old) => {
 				if (!old) {
 					return { pages: [], pageParams: [] }
@@ -123,6 +122,7 @@ export const useUpdateComment = (postId) => {
 		},
 		onError: (error, __, context) => {
 			queryClient.setQueryData(queryKey, context?.previousData)
+			console.error(error)
 			openSnackbar(error, 'error')
 		},
 		onSettled: () => {

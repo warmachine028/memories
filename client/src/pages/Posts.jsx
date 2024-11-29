@@ -9,20 +9,18 @@ import {
 import { useEffect } from 'react'
 import { useGetPosts } from '@/hooks'
 import { useInView } from 'react-intersection-observer'
-import { useStore } from '@/store'
 
 const PostGrid = () => {
 	const { ref, inView } = useInView()
-	const { pages } = useStore()
 	const {
-		fetchNextPage,
-		hasNextPage,
-		isFetchingNextPage,
+		data: posts,
 		isPending,
+		hasNextPage,
+		fetchNextPage,
+		isFetchingNextPage,
 		isError,
 		error
 	} = useGetPosts()
-	const allPosts = pages.flatMap((page) => page.posts)
 
 	useEffect(() => {
 		if (inView && hasNextPage) {
@@ -37,9 +35,12 @@ const PostGrid = () => {
 			</Grid>
 		))
 	}
+
 	if (isError) {
 		return <Grid xs={12}>Error loading posts: {error.message}</Grid>
 	}
+
+	const allPosts = posts.pages.flatMap((page) => page.posts)
 	return (
 		<>
 			{allPosts.map((post) => (

@@ -18,7 +18,6 @@ const webhookRoutes = new Elysia({
 
 export const userRoutes = new Elysia({
 	prefix: '/users',
-
 	detail: {
 		tags: ['Users'],
 		responses: {

@@ -22,14 +22,14 @@ export const getPosts = async ({
 				select: { reactionType: true },
 			},
 		},
-		orderBy: { createdAt: 'desc' },
-		take: (limit || 9) + 1,
 		where: {
 			OR: [
 				{ visibility: 'PUBLIC' },
 				{ visibility: 'PRIVATE', authorId: userId },
 			],
 		},
+		orderBy: { createdAt: 'desc' },
+		take: (limit || 9) + 1,
 		cursor: cursor ? { id: cursor } : undefined,
 	})
 	const nextCursor = posts.length > limit ? posts[limit].id : undefined
