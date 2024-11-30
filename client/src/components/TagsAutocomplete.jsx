@@ -29,7 +29,6 @@ const isValidTag = (tag) => {
 
 const TagsAutocomplete = ({ formData, setFormData, error }) => {
 	const [input, setInput] = useState('')
-
 	const { data: options = [], isLoading } = useSearchTags(input)
 
 	const generateTags = () => {
@@ -43,9 +42,7 @@ const TagsAutocomplete = ({ formData, setFormData, error }) => {
 	}
 	const handleChange = (_, value) => {
 		// Sanitize all tags and filter out invalid ones
-		const sanitizedTags = value //
-			.map(sanitizeTag)
-			.filter(isValidTag)
+		const sanitizedTags = value.map(sanitizeTag).filter(isValidTag)
 		const uniqueTags = [...new Set(sanitizedTags)].slice(0, 8)
 
 		setFormData((prevData) => ({
@@ -61,9 +58,7 @@ const TagsAutocomplete = ({ formData, setFormData, error }) => {
 			}
 		}
 	}
-	const sanitizedOptions = options //
-		.map(sanitizeTag)
-		.filter(isValidTag)
+	const sanitizedOptions = options.map(sanitizeTag).filter(isValidTag)
 	return (
 		<Autocomplete
 			multiple

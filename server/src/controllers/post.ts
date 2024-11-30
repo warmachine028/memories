@@ -29,7 +29,10 @@ export const getPosts = async ({
 	})
 	const nextCursor = posts.length > limit ? posts[limit].id : undefined
 	return {
-		posts: posts.slice(0, limit),
+		posts: posts.slice(0, limit).map((post) => ({
+			...post,
+			tags: post.tags.map((tag) => tag.tag.name),
+		})),
 		nextCursor,
 		total: await prisma.post.count(),
 	}
@@ -58,7 +61,7 @@ export const getPostById = async ({
 		return error(404, { message: 'Post not found' })
 	}
 
-	return post
+	return { ...post, tags: post.tags.map((tag) => tag.tag.name) }
 }
 
 export const createPost = async ({ body, userId }: RequestParams) => {
@@ -115,9 +118,6 @@ export const updatePost = async ({
 	if (!userId) {
 		return error(401, { message: 'Unauthorized' })
 	}
-	body.tags = body.tags.map(
-		({ tag: { name } }: { tag: { name: string } }) => name
-	)
 	const { title, description, visibility, tags, media, imageUrl } = body
 
 	// STEP 1: Upload the new image to Cloudinary

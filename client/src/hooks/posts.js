@@ -45,13 +45,10 @@ export const useCreatePost = () => {
 				...newPost,
 				id: Date.now(),
 				imageUrl: newPost.media,
-				tags: newPost.tags.map((tag) => ({ tag: { name: tag } })),
-				reactions: [],
 				author: {
 					fullName: user.fullName,
 					imageUrl: user.imageUrl
 				},
-				reactionCount: 0,
 				optimistic: true
 			}
 			const updatedPages = [

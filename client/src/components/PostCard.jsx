@@ -13,7 +13,6 @@ import {
 	Stack,
 	Box,
 	TextField,
-	Autocomplete,
 	Input,
 	Tooltip,
 	Menu,
@@ -31,7 +30,13 @@ import {
 	Lock,
 	MoreVert
 } from '@mui/icons-material'
-import { UserAvatar, ReactButton, DeletePostDialog, ShareButton } from '.'
+import {
+	UserAvatar,
+	ReactButton,
+	DeletePostDialog,
+	ShareButton,
+	TagsAutocomplete
+} from '.'
 import moment from 'moment'
 import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
@@ -167,23 +172,6 @@ const EditCard = ({ post, setEditing }) => {
 			setEditedPost({ ...editedPost, [name]: value })
 		}
 	}
-	const handleTagInput = (params) => {
-		return (
-			<TextField
-				{...params}
-				label="Tags"
-				error={Boolean(errors.tags)}
-				name="tags"
-				helperText={errors.tags}
-				slotProps={{
-					input: {
-						...params.InputProps,
-						type: 'search'
-					}
-				}}
-			/>
-		)
-	}
 	const handleSubmit = async (event) => {
 		event.preventDefault()
 		if (!validateInputs()) {
@@ -300,28 +288,10 @@ const EditCard = ({ post, setEditing }) => {
 					margin="normal"
 					required
 				/>
-				<Autocomplete
-					multiple
-					freeSolo
-					options={[]}
-					renderInput={handleTagInput}
-					value={editedPost.tags.map((tag) => tag.tag.name)}
-					onChange={(_, value) => {
-						setEditedPost({
-							...editedPost,
-							tags:
-								value.length > 8
-									? value.slice(-8)
-									: value.map((tag) => ({
-											tag: { name: tag }
-										}))
-						})
-						setErrors({ ...errors, tags: '' })
-					}}
-					onInputChange={(_, value) =>
-						editedPost.tags.length < 8 ? value : ''
-					}
-					disableClearable
+				<TagsAutocomplete
+					formData={editedPost}
+					setFormData={setEditedPost}
+					error={Boolean(errors.tags)}
 				/>
 				<TextField
 					fullWidth
@@ -338,12 +308,7 @@ const EditCard = ({ post, setEditing }) => {
 				/>
 			</CardContent>
 			<CardActions
-				sx={{
-					position: 'absolute',
-					bottom: 0,
-					left: 0,
-					right: 0
-				}}
+				sx={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
 			>
 				<Stack
 					flexDirection="row"
@@ -450,7 +415,7 @@ const StaticCard = ({ post, setEditing }) => {
 						{truncate(post.title, 10)}
 					</Typography>
 					<Typography variant="body2" color="text.muted">
-						{post.tags.map(({ tag }) => `#${tag.name} `)}
+						{post.tags.map((tag) => `#${tag} `)}
 					</Typography>
 
 					{post.visibility === 'PRIVATE' && (

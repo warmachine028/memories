@@ -28,7 +28,7 @@ export const createPost = t.Object({
 export const updatePost = t.Object({
 	...postBase,
 	media: t.String(),
-	tags: t.Array(tagBase),
+	tags: t.Array(t.String()),
 	imageUrl: t.String(),
 })
 
