@@ -5,7 +5,10 @@ import {
 	CircularProgress,
 	IconButton,
 	InputAdornment,
-	TextField
+	ListItem,
+	ListItemText,
+	TextField,
+	Typography
 } from '@mui/material'
 import { useState } from 'react'
 
@@ -59,10 +62,46 @@ const TagsAutocomplete = ({ formData, setFormData, error }) => {
 		}
 	}
 	const sanitizedOptions = options.map(sanitizeTag).filter(isValidTag)
+
+	// Highlight matching text in option
+	// const highlightMatch = (text, searchTerm) => {
+	// 	if (!searchTerm) return text
+
+	// 	return (
+
+	// 	)
+	// }
+
 	return (
 		<Autocomplete
 			multiple
 			freeSolo
+			renderOption={(props, option) => (
+				<ListItem {...props} key={option}>
+					<ListItemText
+						component="span"
+						primary={option
+							.split(new RegExp(`(${input})`, 'gi'))
+							.map((part, index) =>
+								part.toLowerCase() === input.toLowerCase() ? (
+									<Typography
+										component="span"
+										fontWeight="bold"
+										color="primary.main"
+										px='2px'
+										key={index}
+									>
+										{part}
+									</Typography>
+								) : (
+									<Typography key={index} component="span">
+										{part}
+									</Typography>
+								)
+							)}
+					/>
+				</ListItem>
+			)}
 			options={sanitizedOptions}
 			loading={isLoading}
 			inputValue={input}
