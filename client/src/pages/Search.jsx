@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router'
+import { useParams, useSearchParams } from 'react-router'
 import {
 	Typography,
 	Tab,
@@ -47,9 +47,12 @@ const dummyData = {
 	]
 }
 
-const Search = () => {
+const Search = ({ hashtag }) => {
 	const [searchParams] = useSearchParams()
-	const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '')
+	const { tag } = useParams()
+	const [searchTerm, setSearchTerm] = useState(
+		hashtag ? tag : searchParams.get('q') || ''
+	)
 	const [activeTab, setActiveTab] = useState(0)
 	const [filteredData, setFilteredData] = useState(dummyData)
 
@@ -149,27 +152,20 @@ const Search = () => {
 			<Stack flexGrow={1}>
 				<Box>
 					<Typography variant="h4" gutterBottom>
-						Search Results for &quot;{searchTerm}&quot;
+						Search results for
+						{hashtag ? ` #${searchTerm}` : ` "${searchTerm}"`}
 					</Typography>
 					<Tabs
 						value={activeTab}
 						onChange={handleTabChange}
 						aria-label="search results tabs"
 					>
-						<Tab
-							label="Posts"
-							id="search-tab-0"
-							aria-controls="search-tabpanel-0"
-						/>
-						<Tab
-							label="Users"
-							id="search-tab-1"
-							aria-controls="search-tabpanel-1"
-						/>
+						<Tab label="Posts" id="posts" aria-controls="posts" />
+						<Tab label="Users" id="users" aria-controls="users" />
 						<Tab
 							label="Comments"
-							id="search-tab-2"
-							aria-controls="search-tabpanel-2"
+							id="comments"
+							aria-controls="comments"
 						/>
 					</Tabs>
 					<Card sx={{ mt: 2 }}>

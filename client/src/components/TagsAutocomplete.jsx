@@ -63,15 +63,6 @@ const TagsAutocomplete = ({ formData, setFormData, error }) => {
 	}
 	const sanitizedOptions = options.map(sanitizeTag).filter(isValidTag)
 
-	// Highlight matching text in option
-	// const highlightMatch = (text, searchTerm) => {
-	// 	if (!searchTerm) return text
-
-	// 	return (
-
-	// 	)
-	// }
-
 	return (
 		<Autocomplete
 			multiple

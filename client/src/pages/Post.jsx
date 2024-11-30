@@ -27,7 +27,6 @@ import {
 	ContentCopy,
 	Facebook,
 	LinkedIn,
-	Share,
 	X,
 	WhatsApp
 } from '@mui/icons-material'
@@ -41,7 +40,6 @@ import {
 } from '@/components'
 import { useGetPost, useGetTop3Reacts } from '@/hooks'
 import moment from 'moment'
-import { useState } from 'react'
 import { useStore } from '@/store'
 
 const PostMetaData = ({ author, timestamp }) => {
@@ -77,8 +75,6 @@ const PostCard = () => {
 	const { id } = useParams()
 	const { data: post, isLoading, error } = useGetPost(id)
 	const navigate = useNavigate()
-	const [shareDialogOpen, setShareDialogOpen] = useState(false)
-	const handleShareClick = () => setShareDialogOpen(true)
 
 	if (isLoading) {
 		return <PostSkeleton />
@@ -101,11 +97,11 @@ const PostCard = () => {
 					{post.title}
 				</Typography>
 				<Box mb={2}>
-					{post.tags.map(({ tag: { name } }) => (
-						<Chip key={name} label={name} sx={{ mr: 1 }} />
+					{post.tags.map((tag) => (
+						<Chip key={tag} label={tag} sx={{ mr: 1 }} />
 					))}
 				</Box>
-				<Typography variant="body1" component="p">
+				<Typography variant="body1" component="p" whiteSpace="pre-line">
 					{post.description}
 				</Typography>
 			</CardContent>

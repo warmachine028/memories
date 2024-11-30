@@ -90,7 +90,7 @@ const LoggedOutOptions = () => {
 					borderRadius: '10%',
 					borderColor: 'divider',
 					color: 'white',
-					bgcolor: (theme) => theme.palette.primary.main
+					bgcolor: 'primary.main'
 				}}
 			>
 				<LoginOutlined />
@@ -140,10 +140,20 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 		setSearchTerm('')
 		closeBox()
 	}
-	const handleSearch = (_, value) => {
-		if (value) {
+
+	const handleSearch = () => {
+		if (searchTerm.trim()) {
 			handleClose()
-			navigate(`/search?q=${value}`)
+			navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`)
+		}
+	}
+
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			e.preventDefault()
+			handleSearch()
+		} else if (e.key === 'Escape') {
+			handleClose()
 		}
 	}
 
@@ -159,32 +169,25 @@ const SearchDialog = ({ open, onClose: closeBox }) => {
 			}}
 		>
 			<DialogContent>
-				<Autocomplete
-					freeSolo
-					options={searchSuggestions.map((option) => option.title)}
-					getOptionLabel={(option) => option}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							autoFocus
-							fullWidth
-							variant="outlined"
-							placeholder="Search"
-							slotProps={{
-								input: {
-									...params.InputProps,
-									startAdornment: (
-										<InputAdornment position="start">
-											<Search />
-										</InputAdornment>
-									)
-								}
-							}}
-						/>
-					)}
-					inputValue={searchTerm}
-					onInputChange={(_, newValue) => setSearchTerm(newValue)}
-					onChange={handleSearch}
+				<TextField
+					autoFocus
+					fullWidth
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					onKeyDown={handleKeyDown}
+					variant="outlined"
+					placeholder="Search"
+					slotProps={{
+						input: {
+							startAdornment: (
+								<InputAdornment position="start">
+									<IconButton onClick={handleSearch}>
+										<Search />
+									</IconButton>
+								</InputAdornment>
+							)
+						}
+					}}
 				/>
 			</DialogContent>
 		</Dialog>

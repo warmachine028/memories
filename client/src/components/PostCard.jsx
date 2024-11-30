@@ -68,7 +68,7 @@ const MoreButton = ({ setEditing, post }) => {
 	}
 
 	return (
-		<Box>
+		<>
 			<IconButton size="small" onClick={handleClick} aria-label="more">
 				<MoreVert />
 			</IconButton>
@@ -110,7 +110,7 @@ const MoreButton = ({ setEditing, post }) => {
 				open={showDialog}
 				setOpen={setShowDialog}
 			/>
-		</Box>
+		</>
 	)
 }
 
@@ -333,7 +333,7 @@ const EditCard = ({ post, setEditing }) => {
 const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
 	const navigate = useNavigate()
-
+	console.log(post)
 	return (
 		<Card
 			sx={{
@@ -429,7 +429,11 @@ const StaticCard = ({ post, setEditing }) => {
 							</IconButton>
 						</Box>
 					)}
-					<Typography color="text.secondary" mt={1}>
+					<Typography
+						color="text.secondary"
+						mt={1}
+						whiteSpace="pre-line"
+					>
 						{truncate(post.description, 20)}
 					</Typography>
 				</CardContent>

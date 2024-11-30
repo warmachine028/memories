@@ -48,6 +48,7 @@ const AppRouter = () => {
 					element={<AuthRoute component={<LogIn />} />}
 				/>
 				<Route path="/search" element={<Search />} />
+				<Route path="/hashtag/:tag" element={<Search hashtag />} />
 				<Route
 					path="/signup"
 					element={<AuthRoute component={<SignUp />} />}
