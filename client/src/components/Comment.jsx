@@ -202,6 +202,7 @@ const Comment = ({ comment }) => {
 							variant="body2"
 							color="text.secondary"
 							component="p"
+							whiteSpace="pre-line"
 							sx={{ mb: 1, overflowWrap: 'anywhere' }}
 						>
 							{comment.content}
