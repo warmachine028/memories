@@ -203,7 +203,8 @@ const Comment = ({ comment }) => {
 							color="text.secondary"
 							component="p"
 							whiteSpace="pre-line"
-							sx={{ mb: 1, overflowWrap: 'anywhere' }}
+							mb={1}
+							sx={{ overflowWrap: 'anywhere' }}
 						>
 							{comment.content}
 						</Typography>
