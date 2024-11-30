@@ -1,5 +1,4 @@
 import {
-	Autocomplete,
 	Box,
 	Button,
 	ButtonGroup,
@@ -9,16 +8,13 @@ import {
 	FormHelperText,
 	IconButton,
 	Input,
-	InputAdornment,
 	Stack,
 	TextField,
 	Tooltip,
 	Typography
 } from '@mui/material'
-import { movies } from '@/data'
 import {
 	AddAPhotoOutlined,
-	AutoAwesome,
 	Close,
 	Visibility,
 	VisibilityOff
@@ -28,6 +24,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router'
 import { useCreatePost } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
+import { TagsAutocompleteInput } from '@/components'
 
 const Form = () => {
 	const { isLoaded } = useAuth()
@@ -96,15 +93,7 @@ const Form = () => {
 		setErrors(newErrors)
 		return valid
 	}
-	const generateTags = () => {
-		const aIGenerateTags = ['social', 'media', 'post']
-		setFormData({
-			...formData,
-			tags: [
-				...new Set([...formData.tags, ...aIGenerateTags].slice(0, 8))
-			]
-		})
-	}
+
 	const handleClear = () => {
 		setFormData(initialData)
 		setPreview(null)
@@ -125,35 +114,6 @@ const Form = () => {
 		} finally {
 			handleClear()
 		}
-	}
-
-	const handleSearchInput = (params) => {
-		return (
-			<TextField
-				{...params}
-				label="Tags"
-				error={Boolean(errors.tags)}
-				name="tags"
-				slotProps={{
-					input: {
-						...params.InputProps,
-						type: 'search',
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton
-									onClick={generateTags}
-									disabled={formData.tags.length >= 8}
-									edge="end"
-									size="small"
-								>
-									<AutoAwesome />
-								</IconButton>
-							</InputAdornment>
-						)
-					}
-				}}
-			/>
-		)
 	}
 
 	return (
@@ -260,23 +220,10 @@ const Form = () => {
 					</FormHelperText>
 				</FormControl>
 				<FormControl fullWidth error={Boolean(errors.tags)}>
-					<Autocomplete
-						multiple
-						freeSolo
-						options={movies.map((option) => option.title)}
-						renderInput={handleSearchInput}
-						value={formData.tags}
-						onChange={(_, value) => {
-							setFormData((prevData) => ({
-								...prevData,
-								tags: value.length > 8 ? value.slice(-8) : value
-							}))
-							setErrors({ ...errors, tags: '' })
-						}}
-						onInputChange={(_, value) =>
-							formData.tags.length < 8 ? value : ''
-						}
-						disableClearable
+					<TagsAutocompleteInput
+						formData={formData}
+						setFormData={setFormData}
+						error={Boolean(errors.tags)}
 					/>
 					<FormHelperText sx={{ m: 0 }}>{errors.tags}</FormHelperText>
 				</FormControl>
