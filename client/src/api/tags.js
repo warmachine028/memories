@@ -1,6 +1,4 @@
 import { api, handleApiError } from '@/api'
-import { movies } from '@/data'
-import { sleep } from '@/lib/utils'
 
 export const getTrendingTags = async () => {
 	try {
@@ -11,16 +9,10 @@ export const getTrendingTags = async () => {
 	}
 }
 
-export const searchTags = async (searchTerm) => {
+export const searchTags = async (q) => {
 	try {
-		// Filter movies based on search term
-		return movies
-			.filter((movie) =>
-				movie.title
-					.toLowerCase()
-					.includes(searchTerm?.toLowerCase() || '')
-			)
-			.map((movie) => movie.title)
+		const { data } = await api.get('/tags/search', { params: { q } })
+		return data
 	} catch (error) {
 		throw handleApiError(error)
 	}

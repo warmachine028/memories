@@ -1,5 +1,4 @@
 import { api, handleApiError } from '@/api'
-import { sleep } from '@/lib/utils'
 
 export const getTop3PostReactors = async (postId) => {
 	try {

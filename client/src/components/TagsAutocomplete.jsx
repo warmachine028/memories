@@ -9,7 +9,25 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-const TagsAutocompleteInput = ({ formData, setFormData, error }) => {
+// Tag sanitization function
+const sanitizeTag = (tag) => {
+	if (!tag) {
+		return ''
+	} // Handle empty strings
+
+	return tag
+		.toLowerCase() // Convert to lowercase
+		.replace(/[^a-z0-9]/g, '') // Remove special characters and spaces
+		.slice(0, 10) // Limit to 10 characters
+}
+
+// Validate if a tag is acceptable
+const isValidTag = (tag) => {
+	const sanitized = sanitizeTag(tag)
+	return sanitized.length > 0 && sanitized.length <= 10
+}
+
+const TagsAutocomplete = ({ formData, setFormData, error }) => {
 	const [input, setInput] = useState('')
 
 	const { data: options = [], isLoading } = useSearchTags(input)
@@ -23,22 +41,45 @@ const TagsAutocompleteInput = ({ formData, setFormData, error }) => {
 			]
 		})
 	}
-	const handleChange = (_, value) =>
+	const handleChange = (_, value) => {
+		// Sanitize all tags and filter out invalid ones
+		const sanitizedTags = value //
+			.map(sanitizeTag)
+			.filter(isValidTag)
+		const uniqueTags = [...new Set(sanitizedTags)].slice(0, 8)
+
 		setFormData((prevData) => ({
 			...prevData,
-			tags: value.length > 8 ? value.slice(-8) : value
+			tags: uniqueTags
 		}))
-
+	}
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			const value = event.target.value
+			if (value && (!isValidTag(value) || value.length > 10)) {
+				event.preventDefault()
+			}
+		}
+	}
+	const sanitizedOptions = options //
+		.map(sanitizeTag)
+		.filter(isValidTag)
 	return (
 		<Autocomplete
 			multiple
 			freeSolo
-			options={options}
+			options={sanitizedOptions}
 			loading={isLoading}
 			inputValue={input}
 			value={formData.tags}
 			onChange={handleChange}
-			onInputChange={(_, newInput) => setInput(newInput)}
+			onInputChange={(_, newInput) => {
+				// Only update input if it would create a valid tag
+				if (!newInput || isValidTag(newInput)) {
+					setInput(newInput.toLowerCase())
+				}
+			}}
+			onKeyDown={handleKeyDown}
 			disableClearable
 			renderInput={(params) => (
 				<TextField
@@ -73,4 +114,4 @@ const TagsAutocompleteInput = ({ formData, setFormData, error }) => {
 	)
 }
 
-export default TagsAutocompleteInput
+export default TagsAutocomplete

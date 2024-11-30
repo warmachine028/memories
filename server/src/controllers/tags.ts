@@ -1,4 +1,5 @@
 import { prisma } from '@/lib'
+import { RequestParams } from '@/types'
 
 export const deleteUnusedTags = () =>
 	prisma.$transaction(async (tx) => {
@@ -26,4 +27,13 @@ export const getTrendingTags = async () => {
 		hashtag: tag.name,
 		count: tag._count.posts,
 	}))
+}
+
+export const searchTags = async ({ query: { q } }: RequestParams) => {
+	const tags = await prisma.tag.findMany({
+		select: { name: true },
+		where: { name: { contains: q, mode: 'insensitive' } },
+		orderBy: { name: 'asc' },
+	})
+	return tags.map((tag) => tag.name)
 }

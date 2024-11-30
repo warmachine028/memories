@@ -24,7 +24,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { Link } from 'react-router'
 import { useCreatePost } from '@/hooks'
 import { convertToBase64 } from '@/lib/utils'
-import { TagsAutocompleteInput } from '@/components'
+import { TagsAutocomplete } from '@/components'
 
 const Form = () => {
 	const { isLoaded } = useAuth()
@@ -220,7 +220,7 @@ const Form = () => {
 					</FormHelperText>
 				</FormControl>
 				<FormControl fullWidth error={Boolean(errors.tags)}>
-					<TagsAutocompleteInput
+					<TagsAutocomplete
 						formData={formData}
 						setFormData={setFormData}
 						error={Boolean(errors.tags)}

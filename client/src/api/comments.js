@@ -1,4 +1,3 @@
-import { sleep } from '@/lib/utils'
 import { api, handleApiError } from '.'
 
 export const getComments = async (postId, cursor, limit) => {

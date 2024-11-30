@@ -44,11 +44,6 @@ export const getPostById = async ({
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { select: { tag: { select: { name: true } } } },
-			reactions: {
-				take: 1,
-				where: { userId },
-				select: { reactionType: true },
-			},
 		},
 		where: {
 			id,
@@ -93,11 +88,6 @@ export const createPost = async ({ body, userId }: RequestParams) => {
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { include: { tag: { select: { name: true } } } },
-			reactions: {
-				take: 1,
-				where: { userId },
-				select: { reactionType: true },
-			},
 		},
 	})
 }
@@ -108,9 +98,7 @@ export const deletePost = async ({ params: { id }, userId }: RequestParams) => {
 	}
 	const post = await prisma.post.delete({
 		where: { id, authorId: userId },
-		select: {
-			imageUrl: true,
-		},
+		select: { imageUrl: true },
 	})
 	if (!post.imageUrl) {
 		return error(404, { message: 'Post not found' })
