@@ -1,4 +1,4 @@
-import { api, handleApiError } from '@/api'
+import { api, handleApiError } from '.'
 
 export const getTop3PostReactors = async (postId) => {
 	try {

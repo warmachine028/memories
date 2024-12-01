@@ -1,4 +1,4 @@
-import { api, handleApiError } from '@/api'
+import { api, handleApiError } from '.'
 
 export const getUser = async (id) => {
 	try {

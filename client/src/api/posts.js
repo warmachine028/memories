@@ -2,17 +2,19 @@ import { api, handleApiError } from '.'
 
 export const getPosts = async (cursor, limit) => {
 	try {
-		const { data } = await api.get('/posts', { params: { cursor, limit } })
+		const { data } = await api.get('/posts', {
+			params: { cursor, limit }
+		})
 		return data
 	} catch (error) {
 		throw handleApiError(error)
 	}
 }
 
-export const searchPosts = async (query, cursor, limit) => {
+export const searchPosts = async (q, cursor, limit) => {
 	try {
 		const { data } = await api.get('/posts/search', {
-			params: { query, cursor, limit }
+			params: { q, cursor, limit }
 		})
 		return data
 	} catch (error) {

@@ -1,4 +1,4 @@
-import { api, handleApiError } from '@/api'
+import { api, handleApiError } from '.'
 
 export const getTrendingTags = async () => {
 	try {
@@ -11,7 +11,9 @@ export const getTrendingTags = async () => {
 
 export const searchTags = async (q) => {
 	try {
-		const { data } = await api.get('/tags/search', { params: { q } })
+		const { data } = await api.get('/tags/search', {
+			params: { q }
+		})
 		return data
 	} catch (error) {
 		throw handleApiError(error)
