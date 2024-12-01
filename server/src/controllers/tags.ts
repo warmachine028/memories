@@ -37,3 +37,40 @@ export const searchTags = async ({ query: { q } }: RequestParams) => {
 	})
 	return tags.map((tag) => tag.name)
 }
+
+export const getPostsByTag = async ({
+	params: { tag },
+	query: { cursor, limit },
+	userId: currentUserId,
+}: RequestParams) => {
+	const userId = currentUserId || ''
+	const posts = await prisma.post.findMany({
+		include: {
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { select: { tag: { select: { name: true } } } },
+		},
+		where: {
+			AND: [
+				{
+					OR: [
+						{ visibility: 'PUBLIC' },
+						{ visibility: 'PRIVATE', authorId: userId },
+					],
+				},
+				{ tags: { some: { tag: { name: tag } } } },
+			],
+		},
+		orderBy: { createdAt: 'desc' },
+		take: (limit || 9) + 1,
+		cursor: cursor ? { id: cursor } : undefined,
+	})
+	const nextCursor = posts.length > limit ? posts[limit].id : undefined
+	return {
+		posts: posts.slice(0, limit).map((post) => ({
+			...post,
+			tags: post.tags.map((tag) => tag.tag.name),
+		})),
+		nextCursor,
+		total: await prisma.post.count(),
+	}
+}

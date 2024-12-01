@@ -21,13 +21,18 @@ export type RequestParams = {
 	params: {
 		id: string
 		postId: string
+		tag: string
 		commentId: string
 	}
 	body: Record
 	userId: string | null
 	query: Record
 }
-export type EventType = 'user.created' | 'user.updated' | 'user.deleted' | 'user.createdAtEdge'
+export type EventType =
+	| 'user.created'
+	| 'user.updated'
+	| 'user.deleted'
+	| 'user.createdAtEdge'
 export type Event = {
 	data: {
 		id: string
