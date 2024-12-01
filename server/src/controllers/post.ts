@@ -130,6 +130,10 @@ export const updatePost = async ({
 		return await prisma.$transaction(async (tx) => {
 			await tx.postTag.deleteMany({ where: { postId: id } })
 			await tx.post.update({
+				include: {
+					author: { select: { fullName: true, imageUrl: true } },
+					tags: { include: { tag: { select: { name: true } } } },
+				},
 				where: { id, authorId: userId },
 				data: {
 					title,
@@ -146,10 +150,6 @@ export const updatePost = async ({
 							},
 						})),
 					},
-				},
-				include: {
-					author: { select: { fullName: true, imageUrl: true } },
-					tags: { include: { tag: { select: { name: true } } } },
 				},
 			})
 		})

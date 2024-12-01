@@ -37,7 +37,7 @@ const PostGrid = () => {
 	}
 
 	if (isError) {
-		return <Grid xs={12}>Error loading posts: {error.message}</Grid>
+		return <Grid xs={12} color="red">Error loading posts: {error.message}</Grid>
 	}
 
 	const allPosts = posts.pages.flatMap((page) => page.posts)

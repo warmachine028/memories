@@ -86,16 +86,17 @@ export const unreact = async ({
 
 export const reactions = async ({
 	params: { postId },
-	userId,
+	userId: currentUserId,
 }: RequestParams) => {
-	if (!userId || !postId) {
+	const userId = currentUserId || ''
+	if (!postId) {
 		throw new Error('Missing required parameters')
 	}
 	const post = await prisma.post.findUnique({
 		where: { id: postId },
 		select: {
 			reactions: {
-				where: { userId: userId ?? '' },
+				where: { userId },
 				select: { reactionType: true },
 			},
 			reactionCount: true,

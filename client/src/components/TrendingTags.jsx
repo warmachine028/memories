@@ -10,14 +10,18 @@ import {
 import { Link } from 'react-router'
 
 const TrendingTags = () => {
-	const { data: tags, isLoading } = useTrendingTags()
+	const { data: tags, isPending, error, isError } = useTrendingTags()
 	return (
 		<Paper sx={{ p: 2 }} role="presentation" elevation={0}>
 			<Typography variant="h6" gutterBottom>
 				Trending Topics
 			</Typography>
-			{isLoading ? (
+			{isPending ? (
 				<CircularProgress size={20} />
+			) : isError ? (
+				<Typography component="p" variant="body" color="red">
+					Error loading posts: {error.message}
+				</Typography>
 			) : (
 				<TagsList tags={tags} />
 			)}
