@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router'
 import { ThemeProvider } from '@/providers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { HelmetProvider } from 'react-helmet-async'
 
 const MemoriesApp = () => {
 	return (
@@ -26,14 +27,11 @@ const App = () => {
 	return (
 		<ClerkProvider publishableKey={PUBLISHABLE_KEY}>
 			<QueryClientProvider client={queryClient}>
-				<BrowserRouter
-					future={{
-						v7_startTransition: true,
-						v7_relativeSplatPath: true
-					}}
-				>
-					<MemoriesApp />
-				</BrowserRouter>
+				<HelmetProvider>
+					<BrowserRouter>
+						<MemoriesApp />
+					</BrowserRouter>
+				</HelmetProvider>
 				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</ClerkProvider>
