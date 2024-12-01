@@ -1,177 +1,89 @@
-import { useState, useEffect } from 'react'
-import { useParams, useSearchParams } from 'react-router'
-import {
-	Typography,
-	Tab,
-	Tabs,
-	Card,
-	CardContent,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemAvatar,
-	Avatar,
-	Box,
-	Container,
-	Stack
-} from '@mui/material'
+import { useEffect } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router'
+import { Typography, Grid2 as Grid, Box, Container, Stack } from '@mui/material'
+import { PostCard, PostCardSkeleton } from '@/components'
+import { useSearchPosts, useSearchPostsByTag } from '@/hooks'
+import { useInView } from 'react-intersection-observer'
+import { useStore } from '@/store'
 
-// Dummy data
-const dummyData = {
-	posts: [
-		{
-			id: 1,
-			title: 'First post about React',
-			content: 'React is awesome!'
-		},
-		{
-			id: 2,
-			title: 'Learning TypeScript',
-			content: 'TypeScript makes coding safer.'
-		},
-		{
-			id: 3,
-			title: 'Next.js for the win',
-			content: 'Next.js simplifies React development.'
+const SearchGrid = ({ term, queryFn }) => {
+	const { ref, inView } = useInView()
+	const navigate = useNavigate()
+	const {
+		data: posts,
+		isPending,
+		hasNextPage,
+		fetchNextPage,
+		isFetchingNextPage,
+		isError,
+		error
+	} = queryFn(term)
+	const { openSnackbar } = useStore()
+
+	useEffect(() => {
+		if (inView && hasNextPage) {
+			fetchNextPage()
 		}
-	],
-	users: [
-		{ id: 1, name: 'John Doe', username: '@johndoe' },
-		{ id: 2, name: 'Jane Smith', username: '@janesmith' },
-		{ id: 3, name: 'Bob Johnson', username: '@bobjohnson' }
-	],
-	comments: [
-		{ id: 1, user: 'John Doe', content: 'Great post!' },
-		{ id: 2, user: 'Jane Smith', content: 'I learned a lot from this.' },
-		{ id: 3, user: 'Bob Johnson', content: 'Thanks for sharing!' }
-	]
+	}, [inView, hasNextPage, fetchNextPage])
+
+	if (isPending) {
+		return Array.from({ length: 6 }).map((_, i) => (
+			<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={i}>
+				<PostCardSkeleton />
+			</Grid>
+		))
+	}
+
+	if (isError) {
+		navigate('/')
+		openSnackbar(`Error loading posts: ${error.message}`, 'error')
+	}
+
+	const allPosts = posts.pages.flatMap((page) => page.posts)
+	return (
+		<>
+			{allPosts.map((post) => (
+				<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={post.id}>
+					<PostCard post={post} />
+				</Grid>
+			))}
+
+			{isFetchingNextPage && (
+				<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+					<PostCardSkeleton />
+				</Grid>
+			)}
+			<Box ref={ref} height="10px" />
+		</>
+	)
 }
 
 const Search = ({ hashtag }) => {
 	const [searchParams] = useSearchParams()
 	const { tag } = useParams()
-	const [searchTerm, setSearchTerm] = useState(
-		hashtag ? tag : searchParams.get('q') || ''
-	)
-	const [activeTab, setActiveTab] = useState(0)
-	const [filteredData, setFilteredData] = useState(dummyData)
-
-	useEffect(() => {
-		const filtered = {
-			posts: dummyData.posts.filter(
-				(post) =>
-					post.title
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
-					post.content
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase())
-			),
-			users: dummyData.users.filter(
-				(user) =>
-					user.name
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
-					user.username
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase())
-			),
-			comments: dummyData.comments.filter(
-				(comment) =>
-					comment.user
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
-					comment.content
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase())
-			)
-		}
-		setFilteredData(filtered)
-	}, [searchTerm])
-
-	useEffect(() => {
-		const query = searchParams.get('q')
-		if (query) {
-			setSearchTerm(query)
-		}
-	}, [searchParams])
-
-	const handleTabChange = (_, newValue) => setActiveTab(newValue)
-
-	const renderContent = () => {
-		switch (activeTab) {
-			case 0:
-				return (
-					<List>
-						{filteredData.posts.map((post) => (
-							<ListItem key={post.id}>
-								<ListItemText
-									primary={post.title}
-									secondary={post.content}
-								/>
-							</ListItem>
-						))}
-					</List>
-				)
-			case 1:
-				return (
-					<List>
-						{filteredData.users.map((user) => (
-							<ListItem key={user.id}>
-								<ListItemAvatar>
-									<Avatar>{user.name[0]}</Avatar>
-								</ListItemAvatar>
-								<ListItemText
-									primary={user.name}
-									secondary={user.username}
-								/>
-							</ListItem>
-						))}
-					</List>
-				)
-			case 2:
-				return (
-					<List>
-						{filteredData.comments.map((comment) => (
-							<ListItem key={comment.id}>
-								<ListItemText
-									primary={comment.user}
-									secondary={comment.content}
-								/>
-							</ListItem>
-						))}
-					</List>
-				)
-			default:
-				return null
-		}
-	}
-
+	const searchTerm = hashtag ? tag : searchParams.get('q')
+	const queryFn = tag ? useSearchPostsByTag : useSearchPosts
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, height: '100vh' }} maxWidth="xl">
 			<Stack flexGrow={1}>
-				<Box>
-					<Typography variant="h4" gutterBottom>
-						Search results for
-						{hashtag ? ` #${searchTerm}` : ` "${searchTerm}"`}
-					</Typography>
-					<Tabs
-						value={activeTab}
-						onChange={handleTabChange}
-						aria-label="search results tabs"
-					>
-						<Tab label="Posts" id="posts" aria-controls="posts" />
-						<Tab label="Users" id="users" aria-controls="users" />
-						<Tab
-							label="Comments"
-							id="comments"
-							aria-controls="comments"
-						/>
-					</Tabs>
-					<Card sx={{ mt: 2 }}>
-						<CardContent>{renderContent()}</CardContent>
-					</Card>
-				</Box>
+				<Typography variant="h4" gutterBottom>
+					Search results for
+					{hashtag ? ` #${searchTerm}` : ` "${searchTerm}"`}
+				</Typography>
+				<Grid
+					container
+					overflow="auto"
+					height={'calc(100vh - 170px)'}
+					minHeight={400}
+					spacing={2}
+					sx={{
+						'&::-webkit-scrollbar': { display: 'none' },
+						scrollbarWidth: 'none',
+						msOverflowStyle: 'none'
+					}}
+				>
+					<SearchGrid term={searchTerm} queryFn={queryFn} />
+				</Grid>
 			</Stack>
 		</Container>
 	)

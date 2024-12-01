@@ -9,9 +9,11 @@ export const getPosts = async (cursor, limit) => {
 	}
 }
 
-export const searchPosts = async (query) => {
+export const searchPosts = async (query, cursor, limit) => {
 	try {
-		const { data } = await api.get('/posts/search', { params: { query } })
+		const { data } = await api.get('/posts/search', {
+			params: { query, cursor, limit }
+		})
 		return data
 	} catch (error) {
 		throw handleApiError(error)

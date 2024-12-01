@@ -15,6 +15,7 @@ import { LockOutlined } from '@mui/icons-material'
 import { useSignIn } from '@clerk/clerk-react'
 import { OAuthButtons } from '@/components'
 import { useState } from 'react'
+import { useStore } from '@/store'
 
 const Form = () => {
 	const initialState = { email: '', password: '' }
@@ -25,7 +26,7 @@ const Form = () => {
 
 	const handleChange = (e) =>
 		setFormData({ ...formData, [e.target.name]: e.target.value })
-
+	const { openSnackbar } = useStore()
 	const handleSubmit = async (event) => {
 		event.preventDefault()
 		setError('')
@@ -40,6 +41,7 @@ const Form = () => {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
+				openSnackbar('Logged in successfully')
 				navigate('/')
 			} else {
 				console.error('Sign-in failed', result)

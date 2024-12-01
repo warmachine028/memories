@@ -66,6 +66,7 @@ const PostCard = ({ post, isLoading, error }) => {
 	if (error?.message === 'API Error: Post not found') {
 		navigate('/not-found')
 	}
+	document.title = `Memories | ${post.title}`
 	return (
 		<Card sx={{ width: 1 }}>
 			<CardMedia component="img" image={post.imageUrl} alt="Post cover" />
@@ -149,6 +150,7 @@ const Top3Reactions = ({ post }) => {
 const Post = () => {
 	const { id } = useParams()
 	const { data: post, isLoading, error } = useGetPost(id)
+
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, mb: 10 }} maxWidth="xl">
 			<Grid container spacing={3}>

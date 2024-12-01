@@ -20,10 +20,21 @@ import { Link } from 'react-router'
 import { useTheme } from '@/hooks'
 import { useState } from 'react'
 import { UserAvatar } from '.'
+import { useStore } from '@/store'
 
 const AccountMenuItems = ({ handleClose, handleClick, open }) => {
-	const { user } = useUser()
+	const { user, sign } = useUser()
 	const { signOut } = useAuth()
+	const { openSnackbar } = useStore()
+
+	const logOut = () => {
+		try {
+			signOut()
+			openSnackbar('Logged in successfully')
+		} catch (error) {
+			openSnackbar(error.message, 'error')
+		}
+	}
 
 	return (
 		<>
@@ -52,7 +63,7 @@ const AccountMenuItems = ({ handleClose, handleClick, open }) => {
 					<ChevronRight fontSize="small" />
 				</ListItemIcon>
 			</MenuItem>
-			<MenuItem onClick={signOut}>
+			<MenuItem onClick={logOut}>
 				<ListItemIcon>
 					<Logout fontSize="small" />
 				</ListItemIcon>

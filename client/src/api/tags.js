@@ -17,3 +17,14 @@ export const searchTags = async (q) => {
 		throw handleApiError(error)
 	}
 }
+
+export const searchPostsByTags = async (tag, cursor, limit) => {
+	try {
+		const { data } = await api.get(`/tags/posts/${tag}`, {
+			params: { cursor, limit }
+		})
+		return data
+	} catch (error) {
+		throw handleApiError(error)
+	}
+}

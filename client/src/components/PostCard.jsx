@@ -177,17 +177,13 @@ const EditCard = ({ post, setEditing }) => {
 		if (!validateInputs()) {
 			return
 		}
-		try {
-			updatePost({
-				...editedPost,
-				media: editedPost.media
-					? await convertToBase64(editedPost.media)
-					: editedPost.imageUrl
-			})
-			setEditing(false)
-		} catch (error) {
-			console.error(error)
-		}
+		updatePost({
+			...editedPost,
+			media: editedPost.media
+				? await convertToBase64(editedPost.media)
+				: editedPost.imageUrl
+		})
+		setEditing(false)
 	}
 
 	return (
@@ -333,15 +329,9 @@ const EditCard = ({ post, setEditing }) => {
 const StaticCard = ({ post, setEditing }) => {
 	const { user } = useUser()
 	const navigate = useNavigate()
-	console.log(post)
+
 	return (
-		<Card
-			sx={{
-				position: 'relative',
-				cursor: 'pointer',
-				height: 1
-			}}
-		>
+		<Card sx={{ position: 'relative', cursor: 'pointer', height: 1, maxHeight:400 }}>
 			<CardHeader
 				avatar={
 					<UserAvatar

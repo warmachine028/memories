@@ -23,6 +23,13 @@ export const useGetPosts = () =>
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	})
 
+export const useSearchPosts = (query) =>
+	useInfiniteQuery({
+		queryKey: ['search-posts', query],
+		queryFn: ({ pageParam }) => searchPosts(query, pageParam, 6),
+		getNextPageParam: (lastPage) => lastPage.nextCursor
+	})
+
 export const useGetPost = (id) =>
 	useQuery({
 		queryKey: ['post', id],
@@ -160,13 +167,6 @@ export const useDeletePost = () => {
 			queryClient.invalidateQueries({ queryKey })
 			openSnackbar('Post deleted Successfully', 'success')
 		}
-	})
-}
-
-export const useSearchPosts = () => {
-	return useQuery({
-		queryKey: ['searchPosts'],
-		queryFn: () => searchPosts
 	})
 }
 

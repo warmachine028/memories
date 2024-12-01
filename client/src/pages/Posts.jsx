@@ -60,29 +60,6 @@ const PostGrid = () => {
 }
 
 const Posts = () => {
-	// const { data: tags } = useGetTrendingTags()
-	const tags = [
-		{
-			hashtag: 'media',
-			count: 5
-		},
-		{
-			hashtag: 'post',
-			count: 5
-		},
-		{
-			hashtag: 'social',
-			count: 5
-		},
-		{
-			hashtag: 'love',
-			count: 3
-		},
-		{
-			hashtag: 'chocolates',
-			count: 2
-		}
-	]
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, height: '100vh' }} maxWidth="xl">
 			<Grid container spacing={3}>
@@ -90,7 +67,8 @@ const Posts = () => {
 					container
 					size={{ xs: 12, md: 8, xl: 9 }}
 					overflow="auto"
-					height={'calc(100vh - 100px)'}
+					height={'calc(100vh - 170px)'}
+					minHeight={400}
 					sx={{
 						'&::-webkit-scrollbar': { display: 'none' },
 						scrollbarWidth: 'none',
@@ -112,8 +90,7 @@ const Posts = () => {
 						</Paper>
 					</Grid>
 					<Grid size={{ xs: 12 }}>
-						{/* <SearchForm /> */}
-						<TrendingTags tags={tags} />
+						<TrendingTags />
 					</Grid>
 				</Grid>
 			</Grid>
