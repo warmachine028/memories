@@ -39,16 +39,16 @@
 		"zustand": "^5.0.1"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.15.0",
+		"@eslint/js": "^9.16.0",
 		"@types/eslint__js": "^8.42.3",
 		"@types/eslint-config-prettier": "^6.11.3",
 		"@vitejs/plugin-react-swc": "^3.7.2",
-		"eslint": "^9.15.0",
+		"eslint": "^9.16.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-react": "^7.37.2",
 		"eslint-plugin-react-hooks": "^5.1.0-rc-fb9a90fa48-20240614",
 		"eslint-plugin-react-refresh": "^0.4.14",
-		"globals": "^15.12.0",
+		"globals": "^15.13.0",
 		"prettier": "^3.4.1",
 		"vite": "^6.0.1"
 	},
