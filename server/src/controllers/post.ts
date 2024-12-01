@@ -163,6 +163,7 @@ export const searchPosts = async ({
 	userId: currentUserId,
 }: RequestParams) => {
 	const userId = currentUserId || ''
+	const search = (q || '').split(' ').join(' & ')
 	const where: Prisma.PostWhereInput = {
 		AND: [
 			{
@@ -173,20 +174,10 @@ export const searchPosts = async ({
 			},
 			{
 				OR: [
-					{ title: { search: q } },
-					{ description: { search: q } },
-					{
-						tags: {
-							some: {
-								tag: {
-									name: {
-										contains: q,
-										mode: 'insensitive',
-									},
-								},
-							},
-						},
-					},
+					{ title: { search: search } },
+					{ description: { search } },
+					{ author: { firstName: { search } } },
+					{ tags: { some: { tag: { name: { search } } } } },
 				],
 			},
 		],
