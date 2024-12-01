@@ -5,6 +5,7 @@ import {
 	createPost,
 	deletePost,
 	updatePost,
+	searchPosts,
 } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import {
@@ -38,6 +39,13 @@ export const postRoutes = new Elysia({
 	})
 	.get('/', getPosts, {
 		query: querySchema,
+	})
+	.get('/search', searchPosts, {
+		query: t.Object({
+			q: t.Optional(t.String()),
+			cursor: t.Optional(t.String()),
+			limit: t.Optional(t.Number()),
+		}),
 	})
 	.get('/:id', getPostById, {
 		params: paramsSchema,

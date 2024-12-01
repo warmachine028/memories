@@ -38,7 +38,7 @@ export const searchTags = async ({ query: { q } }: RequestParams) => {
 	return tags.map((tag) => tag.name)
 }
 
-export const getPostsByTag = async ({
+export const searchPostsByTag = async ({
 	params: { tag },
 	query: { cursor, limit },
 	userId: currentUserId,
@@ -57,7 +57,18 @@ export const getPostsByTag = async ({
 						{ visibility: 'PRIVATE', authorId: userId },
 					],
 				},
-				{ tags: { some: { tag: { name: tag } } } },
+				{
+					tags: {
+						some: {
+							tag: {
+								name: {
+									contains: tag,
+									mode: 'insensitive',
+								},
+							},
+						},
+					},
+				},
 			],
 		},
 		orderBy: { createdAt: 'desc' },

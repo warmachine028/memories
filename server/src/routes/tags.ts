@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia'
-import { getTrendingTags, searchTags, getPostsByTag } from '@/controllers'
+import { getTrendingTags, searchTags, searchPostsByTag } from '@/controllers'
 import { authMiddleware } from '@/middlewares'
 import { query as querySchema } from '@/schemas'
 
@@ -22,6 +22,6 @@ export const tagRoutes = new Elysia({
 			authorization: t.Optional(t.String()),
 		}),
 	})
-	.get('/posts/:tag', getPostsByTag, {
+	.get('/posts/:tag', searchPostsByTag, {
 		query: querySchema,
 	})

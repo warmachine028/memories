@@ -6,23 +6,25 @@ import {
 } from '@/lib/utils'
 import type { RequestParams } from '@/types'
 import { error } from 'elysia'
+import { Prisma } from '@prisma/client'
 
 export const getPosts = async ({
 	query: { cursor, limit },
 	userId: currentUserId,
 }: RequestParams) => {
 	const userId = currentUserId || ''
+	const where: Prisma.PostWhereInput = {
+		OR: [
+			{ visibility: 'PUBLIC' },
+			{ visibility: 'PRIVATE', authorId: userId },
+		],
+	}
 	const posts = await prisma.post.findMany({
 		include: {
 			author: { select: { fullName: true, imageUrl: true } },
 			tags: { select: { tag: { select: { name: true } } } },
 		},
-		where: {
-			OR: [
-				{ visibility: 'PUBLIC' },
-				{ visibility: 'PRIVATE', authorId: userId },
-			],
-		},
+		where,
 		orderBy: { createdAt: 'desc' },
 		take: (limit || 9) + 1,
 		cursor: cursor ? { id: cursor } : undefined,
@@ -34,7 +36,7 @@ export const getPosts = async ({
 			tags: post.tags.map((tag) => tag.tag.name),
 		})),
 		nextCursor,
-		total: await prisma.post.count(),
+		total: await prisma.post.count({ where }),
 	}
 }
 
@@ -153,5 +155,59 @@ export const updatePost = async ({
 		})
 	} catch (error) {
 		console.error(error)
+	}
+}
+
+export const searchPosts = async ({
+	query: { q, cursor, limit },
+	userId: currentUserId,
+}: RequestParams) => {
+	const userId = currentUserId || ''
+	const where: Prisma.PostWhereInput = {
+		AND: [
+			{
+				OR: [
+					{ visibility: 'PUBLIC' },
+					{ visibility: 'PRIVATE', authorId: userId },
+				],
+			},
+			{
+				OR: [
+					{ title: { search: q } },
+					{ description: { search: q } },
+					{
+						tags: {
+							some: {
+								tag: {
+									name: {
+										contains: q,
+										mode: 'insensitive',
+									},
+								},
+							},
+						},
+					},
+				],
+			},
+		],
+	}
+	const posts = await prisma.post.findMany({
+		include: {
+			author: { select: { fullName: true, imageUrl: true } },
+			tags: { select: { tag: { select: { name: true } } } },
+		},
+		where,
+		orderBy: { createdAt: 'desc' },
+		take: (limit || 9) + 1,
+		cursor: cursor ? { id: cursor } : undefined,
+	})
+	const nextCursor = posts.length > limit ? posts[limit].id : undefined
+	return {
+		posts: posts.slice(0, limit).map((post) => ({
+			...post,
+			tags: post.tags.map((tag) => tag.tag.name),
+		})),
+		nextCursor,
+		total: await prisma.post.count({ where }),
 	}
 }
