@@ -42,11 +42,19 @@ const SearchGrid = ({ term, queryFn }) => {
 	const allPosts = posts.pages.flatMap((page) => page.posts)
 	return (
 		<>
-			{allPosts.map((post) => (
-				<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={post.id}>
-					<PostCard post={post} />
+			{allPosts.length > 0 ? (
+				allPosts.map((post) => (
+					<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={post.id}>
+						<PostCard post={post} />
+					</Grid>
+				))
+			) : (
+				<Grid container size={12} justifyContent="center">
+					<Typography variant="h6" textAlign="center">
+						No posts found
+					</Typography>
 				</Grid>
-			))}
+			)}
 
 			{isFetchingNextPage && (
 				<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -61,14 +69,15 @@ const SearchGrid = ({ term, queryFn }) => {
 const Search = ({ hashtag }) => {
 	const [searchParams] = useSearchParams()
 	const { tag } = useParams()
-	const searchTerm = hashtag ? tag : searchParams.get('q')
+	const searchTerm = hashtag ? tag : searchParams.get('q') || ''
 	const queryFn = tag ? useSearchPostsByTag : useSearchPosts
+
 	return (
 		<Container sx={{ py: { xs: 2, md: 4 }, height: '100vh' }} maxWidth="xl">
 			<Stack flexGrow={1}>
 				<Typography variant="h4" gutterBottom>
 					Search results for
-					{hashtag ? ` #${searchTerm}` : ` "${searchTerm}"`}
+					{hashtag ? ` #${tag}` : ` "${searchTerm}"`}
 				</Typography>
 				<Grid
 					container
