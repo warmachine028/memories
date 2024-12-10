@@ -16,12 +16,14 @@ import { useSignIn } from '@clerk/clerk-react'
 import { OAuthButtons } from '@/components'
 import { useState } from 'react'
 import { useStore } from '@/store'
+import { useQueryClient } from '@tanstack/react-query'
 
 const Form = () => {
 	const initialState = { email: '', password: '' }
 	const { isLoaded, signIn, setActive } = useSignIn()
 	const [formData, setFormData] = useState(initialState)
 	const [error, setError] = useState('')
+	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 
 	const handleChange = (e) =>
@@ -41,6 +43,9 @@ const Form = () => {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
+				await queryClient.invalidateQueries({
+					queryKey: ['reaction-info']
+				})
 				openSnackbar('Logged in successfully')
 				navigate('/')
 			} else {

@@ -1,11 +1,13 @@
 import { useSignIn } from '@clerk/clerk-react'
 import { GitHub, Google } from '@mui/icons-material'
 import { Box, Button, ButtonGroup, FormHelperText } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
 const OAuthButtons = () => {
 	const [error, setError] = useState('')
 	const { isLoaded, signIn } = useSignIn()
+	const queryClient = useQueryClient()
 
 	const handleOAuthSignIn = async (strategy) => {
 		if (!isLoaded) {
@@ -16,6 +18,9 @@ const OAuthButtons = () => {
 				strategy,
 				redirectUrl: '/callback',
 				redirectUrlComplete: '/'
+			})
+			await queryClient.invalidateQueries({
+				queryKey: ['reaction-info']
 			})
 		} catch (err) {
 			setError(

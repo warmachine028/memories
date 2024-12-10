@@ -23,14 +23,14 @@ import { UserAvatar } from '.'
 import { useStore } from '@/store'
 
 const AccountMenuItems = ({ handleClose, handleClick, open }) => {
-	const { user, sign } = useUser()
+	const { user, } = useUser()
 	const { signOut } = useAuth()
 	const { openSnackbar } = useStore()
 
 	const logOut = () => {
 		try {
 			signOut()
-			openSnackbar('Logged in successfully')
+			openSnackbar('Logged out successfully')
 		} catch (error) {
 			openSnackbar(error.message, 'error')
 		}

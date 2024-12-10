@@ -13,11 +13,13 @@ import { MailOutlined } from '@mui/icons-material'
 import { useSignUp } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 const Form = () => {
 	const { isLoaded, signUp, setActive } = useSignUp()
 	const [code, setCode] = useState('')
 	const [error, setError] = useState('')
+	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 
 	const handleSubmit = async (event) => {
@@ -33,6 +35,9 @@ const Form = () => {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
+				await queryClient.invalidateQueries({
+					queryKey: ['reaction-info']
+				})
 				navigate('/')
 			} else {
 				console.error(JSON.stringify(result, null, 2))

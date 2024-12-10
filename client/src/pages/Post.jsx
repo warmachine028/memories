@@ -80,11 +80,18 @@ const PostCard = ({ post, isLoading, error }) => {
 				<Typography variant="h4" gutterBottom fontWeight="bold">
 					{post.title}
 				</Typography>
-				<Box mb={2}>
+				<Stack direction="row" flexWrap="wrap" mb={2} gap={1}>
 					{post.tags.map((tag) => (
-						<Chip key={tag} label={tag} sx={{ mr: 1 }} />
+						<Chip
+							key={tag}
+							label={tag}
+							component={Link}
+							to={`/hashtag/${tag}`}
+							onClick={(e) => e.stopPropagation()}
+							sx={{ textDecoration: 'none' }}
+						/>
 					))}
-				</Box>
+				</Stack>
 				<Typography variant="body1" component="p" whiteSpace="pre-line">
 					{post.description}
 				</Typography>
