@@ -28,7 +28,7 @@ const SharePostDialog = ({ url, open, setOpen }) => {
 		whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`
 	}
 	const { openSnackbar } = useStore()
-	const handleCopy = () =>{
+	const handleCopy = () => {
 		navigator.clipboard.writeText(url).then(() => {
 			openSnackbar('Link copied to clipboard', 'info')
 		})
