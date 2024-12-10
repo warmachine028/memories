@@ -59,7 +59,11 @@ const LikeButton = ({ commentId }) => {
 					onMouseEnter={handleMouseEnter}
 					sx={{
 						cursor: 'pointer',
-						'&:hover': { textDecoration: 'underline' }
+						'&:hover': { textDecoration: 'underline' },
+						userSelect: 'none', // This prevents text selection
+						WebkitUserSelect: 'none', // For webkit browsers like Chrome and Safari
+						MozUserSelect: 'none', // For Firefox
+						msUserSelect: 'none' // For Internet Explorer/Edge
 					}}
 				>
 					{data.likeCount} {data.likeCount === 1 ? 'like' : 'likes'}
