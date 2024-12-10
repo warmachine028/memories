@@ -52,8 +52,8 @@ export const useLikeComment = () => {
 
 			const previousData = queryClient.getQueryData(queryKey)
 			queryClient.setQueryData(queryKey, () => ({
-				likes:
-					(previousData?.likes || 0) +
+				likeCount:
+					(previousData?.likeCount || 0) +
 					(previousData?.isLiked ? -1 : 1),
 				isLiked: !previousData?.isLiked
 			}))
@@ -115,8 +115,8 @@ export const useGetLikedUsers = (commentId) => {
 			const end = start + pageSize
 			const dummyUsers = Array.from({ length: pageSize }, (_, i) => ({
 				id: start + i + 1,
-				name: `User ${start + i + 1}`,
-				avatarColor: `hsl(${Math.random() * 360}, 70%, 50%)`
+				fullName: `John Doe ${start + i + 1}`,
+				imageUrl: `https://i.pravatar.cc?u=${start + i + 1}`
 			}))
 			return {
 				users: dummyUsers,

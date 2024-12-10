@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
 	Stack,
 	IconButton,
@@ -10,17 +10,20 @@ import {
 	ListItem,
 	ListItemText,
 	ListItemAvatar,
-	Avatar
+	Avatar,
+	ClickAwayListener
 } from '@mui/material'
 import { ThumbUp, ThumbUpOffAlt } from '@mui/icons-material'
 import { useGetCommentLikes, useLikeComment, useGetLikedUsers } from '@/hooks'
 import { useUser } from '@clerk/clerk-react'
+import { UserAvatar } from '.'
 
 const LikeButton = ({ commentId }) => {
 	const { user } = useUser()
 	const { data, isFetching } = useGetCommentLikes(commentId)
 	const { mutate: likeComment } = useLikeComment()
 	const [anchorEl, setAnchorEl] = useState(null)
+	const [isOpen, setIsOpen] = useState(false)
 
 	const handleLike = () =>
 		likeComment({
@@ -30,10 +33,11 @@ const LikeButton = ({ commentId }) => {
 
 	const handleMouseEnter = (event) => {
 		setAnchorEl(event.currentTarget)
+		setIsOpen(true)
 	}
 
-	const handleMouseLeave = () => {
-		setAnchorEl(null)
+	const handleClose = () => {
+		setIsOpen(false)
 	}
 
 	if (isFetching) {
@@ -41,54 +45,70 @@ const LikeButton = ({ commentId }) => {
 	}
 
 	return (
-		<Stack direction="row" alignItems="center">
-			<IconButton size="small" onClick={handleLike} disabled={!user}>
-				{data.isLiked ? (
-					<ThumbUp fontSize="small" color="primary" />
-				) : (
-					<ThumbUpOffAlt fontSize="small" />
+		<ClickAwayListener onClickAway={handleClose}>
+			<Stack direction="row" alignItems="center">
+				<IconButton size="small" onClick={handleLike} disabled={!user}>
+					{data.isLiked ? (
+						<ThumbUp fontSize="small" color="primary" />
+					) : (
+						<ThumbUpOffAlt fontSize="small" />
+					)}
+				</IconButton>
+				<Typography
+					variant="caption"
+					onMouseEnter={handleMouseEnter}
+					sx={{
+						cursor: 'pointer',
+						'&:hover': { textDecoration: 'underline' }
+					}}
+				>
+					{data.likeCount} {data.likeCount === 1 ? 'like' : 'likes'}
+				</Typography>
+				{data.likeCount > 0 && (
+					<UserList
+						commentId={commentId}
+						anchorEl={anchorEl}
+						open={isOpen}
+						onClose={handleClose}
+						totalLikes={data.likeCount}
+					/>
 				)}
-			</IconButton>
-			<Typography
-				variant="caption"
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				sx={{
-					cursor: 'pointer',
-					'&:hover': { textDecoration: 'underline' }
-				}}
-			>
-				{data.likes} {data.likes === 1 ? 'like' : 'likes'}
-			</Typography>
-			{data.likes > 0 && (
-				<UserList
-					commentId={commentId}
-					anchorEl={anchorEl}
-					open={Boolean(anchorEl)}
-					onClose={() => setAnchorEl(null)}
-					totalLikes={data.likes}
-				/>
-			)}
-		</Stack>
+			</Stack>
+		</ClickAwayListener>
 	)
 }
 
 const UserList = ({ commentId, anchorEl, open, onClose, totalLikes }) => {
 	const { data, isFetching, fetchNextPage, hasNextPage } =
 		useGetLikedUsers(commentId)
+	const listRef = useRef(null)
 
-	const handleScroll = (event) => {
-		const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
-		if (
-			scrollHeight - scrollTop <= clientHeight + 1 &&
-			hasNextPage &&
-			!isFetching
-		) {
-			fetchNextPage()
+	useEffect(() => {
+		const handleScroll = () => {
+			if (listRef.current) {
+				const { scrollTop, clientHeight, scrollHeight } =
+					listRef.current
+				if (
+					scrollHeight - scrollTop <= clientHeight + 1 &&
+					hasNextPage &&
+					!isFetching
+				) {
+					fetchNextPage()
+				}
+			}
 		}
-	}
 
-	if (!open) return null
+		const currentListRef = listRef.current
+		if (currentListRef) {
+			currentListRef.addEventListener('scroll', handleScroll)
+		}
+
+		return () => {
+			if (currentListRef) {
+				currentListRef.removeEventListener('scroll', handleScroll)
+			}
+		}
+	}, [fetchNextPage, hasNextPage, isFetching])
 
 	return (
 		<Popper
@@ -96,25 +116,25 @@ const UserList = ({ commentId, anchorEl, open, onClose, totalLikes }) => {
 			anchorEl={anchorEl}
 			placement="bottom-start"
 			onClose={onClose}
+			modifiers={[
+				{
+					name: 'offset',
+					options: { offset: [0, 8] }
+				}
+			]}
 		>
 			<Paper elevation={0}>
 				<List
+					ref={listRef}
 					sx={{ width: 250, maxHeight: 300, overflow: 'auto' }}
-					onScroll={handleScroll}
 				>
 					{data?.pages.flatMap((page) =>
 						page.users.slice(0, totalLikes).map((user) => (
 							<ListItem key={user.id}>
 								<ListItemAvatar>
-									<Avatar
-										src={`/placeholder.svg?height=40&width=40`}
-										alt={user.name}
-										sx={{ bgcolor: user.avatarColor }}
-									>
-										{user.name.charAt(0)}
-									</Avatar>
+									<UserAvatar user={user} size={40} />
 								</ListItemAvatar>
-								<ListItemText primary={user.name} />
+								<ListItemText primary={user.fullName} />
 							</ListItem>
 						))
 					)}
