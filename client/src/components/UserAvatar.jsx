@@ -12,6 +12,7 @@ const UserAvatar = ({
 			<IconButton onClick={handleClick} sx={{ p: 0 }}>
 				<Avatar
 					sx={{
+						transition: 'transform 0.2s, z-index 0.2s',
 						':hover': disableHover
 							? {}
 							: {

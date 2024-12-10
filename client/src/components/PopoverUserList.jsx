@@ -11,7 +11,7 @@ import {
 import { useGetLikedUsers } from '@/hooks'
 import { UserAvatar } from '.'
 
-const PopoverUserList = ({ id, anchorEl, open, onClose, totalLikes }) => {
+const PopoverUserList = ({ id, anchorEl, open, onClose, total }) => {
 	const { data, isFetching, fetchNextPage, hasNextPage } =
 		useGetLikedUsers(id)
 	const listRef = useRef(null)
@@ -42,7 +42,6 @@ const PopoverUserList = ({ id, anchorEl, open, onClose, totalLikes }) => {
 			}
 		}
 	}, [fetchNextPage, hasNextPage, isFetching])
-
 	return (
 		<Popper
 			open={open}
@@ -66,7 +65,7 @@ const PopoverUserList = ({ id, anchorEl, open, onClose, totalLikes }) => {
 					}}
 				>
 					{data?.pages.flatMap((page) =>
-						page.users.slice(0, totalLikes).map((user) => (
+						page.users.slice(0, total).map((user) => (
 							<ListItem key={user.id}>
 								<ListItemAvatar>
 									<UserAvatar user={user} size={40} />

@@ -1,13 +1,13 @@
 import {
 	Avatar,
 	AvatarGroup,
-	Box,
 	Card,
 	CardActions,
 	CardContent,
 	CardHeader,
 	CardMedia,
 	Chip,
+	ClickAwayListener,
 	Container,
 	Divider,
 	Grid2 as Grid,
@@ -19,6 +19,7 @@ import { CommentSection, RecommendationSection } from '@/sections'
 import { Link, useNavigate, useParams } from 'react-router'
 import {
 	AvatarGroupSkeleton,
+	PopoverUserList,
 	PostSkeleton,
 	ReactButton,
 	ShareButton,
@@ -26,6 +27,7 @@ import {
 } from '@/components'
 import { useGetPost, useGetTop3Reacts } from '@/hooks'
 import moment from 'moment'
+import { useState } from 'react'
 
 const PostMetaData = ({ author, timestamp }) => {
 	const navigate = useNavigate()
@@ -115,42 +117,78 @@ const PostCard = ({ post, isLoading, error }) => {
 }
 
 const Top3Reactions = ({ post }) => {
-	const { data: reactors, isLoading } = useGetTop3Reacts(post.id)
+	const { data: reactors, isFetching } = useGetTop3Reacts(post.id)
+	const [anchorEl, setAnchorEl] = useState(null)
+	const [isOpen, setIsOpen] = useState(false)
 
-	if (isLoading) {
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget)
+		setIsOpen(!isOpen)
+	}
+
+	const handleClose = () => {
+		setIsOpen(false)
+	}
+
+	if (isFetching) {
 		return <AvatarGroupSkeleton />
 	}
 
 	return (
-		<AvatarGroup
-			max={4}
-			sx={{
-				'& .MuiAvatar-root': {
-					width: 40,
-					height: 40,
-					fontSize: '1rem'
-				}
-			}}
-			total={post.reactionCount}
-		>
-			{reactors.map(({ user: reactor }) => (
-				<Tooltip key={reactor.id} title={reactor.fullName} arrow>
-					<Avatar
-						component={Link}
-						to={`/user/${reactor.id}`}
-						alt={reactor.fullName}
-						src={reactor.imageUrl}
-						sx={{
-							transition: 'transform 0.2s, z-index 0.2s',
-							'&:hover': {
-								transform: 'scale(1.2)',
-								zIndex: 10
-							}
-						}}
-					/>
-				</Tooltip>
-			))}
-		</AvatarGroup>
+		<ClickAwayListener onClickAway={handleClose}>
+			<Stack>
+				<AvatarGroup
+					max={4}
+					sx={{
+						'& .MuiAvatar-root': {
+							width: 40,
+							height: 40,
+							fontSize: '1rem'
+						}
+					}}
+					total={post.reactionCount}
+					renderSurplus={() => (
+						<Tooltip title="Click to view all reactions" arrow>
+							<Avatar
+								sx={{ cursor: 'pointer' }}
+								onClick={handleClick}
+							>
+								+{post.reactionCount - 3}
+							</Avatar>
+						</Tooltip>
+					)}
+				>
+					{reactors.map(({ user: reactor }) => (
+						<Tooltip
+							key={reactor.id}
+							title={reactor.fullName}
+							arrow
+						>
+							<Avatar
+								component={Link}
+								to={`/user/${reactor.id}`}
+								alt={reactor.fullName}
+								src={reactor.imageUrl}
+								sx={{
+									transition: 'transform 0.2s, z-index 0.2s',
+									'&:hover': {
+										transform: 'scale(1.2)',
+										zIndex: 10
+									}
+								}}
+							/>
+						</Tooltip>
+					))}
+				</AvatarGroup>
+				<PopoverUserList
+					id={post.id}
+					anchorEl={anchorEl}
+					open={isOpen}
+					onClose={handleClose}
+					total={post.reactionCount}
+				/>
+			</Stack>
+		</ClickAwayListener>
 	)
 }
 

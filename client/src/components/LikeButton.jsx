@@ -67,7 +67,7 @@ const LikeButton = ({ commentId }) => {
 						anchorEl={anchorEl}
 						open={isOpen}
 						onClose={handleClose}
-						totalLikes={data.likeCount}
+						total={data.likeCount}
 					/>
 				)}
 			</Stack>
