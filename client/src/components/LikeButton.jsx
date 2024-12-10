@@ -9,7 +9,7 @@ import {
 import { ThumbUp, ThumbUpOffAlt } from '@mui/icons-material'
 import { useGetCommentLikes, useLikeComment } from '@/hooks'
 import { useUser } from '@clerk/clerk-react'
-import { PopoverUserList } from '.'
+import { UserListPopover } from '.'
 
 const LikeButton = ({ commentId }) => {
 	const { user } = useUser()
@@ -62,7 +62,7 @@ const LikeButton = ({ commentId }) => {
 					{data.likeCount} {data.likeCount === 1 ? 'like' : 'likes'}
 				</Typography>
 				{data.likeCount > 0 && (
-					<PopoverUserList
+					<UserListPopover
 						id={commentId}
 						anchorEl={anchorEl}
 						open={isOpen}

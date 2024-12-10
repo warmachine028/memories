@@ -15,6 +15,7 @@ import {
 	useQueryClient
 } from '@tanstack/react-query'
 import { useStore } from '@/store'
+import { reactions } from '@/data'
 
 export const useGetTop3Reacts = (postId) => {
 	return useQuery({
@@ -116,7 +117,8 @@ export const useGetLikedUsers = (commentId) => {
 			const dummyUsers = Array.from({ length: pageSize }, (_, i) => ({
 				id: start + i + 1,
 				fullName: `John Doe ${start + i + 1}`,
-				imageUrl: `https://i.pravatar.cc?u=${start + i + 1}`
+				imageUrl: `https://i.pravatar.cc?u=${start + i + 1}`,
+				reaction: reactions[start + (i % 5)].label
 			}))
 			return {
 				users: dummyUsers,

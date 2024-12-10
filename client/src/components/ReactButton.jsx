@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState } from 'react'
 import {
 	IconButton,
 	Popover,
@@ -7,27 +7,10 @@ import {
 	CircularProgress,
 	ClickAwayListener
 } from '@mui/material'
-import {
-	ThumbUp,
-	Favorite,
-	EmojiEmotions,
-	SentimentVeryDissatisfied,
-	Mood,
-	SentimentDissatisfied,
-	ThumbUpOutlined,
-	ThumbUpOffAlt
-} from '@mui/icons-material'
+import { ThumbUpOffAlt } from '@mui/icons-material'
 import { useGetPostReactions, useReactPost } from '@/hooks'
 import { useUser } from '@clerk/clerk-react'
-
-const reactions = [
-	{ icon: ThumbUp, label: 'LIKE', color: '#2196f3' },
-	{ icon: Favorite, label: 'LOVE', color: '#e91e63' },
-	{ icon: EmojiEmotions, label: 'HAHA', color: '#ffc107' },
-	{ icon: SentimentVeryDissatisfied, label: 'SAD', color: '#607d8b' },
-	{ icon: Mood, label: 'WOW', color: '#4caf50' },
-	{ icon: SentimentDissatisfied, label: 'ANGRY', color: '#ff5722' }
-]
+import { reactions } from '@/data'
 
 const ReactButton = ({ post }) => {
 	const { user } = useUser()
@@ -94,7 +77,13 @@ const ReactButton = ({ post }) => {
 	)
 }
 
-const Reactions = ({ postId, anchorEl, open, onClose: handleClose, currentReaction }) => {
+const Reactions = ({
+	postId,
+	anchorEl,
+	open,
+	onClose: handleClose,
+	currentReaction
+}) => {
 	const { mutate: reactPost } = useReactPost()
 
 	const handleReact = (reactionType) => {
