@@ -6,7 +6,7 @@
 
 generator client {
     provider        = "prisma-client-js"
-    previewFeatures = ["fullTextSearchPostgres", "driverAdapters", "tracing"] //? https://github.com/prisma/prisma/discussions/23533#discussioncomment-8838160
+    previewFeatures = ["fullTextSearchPostgres", "driverAdapters"] //? https://github.com/prisma/prisma/discussions/23533#discussioncomment-8838160
     //* https://www.prisma.io/blog/prisma-optimize-early-access?utm_source=cli&utm_medium=promo-generate-v5-17&utm_campaign=--optimize
 }
 

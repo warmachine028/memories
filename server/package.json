@@ -26,23 +26,23 @@
         "prisma:deploy": "prisma migrate deploy"
     },
     "dependencies": {
-        "@clerk/backend": "^1.21.0",
-        "@elysiajs/cors": "^1.1.1",
-        "@elysiajs/cron": "^1.1.1",
-        "@elysiajs/swagger": "^1.1.6",
+        "@clerk/backend": "^1.21.4",
+        "@elysiajs/cors": "^1.2.0",
+        "@elysiajs/cron": "^1.2.0",
+        "@elysiajs/swagger": "^1.2.0",
         "@neondatabase/serverless": "^0.10.4",
-        "@prisma/adapter-neon": "^6.0.1",
-        "@prisma/client": "^6.0.1",
+        "@prisma/adapter-neon": "^6.1.0",
+        "@prisma/client": "^6.1.0",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
-        "svix": "^1.43.0"
+        "svix": "^1.45.1"
     },
     "peerDependencies": {
         "typescript": "^5.6.3"
     },
     "devDependencies": {
         "bun-types": "latest",
-        "prisma": "^6.0.1"
+        "prisma": "^6.1.0"
     },
     "repository": {
         "type": "git",
