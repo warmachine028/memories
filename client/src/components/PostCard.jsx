@@ -42,13 +42,6 @@ import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
 
-const truncate = (text, wordLimit) => {
-	const words = text.split(' ')
-	return words.length > wordLimit
-		? `${words.slice(0, wordLimit).join(' ')} ...`
-		: text
-}
-
 const MoreButton = ({ setEditing, post }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
@@ -336,7 +329,7 @@ const StaticCard = ({ post, setEditing }) => {
 				position: 'relative',
 				cursor: 'pointer',
 				height: 1,
-				maxHeight: 450
+				maxHeight: 400
 			}}
 		>
 			<CardHeader
@@ -408,8 +401,16 @@ const StaticCard = ({ post, setEditing }) => {
 				</Box>
 
 				<CardContent>
-					<Typography variant="h5" gutterBottom>
-						{truncate(post.title, 10)}
+					<Typography
+						variant="h5"
+						gutterBottom
+						whiteSpace="pre-line"
+						textOverflow="ellipsis"
+						display="-webkit-box"
+						overflow="hidden"
+						sx={{ WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}
+					>
+						{post.title}
 					</Typography>
 					<Typography variant="body2" color="text.muted">
 						{post.tags.map((tag) => `#${tag} `)}
@@ -430,8 +431,12 @@ const StaticCard = ({ post, setEditing }) => {
 						color="text.secondary"
 						mt={1}
 						whiteSpace="pre-line"
+						display="-webkit-flex"
+						overflow="hidden"
+						textOverflow="ellipsis"
+						sx={{ WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}
 					>
-						{truncate(post.description, 20)}
+						{post.description}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
