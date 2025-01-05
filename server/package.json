@@ -26,7 +26,7 @@
         "prisma:deploy": "prisma migrate deploy"
     },
     "dependencies": {
-        "@clerk/backend": "^1.20.2",
+        "@clerk/backend": "^1.21.0",
         "@elysiajs/cors": "^1.1.1",
         "@elysiajs/cron": "^1.1.1",
         "@elysiajs/swagger": "^1.1.6",
@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "bun-types": "latest",
-        "prisma": "^6.0.0"
+        "prisma": "^6.0.1"
     },
     "repository": {
         "type": "git",

@@ -22,14 +22,14 @@
 		"start": "bun x vite preview"
 	},
 	"dependencies": {
-		"@clerk/clerk-react": "^5.19.2",
+		"@clerk/clerk-react": "^5.20.0",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@mui/icons-material": "^6.1.10",
 		"@mui/lab": "^6.0.0-beta.12",
 		"@mui/material": "^6.1.10",
-		"@tanstack/react-query": "^5.62.3",
-		"@tanstack/react-query-devtools": "^5.62.3",
+		"@tanstack/react-query": "^5.62.7",
+		"@tanstack/react-query-devtools": "^5.62.7",
 		"axios": "^1.7.9",
 		"moment": "^2.30.1",
 		"react": "^19.0.0",

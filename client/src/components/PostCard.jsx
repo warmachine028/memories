@@ -331,7 +331,14 @@ const StaticCard = ({ post, setEditing }) => {
 	const navigate = useNavigate()
 
 	return (
-		<Card sx={{ position: 'relative', cursor: 'pointer', height: 1, maxHeight:400 }}>
+		<Card
+			sx={{
+				position: 'relative',
+				cursor: 'pointer',
+				height: 1,
+				maxHeight: 450
+			}}
+		>
 			<CardHeader
 				avatar={
 					<UserAvatar
