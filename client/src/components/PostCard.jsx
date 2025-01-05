@@ -329,7 +329,7 @@ const StaticCard = ({ post, setEditing }) => {
 				position: 'relative',
 				cursor: 'pointer',
 				height: 1,
-				maxHeight: 400
+				maxHeight: { xs: 450, sm: 400 }
 			}}
 		>
 			<CardHeader
