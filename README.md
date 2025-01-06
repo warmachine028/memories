@@ -1,4 +1,4 @@
-    updated on: 05th January 2025, Sunday
+    updated on: 06th January 2025, Monday
 
 <div align=center>
     <a href="https://memories-pritam.vercel.app">
@@ -92,4 +92,4 @@
 
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
 
-<!-- 05/01/25 -->
+<!-- 06/01/25 -->
