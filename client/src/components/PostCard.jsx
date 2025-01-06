@@ -42,6 +42,13 @@ import { convertToBase64, getThumbnail } from '@/lib/utils'
 import { useUser } from '@clerk/clerk-react'
 import { useDeletePost, useUpdatePost } from '@/hooks'
 
+const truncate = (text, wordLimit) => {
+	const words = text.split(' ')
+	return words.length > wordLimit
+		? `${words.slice(0, wordLimit).join(' ')} ...`
+		: text
+}
+
 const MoreButton = ({ setEditing, post }) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
@@ -436,7 +443,7 @@ const StaticCard = ({ post, setEditing }) => {
 						textOverflow="ellipsis"
 						sx={{ WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}
 					>
-						{post.description}
+						{truncate(post.description, 20)}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
