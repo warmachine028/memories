@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "bun-types": "latest",
-        "prisma": "^6.1.0"
+        "prisma": "^7.0.0"
     },
     "repository": {
         "type": "git",
