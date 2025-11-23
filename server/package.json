@@ -32,7 +32,7 @@
         "@elysiajs/swagger": "^1.2.0",
         "@neondatabase/serverless": "^1.0.0",
         "@prisma/adapter-neon": "^7.0.0",
-        "@prisma/client": "^6.1.0",
+        "@prisma/client": "^7.0.0",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
         "svix": "^1.45.1"
