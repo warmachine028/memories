@@ -15,7 +15,7 @@ import {
 	FormControl,
 	FormHelperText,
 	ButtonGroup,
-	Grid2 as Grid,
+	Grid,
 	CircularProgress
 } from '@mui/material'
 import { useStore } from '@/store'
