@@ -3,7 +3,7 @@ import {
 	Container,
 	Paper,
 	Typography,
-	Grid2 as Grid,
+	Grid,
 	Divider,
 	Button,
 	Stack
