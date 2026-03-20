@@ -2,7 +2,7 @@ import {
 	Avatar,
 	Box,
 	Container,
-	Grid2 as Grid,
+	Grid,
 	Typography,
 	Paper,
 	List,

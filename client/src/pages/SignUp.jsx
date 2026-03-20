@@ -5,7 +5,7 @@ import {
 	TextField,
 	Typography,
 	Avatar,
-	Grid2 as Grid,
+	Grid,
 	Stack,
 	Divider,
 	FormControl,
