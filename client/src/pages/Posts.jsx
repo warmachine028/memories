@@ -1,4 +1,4 @@
-import { Box, Container, Grid2 as Grid, Paper } from '@mui/material'
+import { Box, Container, Grid, Paper } from '@mui/material'
 import {
 	PostCard,
 	CreatePost as CreatePostForm,
