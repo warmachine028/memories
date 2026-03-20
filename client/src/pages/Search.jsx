@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
-import { Typography, Grid2 as Grid, Box, Container, Stack } from '@mui/material'
+import { Typography, Grid, Box, Container, Stack } from '@mui/material'
 import { PostCard, PostCardSkeleton } from '@/components'
 import { useSearchPosts, useSearchPostsByTag } from '@/hooks'
 import { useInView } from 'react-intersection-observer'
