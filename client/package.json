@@ -27,7 +27,7 @@
 		"@emotion/styled": "^11.14.0",
 		"@mui/icons-material": "^7.0.0",
 		"@mui/lab": "^7.0.0-beta.9",
-		"@mui/material": "^7.0.0",
+		"@mui/material": "^9.0.0",
 		"@tanstack/react-query": "^5.62.15",
 		"@tanstack/react-query-devtools": "^5.62.15",
 		"axios": "^1.7.9",
