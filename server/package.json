@@ -36,7 +36,7 @@
         "@prisma/config": "^7.0.0",
         "cloudinary": "^2.5.1",
         "elysia": "latest",
-        "svix": "^1.45.1"
+        "svix": "^2.2.0"
     },
     "peerDependencies": {
         "typescript": "^5.6.3"
